@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>第一章 C++编程基础</title>
+    <url>/2019/11/14/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h3 id="1-1-如何撰写C-程序"><a href="#1-1-如何撰写C-程序" class="headerlink" title="1.1 如何撰写C++程序"></a>1.1 如何撰写C++程序</h3><ul>
+<li><p>class的定义分为两部分：</p>
+<ul>
+<li>头文件(header file)：声明该class所提供的各种操作行为(operation)</li>
+<li>程序代码文件(program text)：操作行为的实现内容(implementation)</li>
+</ul>
+</li>
+<li><p>语句是C++程序的最小独立单元</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">// using 和 namespace 是C++中关键字,std是标准库所在命名空间的名称。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命名空间：一种将库名封装起来的方法,通过这种方法，避免和应用程序发生命名冲突的问题。</p>
+<ul>
+<li>命名冲突：在应用程序内两个不同的实体(entity)具有相同名称，导致程序无法区分两者。命名冲突发生时，程序必须等到该命名冲突获得解析(resolve)后，才能继续执行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-对象的定义与初始化"><a href="#1-2-对象的定义与初始化" class="headerlink" title="1.2 对象的定义与初始化"></a>1.2 对象的定义与初始化</h3><ul>
+<li><p>构造函数语法:</p>
+<p>对象需要多个初值时，单一值初始化便不再适用。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">num_tires</span> <span class="params">(<span class="number">0</span>)</span></span>;            <span class="comment">//int num_tires = 0;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;complex&gt;</span></span></span><br><span class="line"><span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; purei(<span class="number">0</span>, <span class="number">7</span>);  <span class="comment">//复数的实部与虚部</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-3-撰写表达式"><a href="#1-3-撰写表达式" class="headerlink" title="1.3 撰写表达式"></a>1.3 撰写表达式</h3><ul>
+<li><p>++C与C++</p>
+<ul>
+<li>++C:原值先递增，之后才被拿来使用</li>
+<li>C++:原值先供给表达式进行运算，然后才递增</li>
+</ul>
+</li>
+<li><p>短路求值</p>
+<p>||:第一个表达式为true，后续表达式不再求值</p>
+<p>&amp;&amp;:第一个表达式为false，后续表达式不再求值</p>
+</li>
+</ul>
+<h3 id="1-4-条件语句和循环语句"><a href="#1-4-条件语句和循环语句" class="headerlink" title="1.4 条件语句和循环语句"></a>1.4 条件语句和循环语句</h3><ul>
+<li><p>case</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">case</span><span class="number">'</span>a<span class="number">'</span>: <span class="keyword">case</span><span class="number">'</span>A<span class="number">'</span>:</span><br><span class="line"><span class="keyword">case</span><span class="number">'b</span><span class="number">'</span>: <span class="keyword">case</span><span class="number">'B</span><span class="number">'</span>:</span><br><span class="line"><span class="keyword">case</span><span class="number">'</span>c<span class="number">'</span>: <span class="keyword">case</span><span class="number">'</span>C<span class="number">'</span>:</span><br><span class="line"><span class="keyword">case</span><span class="number">'</span>d<span class="number">'</span>: <span class="keyword">case</span><span class="number">'</span>D<span class="number">'</span>:</span><br><span class="line"><span class="keyword">case</span><span class="number">'e'</span>: <span class="keyword">case</span><span class="number">'E'</span>:</span><br><span class="line">	++vowel_cnt;</span><br><span class="line">	<span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2019/11/14/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+]]></content>
+  </entry>
+</search>

@@ -9,7 +9,6 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
-  <link rel="alternate" href="/atom.xml" title="Jaron" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -21,12 +20,12 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '7.5.0',
     exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
     copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
@@ -39,8 +38,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -52,9 +51,9 @@
 </script>
 
   <meta property="og:type" content="website">
-<meta property="og:title" content="Jaron">
+<meta property="og:title" content="blog">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
-<meta property="og:site_name" content="Jaron">
+<meta property="og:site_name" content="blog">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 
@@ -72,7 +71,7 @@
   };
 </script>
 
-  <title>Jaron</title>
+  <title>blog</title>
   
 
 
@@ -103,6 +102,7 @@
   </style>
 </noscript>
 
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -116,7 +116,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Jaron</span>
+        <span class="site-title">blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -140,22 +140,53 @@
     <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main class="main">
@@ -171,21 +202,21 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jaron">
+      <meta itemprop="name" content="blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2019/11/14/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">第一章  C++编程基础</a>
+            <a href="/2019/11/14/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">第一章 C++编程基础</a>
         </h1>
 
         <div class="post-meta">
@@ -196,10 +227,33 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-14 16:19:47 / 修改时间：16:23:31" itemprop="dateCreated datePublished" datetime="2019-11-14T16:19:47+08:00">2019-11-14</time>
+              <time title="创建时间：2019-11-14 21:09:19 / 修改时间：21:12:55" itemprop="dateCreated datePublished" datetime="2019-11-14T21:09:19+08:00">2019-11-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
             </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>701</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -210,7 +264,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="第一章-C-编程基础"><a href="#第一章-C-编程基础" class="headerlink" title="第一章 C++编程基础"></a>第一章 C++编程基础</h2><h3 id="1-1-如何撰写C-程序"><a href="#1-1-如何撰写C-程序" class="headerlink" title="1.1 如何撰写C++程序"></a>1.1 如何撰写C++程序</h3><ul>
+          <h3 id="1-1-如何撰写C-程序"><a href="#1-1-如何撰写C-程序" class="headerlink" title="1.1 如何撰写C++程序"></a>1.1 如何撰写C++程序</h3><ul>
 <li><p>class的定义分为两部分：</p>
 <ul>
 <li>头文件(header file)：声明该class所提供的各种操作行为(operation)</li>
@@ -218,9 +272,7 @@
 </ul>
 </li>
 <li><p>语句是C++程序的最小独立单元</p>
-</li>
-<li><pre><code class="c++"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;
-&lt;!--￼<span class="number">0</span>--&gt;</code></pre>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="comment">// using 和 namespace 是C++中关键字,std是标准库所在命名空间的名称。</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>命名空间：一种将库名封装起来的方法,通过这种方法，避免和应用程序发生命名冲突的问题。</p>
 <ul>
@@ -234,6 +286,7 @@
 </li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">num_tires</span> <span class="params">(<span class="number">0</span>)</span></span>;            <span class="comment">//int num_tires = 0;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;complex&gt;</span></span></span><br><span class="line"><span class="keyword">complex</span>&lt;<span class="keyword">double</span>&gt; purei(<span class="number">0</span>, <span class="number">7</span>);  <span class="comment">//复数的实部与虚部</span></span><br></pre></td></tr></table></figure>
+
 
 
 <h3 id="1-3-撰写表达式"><a href="#1-3-撰写表达式" class="headerlink" title="1.3 撰写表达式"></a>1.3 撰写表达式</h3><ul>
@@ -276,13 +329,13 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jaron">
+      <meta itemprop="name" content="blog">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -296,11 +349,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-14 15:45:53" itemprop="dateCreated datePublished" datetime="2019-11-14T15:45:53+08:00">2019-11-14</time>
+              <time title="创建时间：2019-11-14 15:45:53 / 修改时间：20:56:55" itemprop="dateCreated datePublished" datetime="2019-11-14T15:45:53+08:00">2019-11-14</time>
             </span>
 
-          
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>357</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
 
         </div>
       </header>
@@ -376,7 +442,9 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
@@ -388,17 +456,22 @@
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
 
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -419,12 +492,22 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">1k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.5.0
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
   </div>
 
         
@@ -450,7 +533,7 @@
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 <script src="/js/next-boot.js"></script>
 
 
@@ -459,6 +542,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 
