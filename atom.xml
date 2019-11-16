@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-11-14T12:56:55.327Z</updated>
+  <updated>2019-11-16T13:41:02.590Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第一章 C++编程基础</title>
+    <link href="http://yoursite.com/2019/11/16/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/"/>
+    <id>http://yoursite.com/2019/11/16/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</id>
+    <published>2019-11-16T13:39:23.000Z</published>
+    <updated>2019-11-16T13:41:02.590Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-1-如何撰写C-程序"><a href="#1-1-如何撰写C-程序" class="headerlink" title="1.1 如何撰写C++程序"></a>1.1 如何撰写C++程序</h3><ul><li>class的定义分为两部分：<ul><li>头文件(header file)：声明该class所提供的各种操作行为(operation)</li><li>程序代码文件(program text)：操作行为的实现内容(implementation)</li></ul></li></ul><a id="more"></a><ul><li>语句是C++程序的最小独立单元</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">using namespace std;  </span><br><span class="line">// using 和 namespace 是C++中关键字,std是标准库所在命名空间的名称。</span><br></pre></td></tr></table></figure><ul><li>命名空间：一种将库名封装起来的方法,通过这种方法，避免和应用程序发生命名冲突的问题。<ul><li>命名冲突：在应用程序内两个不同的实体(entity)具有相同名称，导致程序无法区分两者。命名冲突发生时，程序必须等到该命名冲突获得解析(resolve)后，才能继续执行。</li></ul></li></ul><h3 id="1-2-对象的定义与初始化"><a href="#1-2-对象的定义与初始化" class="headerlink" title="1.2 对象的定义与初始化"></a>1.2 对象的定义与初始化</h3><ul><li><p>构造函数语法:</p><p>对象需要多个初值时，单一值初始化便不再适用。</p></li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int num_tires (0);            //int num_tires = 0;        </span><br><span class="line">#include &lt;complex&gt;    </span><br><span class="line">complex&lt;double&gt; purei(0, 7);  //复数的实部与虚部</span><br></pre></td></tr></table></figure><h3 id="1-3-撰写表达式"><a href="#1-3-撰写表达式" class="headerlink" title="1.3 撰写表达式"></a>1.3 撰写表达式</h3><ul><li><p>++C与C++</p><ul><li>++C:原值先递增，之后才被拿来使用</li><li>C++:原值先供给表达式进行运算，然后才递增</li></ul></li><li><p>短路求值</p><p>||:第一个表达式为true，后续表达式不再求值</p><p>&amp;&amp;:第一个表达式为false，后续表达式不再求值</p></li></ul><h3 id="1-4-条件语句和循环语句"><a href="#1-4-条件语句和循环语句" class="headerlink" title="1.4 条件语句和循环语句"></a>1.4 条件语句和循环语句</h3><ul><li><p>case</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">case&apos;a&apos;: case&apos;A&apos;:</span><br><span class="line">case&apos;b&apos;: case&apos;B&apos;:</span><br><span class="line">case&apos;c&apos;: case&apos;C&apos;:</span><br><span class="line">case&apos;d&apos;: case&apos;D&apos;:</span><br><span class="line">case&apos;e&apos;: case&apos;E&apos;:    </span><br><span class="line">++vowel_cnt;    </span><br><span class="line">break;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-1-如何撰写C-程序&quot;&gt;&lt;a href=&quot;#1-1-如何撰写C-程序&quot; class=&quot;headerlink&quot; title=&quot;1.1 如何撰写C++程序&quot;&gt;&lt;/a&gt;1.1 如何撰写C++程序&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;class的定义分为两部分：&lt;ul&gt;
+&lt;li&gt;头文件(header file)：声明该class所提供的各种操作行为(operation)&lt;/li&gt;
+&lt;li&gt;程序代码文件(program text)：操作行为的实现内容(implementation)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
