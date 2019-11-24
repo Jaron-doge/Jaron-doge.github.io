@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第一章 绪论</title>
+    <url>/2019/11/24/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/</url>
+    <content><![CDATA[<h3 id="1-1-计算"><a href="#1-1-计算" class="headerlink" title="1.1 计算"></a>1.1 计算</h3><h3 id="1-2-计算模型"><a href="#1-2-计算模型" class="headerlink" title="1.2 计算模型"></a>1.2 计算模型</h3><a id="more"></a>
+
+<h3 id="1-3-大O记号"><a href="#1-3-大O记号" class="headerlink" title="1.3 大O记号"></a>1.3 大O记号</h3><p>O(1) &lt; O(logn) &lt; O(n) &lt; O(n<sup>c</sup>)  &lt; O(2<sup>n</sup>)</p>
+<h3 id="1-4-算法分析"><a href="#1-4-算法分析" class="headerlink" title="1.4 算法分析"></a>1.4 算法分析</h3><h4 id="1-4-1-级数"><a href="#1-4-1-级数" class="headerlink" title="1.4.1 级数"></a>1.4.1 级数</h4><p><img src="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg" alt="1.jpg"></p>
+<p><img src="https://i.loli.net/2019/11/24/1n7aKGZLTqxRCPd.jpg" alt="2.jpg"></p>
+<h4 id="1-4-2-循环"><a href="#1-4-2-循环" class="headerlink" title="1.4.2 循环"></a>1.4.2 循环</h4><p><img src="https://i.loli.net/2019/11/24/tP52nRFeaToH63E.jpg" alt="3.jpg"></p>
+<p><img src="https://i.loli.net/2019/11/24/c1pJ4HBTlyU89Rw.jpg" alt="4.jpg"></p>
+<h4 id="1-4-3-非极端元素"><a href="#1-4-3-非极端元素" class="headerlink" title="1.4.3 非极端元素"></a>1.4.3 非极端元素</h4><p><img src="https://i.loli.net/2019/11/24/Z9nc42N8TmuShHY.jpg" alt="5.jpg"></p>
+<h4 id="1-4-4-封底估计"><a href="#1-4-4-封底估计" class="headerlink" title="1.4.4 封底估计"></a>1.4.4 封底估计</h4><p><img src="https://i.loli.net/2019/11/24/uR9e43iNdjlrTb2.jpg" alt="6.jpg"></p>
+<h3 id="1-5迭代与递归"><a href="#1-5迭代与递归" class="headerlink" title="1.5迭代与递归"></a>1.5迭代与递归</h3><h4 id="1-5-1-减而治之"><a href="#1-5-1-减而治之" class="headerlink" title="1.5.1 减而治之"></a>1.5.1 减而治之</h4><p><img src="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg" alt="7.jpg"></p>
+<h4 id="1-5-2-数组求和：线性递归"><a href="#1-5-2-数组求和：线性递归" class="headerlink" title="1.5.2 数组求和：线性递归"></a>1.5.2 数组求和：线性递归</h4><p>![( <a href="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg" target="_blank" rel="noopener">https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg</a> )</p>
+<p><img src="https://i.loli.net/2019/11/24/TVAbndXsEzlCtO6.jpg" alt="8.jpg"></p>
+<p><img src="https://i.loli.net/2019/11/24/UIr4lSGeDCPMsRZ.jpg" alt="10.jpg"></p>
+<h4 id="1-5-3-数组倒置"><a href="#1-5-3-数组倒置" class="headerlink" title="1.5.3 数组倒置"></a>1.5.3 数组倒置</h4><p><img src="https://i.loli.net/2019/11/24/WSEHT8b1qiyFYj3.jpg" alt="11.jpg"></p>
+<h4 id="1-5-4-分而治之"><a href="#1-5-4-分而治之" class="headerlink" title="1.5.4 分而治之"></a>1.5.4 分而治之</h4><p><img src="https://i.loli.net/2019/11/24/FqYHMa5eWt7OX3k.jpg" alt="12.jpg"></p>
+<h4 id="1-5-5-二分递归：数组求和"><a href="#1-5-5-二分递归：数组求和" class="headerlink" title="1.5.5 二分递归：数组求和"></a>1.5.5 二分递归：数组求和</h4><p><img src="https://i.loli.net/2019/11/24/5sRqHd7JokQPAVB.jpg" alt="13.jpg"></p>
+<p><img src="https://i.loli.net/2019/11/24/ejY9EtvipaHKTMX.jpg" alt="14.jpg"></p>
+<h4 id="1-5-6-二分递归-Max2"><a href="#1-5-6-二分递归-Max2" class="headerlink" title="1.5.6 二分递归: Max2"></a>1.5.6 二分递归: Max2</h4><p><img src="https://i.loli.net/2019/11/24/AiJe6Fn4aEmzMTI.jpg" alt="16.jpg"></p>
+<p><img src="https://i.loli.net/2019/11/25/bWtp5wHOoukqAzn.png" alt="1.5.6 _1_.png"></p>
+<p><img src="https://i.loli.net/2019/11/25/cGaI89uAQPBMtil.png" alt="1.5.6 _2_.png"></p>
+<h4 id="1-5-7-总结"><a href="#1-5-7-总结" class="headerlink" title="1.5.7 总结"></a>1.5.7 总结</h4><ul>
+<li>算法<ul>
+<li>迭代：Iteration</li>
+<li>递归：Recursion </li>
+</ul>
+</li>
+<li>策略<ul>
+<li>减而治之：Decrease-and-conquer</li>
+<li>分而治之：Divide-and-conquer</li>
+</ul>
+</li>
+<li>分析方法<ul>
+<li>递归跟踪：Recursion trace</li>
+<li>递归式：Recurrence</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>递归</tag>
+        <tag>二分</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Chapter 1 - A Tutorial Introduction</title>
     <url>/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/</url>
     <content><![CDATA[<h3 id="1-1-Getting-Started"><a href="#1-1-Getting-Started" class="headerlink" title="1.1 Getting Started"></a>1.1 Getting Started</h3><ul>
 <li>C consists of functions and variables</li>
 <li>every program must have a main</li>
 </ul>
+<a id="more"></a>
+
 <h3 id="1-2-Variables-and-Arithmetic-Expressions"><a href="#1-2-Variables-and-Arithmetic-Expressions" class="headerlink" title="1.2 Variables and Arithmetic Expressions"></a>1.2 Variables and Arithmetic Expressions</h3><ul>
 <li>printf recognizes %o for octal, %x for hexadecimal, %% for itself </li>
 </ul>
@@ -261,23 +312,5 @@
       <categories>
         <category>C++</category>
       </categories>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2019/11/14/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-]]></content>
   </entry>
 </search>
