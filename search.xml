@@ -40,6 +40,16 @@
 </ul>
 </li>
 </ul>
+<h3 id="1-6-动态规划"><a href="#1-6-动态规划" class="headerlink" title="1.6 动态规划"></a>1.6 动态规划</h3><h4 id="1-6-1-动态规划"><a href="#1-6-1-动态规划" class="headerlink" title="1.6.1 动态规划"></a>1.6.1 动态规划</h4><p><img src="https://i.loli.net/2019/11/26/zTJn8rQB3GsLpKd.png" alt="1.6.1_1_.png"></p>
+<h4 id="1-6-2-Fibonacci"><a href="#1-6-2-Fibonacci" class="headerlink" title="1.6.2 Fibonacci"></a>1.6.2 Fibonacci</h4><p>$$\Phi = \frac{\sqrt{5}+1}{2}$$                            //1.618</p>
+<p><img src="https://i.loli.net/2019/11/26/LXgH2ymOrRYGutZ.png" alt="1.6.2 _1_.png"></p>
+<p><img src="https://i.loli.net/2019/11/26/j1WKUn3YOlCeBEJ.png" alt="1.6.2 (2).png"></p>
+<h4 id="1-6-3-最长公共子序列-Longest-Common-Subsequence"><a href="#1-6-3-最长公共子序列-Longest-Common-Subsequence" class="headerlink" title="1.6.3 最长公共子序列(Longest Common Subsequence)"></a>1.6.3 最长公共子序列(Longest Common Subsequence)</h4><h5 id="1-6-3-1-递归"><a href="#1-6-3-1-递归" class="headerlink" title="1.6.3.1 递归"></a>1.6.3.1 递归</h5><p><img src="https://i.loli.net/2019/11/26/RAWx31J5BuorUIc.png" alt="1.6.3.1 (1).png"></p>
+<p><img src="https://i.loli.net/2019/11/26/mpPSC6Z7J2Y8rKz.png" alt="1.6.3.1 (2).png"></p>
+<p><img src="https://i.loli.net/2019/11/26/KBsuFmtA8iq5kVP.png" alt="1.6.3.1 (3).png"></p>
+<p><img src="https://i.loli.net/2019/11/26/HipaucXqz6RrbZF.png" alt="1.6.3.1 (4).png"></p>
+<p><img src="https://i.loli.net/2019/11/26/zfdLshY5UkSJ49i.png" alt="1.6.3.1 (5).png"></p>
+<h5 id="1-6-3-2-动态规划"><a href="#1-6-3-2-动态规划" class="headerlink" title="1.6.3.2 动态规划"></a>1.6.3.2 动态规划</h5><p><img src="https://i.loli.net/2019/11/26/vCLoYAXsTZB2VUq.png" alt="1.6.3.2(1).png"></p>
 ]]></content>
       <categories>
         <category>数据结构</category>
