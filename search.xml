@@ -195,7 +195,9 @@
 </ul>
 <a id="more"></a>
 
-<p><video src="爱国.mp4" controls="controls" width="500" height="300">您的浏览器不支持播放该视频！<br></video></p>
+<iframe src="//player.bilibili.com/player.html?aid=60521303&cid=105353131&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+
 <h3 id="1-2-Variables-and-Arithmetic-Expressions"><a href="#1-2-Variables-and-Arithmetic-Expressions" class="headerlink" title="1.2 Variables and Arithmetic Expressions"></a>1.2 Variables and Arithmetic Expressions</h3><ul>
 <li>printf recognizes %o for octal, %x for hexadecimal, %% for itself </li>
 </ul>
