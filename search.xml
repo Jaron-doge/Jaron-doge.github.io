@@ -189,12 +189,13 @@
   <entry>
     <title>Chapter 1 - A Tutorial Introduction</title>
     <url>/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/</url>
-    <content><![CDATA[<h3 id="1-1-Getting-Started"><a href="#1-1-Getting-Started" class="headerlink" title="1.1 Getting Started"></a>1.1 Getting Started</h3><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="1-1-Getting-Started"><a href="#1-1-Getting-Started" class="headerlink" title="1.1 Getting Started"></a>1.1 Getting Started</h3><ul>
 <li>C consists of functions and variables</li>
 <li>every program must have a main</li>
 </ul>
 <a id="more"></a>
 
+<p><video src="爱国.mp4" controls="controls" width="500" height="300">您的浏览器不支持播放该视频！<br></video></p>
 <h3 id="1-2-Variables-and-Arithmetic-Expressions"><a href="#1-2-Variables-and-Arithmetic-Expressions" class="headerlink" title="1.2 Variables and Arithmetic Expressions"></a>1.2 Variables and Arithmetic Expressions</h3><ul>
 <li>printf recognizes %o for octal, %x for hexadecimal, %% for itself </li>
 </ul>
