@@ -50,17 +50,17 @@
   };
 </script>
 
-  <meta name="description" content="1.1 如何撰写C++程序 class的定义分为两部分： 头文件(header file)：声明该class所提供的各种操作行为(operation) 程序代码文件(program text)：操作行为的实现内容(implementation)">
+  <meta name="description" content="软工导论作业展示一、遥控灯">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一章 C++编程基础">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;16&#x2F;%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:title" content="软工导论作业展示">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;15&#x2F;%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA%E4%BD%9C%E4%B8%9A%E5%B1%95%E7%A4%BA&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="1.1 如何撰写C++程序 class的定义分为两部分： 头文件(header file)：声明该class所提供的各种操作行为(operation) 程序代码文件(program text)：操作行为的实现内容(implementation)">
+<meta property="og:description" content="软工导论作业展示一、遥控灯">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-16T13:41:02.590Z">
+<meta property="og:updated_time" content="2019-12-15T15:44:28.293Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2019/11/16/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
+<link rel="canonical" href="http://yoursite.com/2019/12/15/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA%E4%BD%9C%E4%B8%9A%E5%B1%95%E7%A4%BA/">
 
 
 <script id="page-configurations">
@@ -74,7 +74,7 @@
   };
 </script>
 
-  <title>第一章 C++编程基础 | blog</title>
+  <title>软工导论作业展示 | blog</title>
   
 
 
@@ -205,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/16/%E7%AC%AC%E4%B8%80%E7%AB%A0%20C++%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/15/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA%E4%BD%9C%E4%B8%9A%E5%B1%95%E7%A4%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -218,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          第一章 C++编程基础
+          软工导论作业展示
         </h1>
 
         <div class="post-meta">
@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-16 21:39:23 / 修改时间：21:41:02" itemprop="dateCreated datePublished" datetime="2019-11-16T21:39:23+08:00">2019-11-16</time>
+              <time title="创建时间：2019-12-15 10:51:25 / 修改时间：23:44:28" itemprop="dateCreated datePublished" datetime="2019-12-15T10:51:25+08:00">2019-12-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,8 +237,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
+                  <a href="/categories/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">软工导论</span>
                   </a>
                 </span>
             </span>
@@ -248,7 +248,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>800</span>
+              <span>395</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -266,53 +266,80 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="1-1-如何撰写C-程序"><a href="#1-1-如何撰写C-程序" class="headerlink" title="1.1 如何撰写C++程序"></a>1.1 如何撰写C++程序</h3><ul>
-<li>class的定义分为两部分：<ul>
-<li>头文件(header file)：声明该class所提供的各种操作行为(operation)</li>
-<li>程序代码文件(program text)：操作行为的实现内容(implementation)</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
+        <h2 id="软工导论作业展示"><a href="#软工导论作业展示" class="headerlink" title="软工导论作业展示"></a>软工导论作业展示</h2><h3 id="一、遥控灯"><a href="#一、遥控灯" class="headerlink" title="一、遥控灯"></a>一、遥控灯</h3><a id="more"></a>
 
-<ul>
-<li>语句是C++程序的最小独立单元</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">using namespace std;  </span><br><span class="line">// using 和 namespace 是C++中关键字,std是标准库所在命名空间的名称。</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>命名空间：一种将库名封装起来的方法,通过这种方法，避免和应用程序发生命名冲突的问题。<ul>
-<li>命名冲突：在应用程序内两个不同的实体(entity)具有相同名称，导致程序无法区分两者。命名冲突发生时，程序必须等到该命名冲突获得解析(resolve)后，才能继续执行。</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-2-对象的定义与初始化"><a href="#1-2-对象的定义与初始化" class="headerlink" title="1.2 对象的定义与初始化"></a>1.2 对象的定义与初始化</h3><ul>
-<li><p>构造函数语法:</p>
-<p>对象需要多个初值时，单一值初始化便不再适用。</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int num_tires (0);            //int num_tires = 0;        </span><br><span class="line">#include &lt;complex&gt;    </span><br><span class="line">complex&lt;double&gt; purei(0, 7);  //复数的实部与虚部</span><br></pre></td></tr></table></figure>
+<video width="320" height="240" controls>  
+    <source src="videos/遥控灯.mp4" type="video/mp4"> 
+</video>
 
 
 
-<h3 id="1-3-撰写表达式"><a href="#1-3-撰写表达式" class="headerlink" title="1.3 撰写表达式"></a>1.3 撰写表达式</h3><ul>
-<li><p>++C与C++</p>
-<ul>
-<li>++C:原值先递增，之后才被拿来使用</li>
-<li>C++:原值先供给表达式进行运算，然后才递增</li>
-</ul>
-</li>
-<li><p>短路求值</p>
-<p>||:第一个表达式为true，后续表达式不再求值</p>
-<p>&amp;&amp;:第一个表达式为false，后续表达式不再求值</p>
-</li>
-</ul>
-<h3 id="1-4-条件语句和循环语句"><a href="#1-4-条件语句和循环语句" class="headerlink" title="1.4 条件语句和循环语句"></a>1.4 条件语句和循环语句</h3><ul>
-<li><p>case</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">case&apos;a&apos;: case&apos;A&apos;:</span><br><span class="line">case&apos;b&apos;: case&apos;B&apos;:</span><br><span class="line">case&apos;c&apos;: case&apos;C&apos;:</span><br><span class="line">case&apos;d&apos;: case&apos;D&apos;:</span><br><span class="line">case&apos;e&apos;: case&apos;E&apos;:    </span><br><span class="line">	++vowel_cnt;    </span><br><span class="line">	break;</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
+
+<h3 id="二、点歌台"><a href="#二、点歌台" class="headerlink" title="二、点歌台"></a>二、点歌台</h3><p>三首歌：小星星、欢乐颂和青鸟</p>
+<video width="320" height="240" controls>  
+    <source src="videos/点歌台.mp4" type="video/mp4"> 
+</video>
+
+
+
+<h3 id="三、实时温湿度检测器"><a href="#三、实时温湿度检测器" class="headerlink" title="三、实时温湿度检测器"></a>三、实时温湿度检测器</h3><video width="320" height="240" controls>  
+    <source src="videos/温湿传感器.mp4" type="video/mp4"> 
+</video>
+
+
+
+<h3 id="四、电子时钟-扩展"><a href="#四、电子时钟-扩展" class="headerlink" title="四、电子时钟 + 扩展"></a>四、电子时钟 + 扩展</h3><h4 id="4-1-介绍"><a href="#4-1-介绍" class="headerlink" title="4.1 介绍"></a>4.1 介绍</h4><p>从左至右依次为:</p>
+<div>
+    <text style="font-size: large">LED灯    声音传感器    蜂鸣器    人体红外传感器    显示屏    温湿传感器    红外接收器
+    </text>
+</div>
+
+<div>
+    <image src="images/介绍.jpg"></image>
+</div>
+
+
+
+<h4 id="4-2-开关屏幕"><a href="#4-2-开关屏幕" class="headerlink" title="4.2 开关屏幕"></a>4.2 开关屏幕</h4><p>​        电源键控制，按一下关，再按一下开</p>
+<video width="320" height="240" controls>  
+    <source src="videos/开关屏幕.mp4" type="video/mp4"> 
+</video>
+
+<h4 id="4-3-时间修改"><a href="#4-3-时间修改" class="headerlink" title="4.3 时间修改"></a>4.3 时间修改</h4><p>​        按1键进入时间修改模式，使用左右快进键切换位置，使用vol+可以增加时间，再次按1修改锁定，回归正常状态</p>
+<video width="320" height="240" controls>  
+    <source src="videos/时间修改.mp4" type="video/mp4"> 
+</video>
+
+<h4 id="4-4-闹钟"><a href="#4-4-闹钟" class="headerlink" title="4.4 闹钟"></a>4.4 闹钟</h4><p>​        按2键进入闹钟设定模式，操作方式与修改时间相同，再次按2键锁定闹钟时间。将闹钟与先前的蜂鸣器放歌做了结合，闹钟响时将会播放歌曲青鸟。</p>
+<video width="320" height="240" controls>  
+    <source src="videos/闹钟.mp4" type="video/mp4"> 
+</video>
+
+<hr>
+<h4 id="4-5-温湿模式"><a href="#4-5-温湿模式" class="headerlink" title="4.5 温湿模式"></a>4.5 温湿模式</h4><p>​        按4键进入温湿度显示模式</p>
+<video width="320" height="240" controls>  
+    <source src="videos/温湿模式.mp4" type="video/mp4"> 
+</video>
+
+<h4 id="4-6-遥控灯模式"><a href="#4-6-遥控灯模式" class="headerlink" title="4.6 遥控灯模式"></a>4.6 遥控灯模式</h4><p>​        按3键打开LED灯，再按一次关闭</p>
+<video width="320" height="240" controls>  
+    <source src="videos/遥控灯模式.mp4" type="video/mp4"> 
+</video>
+
+<h4 id="4-7-声音传感器"><a href="#4-7-声音传感器" class="headerlink" title="4.7 声音传感器"></a>4.7 声音传感器</h4><p>​        当屏幕处于黑屏状态时，声音传感器会检测附近声音，当超过一定声响时，会使屏幕亮5秒钟</p>
+<video width="320" height="240" controls>  
+    <source src="videos/声音传感器.mp4" type="video/mp4"> 
+</video>
+
+
+
+<h4 id="4-8-红外传感器"><a href="#4-8-红外传感器" class="headerlink" title="4.8 红外传感器"></a>4.8 红外传感器</h4><p>​        当屏幕处于黑屏状态时，红外传感器会检测附近是否有人，接收到信号则使屏幕亮5秒钟</p>
+<video width="320" height="240" controls>  
+    <source src="videos/红外传感器.mp4" type="video/mp4"> 
+</video>
+
 
     </div>
 
@@ -326,13 +353,16 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/05/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1%20/" rel="next" title="第六章 从数据管理到Web和信息通信">
+                  <i class="fa fa-chevron-left"></i> 第六章 从数据管理到Web和信息通信
+                </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/17/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/" rel="prev" title="第五章 数据通信网络与软件">
-                  第五章 数据通信网络与软件 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/12/15/%E4%BB%A3%E7%A0%81%E5%B1%95%E7%A4%BA/" rel="prev" title="代码展示">
+                  代码展示 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -372,7 +402,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-如何撰写C-程序"><span class="nav-text">1.1 如何撰写C++程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-对象的定义与初始化"><span class="nav-text">1.2 对象的定义与初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-撰写表达式"><span class="nav-text">1.3 撰写表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-条件语句和循环语句"><span class="nav-text">1.4 条件语句和循环语句</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#软工导论作业展示"><span class="nav-text">软工导论作业展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、遥控灯"><span class="nav-text">一、遥控灯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、点歌台"><span class="nav-text">二、点歌台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、实时温湿度检测器"><span class="nav-text">三、实时温湿度检测器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、电子时钟-扩展"><span class="nav-text">四、电子时钟 + 扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-介绍"><span class="nav-text">4.1 介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-开关屏幕"><span class="nav-text">4.2 开关屏幕</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-时间修改"><span class="nav-text">4.3 时间修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-闹钟"><span class="nav-text">4.4 闹钟</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-温湿模式"><span class="nav-text">4.5 温湿模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-遥控灯模式"><span class="nav-text">4.6 遥控灯模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-声音传感器"><span class="nav-text">4.7 声音传感器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-8-红外传感器"><span class="nav-text">4.8 红外传感器</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -388,14 +418,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -439,12 +469,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">7k</span>
+    <span title="站点总字数">25k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6 分钟</span>
+    <span title="站点阅读时长">23 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
