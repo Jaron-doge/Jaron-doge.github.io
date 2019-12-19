@@ -57,7 +57,7 @@
 <meta property="og:site_name" content="blog">
 <meta property="og:description" content="第七章 数字音视频与图形  7.1 数字音频">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-19T07:08:36.165Z">
+<meta property="og:updated_time" content="2019-12-19T07:23:24.201Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2019/12/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/">
@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-12-19 15:07:37 / 修改时间：15:08:36" itemprop="dateCreated datePublished" datetime="2019-12-19T15:07:37+08:00">2019-12-19</time>
+              <time title="创建时间：2019-12-19 15:07:37 / 修改时间：15:23:24" itemprop="dateCreated datePublished" datetime="2019-12-19T15:07:37+08:00">2019-12-19</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -558,6 +558,54 @@
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
