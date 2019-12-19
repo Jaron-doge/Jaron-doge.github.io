@@ -273,7 +273,6 @@
 <li>双字节汉字码</li>
 </ul>
 <a id="more"></a>
-
 <h3 id="5-2通信交换网络"><a href="#5-2通信交换网络" class="headerlink" title="5.2通信交换网络"></a>5.2通信交换网络</h3><h4 id="5-2-1-邮政业务网络"><a href="#5-2-1-邮政业务网络" class="headerlink" title="5.2.1 邮政业务网络"></a>5.2.1 邮政业务网络</h4><ul>
 <li>每个用户的信件是一个包，每个包有：收件人地址、收件人、发件人地址</li>
 </ul>
@@ -297,42 +296,7 @@
 <h5 id="5-3-3-1-数据分片与重组"><a href="#5-3-3-1-数据分片与重组" class="headerlink" title="5.3.3.1 数据分片与重组"></a>5.3.3.1 数据分片与重组</h5><ul>
 <li><p>第一步：数据分片</p>
 <p>​    例： 一个4500字节的数据包被封装进了一个头部为20字节的IP包  </p>
-<table>
-<thead>
-<tr>
-<th>片</th>
-<th>总字节</th>
-<th>头部字节</th>
-<th>数据字节</th>
-<th>MF标志</th>
-<th>偏移字节</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>2500</td>
-<td>20</td>
-<td>2480</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2040</td>
-<td>20</td>
-<td>2020</td>
-<td>0</td>
-<td>310</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td>分片后的数据规模：</td>
-<td>2480 +2020</td>
-<td>=4500</td>
-<td></td>
-</tr>
-</tbody></table>
+<p>| 片   | 总字节 | 头部字节           | 数据字节   | MF标志 | 偏移字节 |<br>| —— | ——— | ————————— | ————— | ——— | ———— |<br>| 1    | 2500   | 20                 | 2480       | 1      | 0        |<br>| 2    | 2040   | 20                 | 2020       | 0      | 310      |<br>|      |        | 分片后的数据规模： | 2480 +2020 | =4500  |          |</p>
 </li>
 <li><p>第二步： 包的重新组装</p>
 <p>​    用最终偏移和最终数据尺寸计算出最终的总尺寸为：495×8+540=3960+540=4500。</p>
@@ -499,13 +463,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -543,12 +507,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">25k</span>
+    <span title="站点总字数">11k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">23 分钟</span>
+    <span title="站点阅读时长">10 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
@@ -602,6 +566,8 @@
 
 
 
+
+  
 
   
 
