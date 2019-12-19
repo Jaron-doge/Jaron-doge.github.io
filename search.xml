@@ -3,13 +3,18 @@
   <entry>
     <title>第三章 泛型编程风格</title>
     <url>/2019/12/16/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-泛型编程风格"><a href="#第三章-泛型编程风格" class="headerlink" title="第三章 泛型编程风格"></a>第三章 泛型编程风格</h2><h3 id="3-4顺序性容器"><a href="#3-4顺序性容器" class="headerlink" title="3.4顺序性容器"></a>3.4顺序性容器</h3><a id="more"></a>
-<h4 id="3-4-1-五种定义方式"><a href="#3-4-1-五种定义方式" class="headerlink" title="3.4.1 五种定义方式"></a>3.4.1 五种定义方式</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1. 产生空的容器：</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2. 产生特定大小的容器。每个元素都以其默认值作为初值。</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; ilist(<span class="number">1024</span>);</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; svec(<span class="number">32</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//3. 产生特定大小的容器，并为每个元素指定初值</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec(<span class="number">10</span>, <span class="number">-1</span>);</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist(<span class="number">16</span>, <span class="string">"unassigned"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//4. 通过一堆iterator产生容器。这对iterator用来标示一整组作为初值的元素的范围：</span></span><br><span class="line"><span class="keyword">int</span> ia[<span class="number">8</span>] = &#123; <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span> &#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; fib(ia, ia + <span class="number">8</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//5. 根据某个容器产生出新容器。复制原容器内的元素，作为新容器的初值:</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;	<span class="comment">// 空容器</span></span><br><span class="line"><span class="comment">// 填充slist</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist2(slist);	<span class="comment">// 将slist复制给slist2</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-4-2-push和pop"><a href="#3-4-2-push和pop" class="headerlink" title="3.4.2 push和pop"></a>3.4.2 push和pop</h4><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-泛型编程风格"><a class="markdownIt-Anchor" href="#第三章-泛型编程风格"></a> 第三章 泛型编程风格</h2>
+<h3 id="34顺序性容器"><a class="markdownIt-Anchor" href="#34顺序性容器"></a> 3.4顺序性容器</h3>
+<a id="more"></a>
+<h4 id="341-五种定义方式"><a class="markdownIt-Anchor" href="#341-五种定义方式"></a> 3.4.1 五种定义方式</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1. 产生空的容器：</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2. 产生特定大小的容器。每个元素都以其默认值作为初值。</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; ilist(<span class="number">1024</span>);</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; svec(<span class="number">32</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//3. 产生特定大小的容器，并为每个元素指定初值</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec(<span class="number">10</span>, <span class="number">-1</span>);</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist(<span class="number">16</span>, <span class="string">"unassigned"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//4. 通过一堆iterator产生容器。这对iterator用来标示一整组作为初值的元素的范围：</span></span><br><span class="line"><span class="keyword">int</span> ia[<span class="number">8</span>] = &#123; <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span> &#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; fib(ia, ia + <span class="number">8</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//5. 根据某个容器产生出新容器。复制原容器内的元素，作为新容器的初值:</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;	<span class="comment">// 空容器</span></span><br><span class="line"><span class="comment">// 填充slist</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist2(slist);	<span class="comment">// 将slist复制给slist2</span></span><br></pre></td></tr></table></figure>
+<h4 id="342-push和pop"><a class="markdownIt-Anchor" href="#342-push和pop"></a> 3.4.2 push和pop</h4>
+<ul>
 <li>push_back()和pop_back()</li>
 <li>push_front()和pop_front()</li>
 </ul>
-<h4 id="3-4-3-插入和删除"><a href="#3-4-3-插入和删除" class="headerlink" title="3.4.3 插入和删除"></a>3.4.3 插入和删除</h4><ul>
+<h4 id="343-插入和删除"><a class="markdownIt-Anchor" href="#343-插入和删除"></a> 3.4.3 插入和删除</h4>
+<ul>
 <li>insert</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- <span class="function">iterator <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>, elemType value)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>, <span class="keyword">int</span> count, elemType value)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(iterator1 <span class="built_in">position</span>, iterator2 first, iterator2 last)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function">iterator <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -17,20 +22,32 @@
 <li>erase</li>
 </ul>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- <span class="function">iterator <span class="title">erase</span><span class="params">(iterator posit)</span></span>;	<span class="comment">// posit所指的元素</span></span><br><span class="line"></span><br><span class="line">- <span class="function">iterator <span class="title">erase</span><span class="params">(iterator first, iterator last)</span></span>;	<span class="comment">//[first, last)范围内的元素</span></span><br></pre></td></tr></table></figure>
-<h3 id="3-5-泛型算法"><a href="#3-5-泛型算法" class="headerlink" title="3.5 泛型算法"></a>3.5 泛型算法</h3><h4 id="3-5-1-搜索算法"><a href="#3-5-1-搜索算法" class="headerlink" title="3.5.1 搜索算法"></a>3.5.1 搜索算法</h4><ol>
-<li><p>find()用于搜索无序集合中是否存在某值。范围由iterator[first,last)标出。返回iterator指向该值/last。</p>
+<h3 id="35-泛型算法"><a class="markdownIt-Anchor" href="#35-泛型算法"></a> 3.5 泛型算法</h3>
+<h4 id="351-搜索算法"><a class="markdownIt-Anchor" href="#351-搜索算法"></a> 3.5.1 搜索算法</h4>
+<ol>
+<li>
+<p>find()用于搜索无序集合中是否存在某值。范围由iterator[first,last)标出。返回iterator指向该值/last。</p>
 </li>
-<li><p>binary_search()用于有序集合的搜索。返回true/false。</p>
+<li>
+<p>binary_search()用于有序集合的搜索。返回true/false。</p>
 </li>
-<li><p>count()返回数值相符的元素数目。</p>
+<li>
+<p>count()返回数值相符的元素数目。</p>
 </li>
-<li><p>search()比对某个容器内是否存在某个子序列。返回iterator指向子序列起始处/last。</p>
+<li>
+<p>search()比对某个容器内是否存在某个子序列。返回iterator指向子序列起始处/last。</p>
 </li>
 </ol>
-<h4 id="3-5-2-max、sort、copy"><a href="#3-5-2-max、sort、copy" class="headerlink" title="3.5.2 max、sort、copy"></a>3.5.2 max、sort、copy</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">max_element(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">sort(temp.<span class="built_in">begin</span>(), temp.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">copy(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(), temp.<span class="built_in">begin</span>());</span><br></pre></td></tr></table></figure>
-<h3 id="3-6-设计泛型算法"><a href="#3-6-设计泛型算法" class="headerlink" title="3.6 设计泛型算法"></a>3.6 设计泛型算法</h3><h4 id="3-6-2-Function-Object"><a href="#3-6-2-Function-Object" class="headerlink" title="3.6.2 Function Object"></a>3.6.2 Function Object</h4><h4 id="3-6-2-1-functional"><a href="#3-6-2-1-functional" class="headerlink" title="3.6.2.1  functional"></a>3.6.2.1  functional</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- <span class="meta">#<span class="meta-keyword">include</span>  <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line">- 六个算数运算：plus &lt;type&gt;, minus &lt;type&gt;, negate &lt;type&gt;, </span><br><span class="line">		multiplies &lt;type&gt;, divides &lt;type&gt;, modules &lt;type&gt;</span><br><span class="line">                  </span><br><span class="line">- 六个关系运算：less &lt;type&gt;，less_equal &lt;type&gt;，greater &lt;type&gt;，</span><br><span class="line">              greater_equal &lt;type&gt;，euqal_to &lt;type&gt;，not_equal_to &lt;type&gt;</span><br><span class="line"></span><br><span class="line">- 三个逻辑运算：logical_and &lt;type&gt;，logical_or &lt;type&gt;，logical_not &lt;type&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="3-6-2-2-示例"><a href="#3-6-2-2-示例" class="headerlink" title="3.6.2.2  示例"></a>3.6.2.2  示例</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- sort(vec.<span class="built_in">begin</span>(), bec.<span class="built_in">end</span>(), greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- binary_search(vec,<span class="built_in">begin</span>(), vc.<span class="built_in">end</span>(), elem, greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- transform(fib.<span class="built_in">begin</span>(), fib.<span class="built_in">end</span>(),		<span class="comment">// (1) 欲转换的元素范围</span></span><br><span class="line">			pell.<span class="built_in">begin</span>(),		<span class="comment">// (2) 所指元素将应用于转换操作</span></span><br><span class="line">			fib_plus_pell.<span class="built_in">begin</span>(), 	<span class="comment">// (3) 所指位指（及后续空间）用来存放转换结果</span></span><br><span class="line">			plus &lt;<span class="keyword">int</span>&gt;());		<span class="comment">// (4) 想要应用的转换操作</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-6-3-Function-Object-Adapter"><a href="#3-6-3-Function-Object-Adapter" class="headerlink" title="3.6.3 Function Object Adapter"></a>3.6.3 Function Object Adapter</h4><p>​        function object adapter 会对 function object 进行修改操作。所谓binder adapter（绑定适配器）会将 function object 的参数绑定至某特定值，使binary（二元）function object 转化为unary（一元）function object。</p>
+<h4 id="352-max-sort-copy"><a class="markdownIt-Anchor" href="#352-max-sort-copy"></a> 3.5.2 max、sort、copy</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">max_element(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">sort(temp.<span class="built_in">begin</span>(), temp.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">copy(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(), temp.<span class="built_in">begin</span>());</span><br></pre></td></tr></table></figure>
+<h3 id="36-设计泛型算法"><a class="markdownIt-Anchor" href="#36-设计泛型算法"></a> 3.6 设计泛型算法</h3>
+<h4 id="362-function-object"><a class="markdownIt-Anchor" href="#362-function-object"></a> 3.6.2 Function Object</h4>
+<h4 id="3621-functional"><a class="markdownIt-Anchor" href="#3621-functional"></a> 3.6.2.1  functional</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- <span class="meta">#<span class="meta-keyword">include</span>  <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line">- 六个算数运算：plus &lt;type&gt;, minus &lt;type&gt;, negate &lt;type&gt;, </span><br><span class="line">		multiplies &lt;type&gt;, divides &lt;type&gt;, modules &lt;type&gt;</span><br><span class="line">                  </span><br><span class="line">- 六个关系运算：less &lt;type&gt;，less_equal &lt;type&gt;，greater &lt;type&gt;，</span><br><span class="line">              greater_equal &lt;type&gt;，euqal_to &lt;type&gt;，not_equal_to &lt;type&gt;</span><br><span class="line"></span><br><span class="line">- 三个逻辑运算：logical_and &lt;type&gt;，logical_or &lt;type&gt;，logical_not &lt;type&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="3622-示例"><a class="markdownIt-Anchor" href="#3622-示例"></a> 3.6.2.2  示例</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">- sort(vec.<span class="built_in">begin</span>(), bec.<span class="built_in">end</span>(), greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- binary_search(vec,<span class="built_in">begin</span>(), vc.<span class="built_in">end</span>(), elem, greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- transform(fib.<span class="built_in">begin</span>(), fib.<span class="built_in">end</span>(),		<span class="comment">// (1) 欲转换的元素范围</span></span><br><span class="line">			pell.<span class="built_in">begin</span>(),		<span class="comment">// (2) 所指元素将应用于转换操作</span></span><br><span class="line">			fib_plus_pell.<span class="built_in">begin</span>(), 	<span class="comment">// (3) 所指位指（及后续空间）用来存放转换结果</span></span><br><span class="line">			plus &lt;<span class="keyword">int</span>&gt;());		<span class="comment">// (4) 想要应用的转换操作</span></span><br></pre></td></tr></table></figure>
+<h4 id="363-function-object-adapter"><a class="markdownIt-Anchor" href="#363-function-object-adapter"></a> 3.6.3 Function Object Adapter</h4>
+<p>​		function object adapter 会对 function object 进行修改操作。所谓binder adapter（绑定适配器）会将 function object 的参数绑定至某特定值，使binary（二元）function object 转化为unary（一元）function object。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">bind2nd(less&lt;<span class="keyword">int</span>&gt;,  val);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 会把val绑定与less&lt;int&gt;的第二个参数身上。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 于是，less&lt;int&gt;会将每个元素拿来和val比较。</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -43,51 +60,99 @@
   <entry>
     <title>第一章 绪论</title>
     <url>/2019/11/24/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="1-1-计算"><a href="#1-1-计算" class="headerlink" title="1.1 计算"></a>1.1 计算</h3><h3 id="1-2-计算模型"><a href="#1-2-计算模型" class="headerlink" title="1.2 计算模型"></a>1.2 计算模型</h3><a id="more"></a>
-<h3 id="1-3-大O记号"><a href="#1-3-大O记号" class="headerlink" title="1.3 大O记号"></a>1.3 大O记号</h3><p>O(1) &lt; O(logn) &lt; O(n) &lt; O(n<sup>c</sup>)  &lt; O(2<sup>n</sup>)</p>
-<h3 id="1-4-算法分析"><a href="#1-4-算法分析" class="headerlink" title="1.4 算法分析"></a>1.4 算法分析</h3><h4 id="1-4-1-级数"><a href="#1-4-1-级数" class="headerlink" title="1.4.1 级数"></a>1.4.1 级数</h4><p><img src="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg" alt="1.jpg"></p>
-<p><img src="https://i.loli.net/2019/11/24/1n7aKGZLTqxRCPd.jpg" alt="2.jpg"></p>
-<h4 id="1-4-2-循环"><a href="#1-4-2-循环" class="headerlink" title="1.4.2 循环"></a>1.4.2 循环</h4><p><img src="https://i.loli.net/2019/11/24/tP52nRFeaToH63E.jpg" alt="3.jpg"></p>
-<p><img src="https://i.loli.net/2019/11/24/c1pJ4HBTlyU89Rw.jpg" alt="4.jpg"></p>
-<h4 id="1-4-3-非极端元素"><a href="#1-4-3-非极端元素" class="headerlink" title="1.4.3 非极端元素"></a>1.4.3 非极端元素</h4><p><img src="https://i.loli.net/2019/11/24/Z9nc42N8TmuShHY.jpg" alt="5.jpg"></p>
-<h4 id="1-4-4-封底估计"><a href="#1-4-4-封底估计" class="headerlink" title="1.4.4 封底估计"></a>1.4.4 封底估计</h4><p><img src="https://i.loli.net/2019/11/24/uR9e43iNdjlrTb2.jpg" alt="6.jpg"></p>
-<h3 id="1-5迭代与递归"><a href="#1-5迭代与递归" class="headerlink" title="1.5迭代与递归"></a>1.5迭代与递归</h3><h4 id="1-5-1-减而治之"><a href="#1-5-1-减而治之" class="headerlink" title="1.5.1 减而治之"></a>1.5.1 减而治之</h4><p><img src="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg" alt="7.jpg"></p>
-<h4 id="1-5-2-数组求和：线性递归"><a href="#1-5-2-数组求和：线性递归" class="headerlink" title="1.5.2 数组求和：线性递归"></a>1.5.2 数组求和：线性递归</h4><p><img src="https://i.loli.net/2019/11/24/TVAbndXsEzlCtO6.jpg" alt="8.jpg"></p>
-<p><img src="https://i.loli.net/2019/11/24/UIr4lSGeDCPMsRZ.jpg" alt="10.jpg"></p>
-<h4 id="1-5-3-数组倒置"><a href="#1-5-3-数组倒置" class="headerlink" title="1.5.3 数组倒置"></a>1.5.3 数组倒置</h4><p><img src="https://i.loli.net/2019/11/24/WSEHT8b1qiyFYj3.jpg" alt="11.jpg"></p>
-<h4 id="1-5-4-分而治之"><a href="#1-5-4-分而治之" class="headerlink" title="1.5.4 分而治之"></a>1.5.4 分而治之</h4><p><img src="https://i.loli.net/2019/11/24/FqYHMa5eWt7OX3k.jpg" alt="12.jpg"></p>
-<h4 id="1-5-5-二分递归：数组求和"><a href="#1-5-5-二分递归：数组求和" class="headerlink" title="1.5.5 二分递归：数组求和"></a>1.5.5 二分递归：数组求和</h4><p><img src="https://i.loli.net/2019/11/24/5sRqHd7JokQPAVB.jpg" alt="13.jpg"></p>
-<p><img src="https://i.loli.net/2019/11/24/ejY9EtvipaHKTMX.jpg" alt="14.jpg"></p>
-<h4 id="1-5-6-二分递归-Max2"><a href="#1-5-6-二分递归-Max2" class="headerlink" title="1.5.6 二分递归: Max2"></a>1.5.6 二分递归: Max2</h4><p><img src="https://i.loli.net/2019/11/24/AiJe6Fn4aEmzMTI.jpg" alt="16.jpg"></p>
-<p><img src="https://i.loli.net/2019/11/25/bWtp5wHOoukqAzn.png" alt="1.5.6 _1_.png"></p>
-<p><img src="https://i.loli.net/2019/11/25/cGaI89uAQPBMtil.png" alt="1.5.6 _2_.png"></p>
-<h4 id="1-5-7-总结"><a href="#1-5-7-总结" class="headerlink" title="1.5.7 总结"></a>1.5.7 总结</h4><ul>
-<li>算法<ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="11-计算"><a class="markdownIt-Anchor" href="#11-计算"></a> 1.1 计算</h3>
+<h3 id="12-计算模型"><a class="markdownIt-Anchor" href="#12-计算模型"></a> 1.2 计算模型</h3>
+<a id="more"></a>
+<h3 id="13-大o记号"><a class="markdownIt-Anchor" href="#13-大o记号"></a> 1.3 大O记号</h3>
+<p>O(1) &lt; O(logn) &lt; O(n) &lt; O(n<sup>c</sup>)  &lt; O(2<sup>n</sup>)</p>
+<h3 id="14-算法分析"><a class="markdownIt-Anchor" href="#14-算法分析"></a> 1.4 算法分析</h3>
+<h4 id="141-级数"><a class="markdownIt-Anchor" href="#141-级数"></a> 1.4.1 级数</h4>
+<p><img src="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg" alt="1.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/1n7aKGZLTqxRCPd.jpg" alt="2.jpg" /></p>
+<h4 id="142-循环"><a class="markdownIt-Anchor" href="#142-循环"></a> 1.4.2 循环</h4>
+<p><img src="https://i.loli.net/2019/11/24/tP52nRFeaToH63E.jpg" alt="3.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/c1pJ4HBTlyU89Rw.jpg" alt="4.jpg" /></p>
+<h4 id="143-非极端元素"><a class="markdownIt-Anchor" href="#143-非极端元素"></a> 1.4.3 非极端元素</h4>
+<p><img src="https://i.loli.net/2019/11/24/Z9nc42N8TmuShHY.jpg" alt="5.jpg" /></p>
+<h4 id="144-封底估计"><a class="markdownIt-Anchor" href="#144-封底估计"></a> 1.4.4 封底估计</h4>
+<p><img src="https://i.loli.net/2019/11/24/uR9e43iNdjlrTb2.jpg" alt="6.jpg" /></p>
+<h3 id="15迭代与递归"><a class="markdownIt-Anchor" href="#15迭代与递归"></a> 1.5迭代与递归</h3>
+<h4 id="151-减而治之"><a class="markdownIt-Anchor" href="#151-减而治之"></a> 1.5.1 减而治之</h4>
+<p><img src="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg" alt="7.jpg" /></p>
+<h4 id="152-数组求和线性递归"><a class="markdownIt-Anchor" href="#152-数组求和线性递归"></a> 1.5.2 数组求和：线性递归</h4>
+<p><img src="https://i.loli.net/2019/11/24/TVAbndXsEzlCtO6.jpg" alt="8.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/UIr4lSGeDCPMsRZ.jpg" alt="10.jpg" /></p>
+<h4 id="153-数组倒置"><a class="markdownIt-Anchor" href="#153-数组倒置"></a> 1.5.3 数组倒置</h4>
+<p><img src="https://i.loli.net/2019/11/24/WSEHT8b1qiyFYj3.jpg" alt="11.jpg" /></p>
+<h4 id="154-分而治之"><a class="markdownIt-Anchor" href="#154-分而治之"></a> 1.5.4 分而治之</h4>
+<p><img src="https://i.loli.net/2019/11/24/FqYHMa5eWt7OX3k.jpg" alt="12.jpg" /></p>
+<h4 id="155-二分递归数组求和"><a class="markdownIt-Anchor" href="#155-二分递归数组求和"></a> 1.5.5 二分递归：数组求和</h4>
+<p><img src="https://i.loli.net/2019/11/24/5sRqHd7JokQPAVB.jpg" alt="13.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/ejY9EtvipaHKTMX.jpg" alt="14.jpg" /></p>
+<h4 id="156-二分递归-max2"><a class="markdownIt-Anchor" href="#156-二分递归-max2"></a> 1.5.6 二分递归: Max2</h4>
+<p><img src="https://i.loli.net/2019/11/24/AiJe6Fn4aEmzMTI.jpg" alt="16.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/25/bWtp5wHOoukqAzn.png" alt="1.5.6 1.png" /></p>
+<p><img src="https://i.loli.net/2019/11/25/cGaI89uAQPBMtil.png" alt="1.5.6 2.png" /></p>
+<h4 id="157-总结"><a class="markdownIt-Anchor" href="#157-总结"></a> 1.5.7 总结</h4>
+<ul>
+<li>算法
+<ul>
 <li>迭代：Iteration</li>
-<li>递归：Recursion </li>
+<li>递归：Recursion</li>
 </ul>
 </li>
-<li>策略<ul>
+<li>策略
+<ul>
 <li>减而治之：Decrease-and-conquer</li>
 <li>分而治之：Divide-and-conquer</li>
 </ul>
 </li>
-<li>分析方法<ul>
+<li>分析方法
+<ul>
 <li>递归跟踪：Recursion trace</li>
 <li>递归式：Recurrence</li>
 </ul>
 </li>
 </ul>
-<h3 id="1-6-动态规划"><a href="#1-6-动态规划" class="headerlink" title="1.6 动态规划"></a>1.6 动态规划</h3><h4 id="1-6-1-动态规划"><a href="#1-6-1-动态规划" class="headerlink" title="1.6.1 动态规划"></a>1.6.1 动态规划</h4><p><img src="https://i.loli.net/2019/11/26/zTJn8rQB3GsLpKd.png" alt="1.6.1_1_.png"></p>
-<h4 id="1-6-2-Fibonacci"><a href="#1-6-2-Fibonacci" class="headerlink" title="1.6.2 Fibonacci"></a>1.6.2 Fibonacci</h4><p><script type="math/tex">\Phi = \frac{\sqrt{5}+1}{2}</script>                            //1.618</p>
-<p><img src="https://i.loli.net/2019/11/26/LXgH2ymOrRYGutZ.png" alt="1.6.2 _1_.png"></p>
-<p><img src="https://i.loli.net/2019/11/26/j1WKUn3YOlCeBEJ.png" alt="1.6.2 (2).png"></p>
-<h4 id="1-6-3-最长公共子序列-Longest-Common-Subsequence"><a href="#1-6-3-最长公共子序列-Longest-Common-Subsequence" class="headerlink" title="1.6.3 最长公共子序列(Longest Common Subsequence)"></a>1.6.3 最长公共子序列(Longest Common Subsequence)</h4><h5 id="1-6-3-1-递归"><a href="#1-6-3-1-递归" class="headerlink" title="1.6.3.1 递归"></a>1.6.3.1 递归</h5><p><img src="https://i.loli.net/2019/11/26/RAWx31J5BuorUIc.png" alt="1.6.3.1 (1).png"></p>
-<p><img src="https://i.loli.net/2019/11/26/mpPSC6Z7J2Y8rKz.png" alt="1.6.3.1 (2).png"></p>
-<p><img src="https://i.loli.net/2019/11/26/KBsuFmtA8iq5kVP.png" alt="1.6.3.1 (3).png"></p>
-<p><img src="https://i.loli.net/2019/11/26/HipaucXqz6RrbZF.png" alt="1.6.3.1 (4).png"></p>
-<p><img src="https://i.loli.net/2019/11/26/zfdLshY5UkSJ49i.png" alt="1.6.3.1 (5).png"></p>
-<h5 id="1-6-3-2-动态规划"><a href="#1-6-3-2-动态规划" class="headerlink" title="1.6.3.2 动态规划"></a>1.6.3.2 动态规划</h5><p><img src="https://i.loli.net/2019/11/26/vCLoYAXsTZB2VUq.png" alt="1.6.3.2(1).png"></p>
+<h3 id="16-动态规划"><a class="markdownIt-Anchor" href="#16-动态规划"></a> 1.6 动态规划</h3>
+<h4 id="161-动态规划"><a class="markdownIt-Anchor" href="#161-动态规划"></a> 1.6.1 动态规划</h4>
+<p><img src="https://i.loli.net/2019/11/26/zTJn8rQB3GsLpKd.png" alt="1.6.1_1_.png" /></p>
+<h4 id="162-fibonacci"><a class="markdownIt-Anchor" href="#162-fibonacci"></a> 1.6.2 Fibonacci</h4>
+<p class='katex-block katex-error' title='ParseError: KaTeX parse error: Can&#039;t use function &#039;$&#039; in math mode at position 28: …{\sqrt{5}+1}{2}$̲$							//1.618…'>\Phi = \frac{\sqrt{5}+1}{2}$$							//1.618
+
+![1.6.2 _1_.png](https://i.loli.net/2019/11/26/LXgH2ymOrRYGutZ.png)
+
+
+
+![1.6.2 (2).png](https://i.loli.net/2019/11/26/j1WKUn3YOlCeBEJ.png)
+
+#### 1.6.3 最长公共子序列(Longest Common Subsequence)
+
+##### 1.6.3.1 递归
+
+![1.6.3.1 (1).png](https://i.loli.net/2019/11/26/RAWx31J5BuorUIc.png)
+
+
+
+![1.6.3.1 (2).png](https://i.loli.net/2019/11/26/mpPSC6Z7J2Y8rKz.png)
+
+
+
+![1.6.3.1 (3).png](https://i.loli.net/2019/11/26/KBsuFmtA8iq5kVP.png)
+
+
+
+![1.6.3.1 (4).png](https://i.loli.net/2019/11/26/HipaucXqz6RrbZF.png)
+
+
+
+![1.6.3.1 (5).png](https://i.loli.net/2019/11/26/zfdLshY5UkSJ49i.png)
+
+##### 1.6.3.2 动态规划
+
+![1.6.3.2(1).png](https://i.loli.net/2019/11/26/vCLoYAXsTZB2VUq.png)
+
+</p>
 ]]></content>
       <categories>
         <category>数据结构</category>
@@ -100,38 +165,55 @@
   <entry>
     <title>Chapter 1 - A Tutorial Introduction</title>
     <url>/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="1-1-Getting-Started"><a href="#1-1-Getting-Started" class="headerlink" title="1.1 Getting Started"></a>1.1 Getting Started</h3><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="11-getting-started"><a class="markdownIt-Anchor" href="#11-getting-started"></a> 1.1 Getting Started</h3>
+<ul>
 <li>C consists of functions and variables</li>
 <li>every program must have a main</li>
 </ul>
 <a id="more"></a>
-<h3 id="1-2-Variables-and-Arithmetic-Expressions"><a href="#1-2-Variables-and-Arithmetic-Expressions" class="headerlink" title="1.2 Variables and Arithmetic Expressions"></a>1.2 Variables and Arithmetic Expressions</h3><ul>
-<li>printf recognizes %o for octal, %x for hexadecimal, %% for itself </li>
+<h3 id="12-variables-and-arithmetic-expressions"><a class="markdownIt-Anchor" href="#12-variables-and-arithmetic-expressions"></a> 1.2 Variables and Arithmetic Expressions</h3>
+<ul>
+<li>printf recognizes %o for octal, %x for hexadecimal, %% for itself</li>
 </ul>
-<h3 id="1-3-The-for-statement"><a href="#1-3-The-for-statement" class="headerlink" title="1.3 The for statement"></a>1.3 The for statement</h3><h3 id="1-4-Symbolic-Constants"><a href="#1-4-Symbolic-Constants" class="headerlink" title="1.4 Symbolic Constants"></a>1.4 Symbolic Constants</h3><ul>
-<li>define name replacement </li>
+<h3 id="13-the-for-statement"><a class="markdownIt-Anchor" href="#13-the-for-statement"></a> 1.3 The for statement</h3>
+<h3 id="14-symbolic-constants"><a class="markdownIt-Anchor" href="#14-symbolic-constants"></a> 1.4 Symbolic Constants</h3>
+<ul>
+<li>define name replacement</li>
 </ul>
-<h3 id="1-5-Character-Input-and-Output"><a href="#1-5-Character-Input-and-Output" class="headerlink" title="1.5 Character Input and Output"></a>1.5 Character Input and Output</h3><h4 id="1-5-1-File-Copying"><a href="#1-5-1-File-Copying" class="headerlink" title="1.5.1 File Copying"></a>1.5.1 File Copying</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> c;</span><br><span class="line"><span class="keyword">while</span> ((c = getchar()) != EOF)</span><br><span class="line"><span class="built_in">putchar</span>(c);</span><br></pre></td></tr></table></figure>
+<h3 id="15-character-input-and-output"><a class="markdownIt-Anchor" href="#15-character-input-and-output"></a> 1.5 Character Input and Output</h3>
+<h4 id="151-file-copying"><a class="markdownIt-Anchor" href="#151-file-copying"></a> 1.5.1 File Copying</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> c;</span><br><span class="line"><span class="keyword">while</span> ((c = getchar()) != EOF)</span><br><span class="line"><span class="built_in">putchar</span>(c);</span><br></pre></td></tr></table></figure>
 <ul>
 <li>we use int because c must be bing enough to hold EOF in addition to any possible char</li>
 </ul>
-<h4 id="1-5-2-Character-Counting"><a href="#1-5-2-Character-Counting" class="headerlink" title="1.5.2 Character Counting"></a>1.5.2 Character Counting</h4><h4 id="1-5-3-Line-Counting"><a href="#1-5-3-Line-Counting" class="headerlink" title="1.5.3 Line Counting"></a>1.5.3 Line Counting</h4><h4 id="1-5-4-Word-Counting"><a href="#1-5-4-Word-Counting" class="headerlink" title="1.5.4 Word Counting"></a>1.5.4 Word Counting</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IN 1 		<span class="comment">/* inside a word */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OUT 0 		<span class="comment">/* outside a word */</span></span></span><br><span class="line"><span class="comment">/* count lines, words, and characters in input */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> c, nl, nw, nc, state;</span><br><span class="line">    </span><br><span class="line">	state = OUT;</span><br><span class="line">	nl = nw = nc = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((c = getchar()) != EOF) &#123;</span><br><span class="line">        ++nc;</span><br><span class="line">		<span class="keyword">if</span> (c == <span class="string">'\n'</span>)</span><br><span class="line">			++nl;</span><br><span class="line">		<span class="keyword">if</span> (c == <span class="string">' '</span> || c == <span class="string">'\n'</span> || c = <span class="string">'\t'</span>)</span><br><span class="line">			state = OUT;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (state == OUT) &#123;</span><br><span class="line">			state = IN;</span><br><span class="line">			++nw;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d %d %d\n"</span>, nl, nw, nc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="1-6-Arrays"><a href="#1-6-Arrays" class="headerlink" title="1.6 Arrays"></a>1.6 Arrays</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">/* count digits, white space, others */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> c, i, nwhite, nother;</span><br><span class="line">	<span class="keyword">int</span> ndigit[<span class="number">10</span>];</span><br><span class="line">    </span><br><span class="line">	nwhite = nother = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		ndigit[i] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((c = getchar()) != EOF)</span><br><span class="line">		<span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span>)</span><br><span class="line">		++ndigit[c-<span class="string">'0'</span>];</span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">' '</span> || c == <span class="string">'\n'</span> || c == <span class="string">'\t'</span>)</span><br><span class="line">    		++nwhite;</span><br><span class="line">    	<span class="keyword">else</span></span><br><span class="line">    		++nother;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"digits ="</span>);</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">" %d"</span>, ndigit[i]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">", white space = %d, other = %d\n"</span>,</span><br><span class="line">		nwhite, nother);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="152-character-counting"><a class="markdownIt-Anchor" href="#152-character-counting"></a> 1.5.2 Character Counting</h4>
+<h4 id="153-line-counting"><a class="markdownIt-Anchor" href="#153-line-counting"></a> 1.5.3 Line Counting</h4>
+<h4 id="154-word-counting"><a class="markdownIt-Anchor" href="#154-word-counting"></a> 1.5.4 Word Counting</h4>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IN 1 		<span class="comment">/* inside a word */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OUT 0 		<span class="comment">/* outside a word */</span></span></span><br><span class="line"><span class="comment">/* count lines, words, and characters in input */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> c, nl, nw, nc, state;</span><br><span class="line">    </span><br><span class="line">	state = OUT;</span><br><span class="line">	nl = nw = nc = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((c = getchar()) != EOF) &#123;</span><br><span class="line">        ++nc;</span><br><span class="line">		<span class="keyword">if</span> (c == <span class="string">'\n'</span>)</span><br><span class="line">			++nl;</span><br><span class="line">		<span class="keyword">if</span> (c == <span class="string">' '</span> || c == <span class="string">'\n'</span> || c = <span class="string">'\t'</span>)</span><br><span class="line">			state = OUT;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (state == OUT) &#123;</span><br><span class="line">			state = IN;</span><br><span class="line">			++nw;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d %d %d\n"</span>, nl, nw, nc);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="16-arrays"><a class="markdownIt-Anchor" href="#16-arrays"></a> 1.6 Arrays</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="comment">/* count digits, white space, others */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> c, i, nwhite, nother;</span><br><span class="line">	<span class="keyword">int</span> ndigit[<span class="number">10</span>];</span><br><span class="line">    </span><br><span class="line">	nwhite = nother = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		ndigit[i] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> ((c = getchar()) != EOF)</span><br><span class="line">		<span class="keyword">if</span> (c &gt;= <span class="string">'0'</span> &amp;&amp; c &lt;= <span class="string">'9'</span>)</span><br><span class="line">		++ndigit[c-<span class="string">'0'</span>];</span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span> (c == <span class="string">' '</span> || c == <span class="string">'\n'</span> || c == <span class="string">'\t'</span>)</span><br><span class="line">    		++nwhite;</span><br><span class="line">    	<span class="keyword">else</span></span><br><span class="line">    		++nother;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"digits ="</span>);</span><br><span class="line">	<span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">" %d"</span>, ndigit[i]);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">", white space = %d, other = %d\n"</span>,</span><br><span class="line">		nwhite, nother);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>A subscript can be any integer expression, which includes integer variables like i, and integer constants.</li>
 </ul>
-<h3 id="1-7-Functions"><a href="#1-7-Functions" class="headerlink" title="1.7 Functions"></a>1.7 Functions</h3><ul>
-<li><p>function definition form:</p>
+<h3 id="17-functions"><a class="markdownIt-Anchor" href="#17-functions"></a> 1.7 Functions</h3>
+<ul>
+<li>
+<p>function definition form:</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span>-type function-name(parameter declarations, <span class="keyword">if</span> any)</span><br><span class="line">&#123;</span><br><span class="line">	declarations</span><br><span class="line">	statements</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="1-8-Arguments-Call-by-Value"><a href="#1-8-Arguments-Call-by-Value" class="headerlink" title="1.8 Arguments - Call by Value"></a>1.8 Arguments - Call by Value</h3><h3 id="1-9-Character-Arrays"><a href="#1-9-Character-Arrays" class="headerlink" title="1.9 Character Arrays"></a>1.9 Character Arrays</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXLINE 1000		 <span class="comment">/* maximum input line length */</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">char</span> <span class="built_in">line</span>[], <span class="keyword">int</span> maxline)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">char</span> to[], <span class="keyword">char</span> from[])</span></span>;</span><br><span class="line"><span class="comment">/* print the longest input line */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> len; 				<span class="comment">/* current line length */</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">max</span>; 				<span class="comment">/* maximum length seen so far */</span></span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">line</span>[MAXLINE]; 	<span class="comment">/* current input line */</span></span><br><span class="line">    <span class="keyword">char</span> longest[MAXLINE]; 	<span class="comment">/* longest line saved here */</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">max</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = getline(<span class="built_in">line</span>, MAXLINE)) &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> (len &gt; <span class="built_in">max</span>) &#123;</span><br><span class="line">            <span class="built_in">max</span> = len;</span><br><span class="line">            copy(longest, <span class="built_in">line</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">max</span> &gt; <span class="number">0</span>) 			<span class="comment">/* there was a line */</span></span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"%s"</span>, longest);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* getline: read a line into s, return length */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">char</span> s[],<span class="keyword">int</span> lim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c, i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; lim<span class="number">-1</span> &amp;&amp; (c=getchar())!=EOF &amp;&amp; c!=<span class="string">'\n'</span>; ++i)</span><br><span class="line">    	s[i] = c;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'\n'</span>) &#123;</span><br><span class="line">    	s[i] = c;</span><br><span class="line">    	++i;</span><br><span class="line">    &#125;</span><br><span class="line">    s[i] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* copy: copy 'from' into 'to'; assume to is big enough */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">char</span> to[], <span class="keyword">char</span> from[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((to[i] = from[i]) != <span class="string">'\0'</span>)</span><br><span class="line">    	++i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="1-10-External-Variables-and-Scope"><a href="#1-10-External-Variables-and-Scope" class="headerlink" title="1.10 External Variables and Scope"></a>1.10 External Variables and Scope</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXLINE 1000 	<span class="comment">/* maximum input line size */</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">max</span>; 				<span class="comment">/* maximum length seen so far */</span></span><br><span class="line"><span class="keyword">char</span> <span class="built_in">line</span>[MAXLINE]; 	<span class="comment">/* current input line */</span></span><br><span class="line"><span class="keyword">char</span> longest[MAXLINE]; 	<span class="comment">/* longest line saved here */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* print longest input line; specialized version */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> <span class="built_in">max</span>;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> longest[];</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">max</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = getline()) &gt; <span class="number">0</span>)</span><br><span class="line">    	<span class="keyword">if</span> (len &gt; <span class="built_in">max</span>) &#123;</span><br><span class="line">            <span class="built_in">max</span> = len;</span><br><span class="line">            copy();</span><br><span class="line">		&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">max</span> &gt; <span class="number">0</span>) <span class="comment">/* there was a line */</span></span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"%s"</span>, longest);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* getline: specialized version */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c, i;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> <span class="built_in">line</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; MAXLINE - <span class="number">1</span> </span><br><span class="line">         &amp;&amp; (c=getchar)) != EOF &amp;&amp; c != <span class="string">'\n'</span>; ++i)</span><br><span class="line">        <span class="built_in">line</span>[i] = c;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'\n'</span>) &#123;</span><br><span class="line">        <span class="built_in">line</span>[i] = c;</span><br><span class="line">        ++i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">line</span>[i] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* copy: specialized version */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> <span class="built_in">line</span>[], longest[];</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((longest[i] = <span class="built_in">line</span>[i]) != <span class="string">'\0'</span>)</span><br><span class="line">        ++i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="18-arguments-call-by-value"><a class="markdownIt-Anchor" href="#18-arguments-call-by-value"></a> 1.8 Arguments - Call by Value</h3>
+<h3 id="19-character-arrays"><a class="markdownIt-Anchor" href="#19-character-arrays"></a> 1.9 Character Arrays</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXLINE 1000		 <span class="comment">/* maximum input line length */</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">char</span> <span class="built_in">line</span>[], <span class="keyword">int</span> maxline)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">char</span> to[], <span class="keyword">char</span> from[])</span></span>;</span><br><span class="line"><span class="comment">/* print the longest input line */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> len; 				<span class="comment">/* current line length */</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">max</span>; 				<span class="comment">/* maximum length seen so far */</span></span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">line</span>[MAXLINE]; 	<span class="comment">/* current input line */</span></span><br><span class="line">    <span class="keyword">char</span> longest[MAXLINE]; 	<span class="comment">/* longest line saved here */</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">max</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = getline(<span class="built_in">line</span>, MAXLINE)) &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span> (len &gt; <span class="built_in">max</span>) &#123;</span><br><span class="line">            <span class="built_in">max</span> = len;</span><br><span class="line">            copy(longest, <span class="built_in">line</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">max</span> &gt; <span class="number">0</span>) 			<span class="comment">/* there was a line */</span></span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"%s"</span>, longest);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* getline: read a line into s, return length */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">char</span> s[],<span class="keyword">int</span> lim)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c, i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; lim<span class="number">-1</span> &amp;&amp; (c=getchar())!=EOF &amp;&amp; c!=<span class="string">'\n'</span>; ++i)</span><br><span class="line">    	s[i] = c;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'\n'</span>) &#123;</span><br><span class="line">    	s[i] = c;</span><br><span class="line">    	++i;</span><br><span class="line">    &#125;</span><br><span class="line">    s[i] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* copy: copy 'from' into 'to'; assume to is big enough */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">char</span> to[], <span class="keyword">char</span> from[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((to[i] = from[i]) != <span class="string">'\0'</span>)</span><br><span class="line">    	++i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="110-external-variables-and-scope"><a class="markdownIt-Anchor" href="#110-external-variables-and-scope"></a> 1.10 External Variables and Scope</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXLINE 1000 	<span class="comment">/* maximum input line size */</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">max</span>; 				<span class="comment">/* maximum length seen so far */</span></span><br><span class="line"><span class="keyword">char</span> <span class="built_in">line</span>[MAXLINE]; 	<span class="comment">/* current input line */</span></span><br><span class="line"><span class="keyword">char</span> longest[MAXLINE]; 	<span class="comment">/* longest line saved here */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* print longest input line; specialized version */</span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> <span class="built_in">max</span>;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> longest[];</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">max</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((len = getline()) &gt; <span class="number">0</span>)</span><br><span class="line">    	<span class="keyword">if</span> (len &gt; <span class="built_in">max</span>) &#123;</span><br><span class="line">            <span class="built_in">max</span> = len;</span><br><span class="line">            copy();</span><br><span class="line">		&#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">max</span> &gt; <span class="number">0</span>) <span class="comment">/* there was a line */</span></span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">"%s"</span>, longest);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* getline: specialized version */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getline</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c, i;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> <span class="built_in">line</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; MAXLINE - <span class="number">1</span> </span><br><span class="line">         &amp;&amp; (c=getchar)) != EOF &amp;&amp; c != <span class="string">'\n'</span>; ++i)</span><br><span class="line">        <span class="built_in">line</span>[i] = c;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'\n'</span>) &#123;</span><br><span class="line">        <span class="built_in">line</span>[i] = c;</span><br><span class="line">        ++i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">line</span>[i] = <span class="string">'\0'</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* copy: specialized version */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">char</span> <span class="built_in">line</span>[], longest[];</span><br><span class="line"></span><br><span class="line">    i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((longest[i] = <span class="built_in">line</span>[i]) != <span class="string">'\0'</span>)</span><br><span class="line">        ++i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>In certain circumstances, the <em>extern</em> declaration can be omitted. If the definition of the external variable occurs in the source file before its use in a particular function, then there is no need for an <em>extern</em> declaration in the function.</li>
-<li>Definition and Declaration<ul>
-<li><strong>Definition</strong> refers to the place where the variable is created or assigned storage; </li>
-<li><strong>Declaration</strong> refers to places where the nature of the variable is<br>stated but no storage is allocated.</li>
+<li>Definition and Declaration
+<ul>
+<li><strong>Definition</strong> refers to the place where the variable is created or assigned storage;</li>
+<li><strong>Declaration</strong> refers to places where the nature of the variable is<br />
+stated but no storage is allocated.</li>
 </ul>
 </li>
 </ul>
@@ -146,118 +228,198 @@
   <entry>
     <title>第五章 数据通信网络与软件</title>
     <url>/2019/11/17/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="5-1-数字化通讯与编码"><a href="#5-1-数字化通讯与编码" class="headerlink" title="5.1 数字化通讯与编码"></a>5.1 数字化通讯与编码</h3><h4 id="5-1-1电报、电传与ASCⅡ码"><a href="#5-1-1电报、电传与ASCⅡ码" class="headerlink" title="5.1.1电报、电传与ASCⅡ码"></a>5.1.1电报、电传与ASCⅡ码</h4><h4 id="5-1-2-汉字编码与Unicode"><a href="#5-1-2-汉字编码与Unicode" class="headerlink" title="5.1.2 汉字编码与Unicode"></a>5.1.2 汉字编码与Unicode</h4><ul>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="51-数字化通讯与编码"><a class="markdownIt-Anchor" href="#51-数字化通讯与编码"></a> 5.1 数字化通讯与编码</h3>
+<h4 id="511电报-电传与ascii码"><a class="markdownIt-Anchor" href="#511电报-电传与ascii码"></a> 5.1.1电报、电传与ASCⅡ码</h4>
+<h4 id="512-汉字编码与unicode"><a class="markdownIt-Anchor" href="#512-汉字编码与unicode"></a> 5.1.2 汉字编码与Unicode</h4>
+<ul>
 <li>双字节汉字码</li>
 </ul>
 <a id="more"></a>
-<h3 id="5-2通信交换网络"><a href="#5-2通信交换网络" class="headerlink" title="5.2通信交换网络"></a>5.2通信交换网络</h3><h4 id="5-2-1-邮政业务网络"><a href="#5-2-1-邮政业务网络" class="headerlink" title="5.2.1 邮政业务网络"></a>5.2.1 邮政业务网络</h4><ul>
+<h3 id="52通信交换网络"><a class="markdownIt-Anchor" href="#52通信交换网络"></a> 5.2通信交换网络</h3>
+<h4 id="521-邮政业务网络"><a class="markdownIt-Anchor" href="#521-邮政业务网络"></a> 5.2.1 邮政业务网络</h4>
+<ul>
 <li>每个用户的信件是一个包，每个包有：收件人地址、收件人、发件人地址</li>
 </ul>
-<h4 id="5-2-2电话交换网络"><a href="#5-2-2电话交换网络" class="headerlink" title="5.2.2电话交换网络"></a>5.2.2电话交换网络</h4><ul>
+<h4 id="522电话交换网络"><a class="markdownIt-Anchor" href="#522电话交换网络"></a> 5.2.2电话交换网络</h4>
+<ul>
 <li>人工交换——机电式自动交换——电子式自动交换（专供两者使用）</li>
 </ul>
-<h3 id="5-3-数据包交换网络"><a href="#5-3-数据包交换网络" class="headerlink" title="5.3 数据包交换网络"></a>5.3 数据包交换网络</h3><h4 id="5-3-1-基于数据包的网络原理"><a href="#5-3-1-基于数据包的网络原理" class="headerlink" title="5.3.1 基于数据包的网络原理"></a>5.3.1 基于数据包的网络原理</h4><p><img src="https://i.loli.net/2019/11/17/auN5AXKwspPiUJG.png" alt="Node.JPG"></p>
-<h4 id="5-3-2-包的设计"><a href="#5-3-2-包的设计" class="headerlink" title="5.3.2 包的设计"></a>5.3.2 包的设计</h4><ul>
+<h3 id="53-数据包交换网络"><a class="markdownIt-Anchor" href="#53-数据包交换网络"></a> 5.3 数据包交换网络</h3>
+<h4 id="531-基于数据包的网络原理"><a class="markdownIt-Anchor" href="#531-基于数据包的网络原理"></a> 5.3.1 基于数据包的网络原理</h4>
+<p><img src="https://i.loli.net/2019/11/17/auN5AXKwspPiUJG.png" alt="Node.JPG" /></p>
+<h4 id="532-包的设计"><a class="markdownIt-Anchor" href="#532-包的设计"></a> 5.3.2 包的设计</h4>
+<ul>
 <li>数据传输，数据封装：对数据进行拆封和组装</li>
 <li>应用层：被传输的是一系列ASCⅡ码、汉字码、二进制码的数据</li>
 <li>物理层：被传输的是能够表达0和1代码的电路信号</li>
 <li>在物理层和应用层之间，需要对数据进行多次封装</li>
 </ul>
-<p><img src="https://i.loli.net/2019/11/17/71EcJj4SmnPzWqO.png" alt="包的设计.png"></p>
+<p><img src="https://i.loli.net/2019/11/17/71EcJj4SmnPzWqO.png" alt="包的设计.png" /></p>
 <ul>
 <li>数据包：源地址、目标地址/目的地地址、传输的数据。</li>
 </ul>
-<h4 id="5-3-3-路由"><a href="#5-3-3-路由" class="headerlink" title="5.3.3 路由"></a>5.3.3 路由</h4><ul>
+<h4 id="533-路由"><a class="markdownIt-Anchor" href="#533-路由"></a> 5.3.3 路由</h4>
+<ul>
 <li>​     设计和实现一种自动调整传输单元大小的机制来适应网络的技术限制，对IP包进行分片。</li>
 </ul>
-<h5 id="5-3-3-1-数据分片与重组"><a href="#5-3-3-1-数据分片与重组" class="headerlink" title="5.3.3.1 数据分片与重组"></a>5.3.3.1 数据分片与重组</h5><ul>
-<li><p>第一步：数据分片</p>
-<p>​    例： 一个4500字节的数据包被封装进了一个头部为20字节的IP包  </p>
-<p>| 片   | 总字节 | 头部字节           | 数据字节   | MF标志 | 偏移字节 |<br>| —— | ——— | ————————— | ————— | ——— | ———— |<br>| 1    | 2500   | 20                 | 2480       | 1      | 0        |<br>| 2    | 2040   | 20                 | 2020       | 0      | 310      |<br>|      |        | 分片后的数据规模： | 2480 +2020 | =4500  |          |</p>
+<h5 id="5331-数据分片与重组"><a class="markdownIt-Anchor" href="#5331-数据分片与重组"></a> 5.3.3.1 数据分片与重组</h5>
+<ul>
+<li>
+<p>第一步：数据分片</p>
+<p>​	例： 一个4500字节的数据包被封装进了一个头部为20字节的IP包</p>
+<table>
+<thead>
+<tr>
+<th>片</th>
+<th>总字节</th>
+<th>头部字节</th>
+<th>数据字节</th>
+<th>MF标志</th>
+<th>偏移字节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2500</td>
+<td>20</td>
+<td>2480</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2040</td>
+<td>20</td>
+<td>2020</td>
+<td>0</td>
+<td>310</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>分片后的数据规模：</td>
+<td>2480 +2020</td>
+<td>=4500</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </li>
-<li><p>第二步： 包的重新组装</p>
-<p>​    用最终偏移和最终数据尺寸计算出最终的总尺寸为：495×8+540=3960+540=4500。</p>
+<li>
+<p>第二步： 包的重新组装</p>
+<p>​	用最终偏移和最终数据尺寸计算出最终的总尺寸为：495×8+540=3960+540=4500。</p>
 </li>
-<li><p>数据包：存储——分解——接受——组装</p>
+<li>
+<p>数据包：存储——分解——接受——组装</p>
 </li>
 </ul>
-<h5 id="5-3-3-2-基本的路由算法"><a href="#5-3-3-2-基本的路由算法" class="headerlink" title="5.3.3.2 基本的路由算法"></a>5.3.3.2 基本的路由算法</h5><ul>
-<li>路由器：<ul>
+<h5 id="5332-基本的路由算法"><a class="markdownIt-Anchor" href="#5332-基本的路由算法"></a> 5.3.3.2 基本的路由算法</h5>
+<ul>
+<li>路由器：
+<ul>
 <li>主要功能为寻找下一个网络节点</li>
 <li>存一张路由表供算法查询节点</li>
 </ul>
 </li>
-<li>算法：<ul>
+<li>算法：
+<ul>
 <li>给定目标地地址D，下一个结点地址N</li>
-<li>if (N直接与D地址匹配)<ul>
+<li>if (N直接与D地址匹配)
+<ul>
 <li>将数据传给D</li>
 </ul>
 </li>
-<li>else if (路由表中包含一个带N的路由)<ul>
+<li>else if (路由表中包含一个带N的路由)
+<ul>
 <li>将数据包送给N</li>
 </ul>
 </li>
-<li>else if （有一个默认的路由结点）<ul>
+<li>else if （有一个默认的路由结点）
+<ul>
 <li>传给缺省的路由结点</li>
 </ul>
 </li>
-<li>else <ul>
+<li>else
+<ul>
 <li>任务失败</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>路由的选择<ul>
+<li>路由的选择
+<ul>
 <li>静态路由： 将路由器的路由选择预先设定好。</li>
 <li>动态路由： 每台路由器上运行一个路由协议，该协议根据路由器接口配置、链路状态圣城路由表中的路由器。</li>
 <li>缺省路由： 一个路由表条目，用来指明一些下一跳不明确的数据单元如何转发。</li>
 </ul>
 </li>
-<li>路由表包括：<ul>
+<li>路由表包括：
+<ul>
 <li>网络ID： 目的地子网</li>
 <li>成本度量元： 将包送到目的地的路径长度</li>
 <li>下一跳/网关：下一站地址</li>
 </ul>
 </li>
 </ul>
-<h3 id="5-4-互联网设计"><a href="#5-4-互联网设计" class="headerlink" title="5.4 互联网设计"></a>5.4 互联网设计</h3><h4 id="5-4-1-网络互联的需求"><a href="#5-4-1-网络互联的需求" class="headerlink" title="5.4.1 网络互联的需求"></a>5.4.1 网络互联的需求</h4><h4 id="5-4-2-网络互联的设计模型"><a href="#5-4-2-网络互联的设计模型" class="headerlink" title="5.4.2 网络互联的设计模型"></a>5.4.2 网络互联的设计模型</h4><h4 id="5-4-3-DoD网络互连协议族设计"><a href="#5-4-3-DoD网络互连协议族设计" class="headerlink" title="5.4.3 DoD网络互连协议族设计"></a>5.4.3 DoD网络互连协议族设计</h4><p>​    路由器：一个专用计算机，以查地址、快速转发为目的，不需要浮点运算。</p>
-<h3 id="5-5-互联网发展与应用"><a href="#5-5-互联网发展与应用" class="headerlink" title="5.5 互联网发展与应用"></a>5.5 互联网发展与应用</h3><h4 id="5-5-1-美国互联网的全面发展"><a href="#5-5-1-美国互联网的全面发展" class="headerlink" title="5.5.1 美国互联网的全面发展"></a>5.5.1 美国互联网的全面发展</h4><ul>
-<li>美国能独霸天下的根本原因：<ul>
+<h3 id="54-互联网设计"><a class="markdownIt-Anchor" href="#54-互联网设计"></a> 5.4 互联网设计</h3>
+<h4 id="541-网络互联的需求"><a class="markdownIt-Anchor" href="#541-网络互联的需求"></a> 5.4.1 网络互联的需求</h4>
+<h4 id="542-网络互联的设计模型"><a class="markdownIt-Anchor" href="#542-网络互联的设计模型"></a> 5.4.2 网络互联的设计模型</h4>
+<h4 id="543-dod网络互连协议族设计"><a class="markdownIt-Anchor" href="#543-dod网络互连协议族设计"></a> 5.4.3 DoD网络互连协议族设计</h4>
+<p>​	路由器：一个专用计算机，以查地址、快速转发为目的，不需要浮点运算。</p>
+<h3 id="55-互联网发展与应用"><a class="markdownIt-Anchor" href="#55-互联网发展与应用"></a> 5.5 互联网发展与应用</h3>
+<h4 id="551-美国互联网的全面发展"><a class="markdownIt-Anchor" href="#551-美国互联网的全面发展"></a> 5.5.1 美国互联网的全面发展</h4>
+<ul>
+<li>美国能独霸天下的根本原因：
+<ul>
 <li>计算机硬件和系统产业垄断全球</li>
 <li>软件关键产品垄断全球</li>
 </ul>
 </li>
 </ul>
-<h4 id="5-5-2-中国发展互联网的历程"><a href="#5-5-2-中国发展互联网的历程" class="headerlink" title="5.5.2 中国发展互联网的历程"></a>5.5.2 中国发展互联网的历程</h4><ul>
+<h4 id="552-中国发展互联网的历程"><a class="markdownIt-Anchor" href="#552-中国发展互联网的历程"></a> 5.5.2 中国发展互联网的历程</h4>
+<ul>
 <li>1994年，由北邮等六所高校建设的“中国教育和科研计算机网”试验网开通</li>
 </ul>
-<h4 id="5-5-3-IETF"><a href="#5-5-3-IETF" class="headerlink" title="5.5.3 IETF"></a>5.5.3 IETF</h4><h4 id="5-5-4-物联网"><a href="#5-5-4-物联网" class="headerlink" title="5.5.4 物联网"></a>5.5.4 物联网</h4><ul>
-<li><p>IPV6</p>
+<h4 id="553-ietf"><a class="markdownIt-Anchor" href="#553-ietf"></a> 5.5.3 IETF</h4>
+<h4 id="554-物联网"><a class="markdownIt-Anchor" href="#554-物联网"></a> 5.5.4 物联网</h4>
+<ul>
+<li>
+<p>IPV6</p>
 <ul>
 <li>源地址和目的地地址扩展（为128位），可以连接更多的设备</li>
 </ul>
 </li>
 </ul>
-<h3 id="5-6-软件定义网络"><a href="#5-6-软件定义网络" class="headerlink" title="5.6 软件定义网络"></a>5.6 软件定义网络</h3><h4 id="5-6-1-传统路由器的问题"><a href="#5-6-1-传统路由器的问题" class="headerlink" title="5.6.1 传统路由器的问题"></a>5.6.1 传统路由器的问题</h4><ul>
+<h3 id="56-软件定义网络"><a class="markdownIt-Anchor" href="#56-软件定义网络"></a> 5.6 软件定义网络</h3>
+<h4 id="561-传统路由器的问题"><a class="markdownIt-Anchor" href="#561-传统路由器的问题"></a> 5.6.1 传统路由器的问题</h4>
+<ul>
 <li>协议复杂，网络运维成本高</li>
 </ul>
-<h4 id="5-5-2-OpenFlow-论坛"><a href="#5-5-2-OpenFlow-论坛" class="headerlink" title="5.5.2 OpenFlow 论坛"></a>5.5.2 OpenFlow 论坛</h4><ul>
+<h4 id="552-openflow-论坛"><a class="markdownIt-Anchor" href="#552-openflow-论坛"></a> 5.5.2 OpenFlow 论坛</h4>
+<ul>
 <li>解决重新设计互联网的问题</li>
 </ul>
-<h4 id="5-5-3-SDN-Software-Defined-Network-的提出"><a href="#5-5-3-SDN-Software-Defined-Network-的提出" class="headerlink" title="5.5.3 SDN(Software Defined Network)的提出"></a>5.5.3 SDN(Software Defined Network)的提出</h4><ul>
+<h4 id="553-sdnsoftware-defined-network的提出"><a class="markdownIt-Anchor" href="#553-sdnsoftware-defined-network的提出"></a> 5.5.3 SDN(Software Defined Network)的提出</h4>
+<ul>
 <li>通过编程解决网络的管理</li>
 <li>SDN将数据与控制分离</li>
 </ul>
-<h4 id="5-5-4-学术界与产业界联合"><a href="#5-5-4-学术界与产业界联合" class="headerlink" title="5.5.4 学术界与产业界联合"></a>5.5.4 学术界与产业界联合</h4><ul>
+<h4 id="554-学术界与产业界联合"><a class="markdownIt-Anchor" href="#554-学术界与产业界联合"></a> 5.5.4 学术界与产业界联合</h4>
+<ul>
 <li>梅特卡夫定律：网络的实用性是加入的结点数的平方（转义：像互联网、移动电话网等，价值的增长与用户数成平方数比例）</li>
 </ul>
-<hr>
-<h3 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h3><h4 id="1-描述一下包交换的原理"><a href="#1-描述一下包交换的原理" class="headerlink" title="1. 描述一下包交换的原理"></a>1. 描述一下包交换的原理</h4><p>​        数据封装后成为一个数据包，该数据包具有源地址、目标地址以及传输的数据。再包交换的过程中，数据包会在其中的每层都进行一次进一步的组装。将上一层传输的数据包作为本层的数据，并接上用以指明该分组发往何处地址的分组头。到达接收端后，再去掉分组头将各数据字段按顺序连接起来。</p>
-<h4 id="2-路由器是一个计算机，这种计算机与通用计算机（例如，PC机或笔记本）的共同点和区别在哪里？"><a href="#2-路由器是一个计算机，这种计算机与通用计算机（例如，PC机或笔记本）的共同点和区别在哪里？" class="headerlink" title="2. 路由器是一个计算机，这种计算机与通用计算机（例如，PC机或笔记本）的共同点和区别在哪里？"></a>2. 路由器是一个计算机，这种计算机与通用计算机（例如，PC机或笔记本）的共同点和区别在哪里？</h4><p>​        路由器与通用计算机的结构相同</p>
-<p>​        路由器主要用来传输数据，基本不需要浮点运算</p>
-<p>​        计算机主要用来做数据存储运算</p>
-<h4 id="3-回顾第4章如何开发路由器上的软件？"><a href="#3-回顾第4章如何开发路由器上的软件？" class="headerlink" title="3.回顾第4章如何开发路由器上的软件？"></a>3.回顾第4章如何开发路由器上的软件？</h4><p>​        以瀑布式开发为例：</p>
-<p>​                进行需求分析（如需要降低路由器的时延）-&gt; 设计（编写软件设计文档、数据库设计说明等）-&gt; 编程（通过优化算法实现时延的降低） -&gt; 测试（将路由器小规模投入使用，并分析收集到的数据） -&gt;运行和维护(大范围推广，并持续维护)</p>
+<hr />
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<h4 id="1-描述一下包交换的原理"><a class="markdownIt-Anchor" href="#1-描述一下包交换的原理"></a> 1. 描述一下包交换的原理</h4>
+<p>​		数据封装后成为一个数据包，该数据包具有源地址、目标地址以及传输的数据。再包交换的过程中，数据包会在其中的每层都进行一次进一步的组装。将上一层传输的数据包作为本层的数据，并接上用以指明该分组发往何处地址的分组头。到达接收端后，再去掉分组头将各数据字段按顺序连接起来。</p>
+<h4 id="2-路由器是一个计算机这种计算机与通用计算机例如pc机或笔记本的共同点和区别在哪里"><a class="markdownIt-Anchor" href="#2-路由器是一个计算机这种计算机与通用计算机例如pc机或笔记本的共同点和区别在哪里"></a> 2. 路由器是一个计算机，这种计算机与通用计算机（例如，PC机或笔记本）的共同点和区别在哪里？</h4>
+<p>​		路由器与通用计算机的结构相同</p>
+<p>​		路由器主要用来传输数据，基本不需要浮点运算</p>
+<p>​		计算机主要用来做数据存储运算</p>
+<h4 id="3回顾第4章如何开发路由器上的软件"><a class="markdownIt-Anchor" href="#3回顾第4章如何开发路由器上的软件"></a> 3.回顾第4章如何开发路由器上的软件？</h4>
+<p>​		以瀑布式开发为例：</p>
+<p>​				进行需求分析（如需要降低路由器的时延）-&gt; 设计（编写软件设计文档、数据库设计说明等）-&gt; 编程（通过优化算法实现时延的降低） -&gt; 测试（将路由器小规模投入使用，并分析收集到的数据） -&gt;运行和维护(大范围推广，并持续维护)</p>
 ]]></content>
       <categories>
         <category>软工导论</category>
