@@ -50,28 +50,34 @@
   };
 </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;index.html">
+  <meta name="description" content="第四章 基于对象的编程  4.1 Class  4.1.1 定义  声明 + 主体  123456calss Stack &amp;#123;public:    &#x2F;&#x2F; ...public接口private:	&#x2F;&#x2F; ...private的实现部分    &amp;#125;;  public member可以在程序的任何地方被访问 private member只能在member function 或是 frie">
+<meta name="keywords" content="Essential c++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四章 基于对象的编程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;28&#x2F;%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E7%A8%8B&#x2F;index.html">
 <meta property="og:site_name" content="blog">
+<meta property="og:description" content="第四章 基于对象的编程  4.1 Class  4.1.1 定义  声明 + 主体  123456calss Stack &amp;#123;public:    &#x2F;&#x2F; ...public接口private:	&#x2F;&#x2F; ...private的实现部分    &amp;#125;;  public member可以在程序的任何地方被访问 private member只能在member function 或是 frie">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;28&#x2F;ZyA7oWnCdLfavci.png">
+<meta property="og:updated_time" content="2019-12-28T07:42:35.253Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2019&#x2F;12&#x2F;28&#x2F;ZyA7oWnCdLfavci.png">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2019/12/28/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E7%A8%8B/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>blog</title>
+  <title>第四章 基于对象的编程 | blog</title>
   
 
 
@@ -198,10 +204,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/28/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -215,8 +221,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/28/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">第四章 基于对象的编程</a>
+          第四章 基于对象的编程
         </h1>
 
         <div class="post-meta">
@@ -264,7 +269,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="第四章-基于对象的编程"><a class="markdownIt-Anchor" href="#第四章-基于对象的编程"></a> 第四章 基于对象的编程</h2>
+        <h2 id="第四章-基于对象的编程"><a class="markdownIt-Anchor" href="#第四章-基于对象的编程"></a> 第四章 基于对象的编程</h2>
 <h3 id="41-class"><a class="markdownIt-Anchor" href="#41-class"></a> 4.1 Class</h3>
 <h4 id="411-定义"><a class="markdownIt-Anchor" href="#411-定义"></a> 4.1.1 定义</h4>
 <ol>
@@ -401,595 +406,39 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (num_sequence::*pm)(<span class="keyword">int</span>) = <span class="number">0</span>;</span><br><span class="line"><span class="comment">//将pm声明为一个指针，指向num_sequence的member function。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//可以通过typedef简化</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(num_sequence::*PtrType)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">PtrType pm = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(num_sequence::*PtrType)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// _pmf可指向下列任何一个函数</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pell</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">lucas</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">triangular</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sequare</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pentagonal</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    PtrType _pmf;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;* _elem;		<span class="comment">// 指向目前所用的vector</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">int</span> num_seq = <span class="number">7</span>;</span><br><span class="line">    <span class="keyword">static</span> PtrType func_tbl[num_seq];	<span class="comment">// 六个member function的地址</span></span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">vector</span>&lt; <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; seq;	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> num_sequence::num_seq;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &gt; num_sequence::seq(num_seq);</span><br><span class="line"></span><br><span class="line">num_sequence::PtrType</span><br><span class="line">    num_sequence::func_tbl[num_seq] = </span><br><span class="line">	&#123;	<span class="number">0</span>,</span><br><span class="line">     	&amp;num_sequence::fibonacci,</span><br><span class="line">     	&amp;num_sequence::pell,</span><br><span class="line">     	&amp;num_sequence::lucas,</span><br><span class="line">     	&amp;num_sequence::triangular,</span><br><span class="line">     	&amp;num_sequence::sequare,</span><br><span class="line">     	&amp;num_sequence::pentagonal</span><br><span class="line">	&#125;;</span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Essential-c/" rel="tag"># Essential c++</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/" class="post-title-link" itemprop="url">第七章 数字音视频与图形</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-19 15:07:37 / 修改时间：15:23:24" itemprop="dateCreated datePublished" datetime="2019-12-19T15:07:37+08:00">2019-12-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
-                    <span itemprop="name">软工导论</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第七章-数字音视频与图形"><a class="markdownIt-Anchor" href="#第七章-数字音视频与图形"></a> 第七章 数字音视频与图形</h2>
-<h3 id="71-数字音频"><a class="markdownIt-Anchor" href="#71-数字音频"></a> 7.1 数字音频</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/19/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/" rel="next" title="第七章 数字音视频与图形">
+                  <i class="fa fa-chevron-left"></i> 第七章 数字音视频与图形
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+            <span class="post-nav-divider"></span>
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/19/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/" class="post-title-link" itemprop="url">第六章 从数据管理到Web和信息通信</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-12-19 15:06:10 / 修改时间：15:17:46" itemprop="dateCreated datePublished" datetime="2019-12-19T15:06:10+08:00">2019-12-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
-                    <span itemprop="name">软工导论</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第六章-从数据管理到web和信息通信"><a class="markdownIt-Anchor" href="#第六章-从数据管理到web和信息通信"></a> 第六章 从数据管理到Web和信息通信</h2>
-<h3 id="61-数据结构化数据库"><a class="markdownIt-Anchor" href="#61-数据结构化数据库"></a> 6.1 数据结构化数据库</h3>
-<h4 id="611-数据存储的结构化"><a class="markdownIt-Anchor" href="#611-数据存储的结构化"></a> 6.1.1 数据存储的结构化</h4>
-<ul>
-<li>节约空间</li>
-<li>便于计算机查询</li>
-<li>便于删除、修改、增添信息</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/19/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
+            <div class="post-nav-prev post-nav-item">
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+          </div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/16/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/16/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/" class="post-title-link" itemprop="url">第三章 泛型编程风格</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-12-16 10:45:05" itemprop="dateCreated datePublished" datetime="2019-12-16T10:45:05+08:00">2019-12-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-21 17:43:34" itemprop="dateModified" datetime="2019-12-21T17:43:34+08:00">2019-12-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C++</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>5.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>5 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="第三章-泛型编程风格"><a class="markdownIt-Anchor" href="#第三章-泛型编程风格"></a> 第三章 泛型编程风格</h2>
-<h3 id="34顺序性容器"><a class="markdownIt-Anchor" href="#34顺序性容器"></a> 3.4顺序性容器</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/16/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/24/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/24/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/" class="post-title-link" itemprop="url">第一章 绪论</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-24 23:39:28" itemprop="dateCreated datePublished" datetime="2019-11-24T23:39:28+08:00">2019-11-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-29 15:54:33" itemprop="dateModified" datetime="2019-11-29T15:54:33+08:00">2019-11-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>973</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="11-计算"><a class="markdownIt-Anchor" href="#11-计算"></a> 1.1 计算</h3>
-<h3 id="12-计算模型"><a class="markdownIt-Anchor" href="#12-计算模型"></a> 1.2 计算模型</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/24/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/" class="post-title-link" itemprop="url">Chapter 1 - A Tutorial Introduction</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-11-18 10:43:11" itemprop="dateCreated datePublished" datetime="2019-11-18T10:43:11+08:00">2019-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-09 22:42:10" itemprop="dateModified" datetime="2019-12-09T22:42:10+08:00">2019-12-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>3.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>3 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="11-getting-started"><a class="markdownIt-Anchor" href="#11-getting-started"></a> 1.1 Getting Started</h3>
-<ul>
-<li>C consists of functions and variables</li>
-<li>every program must have a main</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/18/Chapter%201%20-%20A%20Tutorial%20Introduction/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/17/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Jaron">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/17/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/" class="post-title-link" itemprop="url">第五章 数据通信网络与软件</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2019-11-17 10:04:33 / 修改时间：11:47:53" itemprop="dateCreated datePublished" datetime="2019-11-17T10:04:33+08:00">2019-11-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
-                    <span itemprop="name">软工导论</span>
-                  </a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-              <span>1.7k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="51-数字化通讯与编码"><a class="markdownIt-Anchor" href="#51-数字化通讯与编码"></a> 5.1 数字化通讯与编码</h3>
-<h4 id="511电报-电传与ascii码"><a class="markdownIt-Anchor" href="#511电报-电传与ascii码"></a> 5.1.1电报、电传与ASCⅡ码</h4>
-<h4 id="512-汉字编码与unicode"><a class="markdownIt-Anchor" href="#512-汉字编码与unicode"></a> 5.1.2 汉字编码与Unicode</h4>
-<ul>
-<li>双字节汉字码</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/17/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
   
 
   </div>
-
-  
-
 
 
           </div>
@@ -1018,6 +467,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第四章-基于对象的编程"><span class="nav-text"> 第四章 基于对象的编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#41-class"><span class="nav-text"> 4.1 Class</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#411-定义"><span class="nav-text"> 4.1.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#412-class-scope-resolution"><span class="nav-text"> 4.1.2 class scope resolution</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-构造函数和析构函数"><span class="nav-text"> 4.2 构造函数和析构函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#421-构造函数"><span class="nav-text"> 4.2.1 构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#422-member-initialization-list"><span class="nav-text"> 4.2.2 Member Initialization List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#423-析构函数"><span class="nav-text"> 4.2.3 析构函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#424-memberwise-initialization"><span class="nav-text"> 4.2.4 Memberwise Initialization</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#43-mutable-和-const"><span class="nav-text"> 4.3 mutable 和 const</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#431-const"><span class="nav-text"> 4.3.1 const</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#432-mutable-data-member"><span class="nav-text"> 4.3.2 mutable Data Member</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#44-this-指针"><span class="nav-text"> 4.4 this 指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#45-静态类成员"><span class="nav-text"> 4.5 静态类成员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#46-iterator-class"><span class="nav-text"> 4.6 Iterator Class</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#461-运算符函数"><span class="nav-text"> 4.6.1 运算符函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#462-嵌套类型nested-type"><span class="nav-text"> 4.6.2 嵌套类型(Nested Type)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#47-friendship"><span class="nav-text"> 4.7 Friendship</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#48-copy-assignment-operator"><span class="nav-text"> 4.8 copy assignment operator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#49-function-object"><span class="nav-text"> 4.9 function object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#410-重载iostream-运算符"><span class="nav-text"> 4.10 重载iostream 运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#411-指向class-member-function-的指针"><span class="nav-text"> 4.11 指向Class Member Function 的指针</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1147,54 +597,6 @@
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
