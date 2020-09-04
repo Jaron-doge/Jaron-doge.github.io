@@ -50,15 +50,15 @@
   };
 </script>
 
-  <meta name="description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式 1234string s1;				&#x2F;&#x2F; s1是空串string s2(s1);			&#x2F;&#x2F; s2是s1的副本string s2 = s1;			&#x2F;&#x2F; 等价于s2(s1)string s3(n, &amp;apos;c&amp;apos;);		&#x2F;&#x2F; 把s3初始化为由连续n个字符c组成的串  3.2.2 string">
+  <meta name="description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式">
 <meta name="keywords" content="C++ Primer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第二章 变量和基本类型">
+<meta property="og:title" content="第三章 字符串、向量和数组">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;04&#x2F;Chapter%203%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式 1234string s1;				&#x2F;&#x2F; s1是空串string s2(s1);			&#x2F;&#x2F; s2是s1的副本string s2 = s1;			&#x2F;&#x2F; 等价于s2(s1)string s3(n, &amp;apos;c&amp;apos;);		&#x2F;&#x2F; 把s3初始化为由连续n个字符c组成的串  3.2.2 string">
+<meta property="og:description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-04T08:48:30.955Z">
+<meta property="og:updated_time" content="2020-09-04T08:56:11.023Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/09/04/Chapter%203%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>第二章 变量和基本类型 | blog</title>
+  <title>第三章 字符串、向量和数组 | blog</title>
   
 
 
@@ -219,7 +219,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          第二章 变量和基本类型
+          第三章 字符串、向量和数组
         </h1>
 
         <div class="post-meta">
@@ -230,7 +230,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-04 16:45:06 / 修改时间：16:48:30" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:06+08:00">2020-09-04</time>
+              <time title="创建时间：2020-09-04 16:45:06 / 修改时间：16:56:11" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:06+08:00">2020-09-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -271,6 +271,7 @@
 <h3 id="31-命名空间的using声明"><a class="markdownIt-Anchor" href="#31-命名空间的using声明"></a> 3.1 命名空间的using声明</h3>
 <h3 id="32-string"><a class="markdownIt-Anchor" href="#32-string"></a> 3.2 string</h3>
 <h4 id="321-四种初始化方式"><a class="markdownIt-Anchor" href="#321-四种初始化方式"></a> 3.2.1 四种初始化方式</h4>
+<a id="more"></a>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1;				<span class="comment">// s1是空串</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s2</span><span class="params">(s1)</span></span>;			<span class="comment">// s2是s1的副本</span></span><br><span class="line"><span class="built_in">string</span> s2 = s1;			<span class="comment">// 等价于s2(s1)</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s3</span><span class="params">(n, <span class="string">'c'</span>)</span></span>;		<span class="comment">// 把s3初始化为由连续n个字符c组成的串</span></span><br></pre></td></tr></table></figure>
 <h4 id="322-string对象上的操作"><a class="markdownIt-Anchor" href="#322-string对象上的操作"></a> 3.2.2 string对象上的操作</h4>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os&lt;&lt;s;				<span class="comment">// 将s写到os中，返回os</span></span><br><span class="line">is&gt;&gt;s;				<span class="comment">// 从is中读取字符串给s，返回is</span></span><br><span class="line">getline(is, s);		<span class="comment">// 从is中读取一行给s，返回is</span></span><br><span class="line">s.empty();			<span class="comment">// s为空返回true</span></span><br><span class="line">s.<span class="built_in">size</span>();			<span class="comment">// 返回s中字符的个数</span></span><br><span class="line">s[n];				<span class="comment">// 返回s中第n个字符的引用</span></span><br><span class="line">s1 + s2;			<span class="comment">// 返回s1和s2连接后的结果</span></span><br><span class="line">s1 = s2;			<span class="comment">// 用s2的副本代替s1中原来的字符</span></span><br><span class="line">s1 == s2;			<span class="comment">// 如果s1和s2中所含的字符完全一样，则相等</span></span><br><span class="line">s1 != s2;			</span><br><span class="line">&lt;. &lt;=, &gt;, &gt;=;</span><br></pre></td></tr></table></figure>
@@ -358,16 +359,16 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/09/04/Chapter%202%20%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/" rel="next" title="第二章 变量和基本类型">
-                  <i class="fa fa-chevron-left"></i> 第二章 变量和基本类型
+                <a href="/2020/09/04/Chapter%205%20%E8%AF%AD%E5%8F%A5/" rel="next" title="第五章 语句">
+                  <i class="fa fa-chevron-left"></i> 第五章 语句
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/09/04/Chapter%2016%20%E6%A8%A1%E6%9D%BF%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" rel="prev" title="第二章 变量和基本类型">
-                  第二章 变量和基本类型 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/09/04/Chapter%2014%20%E9%87%8D%E8%BD%BD%E8%BF%90%E7%AE%97%E4%B8%8E%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" rel="prev" title="第十四章 重载运算与类型转换">
+                  第十四章 重载运算与类型转换 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
