@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第三章 列表</title>
+    <url>/2020/09/09/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%88%97%E8%A1%A8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-列表"><a href="#第三章-列表" class="headerlink" title="第三章 列表"></a>第三章 列表</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> List::insertionSort (ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; n; r++) &#123;</span><br><span class="line">        insertAfter(search(p-&gt;data, r, p), p-&gt;data);</span><br><span class="line">        p = p-&gt;succ; </span><br><span class="line">        <span class="built_in">remove</span>(p-&gt;pred);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> List::selectionSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* head = p-&gt;pred;</span><br><span class="line">    ListNode* tail = p-&gt;succ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        tail = tail-&gt;succ;</span><br><span class="line">    <span class="keyword">while</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        ListNode* <span class="built_in">max</span> = selectMax(head-&gt;succ, n);</span><br><span class="line">        insertBefore(tail, <span class="built_in">remove</span>(<span class="built_in">max</span>));</span><br><span class="line">        tail = tail-&gt;pred;</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> List::mergeSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    ListNode* q = p;</span><br><span class="line">    <span class="keyword">int</span> m = n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)		<span class="comment">// 均分</span></span><br><span class="line">        q = q-&gt;succ;</span><br><span class="line">    mergeSort(p, m);				<span class="comment">// 对前后子列表分别排序</span></span><br><span class="line">    mergeSort(q, n-m);</span><br><span class="line">    merge(p, m, *<span class="keyword">this</span>, q, n-m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> List::merge(ListNode* p, <span class="keyword">int</span> n,List L,ListNode* q,<span class="keyword">int</span> m)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* pp = p-&gt;pred;</span><br><span class="line">    <span class="keyword">while</span>(m &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span>(n &gt; <span class="number">0</span> &amp;&amp; p-&gt;data &lt;= q-&gt;data) &#123;</span><br><span class="line">            <span class="keyword">if</span>(q == (p = p-&gt;succ))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            n--;</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="keyword">else</span> &#123;</span><br><span class="line">            insertBefore(p, L.<span class="built_in">remove</span>((q = q-&gt;succ)-&gt;pred));</span><br><span class="line">            m--;</span><br><span class="line">        &#125;</span><br><span class="line">    p = pp-&gt;succ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>第二章 向量</title>
+    <url>/2020/09/09/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%90%91%E9%87%8F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第二章-向量"><a href="#第二章-向量" class="headerlink" title="第二章 向量"></a>第二章 向量</h2><h3 id="比较树"><a href="#比较树" class="headerlink" title="比较树"></a>比较树</h3><a id="more"></a>
+<h4 id="性质："><a href="#性质：" class="headerlink" title="性质："></a>性质：</h4><ul>
+<li>每一内部节点各对应于一次比对操作</li>
+<li>内部节点的左、右分支，分别对应于在两种比对结果下的执行方向</li>
+<li>叶节点对应于算法某次执行的完整过程及输出</li>
+<li>算法的每一运行过程都对应于从根到某一叶节点的路径</li>
+</ul>
+<p>可以这么描述的算法被称作<strong>基于比较式算法 CBA(comparision-based algorithm)</strong></p>
+<h4 id="最小树高"><a href="#最小树高" class="headerlink" title="最小树高"></a>最小树高</h4><p>​        叶节点到根节点的距离称作叶结点的深度，最大深度为树的高度，最小树高即为最佳CBA算法</p>
+<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>​        二叉树：高度为h，叶节点数目≥2^h^；输出为n，树高大于log~2~N</p>
+<p>​        三叉树：输出为n，树高大于log~3~N</p>
+<h3 id="二路归并算法"><a href="#二路归并算法" class="headerlink" title="二路归并算法"></a>二路归并算法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::merge(T lo, T mi, T hi) &#123;</span><br><span class="line">    T* A = _elem + lo;</span><br><span class="line">    <span class="keyword">int</span> lb = mi - lo;	T* B = <span class="keyword">new</span> T[lb];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lb; B[i] = A[i++]);</span><br><span class="line">    <span class="keyword">int</span> lc = hi - mi; T* C = _elem + mi;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;(j &lt; lb) || (k &lt; lc); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;lb) &amp;&amp; (!(k&lt;lc) || (B[j]&lt;=C[k])) A[i++]=B[j++];</span><br><span class="line">    	<span class="keyword">if</span>(k&lt;lc) &amp;&amp; (!(j&lt;lb) || (C[k]&lt; B[j])) A[i++]=C[k++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> [] B;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序算法"><a href="#归并排序算法" class="headerlink" title="归并排序算法"></a>归并排序算法</h3><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::mergeSort(<span class="keyword">int</span> lo, <span class="keyword">int</span> hi) &#123;</span><br><span class="line">    <span class="keyword">if</span>(hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    mergeSort(lo, mi); mergeSort(mi, hi);</span><br><span class="line">    merge(lo, mi, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
+<li><p>稳定算法(stable algorithm)：重复元素之间的相对次序在排序前后保持一致，起泡排序属于稳定算法</p>
+</li>
+<li><p>线性（时间）归约(linear-time reduction)</p>
+<ul>
+<li>问题A的任一输入都可在线性时间内转换为B的输入</li>
+<li>问题B的任一输出都可在线性时间内转换为A的输出</li>
+</ul>
+<p>|B| ≥ |A| = Ω( f(n) ) </p>
+<p>例：</p>
+<p>​    问题A：对于任意n个实数，判定其中是否有重复者</p>
+<p>​    问题B：无序向量唯一化</p>
+<p>解：在线性时间内</p>
+<p>​    A输入：n个实数—&gt;B输入：无序向量—&gt;B输出：去重向量—&gt;A输出：规模仍为n</p>
+</li>
+<li><p>马鞍查找</p>
+<p>整数矩阵的任何一行(列)都严格递增，找出并报告所有值为x的元素</p>
+<p>减而治之：</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">saddleback <span class="title">search</span><span class="params">(<span class="keyword">int</span> A[n][n], <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = binSearch(A[<span class="number">0</span>][], x);		<span class="comment">// O(logn)</span></span><br><span class="line">    <span class="keyword">while</span>((i &lt; n) &amp;&amp; (<span class="number">-1</span> &lt; j)) &#123;		<span class="comment">// O(s + r)</span></span><br><span class="line">        <span class="keyword">if</span>(A[i][j] &lt; x) i++;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; A[i][j]) j--;</span><br><span class="line">        <span class="keyword">else</span> &#123; report(A[i][j]); i++; j--;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第十六章 模板与泛型编程</title>
     <url>/2020/09/04/Chapter%2016%20%E6%A8%A1%E6%9D%BF%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十六章-模板与泛型编程"><a href="#第十六章-模板与泛型编程" class="headerlink" title="第十六章 模板与泛型编程"></a>第十六章 模板与泛型编程</h2><h3 id="16-1-定义模板"><a href="#16-1-定义模板" class="headerlink" title="16.1 定义模板"></a>16.1 定义模板</h3><h4 id="16-1-1-函数模板"><a href="#16-1-1-函数模板" class="headerlink" title="16.1.1 函数模板"></a>16.1.1 函数模板</h4><ul>
