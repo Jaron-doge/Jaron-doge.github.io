@@ -50,13 +50,13 @@
   };
 </script>
 
-  <meta name="description" content="第二章 向量比较树">
+  <meta name="description" content="第二章 向量  比较树">
 <meta name="keywords" content="排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第二章 向量">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;09&#x2F;%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%90%91%E9%87%8F&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="第二章 向量比较树">
+<meta property="og:description" content="第二章 向量  比较树">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-09-09T00:58:05.644Z">
 <meta name="twitter:card" content="summary">
@@ -267,35 +267,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="第二章-向量"><a href="#第二章-向量" class="headerlink" title="第二章 向量"></a>第二章 向量</h2><h3 id="比较树"><a href="#比较树" class="headerlink" title="比较树"></a>比较树</h3><a id="more"></a>
-<h4 id="性质："><a href="#性质：" class="headerlink" title="性质："></a>性质：</h4><ul>
+        <h2 id="第二章-向量"><a class="markdownIt-Anchor" href="#第二章-向量"></a> 第二章 向量</h2>
+<h3 id="比较树"><a class="markdownIt-Anchor" href="#比较树"></a> 比较树</h3>
+<a id="more"></a>
+<h4 id="性质"><a class="markdownIt-Anchor" href="#性质"></a> 性质：</h4>
+<ul>
 <li>每一内部节点各对应于一次比对操作</li>
 <li>内部节点的左、右分支，分别对应于在两种比对结果下的执行方向</li>
 <li>叶节点对应于算法某次执行的完整过程及输出</li>
 <li>算法的每一运行过程都对应于从根到某一叶节点的路径</li>
 </ul>
 <p>可以这么描述的算法被称作<strong>基于比较式算法 CBA(comparision-based algorithm)</strong></p>
-<h4 id="最小树高"><a href="#最小树高" class="headerlink" title="最小树高"></a>最小树高</h4><p>​        叶节点到根节点的距离称作叶结点的深度，最大深度为树的高度，最小树高即为最佳CBA算法</p>
-<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>​        二叉树：高度为h，叶节点数目≥2^h^；输出为n，树高大于log~2~N</p>
-<p>​        三叉树：输出为n，树高大于log~3~N</p>
-<h3 id="二路归并算法"><a href="#二路归并算法" class="headerlink" title="二路归并算法"></a>二路归并算法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::merge(T lo, T mi, T hi) &#123;</span><br><span class="line">    T* A = _elem + lo;</span><br><span class="line">    <span class="keyword">int</span> lb = mi - lo;	T* B = <span class="keyword">new</span> T[lb];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lb; B[i] = A[i++]);</span><br><span class="line">    <span class="keyword">int</span> lc = hi - mi; T* C = _elem + mi;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;(j &lt; lb) || (k &lt; lc); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;lb) &amp;&amp; (!(k&lt;lc) || (B[j]&lt;=C[k])) A[i++]=B[j++];</span><br><span class="line">    	<span class="keyword">if</span>(k&lt;lc) &amp;&amp; (!(j&lt;lb) || (C[k]&lt; B[j])) A[i++]=C[k++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> [] B;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="归并排序算法"><a href="#归并排序算法" class="headerlink" title="归并排序算法"></a>归并排序算法</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::mergeSort(<span class="keyword">int</span> lo, <span class="keyword">int</span> hi) &#123;</span><br><span class="line">    <span class="keyword">if</span>(hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    mergeSort(lo, mi); mergeSort(mi, hi);</span><br><span class="line">    merge(lo, mi, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol>
-<li><p>稳定算法(stable algorithm)：重复元素之间的相对次序在排序前后保持一致，起泡排序属于稳定算法</p>
+<h4 id="最小树高"><a class="markdownIt-Anchor" href="#最小树高"></a> 最小树高</h4>
+<p>​		叶节点到根节点的距离称作叶结点的深度，最大深度为树的高度，最小树高即为最佳CBA算法</p>
+<h4 id="计算"><a class="markdownIt-Anchor" href="#计算"></a> 计算</h4>
+<p>​		二叉树：高度为h，叶节点数目≥2<sup>h</sup>；输出为n，树高大于log<sub>2</sub>N</p>
+<p>​		三叉树：输出为n，树高大于log<sub>3</sub>N</p>
+<h3 id="二路归并算法"><a class="markdownIt-Anchor" href="#二路归并算法"></a> 二路归并算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::merge(T lo, T mi, T hi) &#123;</span><br><span class="line">    T* A = _elem + lo;</span><br><span class="line">    <span class="keyword">int</span> lb = mi - lo;	T* B = <span class="keyword">new</span> T[lb];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lb; B[i] = A[i++]);</span><br><span class="line">    <span class="keyword">int</span> lc = hi - mi; T* C = _elem + mi;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;(j &lt; lb) || (k &lt; lc); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;lb) &amp;&amp; (!(k&lt;lc) || (B[j]&lt;=C[k])) A[i++]=B[j++];</span><br><span class="line">    	<span class="keyword">if</span>(k&lt;lc) &amp;&amp; (!(j&lt;lb) || (C[k]&lt; B[j])) A[i++]=C[k++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> [] B;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序算法"><a class="markdownIt-Anchor" href="#归并排序算法"></a> 归并排序算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::mergeSort(<span class="keyword">int</span> lo, <span class="keyword">int</span> hi) &#123;</span><br><span class="line">    <span class="keyword">if</span>(hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    mergeSort(lo, mi); mergeSort(mi, hi);</span><br><span class="line">    merge(lo, mi, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
+<ol>
+<li>
+<p>稳定算法(stable algorithm)：重复元素之间的相对次序在排序前后保持一致，起泡排序属于稳定算法</p>
 </li>
-<li><p>线性（时间）归约(linear-time reduction)</p>
+<li>
+<p>线性（时间）归约(linear-time reduction)</p>
 <ul>
 <li>问题A的任一输入都可在线性时间内转换为B的输入</li>
 <li>问题B的任一输出都可在线性时间内转换为A的输出</li>
 </ul>
-<p>|B| ≥ |A| = Ω( f(n) ) </p>
+<p>|B| ≥ |A| = Ω( f(n) )</p>
 <p>例：</p>
-<p>​    问题A：对于任意n个实数，判定其中是否有重复者</p>
-<p>​    问题B：无序向量唯一化</p>
+<p>​	问题A：对于任意n个实数，判定其中是否有重复者</p>
+<p>​	问题B：无序向量唯一化</p>
 <p>解：在线性时间内</p>
-<p>​    A输入：n个实数—&gt;B输入：无序向量—&gt;B输出：去重向量—&gt;A输出：规模仍为n</p>
+<p>​	A输入：n个实数—&gt;B输入：无序向量—&gt;B输出：去重向量—&gt;A输出：规模仍为n</p>
 </li>
-<li><p>马鞍查找</p>
+<li>
+<p>马鞍查找</p>
 <p>整数矩阵的任何一行(列)都严格递增，找出并报告所有值为x的元素</p>
 <p>减而治之：</p>
 </li>
@@ -366,7 +377,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-向量"><span class="nav-text">第二章 向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较树"><span class="nav-text">比较树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#性质："><span class="nav-text">性质：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小树高"><span class="nav-text">最小树高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算"><span class="nav-text">计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二路归并算法"><span class="nav-text">二路归并算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序算法"><span class="nav-text">归并排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-text">概念</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-向量"><span class="nav-text"> 第二章 向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较树"><span class="nav-text"> 比较树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#性质"><span class="nav-text"> 性质：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小树高"><span class="nav-text"> 最小树高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算"><span class="nav-text"> 计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二路归并算法"><span class="nav-text"> 二路归并算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序算法"><span class="nav-text"> 归并排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-text"> 概念</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -382,14 +393,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -433,12 +444,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">132k</span>
+    <span title="站点总字数">137k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:01</span>
+    <span title="站点阅读时长">2:04</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
