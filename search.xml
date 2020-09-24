@@ -71,8 +71,8 @@
 <p>不应该有：操作系统是一个控制程序执行，以防止错误和错误使用计算机和控制IO设备操作的控制程序，而网页浏览器和邮箱并没有这样的功能。</p>
 <p>应该有：操作系统是管理计算机硬件、为应用程序提供基础、作为用户和计算机硬件的中介程序，网页浏览器和邮箱是基础的应用程序，可以方便用户的使用，可以提供。</p>
 <p><strong>1.5</strong> How does the distinction between kernel mode and user mode function as a rudimentary form of protection (security) system?</p>
-<pre><code>     把重要的指令设置为只有Kernel Mode时才可调用，只给User Mode较少的权限，可以提高系统安全性。
-</code></pre><p><strong>1.6</strong> Which of the following instructions should be privileged?<br>        a. Set value of timer. (Kernel Mode)<br>        b. Read the clock. (User Mode)<br>        c. Clear memory. (Kernel Mode)<br>        d. Issue a trap instruction. (User Mode)<br>        e. Turn off interrupts. (Kernel Mode)<br>        f. Modify entries in device-status table. (Kernel Mode)<br>        g. Switch from user to kernel mode. (User Mode)<br>        h. Access I/O device. (Kernel Mode)</p>
+<p>​        把重要的指令设置为只有Kernel Mode时才可调用，只给User Mode较少的权限，可以提高系统安全性。</p>
+<p><strong>1.6</strong> Which of the following instructions should be privileged?<br>        a. Set value of timer. (Kernel Mode)<br>        b. Read the clock. (User Mode)<br>        c. Clear memory. (Kernel Mode)<br>        d. Issue a trap instruction. (User Mode)<br>        e. Turn off interrupts. (Kernel Mode)<br>        f. Modify entries in device-status table. (Kernel Mode)<br>        g. Switch from user to kernel mode. (User Mode)<br>        h. Access I/O device. (Kernel Mode)</p>
 <p><strong>1.7</strong> Some early computers protected the operating system by placing it in a memory partition that could not be modified by either the user job or the operating system itself. Describe two difficulties that you think could arise with such a scheme.</p>
 <p>① 操作系统无法更新、出错时也无法修改</p>
 <p>② 用户的数据无法存储在被保护的内存中，有安全隐患</p>

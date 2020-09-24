@@ -57,7 +57,7 @@
 <meta property="og:site_name" content="blog">
 <meta property="og:description" content="第1章 导论操作系统什么是操作系统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-24T02:31:19.626Z">
+<meta property="og:updated_time" content="2020-09-24T02:32:55.403Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/09/24/%E7%AC%AC1%E7%AB%A0%20%E5%AF%BC%E8%AE%BA/">
@@ -229,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-24 20:30:15 / 修改时间：10:31:19" itemprop="dateCreated datePublished" datetime="2020-09-24T20:30:15+08:00">2020-09-24</time>
+              <time title="创建时间：2020-09-24 20:30:15 / 修改时间：10:32:55" itemprop="dateCreated datePublished" datetime="2020-09-24T20:30:15+08:00">2020-09-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -334,8 +334,8 @@
 <p>不应该有：操作系统是一个控制程序执行，以防止错误和错误使用计算机和控制IO设备操作的控制程序，而网页浏览器和邮箱并没有这样的功能。</p>
 <p>应该有：操作系统是管理计算机硬件、为应用程序提供基础、作为用户和计算机硬件的中介程序，网页浏览器和邮箱是基础的应用程序，可以方便用户的使用，可以提供。</p>
 <p><strong>1.5</strong> How does the distinction between kernel mode and user mode function as a rudimentary form of protection (security) system?</p>
-<pre><code>     把重要的指令设置为只有Kernel Mode时才可调用，只给User Mode较少的权限，可以提高系统安全性。
-</code></pre><p><strong>1.6</strong> Which of the following instructions should be privileged?<br>        a. Set value of timer. (Kernel Mode)<br>        b. Read the clock. (User Mode)<br>        c. Clear memory. (Kernel Mode)<br>        d. Issue a trap instruction. (User Mode)<br>        e. Turn off interrupts. (Kernel Mode)<br>        f. Modify entries in device-status table. (Kernel Mode)<br>        g. Switch from user to kernel mode. (User Mode)<br>        h. Access I/O device. (Kernel Mode)</p>
+<p>​        把重要的指令设置为只有Kernel Mode时才可调用，只给User Mode较少的权限，可以提高系统安全性。</p>
+<p><strong>1.6</strong> Which of the following instructions should be privileged?<br>        a. Set value of timer. (Kernel Mode)<br>        b. Read the clock. (User Mode)<br>        c. Clear memory. (Kernel Mode)<br>        d. Issue a trap instruction. (User Mode)<br>        e. Turn off interrupts. (Kernel Mode)<br>        f. Modify entries in device-status table. (Kernel Mode)<br>        g. Switch from user to kernel mode. (User Mode)<br>        h. Access I/O device. (Kernel Mode)</p>
 <p><strong>1.7</strong> Some early computers protected the operating system by placing it in a memory partition that could not be modified by either the user job or the operating system itself. Describe two difficulties that you think could arise with such a scheme.</p>
 <p>① 操作系统无法更新、出错时也无法修改</p>
 <p>② 用户的数据无法存储在被保护的内存中，有安全隐患</p>
