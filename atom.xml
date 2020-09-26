@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-09-24T02:32:55.403Z</updated>
+  <updated>2020-09-26T04:24:52.762Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第1章 导论</title>
+    <link href="http://yoursite.com/2020/09/26/%E7%AC%AC2%E7%AB%A0%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/"/>
+    <id>http://yoursite.com/2020/09/26/%E7%AC%AC2%E7%AB%A0%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</id>
+    <published>2020-09-26T12:30:15.000Z</published>
+    <updated>2020-09-26T04:24:52.762Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第2章-操作系统结构"><a href="#第2章-操作系统结构" class="headerlink" title="第2章 操作系统结构"></a>第2章 操作系统结构</h2><h3 id="系统组件"><a href="#系统组件" class="headerlink" title="系统组件"></a>系统组件</h3><h4 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h4><a id="more"></a><ul><li>创建/销毁流程</li><li>进程状态转移</li></ul><h4 id="主存管理"><a href="#主存管理" class="headerlink" title="主存管理"></a>主存管理</h4><ul><li>CPU和I / O设备共享的快速访问数据的存储库</li><li>易失性存储设备</li><li>跟踪内存使用情况</li><li>确定何时有可用的内存空间来加载哪些进程</li><li>分配和释放内存空间</li></ul><h4 id="I-O-系统管理"><a href="#I-O-系统管理" class="headerlink" title="I/O 系统管理"></a>I/O 系统管理</h4><p>由缓冲，缓存和假脱机、通用设备驱动程序接口、特定硬件设备的驱动程序组成</p><h4 id="文件管理系统"><a href="#文件管理系统" class="headerlink" title="文件管理系统"></a>文件管理系统</h4><ul><li>将文件映射到辅助存储</li><li>稳定（非易失性）存储介质上的文件备份（备份）</li></ul><h4 id="辅存管理"><a href="#辅存管理" class="headerlink" title="辅存管理"></a>辅存管理</h4><ul><li>自由空间管理</li><li>存储分配</li><li>磁盘调度</li></ul><h4 id="保护系统"><a href="#保护系统" class="headerlink" title="保护系统"></a>保护系统</h4><ul><li>用于控制程序，进程或用户对系统和用户资源的访问的机制</li></ul><h3 id="操作系统服务"><a href="#操作系统服务" class="headerlink" title="操作系统服务"></a>操作系统服务</h3><ul><li>接口：UI、CLI、GUI</li><li>通信–进程可以在同一台计算机上或通过网络在计算机之间交换信息</li><li>错误检测–操作系统需要不断意识到可能的错误</li><li>资源分配-当多个用户或多个作业同时运行时，必须为每个用户分配资源</li><li>记帐-跟踪哪些用户使用多少计算机资源</li><li>保护和安全-存储在多用户或网络计算机系统中的信息的所有者可能希望控制该信息的使用，并发进程不应相互干扰</li></ul><h3 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h3><ul><li>操作系统提供的程序接口服务，通常由API访问，而不是直接使用系统调用</li><li>系统调用接口调用OS内核中的预期系统调用，并返回系统调用的状态和所有返回值</li></ul><p><img src="https://i.loli.net/2020/09/24/jFiYo6rxSVZsE4P.png" alt="image-20200924102332537.png"></p><h4 id="系统调用参数传递"><a href="#系统调用参数传递" class="headerlink" title="系统调用参数传递"></a>系统调用参数传递</h4><p>三种用于将参数传递给的方法</p><ul><li>在寄存器中传递参数</li><li>存储在内存的块或表中的参数，块或表的地址通过寄存器来传递</li><li>程序将参数放置或推入堆栈，然后操作系统将其弹出堆栈<ul><li>块和堆栈方法不限制要传递的参数的数量或长度</li></ul></li></ul><h4 id="系统调用的种类"><a href="#系统调用的种类" class="headerlink" title="系统调用的种类"></a>系统调用的种类</h4><ul><li>进程控制</li><li>文件管理</li><li>设备管理</li><li>信息维护</li><li>通信</li><li>保护</li></ul><h3 id="操作系统设计与实现"><a href="#操作系统设计与实现" class="headerlink" title="操作系统设计与实现"></a>操作系统设计与实现</h3><ul><li>设计操作系统的第一个问题是定义目标（target）和规格（spec）requirement（需求）</li><li>机制决定如何来做</li><li>策略决定做什么</li></ul><h3 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h3><h4 id="简单结构"><a href="#简单结构" class="headerlink" title="简单结构"></a>简单结构</h4><ul><li>没有清晰的体系结构</li><li>操作系统功能模块和用户应用程序混杂在一起，在同一个地址空间上运行，模块之间可以相互任意调用</li></ul><h4 id="单一内核结构-Monolithic-structure"><a href="#单一内核结构-Monolithic-structure" class="headerlink" title="单一内核结构(Monolithic structure)"></a>单一内核结构(Monolithic structure)</h4><ul><li>用户应用只能通过中断/异常/系统调用的方式使用操作系统提供的服务</li><li>用户应用程序之间通过各种IPC(Inter-Process Communication)进行通信</li></ul><p>缺点：难以实现和维护</p><h4 id="模块化设计-Modular-kernel"><a href="#模块化设计-Modular-kernel" class="headerlink" title="模块化设计(Modular kernel)"></a>模块化设计(Modular kernel)</h4><ul><li>模块之间定义了很好的以函数调用的形式提供的结构</li><li>在一定程度上提高了操作系统的可维护性</li></ul><p><img src="https://i.loli.net/2020/09/24/pLN6nMZwfTE4Vzr.png" alt="image-20200924111537520.png"></p><h4 id="层次结构-Layered-approach"><a href="#层次结构-Layered-approach" class="headerlink" title="层次结构(Layered approach)"></a>层次结构(Layered approach)</h4><ul><li>为减少OS各模块之间紧密依赖和相互调用的关系，特别是消除循环调用现象，实现有序调用</li><li>每个层只能使用较低层提供的操作，并向较高层提供某些操作</li><li>每个层都从较高层隐藏某些数据结构，操作和硬件的存在</li></ul><p>优点：构造和调试简单<br>缺点：适当定义各层、效率较低</p><h4 id="微内核结构-Microkernel-Structure"><a href="#微内核结构-Microkernel-Structure" class="headerlink" title="微内核结构(Microkernel Structure)"></a>微内核结构(Microkernel Structure)</h4><ul><li>较小的内核</li><li>提供最少的过程和内存管理</li></ul><p>优点：可扩展性、可移植性、安全性和可靠性</p><p>缺点：因系统功能开销增加导致的性能下降</p><h4 id="混合内核-Hybrid-structure"><a href="#混合内核-Hybrid-structure" class="headerlink" title="混合内核(Hybrid structure)"></a>混合内核(Hybrid structure)</h4><ul><li>扩大微内核并把一些关键的服务程序和驱动程序重新加入到内核中</li><li>其中一层由微内核组成的分层技术</li></ul><p><img src="https://i.loli.net/2020/09/24/69icoJ4yFnbRVO2.png" alt="image-20200924120019746.png"></p><h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3><ul><li><p>虚拟机采用层次结构得出其逻辑结论。</p><ul><li>它将硬件和OS内核视为全部硬件</li><li>虚拟机提供的接口与基础裸机相同</li></ul></li><li><p>操作系统产生了多个进程的错觉，每个进程都在具有自己（虚拟）内存的处理器上执行</p></li><li><p>共享物理计算机的资源以创建虚拟机</p></li><li><p>虚拟机管理器将单个计算机接口转换为多个虚拟机，每个虚拟机是原始计算机系统的有效副本，并执行所有处理器指令</p></li></ul><p><img src="https://i.loli.net/2020/09/24/lj3XnAK2VoO8Y6C.png" alt="image-20200924120623789.png"></p><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ol><li><p>并发</p><p>并行 vs. 并发: </p><ul><li><p>并行是指两或多个事件在同一时刻发生</p></li><li><p>并发是两或多个事件在同一时间间隔内发生</p></li></ul></li><li><p>Program vs. Process(进程)</p><p>Program：静态实体<br>Process：  动态实体</p><ul><li>A program in execution.</li><li>是系统中能独立运行并作为资源分配的基本单位。</li><li>引入线程后，独立运行的单位变为线程。</li></ul></li><li><p>共享</p><ul><li>可供内存中多个并发执行的进程共同使用的系统中资源</li><li>互斥共享VS. 同时访问<ul><li>互斥共享：一段时间只允许一个进程访问该资源</li><li>同时访问：微观上仍是互斥的</li><li>临界资源：在一段时间内只允许一个进程访问的资源</li></ul></li></ul></li><li><p>虚拟</p><ul><li>虚拟：通过某种技术把一个物理实体变为若干个逻辑上的对应物。</li><li>若n是某一物理设备所对应的虚拟的逻辑设备数，则虚拟设备的速度必然是物理设备速度的1/n。</li></ul></li></ol><h3 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h3><p><strong>2.1</strong> What is the purpose of system calls?</p><p>​        系统调用是操作系统提供的程序接口服务。系统调用是从user mode进入kernel mode的唯一方法。使用系统调用时,操作系统为正在运行的应用程序提供资源或操作</p><p><strong>2.5</strong> What is the purpose of the command interpreter? Why is it usually<br>separate from the kernel?</p><p>​        获取并执行用户指定的下一条命令。命令解释程序会执行相应的系统调用，因此如果不和kernel分离，会有可能改变kernel部分，这是不安全的。        </p><p><strong>2.8</strong> What is the main advantage of the layered approach to system design?<br>What are the disadvantages of the layered approach?</p><p>​        优点是构造和调试简单，缺点是难以适当定义各层，以及逐层调用效率较低。</p><p><strong>2.12</strong> The services and functions provided by an operating system can be<br>divided into two main categories. Briefly describe the two categories,<br>and discuss how they differ.</p><p>第一组服务用于提供用户功能，提供以下功能：</p><ul><li><p>用户界面    </p></li><li><p>程序执行</p></li><li><p>I/O操作</p></li><li>文件系统操作</li><li>通信</li><li>错误检测</li></ul><p>第二组操作系统服务为了确保系统本身运行高效，提供以下功能：</p><ul><li>资源分配</li><li>记账</li><li>保护与安全</li></ul><p><strong>2.13</strong> Describe three general methods for passing parameters to the operating<br>system.</p><ul><li>在寄存器中传递参数</li><li>存储在内存的块或表中的参数，块或表的地址通过寄存器来传递</li><li>程序将参数压入堆栈，并通过操作系统弹出</li></ul><p><strong>2.16</strong> What are the advantages and disadvantages of using the same systemcall<br>interface for manipulating both files and devices?</p><p>优点：减少接口数量，文件和设备能用一个接口调用，使操作系统更简洁。</p><p>缺点：文件和设备的相应操作不能完全对应，如果要将这些操作强行合并，那么其中之一可能要更改操作逻辑，使其与另一个操作类似。为用户调用接口时对接口实施操作的理解带来麻烦，得不偿失。</p><p><strong>2.17</strong> Would it be possible for the user to develop a new command interpreter<br>using the system-call interface provided by the operating system?</p><p>​        可以，任何用户都可以创建一个新的命令解释程序。</p><p><strong>2.19</strong> Why is the separation of mechanism and policy desirable?</p><p>​        机制与策略的分离可以使系统更灵活，更容易修改。系统设计者可以创建不变的机制和根据具体需求改变的策略。</p><p><strong>2.21</strong> What is the main advantage of the microkernel approach to system<br>design? How do user programs and system services interact in a<br>microkernel architecture? What are the disadvantages of using the<br>microkernel approach?</p><p>​        优点：可扩展性、可移植性、安全性、可靠性。微内核为用户端程序和运行在用户空间中的各种服务提供通信。通信使通过消息传递来提供的，客户程序和系统服务通过内核的消息传递来间接通信。缺点：增加了系统功能开销，导致微内核性能的下降。</p><p>​        </p><p><strong>2.22</strong> What are the advantages of using loadable kernel modules?</p><p>​        不需要将新功能的实现添加到内核中，内核提供核心服务，其他服务在内核运行时动态实现，更加灵活。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;第2章-操作系统结构&quot;&gt;&lt;a href=&quot;#第2章-操作系统结构&quot; class=&quot;headerlink&quot; title=&quot;第2章 操作系统结构&quot;&gt;&lt;/a&gt;第2章 操作系统结构&lt;/h2&gt;&lt;h3 id=&quot;系统组件&quot;&gt;&lt;a href=&quot;#系统组件&quot; class=&quot;headerlink&quot; title=&quot;系统组件&quot;&gt;&lt;/a&gt;系统组件&lt;/h3&gt;&lt;h4 id=&quot;进程管理&quot;&gt;&lt;a href=&quot;#进程管理&quot; class=&quot;headerlink&quot; title=&quot;进程管理&quot;&gt;&lt;/a&gt;进程管理&lt;/h4&gt;
+    
+    </summary>
+    
+    
+      <category term="操作系统" scheme="http://yoursite.com/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>第1章 导论</title>
@@ -512,32 +533,6 @@
 &lt;li&gt;名字的作用域是程序文本的一部分，名字在其中可见。&lt;/li&gt;
 &lt;li&gt;对象的生命周期是程序执行过程中该对象存在的一段时间。&lt;/li&gt;
 &lt;/ul&gt;
-    
-    </summary>
-    
-    
-      <category term="C++" scheme="http://yoursite.com/categories/C/"/>
-    
-    
-      <category term="C++ Primer" scheme="http://yoursite.com/tags/C-Primer/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>第五章 语句</title>
-    <link href="http://yoursite.com/2020/09/04/Chapter%205%20%E8%AF%AD%E5%8F%A5/"/>
-    <id>http://yoursite.com/2020/09/04/Chapter%205%20%E8%AF%AD%E5%8F%A5/</id>
-    <published>2020-09-04T08:45:05.000Z</published>
-    <updated>2020-09-04T09:00:57.443Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第五章-语句"><a class="markdownIt-Anchor" href="#第五章-语句"></a> 第五章 语句</h2><h3 id="51-简单语句"><a class="markdownIt-Anchor" href="#51-简单语句"></a> 5.1 简单语句</h3><h3 id="52-语句作用域"><a class="markdownIt-Anchor" href="#52-语句作用域"></a> 5.2 语句作用域</h3><h3 id="53-条件语句"><a class="markdownIt-Anchor" href="#53-条件语句"></a> 5.3 条件语句</h3><a id="more"></a><ul><li>case标签必须是整型常量表达式</li></ul><h3 id="54-迭代语句"><a class="markdownIt-Anchor" href="#54-迭代语句"></a> 5.4 迭代语句</h3><ul><li>do while的变量定义要放在外面</li></ul><h3 id="55-跳转语句"><a class="markdownIt-Anchor" href="#55-跳转语句"></a> 5.5 跳转语句</h3><ul><li>标签标识符可以和程序中的其他实体的标识符使用同一个名字</li></ul><h3 id="56-try语句块和异常处理"><a class="markdownIt-Anchor" href="#56-try语句块和异常处理"></a> 5.6 try语句块和异常处理</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    program-statements</span><br><span class="line">&#125; <span class="keyword">catch</span>(exception-declaration) &#123;</span><br><span class="line">    handler-statements</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li>try块内声明的变量在catch子句内无法访问</li></ul><h4 id="563-标准异常"><a class="markdownIt-Anchor" href="#563-标准异常"></a> 5.6.3 标准异常</h4><ul><li><p>exception头文件只报告异常的发生，不提供额外信息。</p></li><li><p>stdexcept头文件定义了几种常用的异常类</p></li><li><p>new头文件定义了bad_alloc异常类型</p></li><li><p>type_info头文件定义了bad_cast异常类型</p></li><li><p>只能以默认初始化的方式初始化exception、bad_alloc和bad_cast对象，不允许为这些对象提供初始值。</p></li><li><p>what成员函数返回异常初始值</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;第五章-语句&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#第五章-语句&quot;&gt;&lt;/a&gt; 第五章 语句&lt;/h2&gt;
-&lt;h3 id=&quot;51-简单语句&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#51-简单语句&quot;&gt;&lt;/a&gt; 5.1 简单语句&lt;/h3&gt;
-&lt;h3 id=&quot;52-语句作用域&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#52-语句作用域&quot;&gt;&lt;/a&gt; 5.2 语句作用域&lt;/h3&gt;
-&lt;h3 id=&quot;53-条件语句&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#53-条件语句&quot;&gt;&lt;/a&gt; 5.3 条件语句&lt;/h3&gt;
     
     </summary>
     
