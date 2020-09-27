@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第十章 优先级队列</title>
+    <url>/2020/09/27/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十章-优先级队列"><a class="markdownIt-Anchor" href="#第十章-优先级队列"></a> 第十章 优先级队列</h2>
+<h3 id="优先级队列"><a class="markdownIt-Anchor" href="#优先级队列"></a> 优先级队列</h3>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">PQ</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(T)</span> </span>= <span class="number">0</span>;	<span class="comment">// 按照优先级插入词条</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> T <span class="title">getMax</span><span class="params">()</span> </span>= <span class="number">0</span>;		<span class="comment">// 取出优先级最高的词条</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> T <span class="title">delMax</span><span class="params">()</span> </span>= <span class="number">0</span>;		<span class="comment">// 删除优先级最高的词条</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="完全二叉堆"><a class="markdownIt-Anchor" href="#完全二叉堆"></a> 完全二叉堆</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Parent(i) ((i - 1) &gt;&gt; 1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LChild(i) (1 + ((i) &lt;&lt; 1))	<span class="comment">// 奇数</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RChild(i) ((1 + (i)) &lt;&lt; 1)	<span class="comment">// 偶数</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">PQ_ComplHeap</span>:</span><span class="keyword">public</span> PQ&lt;T&gt;&#123;</span><br><span class="line"><span class="keyword">protected</span>: </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">percolateDown</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> i)</span></span>;	<span class="comment">// 下滤</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">percolate00Up</span><span class="params">(<span class="keyword">int</span> i)</span></span>;				<span class="comment">// 上滤</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">heapify</span><span class="params">(<span class="keyword">int</span> n)</span></span>;				<span class="comment">//Floyd建堆算法</span></span><br><span class="line"><span class="keyword">public</span>:				</span><br><span class="line">    <span class="function">PQ <span class="title">ComplHeap</span><span class="params">(T* A, <span class="keyword">int</span> n)</span>			<span class="comment">// 批量构造</span></span></span><br><span class="line"><span class="function">    </span>&#123; copyFrom(A, <span class="number">0</span>, n); &#125;				</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(T)</span></span>;						<span class="comment">// 插入</span></span><br><span class="line">    <span class="function">T <span class="title">getMax</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _elem[<span class="number">0</span>]; &#125;		<span class="comment">// 读取</span></span><br><span class="line">    <span class="function">T <span class="title">delMax</span><span class="params">()</span></span>;  						<span class="comment">// 删除</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="插入和上滤"><a class="markdownIt-Anchor" href="#插入和上滤"></a> 插入和上滤</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">void</span> PQ_ComplHeap&lt;T&gt;::insert(T e)</span><br><span class="line">&#123; <span class="built_in">vector</span>&lt;T&gt;::insert(e); percolateUp(_size - <span class="number">1</span>); &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">int</span> PQ_ComplHeap&lt;T&gt;::percolateUp(<span class="keyword">int</span> i)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span>(ParentValid(i)) &#123;						<span class="comment">// 未到根</span></span><br><span class="line">        <span class="keyword">int</span> j = Parent(i);</span><br><span class="line">        <span class="keyword">if</span>(less&lt;<span class="keyword">int</span>&gt;(_elem[i], _elem[j])) <span class="keyword">break</span>;<span class="comment">// 不再逆序</span></span><br><span class="line">        swap(_elem[i], _elem[j]); i = j;		<span class="comment">// 交换父子位置</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> i;									<span class="comment">// 返回最终位置</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除和下滤"><a class="markdownIt-Anchor" href="#删除和下滤"></a> 删除和下滤</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">T PQ_ComplHeap&lt;T&gt;::delMax()</span><br><span class="line">&#123;</span><br><span class="line">    T maxElem = _elem[<span class="number">0</span>]; _elem[<span class="number">0</span>] = _elem[--<span class="built_in">size</span>];</span><br><span class="line">    percolateDown(_size, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">return</span> maxElem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">int</span> PQ_ComplHeap&lt;T&gt;::percloateDown(<span class="keyword">int</span> n, <span class="keyword">int</span> i)<span class="comment">// 下滤</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> j;</span><br><span class="line">    <span class="keyword">while</span>(i != (j = ProperParent(_elem, n, i)))	<span class="comment">// 只要i非j</span></span><br><span class="line">    &#123; swap(_elem[i], _elem[j]); i = j;&#125;			<span class="comment">// 换位</span></span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="批量建堆"><a class="markdownIt-Anchor" href="#批量建堆"></a> 批量建堆</h3>
+<h4 id="自下而上的下滤"><a class="markdownIt-Anchor" href="#自下而上的下滤"></a> 自下而上的下滤</h4>
+<p>渐进意义下的O(n)</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">PQ_CompHealp(T* A, <span class="keyword">int</span> n) </span><br><span class="line">&#123; copyFrom(A, <span class="number">0</span>, n); heapify(n); &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> PQ_ComplHeap&lt;T&gt;::heapify(<span class="keyword">int</span> n) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = n / <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--)	<span class="comment">// 自下而上，依次</span></span><br><span class="line">        percolateDown(n, i);			<span class="comment">// 下滤各内部节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
+<p><img src="https://i.loli.net/2020/09/27/Xh1W3cOMVzD2u8L.png" alt="image-20200927151243390.png" /></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">vector</span>&lt;T&gt;::heapSort(<span class="keyword">int</span> io, <span class="keyword">int</span> hi) &#123;</span><br><span class="line">    PQ_ComplHeap&lt;T&gt; H(_elem + lo, hi - lo);	<span class="comment">//待排序区间</span></span><br><span class="line">	<span class="keyword">while</span>(!H.empty())</span><br><span class="line">        _elem[--hi] = H.delMax();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="左式堆"><a class="markdownIt-Anchor" href="#左式堆"></a> 左式堆</h3>
+<ul>
+<li>高效合并</li>
+<li>每个节点的npl值均等于其右侧通路的长度</li>
+<li>npl® = d，该堆包含一棵高度为d的满二叉树</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;	<span class="comment">// 基于二叉树，以左式堆形式实现</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PQ_LeftHeap</span> :</span> <span class="keyword">public</span> PQ&lt;T&gt;, <span class="keyword">public</span> BinTree&lt;T&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(T)</span></span>;</span><br><span class="line">    <span class="function">T <span class="title">getMax</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _root-&gt;data; &#125;</span><br><span class="line">    <span class="function">T <span class="title">delMax</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="合并"><a class="markdownIt-Anchor" href="#合并"></a> 合并</h4>
+<p>围绕右侧链进行，时间复杂度O(logn)</p>
+<p><img src="https://i.loli.net/2020/09/27/E4pz1wa2x5RMrqh.png" alt="image-20200927155959786.png" /></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;<span class="function"><span class="keyword">static</span> <span class="title">BinNodePosi</span><span class="params">(T)</span> <span class="title">merge</span><span class="params">(BinNodePosi(T) a, BinNodePosi(T) b)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!a) <span class="keyword">return</span> b;	<span class="comment">// 递归基</span></span><br><span class="line">    <span class="keyword">if</span>(!b) <span class="keyword">return</span> a;	<span class="comment">// 递归基</span></span><br><span class="line">    <span class="keyword">if</span>(lt(a-&gt;data, b-&gt;data)) swap(a, b);	<span class="comment">// 确保a&gt;=b</span></span><br><span class="line">    a-&gt;rc = merge(a-&gt;rc, b);	<span class="comment">// 将a的右子堆，与b合并</span></span><br><span class="line">    a-&gt;rc-&gt;parent = a;			<span class="comment">// 更新父子关系</span></span><br><span class="line">    <span class="keyword">if</span>(!a-&gt;lc || a-&gt;lc-&gt;npl &lt; a-&gt;rc-&gt;npl)</span><br><span class="line">        swap(a-&gt;lc, a-&gt;rc);		<span class="comment">// 交换a的左、右子堆</span></span><br><span class="line">    a-&gt;npl = a-&gt;rc ? a-&gt;rc-&gt;npl + <span class="number">1</span> : <span class="number">1</span>; <span class="comment">// 更新a的npl</span></span><br><span class="line">    <span class="keyword">return</span> a;					<span class="comment">// 返回合并后的堆顶</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入与删除"><a class="markdownIt-Anchor" href="#插入与删除"></a> 插入与删除</h4>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> PQ_LeftHeap&lt;T&gt;::insert(T e) &#123;</span><br><span class="line">    BinNodePosi(T) v = <span class="keyword">new</span> BinNode&lt;T&gt;(e);</span><br><span class="line">    _root = merge(_root, v);</span><br><span class="line">    _root-&gt;parent = <span class="literal">NULL</span>;</span><br><span class="line">    _size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; T PQ_LeftHeap&lt;T&gt;::delMax()</span><br><span class="line">&#123;</span><br><span class="line">    BinNodePosi(T) lHeap = _root-&gt;lc;</span><br><span class="line">    BinNodePosi(T) rHeap = _root-&gt;rc;</span><br><span class="line">    T e = _root-&gt;data;</span><br><span class="line">    <span class="keyword">delete</span> _root; _size--;</span><br><span class="line">    _root = merge(lHeap, rHeap);</span><br><span class="line">    <span class="keyword">if</span>(_root) _root-&gt;parent = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> e;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
+<ol>
+<li>单侧倾斜</li>
+</ol>
+<ul>
+<li>节点分布偏向于左侧</li>
+<li>合并操作偏向于右侧</li>
+</ul>
+<ol start="2">
+<li>空节点路径长度(npl)</li>
+</ol>
+<ul>
+<li>
+<p>npl(x) = x到外部节点的最近距离</p>
+</li>
+<li>
+<p>npl(x) = 以x为根的最大满子树的高度</p>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>左倾</p>
+<p>​	npl( lc(x) ) &gt;= npl( rc(x) )</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>第2章 操作系统结构</title>
     <url>/2020/09/26/%E7%AC%AC2%E7%AB%A0%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第2章-操作系统结构"><a class="markdownIt-Anchor" href="#第2章-操作系统结构"></a> 第2章 操作系统结构</h2>
@@ -247,6 +318,71 @@ microkernel approach?</p>
 ]]></content>
       <categories>
         <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第九章 词典</title>
+    <url>/2020/09/25/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E8%AF%8D%E5%85%B8/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第九章-词典"><a class="markdownIt-Anchor" href="#第九章-词典"></a> 第九章 词典</h2>
+<h3 id="散列函数"><a class="markdownIt-Anchor" href="#散列函数"></a> 散列函数</h3>
+<h4 id="除余法"><a class="markdownIt-Anchor" href="#除余法"></a> 除余法</h4>
+<a id="more"></a>
+<p>hash(key) = key % M</p>
+<ul>
+<li>M为素数时，数据对散列表的覆盖最充分，分布最均匀</li>
+</ul>
+<h4 id="mad法"><a class="markdownIt-Anchor" href="#mad法"></a> MAD法</h4>
+<p>a &gt; 0, b &gt; 0, a % M ≠ 0</p>
+<p>hash(key) = ( a * key + b) % M</p>
+<ul>
+<li>引入a使原本相邻的关键码不再相邻</li>
+<li>引入b增加偏移量消除不动点</li>
+</ul>
+<h4 id="平方取中"><a class="markdownIt-Anchor" href="#平方取中"></a> 平方取中</h4>
+<p>取key<sup>2</sup>的中间若干位，构成地址</p>
+<h4 id="折叠法"><a class="markdownIt-Anchor" href="#折叠法"></a> 折叠法</h4>
+<p>将key分割成等宽的若干段，取其总和作为地址</p>
+<h4 id="位异或法"><a class="markdownIt-Anchor" href="#位异或法"></a> 位异或法</h4>
+<p>将key分割成等宽的二进制段，经异或运算得到地址</p>
+<h4 id="伪随机数"><a class="markdownIt-Anchor" href="#伪随机数"></a> 伪随机数</h4>
+<p>（伪）随机数发生器的实现，因具体平台，不同历史版本而已，创建的散列表可移植性差，需慎用</p>
+<h4 id="多项式法"><a class="markdownIt-Anchor" href="#多项式法"></a> 多项式法</h4>
+<p>字符串关键码转换成多项式相加</p>
+<h3 id="排解冲突"><a class="markdownIt-Anchor" href="#排解冲突"></a> 排解冲突</h3>
+<h4 id="平方试探"><a class="markdownIt-Anchor" href="#平方试探"></a> 平方试探</h4>
+<p>以平方数为距离，确定下一试探桶单元</p>
+<p>[hash(key) + n<sup>2</sup>] % M</p>
+<h4 id="双向平方试探"><a class="markdownIt-Anchor" href="#双向平方试探"></a> 双向平方试探</h4>
+<p>[hash(key) + n<sup>2</sup>] % M</p>
+<p>[hash(key) - n<sup>2</sup>] % M</p>
+<h4 id="两类素数"><a class="markdownIt-Anchor" href="#两类素数"></a> 两类素数</h4>
+<p>4k + 1、4k + 3</p>
+<p>表长取作素数M = 4k + 3，必然可以保证查找链的前M项均互异</p>
+<h3 id="散列码转换"><a class="markdownIt-Anchor" href="#散列码转换"></a> 散列码转换</h3>
+<h4 id="32位"><a class="markdownIt-Anchor" href="#32位"></a> &lt;32位</h4>
+<p>对于byte、short、int和char等本身即可表示为不超过32为整数的数据类型，可直接将它们的这种表示作为其散列码</p>
+<h4 id="32位-2"><a class="markdownIt-Anchor" href="#32位-2"></a> &gt;32位</h4>
+<ul>
+<li>
+<p>将高32位和低32位分别看作两个32位整数，将二者之和作为散列码</p>
+</li>
+<li>
+<p>将成员对象各自对应的整数累加起来，再截取低32位作为散列码</p>
+</li>
+</ul>
+<h4 id="多项式散列码"><a class="markdownIt-Anchor" href="#多项式散列码"></a> 多项式散列码</h4>
+<p>将字符串中的各个字符，视作一个多项式的各项系数</p>
+<ul>
+<li>对于英文单词之类的字符串，a = 33、37、39、41都是不错的选择</li>
+</ul>
+<h3 id="桶计数排序"><a class="markdownIt-Anchor" href="#桶计数排序"></a> 桶/计数排序</h3>
+<p>给定[0, M)内的n个互异整数，时间复杂度O(n + M)</p>
+<ul>
+<li>当M &lt;&lt; n时，时间复杂度O(n)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>数据结构</category>
       </categories>
   </entry>
   <entry>
@@ -645,71 +781,6 @@ microkernel approach?</p>
       <tags>
         <tag>树</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>第九章 词典</title>
-    <url>/2020/09/15/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E8%AF%8D%E5%85%B8/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第九章-词典"><a class="markdownIt-Anchor" href="#第九章-词典"></a> 第九章 词典</h2>
-<h3 id="散列函数"><a class="markdownIt-Anchor" href="#散列函数"></a> 散列函数</h3>
-<h4 id="除余法"><a class="markdownIt-Anchor" href="#除余法"></a> 除余法</h4>
-<a id="more"></a>
-<p>hash(key) = key % M</p>
-<ul>
-<li>M为素数时，数据对散列表的覆盖最充分，分布最均匀</li>
-</ul>
-<h4 id="mad法"><a class="markdownIt-Anchor" href="#mad法"></a> MAD法</h4>
-<p>a &gt; 0, b &gt; 0, a % M ≠ 0</p>
-<p>hash(key) = ( a * key + b) % M</p>
-<ul>
-<li>引入a使原本相邻的关键码不再相邻</li>
-<li>引入b增加偏移量消除不动点</li>
-</ul>
-<h4 id="平方取中"><a class="markdownIt-Anchor" href="#平方取中"></a> 平方取中</h4>
-<p>取key<sup>2</sup>的中间若干位，构成地址</p>
-<h4 id="折叠法"><a class="markdownIt-Anchor" href="#折叠法"></a> 折叠法</h4>
-<p>将key分割成等宽的若干段，取其总和作为地址</p>
-<h4 id="位异或法"><a class="markdownIt-Anchor" href="#位异或法"></a> 位异或法</h4>
-<p>将key分割成等宽的二进制段，经异或运算得到地址</p>
-<h4 id="伪随机数"><a class="markdownIt-Anchor" href="#伪随机数"></a> 伪随机数</h4>
-<p>（伪）随机数发生器的实现，因具体平台，不同历史版本而已，创建的散列表可移植性差，需慎用</p>
-<h4 id="多项式法"><a class="markdownIt-Anchor" href="#多项式法"></a> 多项式法</h4>
-<p>字符串关键码转换成多项式相加</p>
-<h3 id="排解冲突"><a class="markdownIt-Anchor" href="#排解冲突"></a> 排解冲突</h3>
-<h4 id="平方试探"><a class="markdownIt-Anchor" href="#平方试探"></a> 平方试探</h4>
-<p>以平方数为距离，确定下一试探桶单元</p>
-<p>[hash(key) + n<sup>2</sup>] % M</p>
-<h4 id="双向平方试探"><a class="markdownIt-Anchor" href="#双向平方试探"></a> 双向平方试探</h4>
-<p>[hash(key) + n<sup>2</sup>] % M</p>
-<p>[hash(key) - n<sup>2</sup>] % M</p>
-<h4 id="两类素数"><a class="markdownIt-Anchor" href="#两类素数"></a> 两类素数</h4>
-<p>4k + 1、4k + 3</p>
-<p>表长取作素数M = 4k + 3，必然可以保证查找链的前M项均互异</p>
-<h3 id="散列码转换"><a class="markdownIt-Anchor" href="#散列码转换"></a> 散列码转换</h3>
-<h4 id="32位"><a class="markdownIt-Anchor" href="#32位"></a> &lt;32位</h4>
-<p>对于byte、short、int和char等本身即可表示为不超过32为整数的数据类型，可直接将它们的这种表示作为其散列码</p>
-<h4 id="32位-2"><a class="markdownIt-Anchor" href="#32位-2"></a> &gt;32位</h4>
-<ul>
-<li>
-<p>将高32位和低32位分别看作两个32位整数，将二者之和作为散列码</p>
-</li>
-<li>
-<p>将成员对象各自对应的整数累加起来，再截取低32位作为散列码</p>
-</li>
-</ul>
-<h4 id="多项式散列码"><a class="markdownIt-Anchor" href="#多项式散列码"></a> 多项式散列码</h4>
-<p>将字符串中的各个字符，视作一个多项式的各项系数</p>
-<ul>
-<li>对于英文单词之类的字符串，a = 33、37、39、41都是不错的选择</li>
-</ul>
-<h3 id="桶计数排序"><a class="markdownIt-Anchor" href="#桶计数排序"></a> 桶/计数排序</h3>
-<p>给定[0, M)内的n个互异整数，时间复杂度O(n + M)</p>
-<ul>
-<li>当M &lt;&lt; n时，时间复杂度O(n)</li>
-</ul>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-      </categories>
   </entry>
   <entry>
     <title>第四章 栈与队列</title>
