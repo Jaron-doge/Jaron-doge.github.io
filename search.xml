@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第三章 有穷状态自动机</title>
+    <url>/2020/10/21/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%9C%89%E7%A9%B7%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-有穷状态自动机"><a class="markdownIt-Anchor" href="#第三章-有穷状态自动机"></a> 第三章 有穷状态自动机</h2>
+<h3 id="fa"><a class="markdownIt-Anchor" href="#fa"></a> FA</h3>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2020/10/21/cGB23OlY1yRFhoW.png" alt="image-20201021152857025.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/e23o7Z5hNFmwOCb.png" alt="2.png" /></p>
+<h3 id="dfa"><a class="markdownIt-Anchor" href="#dfa"></a> DFA</h3>
+<p><img src="https://i.loli.net/2020/10/21/hKxHoELvje1l6yk.png" alt="3.png" /></p>
+<h3 id="nfa"><a class="markdownIt-Anchor" href="#nfa"></a> NFA</h3>
+<p><img src="https://i.loli.net/2020/10/21/uGthOYj98NlpQzg.png" alt="4.png" /></p>
+<h4 id="nfa转dfa"><a class="markdownIt-Anchor" href="#nfa转dfa"></a> NFA转DFA！！！</h4>
+<p><img src="https://i.loli.net/2020/10/21/Xb9ZPt2c4YBlq38.png" alt="5.png" /></p>
+<h3 id="ε-nfa"><a class="markdownIt-Anchor" href="#ε-nfa"></a> ε-NFA</h3>
+<p><img src="https://i.loli.net/2020/10/21/yClZ25FvRA3BqDi.png" alt="6.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/yOPLgCShQfi9tkd.png" alt="7.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/kZCf2gcYjStKsBe.png" alt="8.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/nZh73wQlx2ozXmI.png" alt="9.png" /></p>
+<h4 id="ε-nfa转nfa"><a class="markdownIt-Anchor" href="#ε-nfa转nfa"></a> ε-NFA转NFA！！！</h4>
+<p><img src="https://i.loli.net/2020/10/21/6GqYkyUoenj8wsK.png" alt="10.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/UcFgklAiwzPjxNR.png" alt="11.png" /></p>
+<h3 id="fa是正则语言的识别器"><a class="markdownIt-Anchor" href="#fa是正则语言的识别器"></a> FA是正则语言的识别器</h3>
+<h4 id="dfa转正则语言"><a class="markdownIt-Anchor" href="#dfa转正则语言"></a> DFA转正则语言！！！</h4>
+<p><img src="https://i.loli.net/2020/10/21/jRyeFSAa2XxB7If.png" alt="12.png" /></p>
+<p>记得删除DFA的陷阱状态</p>
+<h4 id="正则语言右线性文法转fa"><a class="markdownIt-Anchor" href="#正则语言右线性文法转fa"></a> 正则语言/右线性文法转FA！！！</h4>
+<p><img src="https://i.loli.net/2020/10/21/nOil6x7vMIRzQYL.png" alt="13.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/a7QcpXFZzxonKef.png" alt="14.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/7H3EQKlWITnVmu5.png" alt="15.png" /></p>
+<h4 id="左线性文法转fa"><a class="markdownIt-Anchor" href="#左线性文法转fa"></a> 左线性文法转FA</h4>
+<ul>
+<li>G的开始符号对应的状态就是相应FA的终止状态</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/21/UsF1XqDeQGaWJkH.png" alt="16.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/yd7BnfPMSrHDEvp.png" alt="17.png" /></p>
+<h4 id="dfa转左线性文法"><a class="markdownIt-Anchor" href="#dfa转左线性文法"></a> DFA转左线性文法</h4>
+<p>⑴ 删除DFA的陷阱状态(包括与之相关的弧)；<br />
+⑵ 在图中加一个识别状态z，即为文法的开始变量；<br />
+⑶ “复制”一条原来到达终止状态的弧，使它从原来的起点出发，到达新添加的识别状态。<br />
+(4)如果启动状态是终止状态，则增加产生式z→ε</p>
+<p><img src="https://i.loli.net/2020/10/21/ZIRwSQ5UevNMBzr.png" alt="18.png" /></p>
+<p><img src="https://i.loli.net/2020/10/21/uZedqiAj8zOYova.png" alt="19.png" /></p>
+]]></content>
+      <categories>
+        <category>形式语言与自动机</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第十一章 串</title>
     <url>/2020/10/08/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E4%B8%B2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十一章-串"><a href="#第十一章-串" class="headerlink" title="第十一章 串"></a>第十一章 串</h2><h3 id="蛮力匹配"><a href="#蛮力匹配" class="headerlink" title="蛮力匹配"></a>蛮力匹配</h3><h4 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h4><a id="more"></a>
