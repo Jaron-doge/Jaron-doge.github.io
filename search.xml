@@ -54,6 +54,7 @@
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="进程同步"><a class="markdownIt-Anchor" href="#进程同步"></a> 进程同步</h2>
 <h3 id="临界区问题"><a class="markdownIt-Anchor" href="#临界区问题"></a> 临界区问题</h3>
 <h4 id="竞争状态race-condition"><a class="markdownIt-Anchor" href="#竞争状态race-condition"></a> 竞争状态(race condition)</h4>
+<a id="more"></a>
 <p>​	多个进程同时访问和操作相同的数据，执行的结果取决于访问发生的特定顺序。所以确保一次只能处理一个进程。</p>
 <h4 id="临界区条件"><a class="markdownIt-Anchor" href="#临界区条件"></a> 临界区条件</h4>
 <ul>
@@ -266,6 +267,9 @@ calling process is blocked until sufficient resources are available.</p>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="线程"><a class="markdownIt-Anchor" href="#线程"></a> 线程</h2>
 <ul>
 <li>线程是CPU利用的基本单位</li>
+</ul>
+<a id="more"></a>
+<ul>
 <li>它包含一个线程ID，一个程序计数器，一个寄存器集和一个堆栈<br />
 它与属于同一进程的其他线程，代码部分，数据部分和其他OS资源（例如打开的文件，信号等）共享</li>
 </ul>
