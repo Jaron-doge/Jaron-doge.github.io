@@ -49,6 +49,364 @@
       </categories>
   </entry>
   <entry>
+    <title>第5章 进程同步</title>
+    <url>/2020/10/17/%E7%AC%AC5%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="进程同步"><a class="markdownIt-Anchor" href="#进程同步"></a> 进程同步</h2>
+<h3 id="临界区问题"><a class="markdownIt-Anchor" href="#临界区问题"></a> 临界区问题</h3>
+<h4 id="竞争状态race-condition"><a class="markdownIt-Anchor" href="#竞争状态race-condition"></a> 竞争状态(race condition)</h4>
+<p>​	多个进程同时访问和操作相同的数据，执行的结果取决于访问发生的特定顺序。所以确保一次只能处理一个进程。</p>
+<h4 id="临界区条件"><a class="markdownIt-Anchor" href="#临界区条件"></a> 临界区条件</h4>
+<ul>
+<li>互斥</li>
+<li>空闲让进</li>
+<li>有限等待</li>
+</ul>
+<h3 id="互斥访问"><a class="markdownIt-Anchor" href="#互斥访问"></a> 互斥访问</h3>
+<ul>
+<li>
+<p>加锁标志位法</p>
+</li>
+<li>
+<p>强制轮流法</p>
+</li>
+<li>
+<p>标记法</p>
+</li>
+</ul>
+<h4 id="基于繁忙等待的互斥"><a class="markdownIt-Anchor" href="#基于繁忙等待的互斥"></a> 基于繁忙等待的互斥</h4>
+<p>​		当一个进程要进入其关键部分时，首先要检查是否允许其进入。 如果允许，它将直接进入； 如果不允许，它将循环等待直到允许其进入</p>
+<p>​	缺点：</p>
+<ul>
+<li>
+<p>浪费CPU时间</p>
+</li>
+<li>
+<p>可能会导致意外结果（如一个低优先级进程位于临界区中，这时有一个高优先级进展也试图进入临界区）</p>
+</li>
+</ul>
+<h3 id="硬件中断实现的互斥"><a class="markdownIt-Anchor" href="#硬件中断实现的互斥"></a> 硬件中断实现的互斥</h3>
+<p>缺点：</p>
+<ul>
+<li>禁用中断后，无法停止该过程</li>
+<li>可能导致其他进程处于饥饿</li>
+<li>关键部分可能很长，无法确定响应时间</li>
+<li>它适用于单个处理器，在多处理器计算机上不起作用，其他CPU仍可以进入关键区域</li>
+</ul>
+<h3 id="高度抽象方法"><a class="markdownIt-Anchor" href="#高度抽象方法"></a> 高度抽象方法</h3>
+<h4 id="锁"><a class="markdownIt-Anchor" href="#锁"></a> 锁</h4>
+<img src="https://i.loli.net/2020/10/23/5jMQEYrJeCsbAmS.png" alt="image-20201014155240628.png" style="zoom: 67%;" />
+<h4 id="没有busy-waiting的lock"><a class="markdownIt-Anchor" href="#没有busy-waiting的lock"></a> 没有busy waiting的lock</h4>
+<ul>
+<li>增添等待队列</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>适用于单个处理器或共享主内存的多个处理器上的任意数量的进程同步</li>
+<li>简单容易证明</li>
+<li>支持多临界区</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>繁忙的等待消耗处理器时间</li>
+<li>可能导致饥饿</li>
+<li>死锁：低优先级进程占据临界区； 高优先级进程请求访问临界区并等待</li>
+</ul>
+<h3 id="信号量"><a class="markdownIt-Anchor" href="#信号量"></a> 信号量</h3>
+<ul>
+<li>计数信号量、二进制信号量</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/23/Z2K7Qk1eizsB5wG.png" alt="image-20201014171835419.png" /></p>
+<h3 id="经典同步问题"><a class="markdownIt-Anchor" href="#经典同步问题"></a> 经典同步问题</h3>
+<h4 id="生产者-消费者问题"><a class="markdownIt-Anchor" href="#生产者-消费者问题"></a> 生产者-消费者问题</h4>
+<p><img src="https://i.loli.net/2020/10/23/bDAv6X1jiEcrZJ5.png" alt="image-20201014172023506.png" /></p>
+<h4 id="读者-写者问题"><a class="markdownIt-Anchor" href="#读者-写者问题"></a> 读者-写者问题</h4>
+<p><img src="https://i.loli.net/2020/10/23/tGgLweIFjc4hNdP.png" alt="image-20201014172033292.png" /></p>
+<h4 id="哲学家就餐问题"><a class="markdownIt-Anchor" href="#哲学家就餐问题"></a> 哲学家就餐问题</h4>
+<p>奇数先左后右，偶数先右后左<br />
+<img src="https://i.loli.net/2020/10/23/sFUrkxnV82SwEzy.png" alt="image-20201014172137641.png" /></p>
+<h3 id="管程"><a class="markdownIt-Anchor" href="#管程"></a> 管程</h3>
+<p><img src="https://i.loli.net/2020/10/23/w8cKbxayOFGP6v5.png" alt="image-20201014172415297.png" /></p>
+<h4 id="条件变量"><a class="markdownIt-Anchor" href="#条件变量"></a> 条件变量</h4>
+<p>条件变量是管程上的等待机制</p>
+<h4 id="两种条件变量操作"><a class="markdownIt-Anchor" href="#两种条件变量操作"></a> 两种条件变量操作</h4>
+<p>Wait():</p>
+<ul>
+<li>将自己阻塞再等待队列中</li>
+<li>唤醒一个等待线程</li>
+</ul>
+<p>Signal():</p>
+<ul>
+<li>唤醒等待队列中的线程</li>
+<li>如果等待队列为空，则相当于一个空操作</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/23/ruMh6GvxJZ2bsXN.png" alt="image-20201014174245226.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>5.3 What is the meaning of the term busy waiting? What other kinds of<br />
+waiting are there in an operating system? Can busy waiting be avoided<br />
+altogether? Explain your answer.</p>
+<p>繁忙等待表示进程在占用CPU的情况下不停地循环来等待执行，进程还可以放弃CPU转入进程等待队列，等待被唤醒。可以避免繁忙等待，可以将其转入进程等待队列等待被唤醒。</p>
+<p>5.5 Show that, if the wait() and signal() semaphore operations are not<br />
+executed atomically, then mutual exclusion may be violated.</p>
+<p>当一个信号量为1时，如果wait()不是原子地执行，成功执行了两次wait()操作，导致信号量总共减少2，就会导致违反互斥。</p>
+<p>5.6 Illustrate how a binary semaphore can be used to implement mutual<br />
+exclusion among n processes.</p>
+<p>在每个进程的entry section调用wait(mutex)，exit section调用signal(mutex)</p>
+<p>5.10 Explain why implementing synchronization primitives by disabling<br />
+interrupts is not appropriate in a single-processor system if the synchronization<br />
+primitives are to be used in user-level programs.</p>
+<p>因为如果当执行一个进程时，有更高优先级的进程也需要执行时，由于同步机制，kernel无法进行调度，更高优先级的进程只能等待。同时，低优先级进程占据临界区， 高优先级进程请求访问临界区并等待会造成死锁发生。当进程离开临界区时会有许多等待进程，这种情况下可能造成饥饿。</p>
+<p>5.11 Explain why interrupts are not appropriate for implementing synchronization<br />
+primitives in multiprocessor systems.</p>
+<p>中断只会阻止其他在中断发生的处理器上的进程执行，因为其他处理器执行的操作不受限，仍可进入该进程的临界区，不能保证互斥访问</p>
+<p>5.12 The Linux kernel has a policy that a process cannot hold a spinlock while<br />
+attempting to acquire a semaphore. Explain why this policy is in place.</p>
+<p>为了防止饥饿和死锁。当低优先级进程拥有自旋锁，而高优先级进程请求访问临界区并等待时，可能会发生死锁。进程拥有自旋锁，一直占用CPU资源，可能导致其他进程得不到资源，造成饥饿。</p>
+<p>5.13 Describe two kernel data structures in which race conditions are possible.<br />
+Be sure to include a description of how a race condition can occur.</p>
+<p>stack和queue，当一个进程对stack执行pop()操作时，另一个进程对stack执行了push()操作，那么此进程pop()出的并不是想要得到的结果。queue类似，当一个进程对queue执行pop()操作，而另一个进程对queue抢先执行了一次pop()，那么此进程pop()出的并不是想要得到的结果。</p>
+<p>5.23 Show how to implement the wait() and signal() semaphore operations<br />
+in multiprocessor environments using the test and set() instruction. The solution should exhibit minimal busy waiting.</p>
+<p>给信号量新增一个计数器和队列，利用等待队列来降低繁忙等待。代码如下：</p>
+<p>typedef struct {</p>
+<p>​	int value;</p>
+<p>​	WaitQueue q;	// 一个等待队列</p>
+<p>} Semaphore;</p>
+<p>int lock = 0;</p>
+<p>wait(Semaphore* S) {</p>
+<p>​	while(test_and_set(&amp;lock)) {</p>
+<p>​		S-&gt;value–;</p>
+<p>​		if(S-&gt;value &lt; 0)</p>
+<p>​			block();</p>
+<p>​	}</p>
+<p>}</p>
+<p>signal(semaphore* S) {</p>
+<p>​	lock = 0;</p>
+<p>​	S-&gt;value++;</p>
+<p>​	if(S-&gt;value &lt;= 0)</p>
+<p>​		wakeup§;					// 把进程改为就绪状态，插入就绪队列</p>
+<p>}</p>
+<p>5.25 Demonstrate that monitors and semaphores are equivalent insofar<br />
+as they can be used to implement solutions to the same types of<br />
+synchronization problems.</p>
+<p>在使用信号量处理同步问题时，进程在进入临界区前获取系统资源，无资源则挂起进入等待队列。退出临界区后释放资源，如果释放后有可用资源，则唤醒等待队列中的一个进程。这样的管理方式与管程类似，只需将管程的条件变量设为判断是否有可用资源，则会与信号量拥有类似的实现结构和方式，它们在处理同步问题上是等效的。</p>
+<p>5.26 Design an algorithm for a bounded-buffer monitor in which the buffers<br />
+(portions) are embedded within the monitor itself.</p>
+<p>设计一个结构体buffer,里面有数据存储区，读写标识符，计数器以及两个条件变量。</p>
+<p>利用条件变量来实现进程对共享内存的互斥访问，</p>
+<p>伪代码如下：</p>
+<p>struct bound-buffer {</p>
+<p>​	int size = 32;</p>
+<p>​	char buffer[32];</p>
+<p>​	int writepos, readpos;</p>
+<p>​	int cnt;</p>
+<p>​	condition notfull, notempty;</p>
+<p>} buffer;</p>
+<p>int mutex;</p>
+<p>void producer(int data) {</p>
+<p>​	wait(mutex);</p>
+<p>​	if(cnt == size)</p>
+<p>​		cond_wait(notfull);</p>
+<p>​	buffer[writepos] = data;</p>
+<p>​	writepos = (writepos + 1) % size;</p>
+<p>​	cond_signal(notempty);</p>
+<p>​	signal(mutex);</p>
+<p>}</p>
+<p>void comsumer() {</p>
+<p>​	wait(mutex);</p>
+<p>​	if(cnt == 0)</p>
+<p>​		cond_wait(not empty);</p>
+<p>​	int data = buffer[readpos];</p>
+<p>​	readpos = (readpos + 1) % size;</p>
+<p>​	cond_signal(notfull);</p>
+<p>​	signal(mutex);</p>
+<p>}</p>
+<p>5.32 A file is to be shared among different processes, each of which has<br />
+a unique number. The file can be accessed simultaneously by several<br />
+processes, subject to the following constraint: the sum of all unique<br />
+numbers associated with all the processes currently accessing the file<br />
+must be less than n. Write a monitor to coordinate access to the file.</p>
+<p>在管程中设计一个计数器，并设计操作，在进入进程的临界区前，增加检查计数器加当前id是否小于总和n，如果小于n，则将其累加进计数器中，如果大于n，则进行繁忙等待。在退出临界区后中让计数器减去当前id，并唤醒其他进程。</p>
+<p>5.37 Assume that a finite number of resources of a single resource type must be managed. Processes may ask for a number of these resources and will return them once finished. As an example, many commercial software packages provide a given number of licenses, indicating the number of applications that may run concurrently. When the application is started, the license count is decremented. When the application is terminated, the license count is incremented. If all licenses are in use, requests to start the application are denied. Such requests will only be granted when an existing license holder terminates the application and a license is returned. The following program segment is used to manage a finite number of instances of an available resource. The maximum number of resources and the number of available resources are declared as follows:<img src="https://i.loli.net/2020/10/23/opk8WXmlThMJdPC.png" alt="image-20201014144721685.png" /></p>
+<p>The preceding program segment produces a race condition. Do the<br />
+following:<br />
+a. Identify the data involved in the race condition.</p>
+<p>available_resources</p>
+<p>b. Identify the location (or locations) in the code where the race<br />
+condition occurs.</p>
+<p>在语句 available_resources -= count和语句available_resources += count处，假设available_resources初值为1，第一个进程调用decrease_count()，在执行到else时发生中断，此时available_resources为1。第二个进程调用decrease_count()并执行完毕，假设count值为1，available_resources执行完为0。切换上下文回第一个进程继续执行，假设count为1，available_resources会得到负数的结果，也就意味着越界了。</p>
+<p>c. Using a semaphore or mutex lock, fix the race condition. It is<br />
+permissible to modify the decrease count() function so that the<br />
+calling process is blocked until sufficient resources are available.</p>
+<p>利用互斥锁实现，伪代码如下：</p>
+<p>int mutex = 1;</p>
+<p>int decrease_count(int count) {</p>
+<p>​	if(available_resources &lt; count)</p>
+<p>​		return -1;</p>
+<p>​	else {</p>
+<p>​		wait(mutex);</p>
+<p>​		available_resources -= count;</p>
+<p>​		signal(mutex);</p>
+<p>​		return 0;</p>
+<p>​	}</p>
+<p>}</p>
+<p>int increase_count(int count) {</p>
+<p>​	wait(mutex);</p>
+<p>​	available_resources += count;</p>
+<p>​	signal(mutex);</p>
+<p>​	return 0;</p>
+<p>}</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第4章 线程</title>
+    <url>/2020/10/10/%E7%AC%AC4%E7%AB%A0%20%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="线程"><a class="markdownIt-Anchor" href="#线程"></a> 线程</h2>
+<ul>
+<li>线程是CPU利用的基本单位</li>
+<li>它包含一个线程ID，一个程序计数器，一个寄存器集和一个堆栈<br />
+它与属于同一进程的其他线程，代码部分，数据部分和其他OS资源（例如打开的文件，信号等）共享</li>
+</ul>
+<img src="https://i.loli.net/2020/10/23/A5bLvzJX6sPEdCO.png" alt="image-20201011095455371.png" style="zoom:50%;" />
+<h4 id="进程与线程的比较"><a class="markdownIt-Anchor" href="#进程与线程的比较"></a> 进程与线程的比较</h4>
+<ul>
+<li>进程是资源分配单位，线程是CPU分配单位</li>
+<li>进程拥有一个完整的资源平台，而进程只独享必不可少的资源，如寄存器和栈</li>
+<li>线程同样具有就绪、阻塞和执行三种状态，同样具有状态之间的转换关系</li>
+<li>线程能减少并发执行的时间和空间开销</li>
+<li>线程 = 轻量级进程</li>
+</ul>
+<h4 id="优点"><a class="markdownIt-Anchor" href="#优点"></a> 优点</h4>
+<ul>
+<li>
+<p>响应度高</p>
+</li>
+<li>
+<p>资源共享</p>
+</li>
+<li>
+<p>经济</p>
+</li>
+<li>
+<p>MP结构的利用</p>
+<p>​	并发和并行</p>
+</li>
+</ul>
+<h3 id="多线程模型"><a class="markdownIt-Anchor" href="#多线程模型"></a> 多线程模型</h3>
+<h4 id="多对一模型"><a class="markdownIt-Anchor" href="#多对一模型"></a> 多对一模型</h4>
+<img src="https://i.loli.net/2020/10/23/Q5hWvgyc41rLVZU.png" alt="image-20201011095958114.png" style="zoom:50%;" />
+<h4 id="一对一模型"><a class="markdownIt-Anchor" href="#一对一模型"></a> 一对一模型</h4>
+<img src="https://i.loli.net/2020/10/23/sjuRIC3W8iVLYgO.png" alt="image-20201011100009095.png" style="zoom:50%;" />
+<h4 id="多对多模型"><a class="markdownIt-Anchor" href="#多对多模型"></a> 多对多模型</h4>
+<img src="https://i.loli.net/2020/10/23/QqAYf8TFyhl6c1K.png" alt="image-20201011100019172.png" style="zoom:50%;" />
+<h4 id="双层模型"><a class="markdownIt-Anchor" href="#双层模型"></a> 双层模型</h4>
+<img src="https://i.loli.net/2020/10/23/T3qniP86VYKZGCe.png" alt="image-20201011100025612.png" style="zoom:50%;" />
+<h3 id="线程问题"><a class="markdownIt-Anchor" href="#线程问题"></a> 线程问题</h3>
+<ul>
+<li>fork（）和exec（）系统调用的语义</li>
+<li>fork（）是否仅复制调用线程或所有线程？</li>
+</ul>
+<h5 id="两种通用解决方法"><a class="markdownIt-Anchor" href="#两种通用解决方法"></a> 两种通用解决方法</h5>
+<ul>
+<li>Asynchronous （异步）取消立即终止目标线程</li>
+<li>Deferred（延迟）取消允许目标线程定期检查是否应取消它</li>
+</ul>
+<h4 id="线程池"><a class="markdownIt-Anchor" href="#线程池"></a> 线程池</h4>
+<ul>
+<li>
+<p>在它们所在的池中创建许多线程并等待工作</p>
+</li>
+<li>
+<p>使用现有线程处理请求要比创建新线程快一些</p>
+</li>
+<li>
+<p>允许将应用程序中的线程数绑定到池的大小</p>
+</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>4.1 Provide two programming examples in which multithreading provides<br />
+better performance than a single-threaded solution.</p>
+<p>网页浏览和字处理，都需要并发处理多个事件</p>
+<p>4.2 What are two differences between user-level threads and kernel-level<br />
+threads? Under what circumstances is one type better than the other?</p>
+<p>​	kernel-level threads由kernel mode直接支持，而user-level threads不被kernel mode支持。但是kernel-level threads因为会需求更多资源，所以会比user-level threads更慢。一些不需要kernel mode来管理的低级任务，使用user-level threads能加快速度；kernel-level threads更适合需要系统资源的高级任务。</p>
+<p>4.3 Describe the actions taken by a kernel to context-switch between kernel-level threads.</p>
+<p>​	记录当前线程的CPU寄存器值并加载调度线程的CPU寄存器值</p>
+<p>4.4 What resources are used when a thread is created? How do they differ<br />
+from those used when a process is created?</p>
+<p>1）一组用来在上下文切换时记录状态的寄存器</p>
+<p>2)一个堆栈</p>
+<p>3)各种运行时库和动态链接库使用的线程专用存储</p>
+<p>当进程被创建时，内存分配用于程序指令和数据以及线程存储</p>
+<p>4.5 Assume that an operating system maps user-level threads to the kernel<br />
+using the many-to-many model and that the mapping is done through<br />
+LWPs. Furthermore, the system allows developers to create real-time<br />
+threads for use in real-time systems. Is it necessary to bind a real-time<br />
+thread to an LWP? Explain.</p>
+<p>​		是的，把实时线程绑定到LWP很有必要，这样可以确保线程在调度好之后就能以最小的延迟时间运行</p>
+<p>4.6 Provide two programming examples in which multithreading does not<br />
+provide better performance than a single-threaded solution.</p>
+<ul>
+<li>任何顺序执行的程序</li>
+<li>监控自己工作空间的程序如open files和C-shell</li>
+</ul>
+<p>4.7 Under what circumstances does a multithreaded solution using multiple<br />
+kernel threads provide better performance than a single-threaded<br />
+solution on a single-processor system?</p>
+<p>​		在程序经常发生页面错误、或需要经常等待其他系统事件时，用多kernel threads的多线程解决方案比用单处理器的单线程解决方案好</p>
+<p>4.8 Which of the following components of program state are shared across<br />
+threads in a multithreaded process?<br />
+a. Register values<br />
+b. Heap memory<br />
+c. Global variables<br />
+d. Stack memory</p>
+<p>b, c</p>
+<p>4.9 Can a multithreaded solution using multiple user-level threads achieve<br />
+better performance on a multiprocessor system than on a single processor<br />
+system? Explain.</p>
+<p>​		因为user-level threads没有kernel mode的支持，在多处理器系统上使用多 user-level threads没有收益，所以不能</p>
+<p>4.11 Is it possible to have concurrency but not parallelism? Explain.</p>
+<p>​	可以，进程的执行就可以只是并发，没有并行。</p>
+<p>4.15 Consider the following code segment:<br />
+pid t pid;<br />
+pid = fork();<br />
+if (pid == 0) { /* child process */<br />
+fork();<br />
+thread create( . . .);<br />
+}<br />
+fork();<br />
+a. How many unique processes are created?</p>
+<p>​	5</p>
+<p>b. How many unique threads are created?</p>
+<p>​	2</p>
+<p>4.16 As described in Section 4.7.2, Linux does not distinguish between<br />
+processes and threads. Instead, Linux treats both in the same way,<br />
+allowing a task to be more akin to a process or a thread depending on the<br />
+set of flags passed to the clone() system call. However, other operating<br />
+systems, such as Windows, treat processes and threads differently.<br />
+Typically, such systems use a notation in which the data structure for<br />
+a process contains pointers to the separate threads belonging to the<br />
+process. Contrast these two approaches for modeling processes and<br />
+threads within the kernel.</p>
+<p>Pros:</p>
+<ul>
+<li>Linux认为这很相似，因此可以很容易地减少属于操作系统的代码。</li>
+<li>Linux操作系统中存在的调度程序不需要特殊的代码即可测试与每个进程耦合的线程。</li>
+<li>在调度期间，它将不同的线程和进程视为单个任务。</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>这种能力使Linux操作系统更难直接施加进程范围的资源限制。</li>
+<li>需要额外的步骤来识别每个进程属于适当的线程以及执行相关任务的复杂性。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第十一章 串</title>
     <url>/2020/10/08/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E4%B8%B2/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十一章-串"><a href="#第十一章-串" class="headerlink" title="第十一章 串"></a>第十一章 串</h2><h3 id="蛮力匹配"><a href="#蛮力匹配" class="headerlink" title="蛮力匹配"></a>蛮力匹配</h3><h4 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h4><a id="more"></a>
