@@ -50,13 +50,13 @@
   };
 </script>
 
-  <meta name="description" content="第三章 列表  插入排序">
+  <meta name="description" content="第三章 列表插入排序">
 <meta name="keywords" content="排序">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第三章 列表">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;09&#x2F;%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%88%97%E8%A1%A8&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="第三章 列表  插入排序">
+<meta property="og:description" content="第三章 列表插入排序">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-09-09T00:57:53.990Z">
 <meta name="twitter:card" content="summary">
@@ -267,14 +267,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="第三章-列表"><a class="markdownIt-Anchor" href="#第三章-列表"></a> 第三章 列表</h2>
-<h3 id="插入排序"><a class="markdownIt-Anchor" href="#插入排序"></a> 插入排序</h3>
-<a id="more"></a>
+        <h2 id="第三章-列表"><a href="#第三章-列表" class="headerlink" title="第三章 列表"></a>第三章 列表</h2><h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><a id="more"></a>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> List::insertionSort (ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; n; r++) &#123;</span><br><span class="line">        insertAfter(search(p-&gt;data, r, p), p-&gt;data);</span><br><span class="line">        p = p-&gt;succ; </span><br><span class="line">        <span class="built_in">remove</span>(p-&gt;pred);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="选择排序"><a class="markdownIt-Anchor" href="#选择排序"></a> 选择排序</h3>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> List::selectionSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* head = p-&gt;pred;</span><br><span class="line">    ListNode* tail = p-&gt;succ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        tail = tail-&gt;succ;</span><br><span class="line">    <span class="keyword">while</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        ListNode* <span class="built_in">max</span> = selectMax(head-&gt;succ, n);</span><br><span class="line">        insertBefore(tail, <span class="built_in">remove</span>(<span class="built_in">max</span>));</span><br><span class="line">        tail = tail-&gt;pred;</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="归并排序"><a class="markdownIt-Anchor" href="#归并排序"></a> 归并排序</h3>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> List::mergeSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    ListNode* q = p;</span><br><span class="line">    <span class="keyword">int</span> m = n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)		<span class="comment">// 均分</span></span><br><span class="line">        q = q-&gt;succ;</span><br><span class="line">    mergeSort(p, m);				<span class="comment">// 对前后子列表分别排序</span></span><br><span class="line">    mergeSort(q, n-m);</span><br><span class="line">    merge(p, m, *<span class="keyword">this</span>, q, n-m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> List::merge(ListNode* p, <span class="keyword">int</span> n,List L,ListNode* q,<span class="keyword">int</span> m)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* pp = p-&gt;pred;</span><br><span class="line">    <span class="keyword">while</span>(m &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span>(n &gt; <span class="number">0</span> &amp;&amp; p-&gt;data &lt;= q-&gt;data) &#123;</span><br><span class="line">            <span class="keyword">if</span>(q == (p = p-&gt;succ))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            n--;</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="keyword">else</span> &#123;</span><br><span class="line">            insertBefore(p, L.<span class="built_in">remove</span>((q = q-&gt;succ)-&gt;pred));</span><br><span class="line">            m--;</span><br><span class="line">        &#125;</span><br><span class="line">    p = pp-&gt;succ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> List::selectionSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* head = p-&gt;pred;</span><br><span class="line">    ListNode* tail = p-&gt;succ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">        tail = tail-&gt;succ;</span><br><span class="line">    <span class="keyword">while</span>(n &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        ListNode* <span class="built_in">max</span> = selectMax(head-&gt;succ, n);</span><br><span class="line">        insertBefore(tail, <span class="built_in">remove</span>(<span class="built_in">max</span>));</span><br><span class="line">        tail = tail-&gt;pred;</span><br><span class="line">        n--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> List::mergeSort(ListNode* p, <span class="keyword">int</span> n)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(n &lt; <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    ListNode* q = p;</span><br><span class="line">    <span class="keyword">int</span> m = n &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; m; i++)		<span class="comment">// 均分</span></span><br><span class="line">        q = q-&gt;succ;</span><br><span class="line">    mergeSort(p, m);				<span class="comment">// 对前后子列表分别排序</span></span><br><span class="line">    mergeSort(q, n-m);</span><br><span class="line">    merge(p, m, *<span class="keyword">this</span>, q, n-m);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> List::merge(ListNode* p, <span class="keyword">int</span> n,List L,ListNode* q,<span class="keyword">int</span> m)</span><br><span class="line">&#123;</span><br><span class="line">    ListNode* pp = p-&gt;pred;</span><br><span class="line">    <span class="keyword">while</span>(m &gt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span>(n &gt; <span class="number">0</span> &amp;&amp; p-&gt;data &lt;= q-&gt;data) &#123;</span><br><span class="line">            <span class="keyword">if</span>(q == (p = p-&gt;succ))</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            n--;</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="keyword">else</span> &#123;</span><br><span class="line">            insertBefore(p, L.<span class="built_in">remove</span>((q = q-&gt;succ)-&gt;pred));</span><br><span class="line">            m--;</span><br><span class="line">        &#125;</span><br><span class="line">    p = pp-&gt;succ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -340,7 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-列表"><span class="nav-text"> 第三章 列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-text"> 插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序"><span class="nav-text"> 选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序"><span class="nav-text"> 归并排序</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-列表"><span class="nav-text">第三章 列表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择排序"><span class="nav-text">选择排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序"><span class="nav-text">归并排序</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -356,14 +352,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -398,7 +394,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -407,12 +403,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">186k</span>
+    <span title="站点总字数">192k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:49</span>
+    <span title="站点阅读时长">2:54</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>

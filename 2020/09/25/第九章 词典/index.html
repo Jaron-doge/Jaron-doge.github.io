@@ -50,14 +50,14 @@
   };
 </script>
 
-  <meta name="description" content="第九章 词典  散列函数  除余法">
+  <meta name="description" content="第九章 词典散列函数除余法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第九章 词典">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;25&#x2F;%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E8%AF%8D%E5%85%B8&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="第九章 词典  散列函数  除余法">
+<meta property="og:description" content="第九章 词典散列函数除余法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-09-27T09:37:05.535Z">
+<meta property="og:updated_time" content="2020-09-27T09:38:05.837Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/09/25/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E8%AF%8D%E5%85%B8/">
@@ -235,7 +235,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-27 17:37:05" itemprop="dateModified" datetime="2020-09-27T17:37:05+08:00">2020-09-27</time>
+                <time title="修改时间：2020-09-27 17:38:05" itemprop="dateModified" datetime="2020-09-27T17:38:05+08:00">2020-09-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +254,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>640</span>
+              <span>648</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -272,60 +272,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="第九章-词典"><a class="markdownIt-Anchor" href="#第九章-词典"></a> 第九章 词典</h2>
-<h3 id="散列函数"><a class="markdownIt-Anchor" href="#散列函数"></a> 散列函数</h3>
-<h4 id="除余法"><a class="markdownIt-Anchor" href="#除余法"></a> 除余法</h4>
-<a id="more"></a>
+        <h2 id="第九章-词典"><a href="#第九章-词典" class="headerlink" title="第九章 词典"></a>第九章 词典</h2><h3 id="散列函数"><a href="#散列函数" class="headerlink" title="散列函数"></a>散列函数</h3><h4 id="除余法"><a href="#除余法" class="headerlink" title="除余法"></a>除余法</h4><a id="more"></a>
 <p>hash(key) = key % M</p>
 <ul>
 <li>M为素数时，数据对散列表的覆盖最充分，分布最均匀</li>
 </ul>
-<h4 id="mad法"><a class="markdownIt-Anchor" href="#mad法"></a> MAD法</h4>
-<p>a &gt; 0, b &gt; 0, a % M ≠ 0</p>
+<h4 id="MAD法"><a href="#MAD法" class="headerlink" title="MAD法"></a>MAD法</h4><p>a &gt; 0, b &gt; 0, a % M ≠ 0</p>
 <p>hash(key) = ( a * key + b) % M</p>
 <ul>
 <li>引入a使原本相邻的关键码不再相邻</li>
 <li>引入b增加偏移量消除不动点</li>
 </ul>
-<h4 id="平方取中"><a class="markdownIt-Anchor" href="#平方取中"></a> 平方取中</h4>
-<p>取key<sup>2</sup>的中间若干位，构成地址</p>
-<h4 id="折叠法"><a class="markdownIt-Anchor" href="#折叠法"></a> 折叠法</h4>
-<p>将key分割成等宽的若干段，取其总和作为地址</p>
-<h4 id="位异或法"><a class="markdownIt-Anchor" href="#位异或法"></a> 位异或法</h4>
-<p>将key分割成等宽的二进制段，经异或运算得到地址</p>
-<h4 id="伪随机数"><a class="markdownIt-Anchor" href="#伪随机数"></a> 伪随机数</h4>
-<p>（伪）随机数发生器的实现，因具体平台，不同历史版本而已，创建的散列表可移植性差，需慎用</p>
-<h4 id="多项式法"><a class="markdownIt-Anchor" href="#多项式法"></a> 多项式法</h4>
-<p>字符串关键码转换成多项式相加</p>
-<h3 id="排解冲突"><a class="markdownIt-Anchor" href="#排解冲突"></a> 排解冲突</h3>
-<h4 id="平方试探"><a class="markdownIt-Anchor" href="#平方试探"></a> 平方试探</h4>
-<p>以平方数为距离，确定下一试探桶单元</p>
-<p>[hash(key) + n<sup>2</sup>] % M</p>
-<h4 id="双向平方试探"><a class="markdownIt-Anchor" href="#双向平方试探"></a> 双向平方试探</h4>
-<p>[hash(key) + n<sup>2</sup>] % M</p>
-<p>[hash(key) - n<sup>2</sup>] % M</p>
-<h4 id="两类素数"><a class="markdownIt-Anchor" href="#两类素数"></a> 两类素数</h4>
-<p>4k + 1、4k + 3</p>
+<h4 id="平方取中"><a href="#平方取中" class="headerlink" title="平方取中"></a>平方取中</h4><p>取key^2^的中间若干位，构成地址</p>
+<h4 id="折叠法"><a href="#折叠法" class="headerlink" title="折叠法"></a>折叠法</h4><p>将key分割成等宽的若干段，取其总和作为地址</p>
+<h4 id="位异或法"><a href="#位异或法" class="headerlink" title="位异或法"></a>位异或法</h4><p>将key分割成等宽的二进制段，经异或运算得到地址</p>
+<h4 id="伪随机数"><a href="#伪随机数" class="headerlink" title="伪随机数"></a>伪随机数</h4><p>（伪）随机数发生器的实现，因具体平台，不同历史版本而已，创建的散列表可移植性差，需慎用</p>
+<h4 id="多项式法"><a href="#多项式法" class="headerlink" title="多项式法"></a>多项式法</h4><p>字符串关键码转换成多项式相加</p>
+<h3 id="排解冲突"><a href="#排解冲突" class="headerlink" title="排解冲突"></a>排解冲突</h3><h4 id="平方试探"><a href="#平方试探" class="headerlink" title="平方试探"></a>平方试探</h4><p>以平方数为距离，确定下一试探桶单元</p>
+<p>[hash(key) + n^2^] % M</p>
+<h4 id="双向平方试探"><a href="#双向平方试探" class="headerlink" title="双向平方试探"></a>双向平方试探</h4><p>[hash(key) + n^2^] % M</p>
+<p>[hash(key) - n^2^] % M</p>
+<h4 id="两类素数"><a href="#两类素数" class="headerlink" title="两类素数"></a>两类素数</h4><p>4k + 1、4k + 3</p>
 <p>表长取作素数M = 4k + 3，必然可以保证查找链的前M项均互异</p>
-<h3 id="散列码转换"><a class="markdownIt-Anchor" href="#散列码转换"></a> 散列码转换</h3>
-<h4 id="32位"><a class="markdownIt-Anchor" href="#32位"></a> &lt;32位</h4>
-<p>对于byte、short、int和char等本身即可表示为不超过32为整数的数据类型，可直接将它们的这种表示作为其散列码</p>
-<h4 id="32位-2"><a class="markdownIt-Anchor" href="#32位-2"></a> &gt;32位</h4>
-<ul>
-<li>
-<p>将高32位和低32位分别看作两个32位整数，将二者之和作为散列码</p>
+<h3 id="散列码转换"><a href="#散列码转换" class="headerlink" title="散列码转换"></a>散列码转换</h3><h4 id="lt-32位"><a href="#lt-32位" class="headerlink" title="&lt;32位"></a>&lt;32位</h4><p>对于byte、short、int和char等本身即可表示为不超过32为整数的数据类型，可直接将它们的这种表示作为其散列码</p>
+<h4 id="gt-32位"><a href="#gt-32位" class="headerlink" title="&gt;32位"></a>&gt;32位</h4><ul>
+<li><p>将高32位和低32位分别看作两个32位整数，将二者之和作为散列码</p>
 </li>
-<li>
-<p>将成员对象各自对应的整数累加起来，再截取低32位作为散列码</p>
+<li><p>将成员对象各自对应的整数累加起来，再截取低32位作为散列码</p>
 </li>
 </ul>
-<h4 id="多项式散列码"><a class="markdownIt-Anchor" href="#多项式散列码"></a> 多项式散列码</h4>
-<p>将字符串中的各个字符，视作一个多项式的各项系数</p>
+<h4 id="多项式散列码"><a href="#多项式散列码" class="headerlink" title="多项式散列码"></a>多项式散列码</h4><p>将字符串中的各个字符，视作一个多项式的各项系数</p>
 <ul>
 <li>对于英文单词之类的字符串，a = 33、37、39、41都是不错的选择</li>
 </ul>
-<h3 id="桶计数排序"><a class="markdownIt-Anchor" href="#桶计数排序"></a> 桶/计数排序</h3>
-<p>给定[0, M)内的n个互异整数，时间复杂度O(n + M)</p>
+<h3 id="桶-计数排序"><a href="#桶-计数排序" class="headerlink" title="桶/计数排序"></a>桶/计数排序</h3><p>给定[0, M)内的n个互异整数，时间复杂度O(n + M)</p>
 <ul>
 <li>当M &lt;&lt; n时，时间复杂度O(n)</li>
 </ul>
@@ -391,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章-词典"><span class="nav-text"> 第九章 词典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#散列函数"><span class="nav-text"> 散列函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#除余法"><span class="nav-text"> 除余法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mad法"><span class="nav-text"> MAD法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平方取中"><span class="nav-text"> 平方取中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#折叠法"><span class="nav-text"> 折叠法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位异或法"><span class="nav-text"> 位异或法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪随机数"><span class="nav-text"> 伪随机数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式法"><span class="nav-text"> 多项式法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排解冲突"><span class="nav-text"> 排解冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平方试探"><span class="nav-text"> 平方试探</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双向平方试探"><span class="nav-text"> 双向平方试探</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两类素数"><span class="nav-text"> 两类素数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#散列码转换"><span class="nav-text"> 散列码转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#32位"><span class="nav-text"> &lt;32位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32位-2"><span class="nav-text"> &gt;32位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式散列码"><span class="nav-text"> 多项式散列码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桶计数排序"><span class="nav-text"> 桶/计数排序</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章-词典"><span class="nav-text">第九章 词典</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#散列函数"><span class="nav-text">散列函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#除余法"><span class="nav-text">除余法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MAD法"><span class="nav-text">MAD法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平方取中"><span class="nav-text">平方取中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#折叠法"><span class="nav-text">折叠法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#位异或法"><span class="nav-text">位异或法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#伪随机数"><span class="nav-text">伪随机数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式法"><span class="nav-text">多项式法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排解冲突"><span class="nav-text">排解冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平方试探"><span class="nav-text">平方试探</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双向平方试探"><span class="nav-text">双向平方试探</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两类素数"><span class="nav-text">两类素数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#散列码转换"><span class="nav-text">散列码转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lt-32位"><span class="nav-text">&lt;32位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gt-32位"><span class="nav-text">&gt;32位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式散列码"><span class="nav-text">多项式散列码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#桶-计数排序"><span class="nav-text">桶/计数排序</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -407,14 +387,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -449,7 +429,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -458,12 +438,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">186k</span>
+    <span title="站点总字数">192k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:49</span>
+    <span title="站点阅读时长">2:54</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
