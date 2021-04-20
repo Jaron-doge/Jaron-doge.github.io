@@ -50,20 +50,17 @@
   };
 </script>
 
-  <meta name="description" content="Unity介绍  1.4 游戏对象与组件">
+  <meta name="description" content="流、文件  6.1 IO及文件管理  6.1.1 Stream类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第1章 Unity介绍">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;06&#x2F;Unity&#x2F;%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D&#x2F;index.html">
+<meta property="og:title" content="第6章 流、文件">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;07&#x2F;%E7%AC%AC6%E7%AB%A0%20%E6%B5%81%E3%80%81%E6%96%87%E4%BB%B6&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="Unity介绍  1.4 游戏对象与组件">
+<meta property="og:description" content="流、文件  6.1 IO及文件管理  6.1.1 Stream类">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;19&#x2F;QsCd1yGr4biHc7h.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;19&#x2F;TdaPmCtDsir7Gwx.png">
-<meta property="og:updated_time" content="2021-04-19T13:09:21.038Z">
+<meta property="og:updated_time" content="2021-04-20T04:25:34.737Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;19&#x2F;QsCd1yGr4biHc7h.png">
 
-<link rel="canonical" href="http://yoursite.com/2021/04/06/Unity/%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D/">
+<link rel="canonical" href="http://yoursite.com/2021/04/07/%E7%AC%AC6%E7%AB%A0%20%E6%B5%81%E3%80%81%E6%96%87%E4%BB%B6/">
 
 
 <script id="page-configurations">
@@ -77,7 +74,7 @@
   };
 </script>
 
-  <title>第1章 Unity介绍 | blog</title>
+  <title>第6章 流、文件 | blog</title>
   
 
 
@@ -208,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/06/Unity/%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/07/%E7%AC%AC6%E7%AB%A0%20%E6%B5%81%E3%80%81%E6%96%87%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -221,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          第1章 Unity介绍
+          第6章 流、文件
         </h1>
 
         <div class="post-meta">
@@ -231,14 +228,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-06T00:00:00+08:00">2021-04-06</time>
+              <time title="创建时间：2021-04-07 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-07T00:00:00+08:00">2021-04-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-19 21:09:21" itemprop="dateModified" datetime="2021-04-19T21:09:21+08:00">2021-04-19</time>
+                <time title="修改时间：2021-04-20 12:25:34" itemprop="dateModified" datetime="2021-04-20T12:25:34+08:00">2021-04-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,8 +243,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Unity/" itemprop="url" rel="index">
-                    <span itemprop="name">Unity</span>
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C#</span>
                   </a>
                 </span>
             </span>
@@ -257,7 +254,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
-              <span>27</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -275,12 +272,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="unity介绍"><a class="markdownIt-Anchor" href="#unity介绍"></a> Unity介绍</h2>
-<h3 id="14-游戏对象与组件"><a class="markdownIt-Anchor" href="#14-游戏对象与组件"></a> 1.4 游戏对象与组件</h3>
+        <h2 id="流-文件"><a class="markdownIt-Anchor" href="#流-文件"></a> 流、文件</h2>
+<h3 id="61-io及文件管理"><a class="markdownIt-Anchor" href="#61-io及文件管理"></a> 6.1 IO及文件管理</h3>
+<h4 id="611-stream类"><a class="markdownIt-Anchor" href="#611-stream类"></a> 6.1.1 Stream类</h4>
 <a id="more"></a>
-<p><img src="https://i.loli.net/2021/04/19/QsCd1yGr4biHc7h.png" alt="1.png" /></p>
-<h4 id="组件和游戏对象的关系"><a class="markdownIt-Anchor" href="#组件和游戏对象的关系"></a> 组件和游戏对象的关系</h4>
-<p><img src="https://i.loli.net/2021/04/19/TdaPmCtDsir7Gwx.png" alt="2.png" /></p>
+<p><strong>按存取位置分</strong></p>
+<ul>
+<li>FileStream、MemoryStream、BufferedStream</li>
+</ul>
+<p><strong>读写类</strong></p>
+<ul>
+<li>BinaryReader和BinaryWriter</li>
+<li>TextReader和TextWriter
+<ul>
+<li>StreamReader和StreamWriter</li>
+<li>StringReader和StringWriter</li>
+</ul>
+</li>
+</ul>
+<p><strong>其关系</strong></p>
+<ul>
+<li>
+<p>包装关系</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FileStream fs = <span class="keyword">new</span> FileStream(<span class="string">"a.txt"</span>, FileMode.Create);</span><br><span class="line">StreamWriter writer = <span class="keyword">new</span> StreamWriter(fs);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="612-文件及文件夹管理"><a class="markdownIt-Anchor" href="#612-文件及文件夹管理"></a> 6.1.2 文件及文件夹管理</h4>
+<p><strong>对文件和文件夹操作的类</strong></p>
+<ul>
+<li>FileInfo			   （具体的文件）
+<ul>
+<li>使用FileInfo，就可以获取文件大小等各种信息</li>
+</ul>
+</li>
+<li>File				      （提供static方法）</li>
+<li>DirectoryInfo     （具体的文件夹）
+<ul>
+<li>获取文件夹大小等各种信息</li>
+</ul>
+</li>
+<li>Directory            （提供static方法）</li>
+<li>FileSystemInfo   （FileInfo + DirectoryInfo）</li>
+<li>Path                     （文件路径类）</li>
+</ul>
+<h3 id="62-文件读写"><a class="markdownIt-Anchor" href="#62-文件读写"></a> 6.2 文件读写</h3>
+<h4 id="621-streamreader-streamwriter"><a class="markdownIt-Anchor" href="#621-streamreader-streamwriter"></a> 6.2.1 StreamReader、StreamWriter</h4>
+<p><strong>StreamReader</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> StreamReader(文件路径, FileEncode);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ReadLine、ReadToEnd、Read、Peek、Close</li>
+</ul>
+<p><strong>StreamWriter</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> StreamWriter(文件路径, FileMode, FileEncode)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>WriteLine、Write、Flush、Close</li>
+</ul>
+<h4 id="622-二进制文件"><a class="markdownIt-Anchor" href="#622-二进制文件"></a> 6.2.2 二进制文件</h4>
+<ul>
+<li>Seek、Read</li>
+</ul>
+<p><strong>序列化</strong></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Serializable</span>]</span><br><span class="line"><span class="keyword">class</span> <span class="title">Book</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> name;</span><br><span class="line">    <span class="comment">//public double price;</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> num=<span class="number">13</span>; <span class="comment">//如果book的版本变了，反序列化时，这个默认值不会被执行</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> [] reader;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">override</span> <span class="keyword">public</span> <span class="keyword">string</span> <span class="title">ToString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name + <span class="string">":"</span> <span class="comment">//+ price </span></span><br><span class="line">            + <span class="string">":"</span> + <span class="keyword">string</span>.Join(<span class="string">","</span>,reader)</span><br><span class="line">            + <span class="string">":"</span> + num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">Static <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//Serialization of String Object</span></span><br><span class="line">    BinaryFormatter formatter = <span class="keyword">new</span> BinaryFormatter();</span><br><span class="line">    FileStream stream = <span class="keyword">new</span> FileStream(<span class="string">"C:\\StrObj.t"</span>, FileMode.Create, </span><br><span class="line">                                       FileAccess.Write ,FileShare.None);</span><br><span class="line">	formatter.Serialize(stream, book);</span><br><span class="line">	stream.Close();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Deserialization of String Object</span></span><br><span class="line">    FileStream readstream = <span class="keyword">new</span> FileStream(<span class="string">"C:\\StrObj.t"</span>, FileMode.Open , </span><br><span class="line">                                           FileAccess.Read ,FileShare.Read );</span><br><span class="line">	Book book2 = (Book)formatter.Deserialize(readstream);</span><br><span class="line">	readstream.Close();</span><br><span class="line">	Console.WriteLine(book2);</span><br><span class="line">	Console.ReadLine();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="63-注册表"><a class="markdownIt-Anchor" href="#63-注册表"></a> 6.3 注册表</h3>
+<p><strong>|注册表|</strong>：存放计算机运行方式的配置信息的树状表。其中包括Windows操作系统配置信息、应用程序配置信息、专用用户设备配置信息、环境配置信息等。</p>
 
     </div>
 
@@ -294,16 +348,16 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2021/04/06/%E7%AC%AC5%E7%AB%A0%20%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%8F%8A%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95/" rel="next" title="第5章 基础类及常用算法">
-                  <i class="fa fa-chevron-left"></i> 第5章 基础类及常用算法
+                <a href="/2021/04/06/Unity/%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D/" rel="next" title="第1章 Unity介绍">
+                  <i class="fa fa-chevron-left"></i> 第1章 Unity介绍
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2021/04/07/%E7%AC%AC6%E7%AB%A0%20%E6%B5%81%E3%80%81%E6%96%87%E4%BB%B6/" rel="prev" title="第6章 流、文件">
-                  第6章 流、文件 <i class="fa fa-chevron-right"></i>
+                <a href="/2021/04/08/%E7%AC%AC7%E7%AB%A0%20Windows%E7%AA%97%E4%BD%93%E5%BA%94%E7%94%A8%E4%B8%8E%E6%8E%A7%E4%BB%B6/" rel="prev" title="第7章 Windows窗体应用与控件">
+                  第7章 Windows窗体应用与控件 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -343,7 +397,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#unity介绍"><span class="nav-text"> Unity介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-游戏对象与组件"><span class="nav-text"> 1.4 游戏对象与组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#组件和游戏对象的关系"><span class="nav-text"> 组件和游戏对象的关系</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流-文件"><span class="nav-text"> 流、文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#61-io及文件管理"><span class="nav-text"> 6.1 IO及文件管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#611-stream类"><span class="nav-text"> 6.1.1 Stream类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#612-文件及文件夹管理"><span class="nav-text"> 6.1.2 文件及文件夹管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-文件读写"><span class="nav-text"> 6.2 文件读写</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#621-streamreader-streamwriter"><span class="nav-text"> 6.2.1 StreamReader、StreamWriter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#622-二进制文件"><span class="nav-text"> 6.2.2 二进制文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-注册表"><span class="nav-text"> 6.3 注册表</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
