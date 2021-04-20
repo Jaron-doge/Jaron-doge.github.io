@@ -496,7 +496,7 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
 <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">MessageBox.Show(<span class="string">"你好！"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.Text = <span class="string">"这是一个应用程序"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.BackColor = Color.FromArgb(<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.SetBounds(<span class="number">100</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.Text = e.X + <span class="string">","</span> + e.Y;</span><br><span class="line"></span><br><span class="line">Random rnd = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">rnd.Next(<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> a = <span class="keyword">double</span>.Parse( textBox1.Text );</span><br><span class="line"></span><br><span class="line">Console.WriteLine( <span class="string">"&#123;0&#125;&#123;1&#125;"</span>, a, b);</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>C#</category>
+        <category>C2</category>
       </categories>
   </entry>
   <entry>
