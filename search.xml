@@ -89,6 +89,312 @@
       </categories>
   </entry>
   <entry>
+    <title>第13章 深入理解C#语言</title>
+    <url>/2021/04/14/C_/%E7%AC%AC13%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="深入理解C-语言"><a href="#深入理解C-语言" class="headerlink" title="深入理解C#语言"></a>深入理解C#语言</h2><h3 id="13-1-类型与转换"><a href="#13-1-类型与转换" class="headerlink" title="13.1 类型与转换"></a>13.1 类型与转换</h3><a id="more"></a>
+<p><img src="https://i.loli.net/2021/04/20/tbK5BFrychEksSD.png" alt="1.png"></p>
+<h4 id="13-1-1-Boxing-和-unboxing"><a href="#13-1-1-Boxing-和-unboxing" class="headerlink" title="13.1.1 Boxing 和 unboxing"></a>13.1.1 Boxing 和 unboxing</h4><p><img src="https://i.loli.net/2021/04/20/xFgvzEn6cI3bTOV.png" alt="2.png"></p>
+<h3 id="13-2-变量及其传递"><a href="#13-2-变量及其传递" class="headerlink" title="13.2 变量及其传递"></a>13.2 变量及其传递</h3><h4 id="13-2-1-ref参数及out参数"><a href="#13-2-1-ref参数及out参数" class="headerlink" title="13.2.1 ref参数及out参数"></a>13.2.1 ref参数及out参数</h4><ul>
+<li>ref参数在传之前必先赋值</li>
+<li>out参数在函数中必须赋值后才能返回</li>
+</ul>
+<h3 id="13-4-动态类型确定"><a href="#13-4-动态类型确定" class="headerlink" title="13.4 动态类型确定"></a>13.4 动态类型确定</h3><h4 id="13-4-1-反射"><a href="#13-4-1-反射" class="headerlink" title="13.4.1 反射"></a>13.4.1 反射</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">string</span> fileName = <span class="string">@".\Test.exe"</span>;</span><br><span class="line"></span><br><span class="line">Assembly assembly = Assembly.LoadFrom(fileName);</span><br><span class="line">Type [] types = assembly.GetTypes();</span><br><span class="line"><span class="keyword">foreach</span>(Type type <span class="keyword">in</span> types)</span><br><span class="line">&#123;</span><br><span class="line">	MethodInfo [] methods = type.GetMethods();</span><br><span class="line">    <span class="keyword">foreach</span>(MethodInfo m <span class="keyword">in</span> methods)</span><br><span class="line">        Console.WriteLine(m.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="13-5-对象构造与析构"><a href="#13-5-对象构造与析构" class="headerlink" title="13.5 对象构造与析构"></a>13.5 对象构造与析构</h3><h4 id="13-5-1-构造方法的执行过程"><a href="#13-5-1-构造方法的执行过程" class="headerlink" title="13.5.1 构造方法的执行过程"></a>13.5.1 构造方法的执行过程</h4><ul>
+<li>若有this(…)，转向之</li>
+<li>执行域的初始化</li>
+<li>转到base</li>
+<li>执行方法体</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第12章 数据库</title>
+    <url>/2021/04/13/C_/%E7%AC%AC12%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="12-2-ADO-NET"><a href="#12-2-ADO-NET" class="headerlink" title="12.2 ADO.NET"></a>12.2 ADO.NET</h3><a id="more"></a>
+<p>System.Data名称空间</p>
+<h4 id="12-2-1-ADO-NET的四个重要对象"><a href="#12-2-1-ADO-NET的四个重要对象" class="headerlink" title="12.2.1 ADO.NET的四个重要对象"></a>12.2.1 ADO.NET的四个重要对象</h4><p><img src="https://i.loli.net/2021/04/20/7wIoXtaiT4vBpUq.png" alt="8.png"></p>
+<h3 id="12-3-访问数据库的方法"><a href="#12-3-访问数据库的方法" class="headerlink" title="12.3 访问数据库的方法"></a>12.3 访问数据库的方法</h3><h4 id="12-3-1-方式一-DataAdapter及DataSet"><a href="#12-3-1-方式一-DataAdapter及DataSet" class="headerlink" title="12.3.1 方式一 DataAdapter及DataSet"></a>12.3.1 方式一 DataAdapter及DataSet</h4><ul>
+<li>适合于“离线”处理</li>
+<li>自动建立Command对象</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">OleDbCommandBuilder cmdbld = <span class="keyword">new</span> OleDbCommandBuilder(daAdapter);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据集</span></span><br><span class="line">DataSet dsMyData = <span class="keyword">new</span> DataSet();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 填充数据</span></span><br><span class="line">daAdapter.Fill(dyMyData);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 访问数据</span></span><br><span class="line"><span class="keyword">foreach</span>(DataTable table <span class="keyword">in</span> dyMyData.Tables) &#123;</span><br><span class="line">    <span class="keyword">foreach</span>(DataRow row <span class="keyword">in</span> table.Rows) &#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">object</span> field <span class="keyword">in</span> row.ItemArray) &#123;</span><br><span class="line">            Console.Write(field);</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(dyMyData.Table[<span class="number">0</span>].Rows[<span class="number">0</span>][<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交数据的改变</span></span><br><span class="line">daAdapter.Update(dyMyData);</span><br><span class="line"></span><br><span class="line"><span class="comment">// DataSet与XML转换</span></span><br><span class="line">dyMyData.WriterXml(<span class="string">"test.xml"</span>);</span><br><span class="line">dyMyData.ReadXml(<span class="string">"test.xml"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="12-3-2-DataReader"><a href="#12-3-2-DataReader" class="headerlink" title="12.3.2 DataReader"></a>12.3.2 DataReader</h4><ul>
+<li>适合于只读数据，效率较高</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">OleDbDataReader MyReader = MyCommand.ExecuteReader();</span><br><span class="line"><span class="keyword">while</span>(MyReader.Read())</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(</span><br><span class="line">    	MyReader.GetString(<span class="number">1</span>) + </span><br><span class="line">        MyReader[<span class="string">"Name"</span>].ToString() +</span><br><span class="line">        MyReader[<span class="number">2</span>].ToString()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="12-3-3-使用Command对象"><a href="#12-3-3-使用Command对象" class="headerlink" title="12.3.3 使用Command对象"></a>12.3.3 使用Command对象</h4><ul>
+<li>ExecuteReader ()<ul>
+<li>得到 Reader 对象，单向只读</li>
+</ul>
+</li>
+<li>ExecuteScalar ()<ul>
+<li>得到单一的量，如 sum,avg 等的结果</li>
+</ul>
+</li>
+<li>ExecuteNonQuery ()<ul>
+<li>执行非查询性的命令（如 Update/Delete/Insert)</li>
+<li>返回的是它所影响的记录数</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 使用Command的ExecuteScalar</span></span><br><span class="line">MyCommand.CommandText = <span class="string">"Select COUNT(*) From [Test]"</span>;</span><br><span class="line"><span class="keyword">int</span> cnt = (<span class="keyword">int</span>) MyCommand.ExecuteScalar();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用Command的ExecuteNonQuery</span></span><br><span class="line">MyCommand.CommandText = <span class="string">"Delete From [Test] Where [Name] = 'T'"</span>;</span><br><span class="line"><span class="keyword">int</span> cntDeleted = MyCommand.ExecuteNonQuery();</span><br></pre></td></tr></table></figure>
+<h4 id="12-3-4-使用参数"><a href="#12-3-4-使用参数" class="headerlink" title="12.3.4 使用参数"></a>12.3.4 使用参数</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">cmd.CommandText = <span class="string">"INSERT INTO CName , EName , FName ) VALUES</span></span><br><span class="line"><span class="string">(@CName , @EName , @FName);</span></span><br><span class="line"><span class="string">cmd.Connection = this.sqlConnection1;</span></span><br><span class="line"><span class="string">cmd.Parameters.Add(@CName "</span>, SqlDbType.VarChar, <span class="number">60</span>).Value =</span><br><span class="line">                   <span class="string">" aaaaaa "</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第11章 多线程与异步编程</title>
+    <url>/2021/04/12/C_/%E7%AC%AC11%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="多线程与异步编程"><a href="#多线程与异步编程" class="headerlink" title="多线程与异步编程"></a>多线程与异步编程</h2><h3 id="11-1-线程及其控制"><a href="#11-1-线程及其控制" class="headerlink" title="11.1 线程及其控制"></a>11.1 线程及其控制</h3><h4 id="11-1-1-多线程"><a href="#11-1-1-多线程" class="headerlink" title="11.1.1 多线程"></a>11.1.1 多线程</h4><a id="more"></a>
+<ul>
+<li>线程中的指令：一个方法(委托)</li>
+<li>线程中的数据：相关的对象</li>
+</ul>
+<h4 id="11-1-2-线程属性"><a href="#11-1-2-线程属性" class="headerlink" title="11.1.2 线程属性"></a>11.1.2 线程属性</h4><p><img src="https://i.loli.net/2021/04/20/h57PtgQducvUMH4.png" alt="5.png"></p>
+<h4 id="11-1-3-线程方法"><a href="#11-1-3-线程方法" class="headerlink" title="11.1.3 线程方法"></a>11.1.3 线程方法</h4><p><img src="https://i.loli.net/2021/04/20/cGdofq5iAUtCTPw.png" alt="6.png"></p>
+<h4 id="11-1-4-线程的创建"><a href="#11-1-4-线程的创建" class="headerlink" title="11.1.4 线程的创建"></a>11.1.4 线程的创建</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span>(<span class="params">ThreadStart fun</span>)</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="11-1-5-线程的状态"><a href="#11-1-5-线程的状态" class="headerlink" title="11.1.5 线程的状态"></a>11.1.5 线程的状态</h4><p><img src="https://i.loli.net/2021/04/20/wi3p9CRITNtmaOr.png" alt="7.png"></p>
+<h4 id="11-1-6-线程的同步"><a href="#11-1-6-线程的同步" class="headerlink" title="11.1.6 线程的同步"></a>11.1.6 线程的同步</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">thread.<span class="keyword">join</span>();</span><br></pre></td></tr></table></figure>
+<h4 id="11-1-7-线程池"><a href="#11-1-7-线程池" class="headerlink" title="11.1.7 线程池"></a>11.1.7 线程池</h4><h4 id="11-1-8-System-Threading-Timer类"><a href="#11-1-8-System-Threading-Timer类" class="headerlink" title="11.1.8 System.Threading.Timer类"></a>11.1.8 System.Threading.Timer类</h4><h4 id="11-1-9-集合的线程安全性"><a href="#11-1-9-集合的线程安全性" class="headerlink" title="11.1.9 集合的线程安全性"></a>11.1.9 集合的线程安全性</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">ArrayList mySyncdAL = ArrayList.Synchronized(myAL);</span><br></pre></td></tr></table></figure>
+<h4 id="11-1-10-Windows界面与线程"><a href="#11-1-10-Windows界面与线程" class="headerlink" title="11.1.10 Windows界面与线程"></a>11.1.10 Windows界面与线程</h4><ul>
+<li>界面的主线程</li>
+<li><p>对界面的更新只能使用主线程</p>
+</li>
+<li><p>其他线程则可以这样</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">this</span>.InvokeRequired)&#123;</span><br><span class="line">	<span class="keyword">this</span>.BeginInvoke( <span class="keyword">new</span> AddMsg(<span class="keyword">this</span>.AddMsgFun),<span class="keyword">new</span> <span class="keyword">object</span>[]&#123; msg&#125; ); 		<span class="comment">//显示到界面上</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.AddMsgFun(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="11-2-并行编程"><a href="#11-2-并行编程" class="headerlink" title="11.2 并行编程"></a>11.2 并行编程</h3><p>多CPU协作执行任务</p>
+<h4 id="11-2-1-并行任务库"><a href="#11-2-1-并行任务库" class="headerlink" title="11.2.1 并行任务库"></a>11.2.1 并行任务库</h4><p><strong>Task类</strong></p>
+<ul>
+<li>Task\<double> task = Task.Run( ()=&gt;SomeFun() );<br>doubleresult = task.Result;             //等待直到获得结果</li>
+<li>可以使用Task.WaitAll( task数组)</li>
+<li>可以使用task.ContinueWith( 另一个task)</li>
+</ul>
+<p><strong>Parallel类</strong></p>
+<ul>
+<li>Parallel.Invoke( Action[] actions); 并行执行多个任务，直到完成</li>
+<li>Parallel.For( 0, 100, i=&gt;{…} )</li>
+<li>Parallel.ForEach( list, item =&gt;{…} )</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Parallel.For(<span class="number">0</span>, <span class="number">10</span>, i =&gt;</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(<span class="string">"i=&#123;0&#125;, fac=&#123;1&#125;, 线程id=&#123;2&#125;"</span>,</span><br><span class="line">		i, Calc(i),</span><br><span class="line">		Thread.CurrentThread.ManagedThreadId);</span><br><span class="line">    Thread.Sleep(<span class="number">10</span>);</span><br><span class="line">&#125;);</span><br><span class="line">Console.ReadLine();</span><br></pre></td></tr></table></figure>
+<p><strong>并行Linq</strong></p>
+<ul>
+<li>只要在集合上加个.AsParallel()</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = (<span class="keyword">from</span> n <span class="keyword">in</span> persons.AsParallel()</span><br><span class="line">			<span class="keyword">where</span> n.Age&gt; <span class="number">20</span> &amp;&amp; n.Age&lt; <span class="number">25</span></span><br><span class="line">			<span class="keyword">select</span> n)</span><br><span class="line">		.ToList();</span><br></pre></td></tr></table></figure>
+<h3 id="11-3-异步编程"><a href="#11-3-异步编程" class="headerlink" title="11.3 异步编程"></a>11.3 异步编程</h3><p>等待一些耗时的任务(特别是文件、网络操作)而<strong>不阻塞</strong>当前任务</p>
+<h4 id="11-3-1-传统的方法"><a href="#11-3-1-传统的方法" class="headerlink" title="11.3.1 传统的方法"></a>11.3.1 传统的方法</h4><p><strong>BeginInvoke及EndInvoke</strong></p>
+<p>当使用BeginInvoke异步调用方法时，如果方法未执行完，EndInvoke方法就会一直阻塞，直到被调用的方法执行完毕</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">PrintDelegate printDelegate = Print;</span><br><span class="line"></span><br><span class="line">IAsyncResult result = printDelegate.BeginInvoke(<span class="string">"Hello World."</span>, <span class="literal">null</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(<span class="string">"主线程继续执行..."</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n = printDelegate.EndInvoke(result);</span><br></pre></td></tr></table></figure>
+<p><strong>使用回调</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Console.WriteLine(<span class="string">"主线程."</span>);</span><br><span class="line"></span><br><span class="line">PrintDelegate printDelegate= Print;</span><br><span class="line"></span><br><span class="line">printDelegate.BeginInvoke(<span class="string">"Hello world."</span>, PrintComeplete, printDelegate);</span><br><span class="line"></span><br><span class="line">Console.WriteLine(“主线程继续执行...”);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 回调方法要求：1.返回类型为void 2.只有一个参数IAsyncResult</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">PrintComeplete</span>(<span class="params">IAsyncResultresult</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	(result.AsyncState <span class="keyword">as</span> PrintDelegate).EndInvoke(result);</span><br><span class="line">	Console.WriteLine(<span class="string">"当前线程结束."</span> + result.AsyncState.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="11-3-2-await及async"><a href="#11-3-2-await及async" class="headerlink" title="11.3.2 await及async"></a>11.3.2 await及async</h4><ul>
+<li><p>await表示等待任务的执行</p>
+</li>
+<li><p>async修饰一个方法，表示其中有await语句</p>
+</li>
+</ul>
+<p><strong>异步任务与主程序任务一起写</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">async</span> <span class="keyword">void</span> <span class="title">Test</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">	<span class="keyword">double</span> result = <span class="keyword">await</span> FacAsync(<span class="number">10</span>);	<span class="comment">// 调用异步方法</span></span><br><span class="line">	Console.WriteLine( result); 	<span class="comment">//异步方法执行完后才执行此句</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Task&lt;<span class="keyword">double</span>&gt; <span class="title">FacAsync</span>(<span class="params"><span class="keyword">int</span> n</span>)</span> &#123; 		<span class="comment">//用Task表示要执行任务</span></span><br><span class="line">	<span class="keyword">return</span> Task&lt;<span class="keyword">double</span>&gt;.Run( ()=&gt;&#123;</span><br><span class="line">		<span class="keyword">double</span> s = <span class="number">1</span>; <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i&lt;n; i++) s = s*i;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="在WinForm中"><a href="#在WinForm中" class="headerlink" title="在WinForm中"></a>在WinForm中</h5><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">async</span> Task&lt;<span class="keyword">string</span>&gt; <span class="title">AccessTheWebAsync</span>(<span class="params"><span class="keyword">string</span> url</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HttpClient client = <span class="keyword">new</span> HttpClient();</span><br><span class="line">	Task&lt;<span class="keyword">string</span>&gt; task = client.GetStringAsync(url); <span class="comment">//异步</span></span><br><span class="line">	DoIndependentWork(); <span class="comment">//做其他事</span></span><br><span class="line">	<span class="keyword">string</span> urlContents = awaittask; <span class="comment">//等待异步执行完毕</span></span><br><span class="line">	<span class="keyword">return</span> urlContents;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>await后面的语句，就不用写成Invoke(委托)了</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">async</span> <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">button1_Click</span>(<span class="params"><span class="keyword">object</span> sender, EventArgse</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">string</span> content = <span class="keyword">await</span> AccessTheWebAsync(url);</span><br><span class="line">	<span class="keyword">this</span>.textBox2.Text = content; <span class="comment">//编译器让这句在界面线程上执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="11-3-3-异步的流"><a href="#11-3-3-异步的流" class="headerlink" title="11.3.3 异步的流"></a>11.3.3 异步的流</h4><p>await myStream.WriteAsync(…)</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Task task= myStream.WriteAsync(); 	<span class="comment">//异步</span></span><br><span class="line">DoIndependentWork(); 				<span class="comment">//做其他事</span></span><br><span class="line"><span class="keyword">await</span> task; 						<span class="comment">//等待异步执行完毕</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第10章 网络信息获取及Xml处理</title>
+    <url>/2021/04/11/C_/%E7%AC%AC10%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="网络信息获取及Xml处理"><a href="#网络信息获取及Xml处理" class="headerlink" title="网络信息获取及Xml处理"></a>网络信息获取及Xml处理</h2><h3 id="10-1-网络信息获取的基本方式"><a href="#10-1-网络信息获取的基本方式" class="headerlink" title="10.1 网络信息获取的基本方式"></a>10.1 网络信息获取的基本方式</h3><h4 id="10-1-1-网络信息浏览"><a href="#10-1-1-网络信息浏览" class="headerlink" title="10.1.1 网络信息浏览"></a>10.1.1 网络信息浏览</h4><a id="more"></a>
+<ul>
+<li><p>HTTP协议</p>
+</li>
+<li><p>客户端与服务端</p>
+</li>
+<li>Request与Response</li>
+<li><p>Stream</p>
+</li>
+<li><p>Get与Post</p>
+</li>
+</ul>
+<h4 id="10-1-2-一些查看工具"><a href="#10-1-2-一些查看工具" class="headerlink" title="10.1.2 一些查看工具"></a>10.1.2 一些查看工具</h4><ul>
+<li>Fiddler2</li>
+<li>Chrome/FireFox等浏览器F12<ul>
+<li>Chrome中按F12， 或点右键，“审查元素”</li>
+</ul>
+</li>
+</ul>
+<h4 id="10-1-3-使用System-Web"><a href="#10-1-3-使用System-Web" class="headerlink" title="10.1.3 使用System.Web"></a>10.1.3 使用System.Web</h4><p>System.Web提供支持浏览器/服务器通讯的类和接口</p>
+<p><strong>System.Net中的类</strong></p>
+<p><img src="https://i.loli.net/2021/04/20/26HmlvrEXeVpRGf.png" alt="4.png"></p>
+<h4 id="10-1-4-WebClient类"><a href="#10-1-4-WebClient类" class="headerlink" title="10.1.4 WebClient类"></a>10.1.4 WebClient类</h4><p><strong>DownloadData及DownloadFile</strong></p>
+<ul>
+<li>后来又有DownloadString</li>
+<li>UploadData及UploadFile</li>
+<li>OpenRead及OpenWrite</li>
+</ul>
+<p><strong>示例</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> url= <span class="string">@"http://www.baidu.com"</span>;</span><br><span class="line">WebClientclient = <span class="keyword">new</span> WebClient();</span><br><span class="line"><span class="keyword">byte</span>[] pageData= client.DownloadData(url);</span><br><span class="line"><span class="keyword">string</span> pageHtml= Encoding.Default.GetString(pageData);</span><br><span class="line">Console.WriteLine(pageHtml);</span><br></pre></td></tr></table></figure>
+<h4 id="10-1-5-WebRequest及WebResponse"><a href="#10-1-5-WebRequest及WebResponse" class="headerlink" title="10.1.5 WebRequest及WebResponse"></a>10.1.5 WebRequest及WebResponse</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">WebRequest myRequest = WebRequest.Create(<span class="string">"http://www.contoso.com"</span>);</span><br><span class="line">WebResponse myResponse = myRequest.GetResponse();</span><br><span class="line">Stream requestStream = myRequest.GetRequestStream()</span><br><span class="line">Stream receiveStream =myWebResponse.GetResponseStream();</span><br></pre></td></tr></table></figure>
+<h4 id="10-1-6-一些术语"><a href="#10-1-6-一些术语" class="headerlink" title="10.1.6 一些术语"></a>10.1.6 一些术语</h4><ul>
+<li>Credentials: 主要指用户名、密码等</li>
+<li>Header：头部信息</li>
+<li>Cookie： Cookie信息</li>
+<li>User-Agent: 用户代理（浏览器）</li>
+<li>Refer：由哪个页面进行的访问</li>
+</ul>
+<h3 id="10-2-XML基本操作"><a href="#10-2-XML基本操作" class="headerlink" title="10.2 XML基本操作"></a>10.2 XML基本操作</h3><h4 id="10-2-1-XML的内容"><a href="#10-2-1-XML的内容" class="headerlink" title="10.2.1 XML的内容"></a>10.2.1 XML的内容</h4><ul>
+<li><p>声明\&lt;?xml version = ‘1.0’ …?&gt;</p>
+</li>
+<li><p>实体\&lt;!Entity…&gt;</p>
+</li>
+<li><p>元素\<book> … \</book></p>
+</li>
+<li><p>属性\<book title = "..." /></p>
+</li>
+<li><p>注释\<!-- some comments --></p>
+</li>
+<li><p>特殊字符</p>
+<p>&lt; &gt; 分别表示为\&lt; \&gt;</p>
+</li>
+</ul>
+<h4 id="10-2-2-XML的处理方式"><a href="#10-2-2-XML的处理方式" class="headerlink" title="10.2.2 XML的处理方式"></a>10.2.2 XML的处理方式</h4><p><strong>DOM</strong></p>
+<p>文档对象模式(Document Object Model)</p>
+<ul>
+<li>把整个文档装入内存，建立一个树状结构处理</li>
+</ul>
+<p><strong>SAX</strong></p>
+<p>XML解析的简单API(Simple API for XML)</p>
+<ul>
+<li>读到一个标记处理一下</li>
+</ul>
+<h4 id="10-2-3-常用的XML类"><a href="#10-2-3-常用的XML类" class="headerlink" title="10.2.3 常用的XML类"></a>10.2.3 常用的XML类</h4><p><strong>XmlDocument</strong></p>
+<ul>
+<li>.LoadXml()    .DocumentElement</li>
+</ul>
+<p><strong>XmlNode的属性</strong></p>
+<ul>
+<li>.ChildNodes    .HasChildNodes,    .FirstChildNode</li>
+<li>.InnerXml    .InnerText    .OutterXml    .Value</li>
+<li>.NodeType</li>
+<li>子类XmlDocument, XmlElement<ul>
+<li>XmlAttribute, XmlEntity</li>
+</ul>
+</li>
+</ul>
+<h3 id="10-3-XPath及Xslt编辑"><a href="#10-3-XPath及Xslt编辑" class="headerlink" title="10.3 XPath及Xslt编辑"></a>10.3 XPath及Xslt编辑</h3><h4 id="10-3-1-XPath的概念"><a href="#10-3-1-XPath的概念" class="headerlink" title="10.3.1 XPath的概念"></a>10.3.1 XPath的概念</h4><p>XPath是对XML进行查询的表达式</p>
+<ul>
+<li><p>Axes(路径)    /  及  //</p>
+<ul>
+<li>/books/book/@title         一层</li>
+<li>//price                                一直向下找到为止 </li>
+</ul>
+</li>
+<li><p>第几个子节点 [1] 等</p>
+</li>
+<li><p>属性  @</p>
+</li>
+<li>条件  []<ul>
+<li>para[@type = “warning”][5]</li>
+</ul>
+</li>
+</ul>
+<h4 id="10-3-2-XSLT"><a href="#10-3-2-XSLT" class="headerlink" title="10.3.2 XSLT"></a>10.3.2 XSLT</h4><p>XSLT 指 XSL 转换。使用 XSLT 将 XML 文档转换为其他文档，比如 XHTML。</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span></span><br><span class="line">&#123;</span><br><span class="line">    XmlDocument doc = <span class="keyword">new</span> XmlDocument();</span><br><span class="line">    doc.Load(<span class="string">@".\BookList.xml"</span>);</span><br><span class="line"></span><br><span class="line">    XPathNavigator nav =doc.CreateNavigator();</span><br><span class="line">    nav.MoveToRoot();</span><br><span class="line"></span><br><span class="line">    XslTransform xt = <span class="keyword">new</span> XslTransform();</span><br><span class="line">    xt.Load(<span class="string">@".\BookList.xslt"</span>);</span><br><span class="line"></span><br><span class="line">    XmlTextWriter writer = <span class="keyword">new</span> XmlTextWriter(Console.Out);</span><br><span class="line"></span><br><span class="line">    xt.Transform(nav,  <span class="literal">null</span>, writer);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>( XmlException e )</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"XML Exception:"</span> + e.ToString());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>( XsltException e )</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(<span class="string">"XSLT Exception:"</span> + e.ToString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="10-4-示例"><a href="#10-4-示例" class="headerlink" title="10.4 示例"></a>10.4 示例</h3>]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第9章 文本处理及正则表达式</title>
+    <url>/2021/04/10/C_/%E7%AC%AC9%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="文本处理及正则表达式"><a href="#文本处理及正则表达式" class="headerlink" title="文本处理及正则表达式"></a>文本处理及正则表达式</h2><h3 id="9-1-基于文本的应用"><a href="#9-1-基于文本的应用" class="headerlink" title="9.1 基于文本的应用"></a>9.1 基于文本的应用</h3><a id="more"></a>
+<ul>
+<li><p>Console类</p>
+</li>
+<li><p>String类</p>
+</li>
+<li><p>StringBuilder类</p>
+</li>
+<li><p>System.Text.Encoding类</p>
+<ul>
+<li><p>.Default    .UTF8    .GetEncoding</p>
+</li>
+<li><p>.GetBytes(str)    .GetString(byte[])</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-2-正则表达式"><a href="#9-2-正则表达式" class="headerlink" title="9.2 正则表达式"></a>9.2 正则表达式</h3><h4 id="9-2-1-正则表达式中几个主要要素"><a href="#9-2-1-正则表达式中几个主要要素" class="headerlink" title="9.2.1 正则表达式中几个主要要素"></a>9.2.1 正则表达式中几个主要要素</h4><p><strong>字符</strong>  ab</p>
+<p>大写表示非</p>
+<ul>
+<li><p>[a-zA-z] 即\w</p>
+</li>
+<li><p>[0-9] 即\d     [\^0-9] 即\D</p>
+</li>
+<li><p>\s 即空白\S 即非空白</p>
+</li>
+<li><p>. 表任意</p>
+</li>
+</ul>
+<p><strong>次数</strong> {2, 6}</p>
+<ul>
+<li>即{0,} + 即{1,} ? 即{0,1}</li>
+</ul>
+<ul>
+<li>*? +? ?? 表示lazy匹配   (匹配到一次就算数)</li>
+</ul>
+<p><strong>|表示或者    ()表示成组</strong></p>
+<p><strong>位置限定</strong></p>
+<ul>
+<li>^(首)     xxxxxx$ (尾)</li>
+<li>\b单词边界    \B 非单词边界</li>
+</ul>
+<p><strong>(?&lt;名称&gt;xxxxxxxx)    表示对分组进行命名</strong></p>
+<ul>
+<li>在替换时, 使用${名称}</li>
+<li>若不命名,则为​$1, $2等等    而$0 表示整个匹配</li>
+</ul>
+<p><strong>(?i:xxxxxxxxx)    表示选项(i表示忽略大小写)</strong></p>
+<h4 id="9-2-2-Regex"><a href="#9-2-2-Regex" class="headerlink" title="9.2.2 Regex"></a>9.2.2 Regex</h4><p>using System.Text.RegularExpressions;</p>
+<p><strong>Static方法</strong></p>
+<ul>
+<li>Regex.IsMatch( s, pattern )</li>
+</ul>
+<p><strong>使用对象</strong></p>
+<ul>
+<li><p>Regex对象</p>
+<ul>
+<li><p>.IsMatch(s)     .Match(s)     .Matches(s)</p>
+</li>
+<li><p>.Replace(s, r)</p>
+</li>
+</ul>
+</li>
+<li><p>Match对象</p>
+<ul>
+<li>.Groups 各组    .Value 原串    .Result(xxxxx)替换</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">string</span> pattern = <span class="string">@"^[\. a-zA-z]+ (?&lt;name&gt;\w+), [a-zA-z]+, x(?&lt;ext&gt;\d+)$"</span>;</span><br><span class="line"><span class="keyword">string</span>[] sa =</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"Dr. David Jones, Ophthalmology, x2441"</span>,</span><br><span class="line">    <span class="string">"Ms. Cindy Harriman, Registry, x6231"</span>,</span><br><span class="line">    <span class="string">"Mr. Chester Addams, Mortuary, x1667"</span>,</span><br><span class="line">    <span class="string">"Dr. Hawkeye Pierce, Surgery, x0986"</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Regex rx = <span class="keyword">new</span> Regex(pattern);</span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">string</span> s <span class="keyword">in</span> sa)</span><br><span class="line">&#123;</span><br><span class="line">    Match m = rx.Match(s);</span><br><span class="line">    <span class="keyword">if</span> (m.Success)</span><br><span class="line">        Console.Write(m.Result(<span class="string">"$&#123;ext&#125;,  $&#123;name&#125;, $1"</span>));</span><br><span class="line">    Console.WriteLine(<span class="string">"\t"</span> +</span><br><span class="line">        rx.Replace(s, <span class="string">"姓：$&#123;name&#125;, 分机号：$&#123;ext&#125;"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第2章 Unity脚本开发</title>
     <url>/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="unity脚本开发"><a class="markdownIt-Anchor" href="#unity脚本开发"></a> Unity脚本开发</h2>
@@ -449,6 +755,278 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
       </categories>
   </entry>
   <entry>
+    <title>第8章 绘图及图像</title>
+    <url>/2021/04/09/C_/%E7%AC%AC8%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="绘图及图像"><a href="#绘图及图像" class="headerlink" title="绘图及图像"></a>绘图及图像</h2><h3 id="8-1-绘图基础GDI"><a href="#8-1-绘图基础GDI" class="headerlink" title="8.1 绘图基础GDI+"></a>8.1 绘图基础GDI+</h3><a id="more"></a>
+<p>GDI：Graphics Device Interface（图形设备界面）</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Graphics g = <span class="keyword">this</span>.CreateGraphics();</span><br><span class="line">Pen pen = <span class="keyword">new</span> Pen(Color.Red, <span class="number">2</span>);</span><br><span class="line">Brush brush = <span class="keyword">new</span> SolidBrush(Color.Blue);</span><br><span class="line">Font font = <span class="keyword">new</span> Font(<span class="string">"宋体"</span>, <span class="number">25</span>);</span><br><span class="line">Rectangle rect = <span class="keyword">new</span> Rectangle(<span class="number">20</span>, <span class="number">120</span>, <span class="number">100</span>, <span class="number">160</span>);</span><br><span class="line">g.DrawLine(pen, <span class="number">20</span>, <span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">g.DrawRectangle(pen, rect);</span><br><span class="line">g.DrawString(<span class="string">"GDI+图形编程"</span>, font, brush, <span class="number">20</span>, <span class="number">20</span>);</span><br><span class="line">brush.Dispose(); font.Dispose(); pen.Dispose();</span><br><span class="line">g.Dispose();</span><br></pre></td></tr></table></figure>
+<h4 id="8-1-1-坐标系统"><a href="#8-1-1-坐标系统" class="headerlink" title="8.1.1 坐标系统"></a>8.1.1 坐标系统</h4><p>(0, 0)    ——&gt;    (x, 0)</p>
+<p>​    ⬇</p>
+<p>(0, y)</p>
+<h4 id="8-1-2-System-Drawing中常用的结构"><a href="#8-1-2-System-Drawing中常用的结构" class="headerlink" title="8.1.2 System.Drawing中常用的结构"></a>8.1.2 System.Drawing中常用的结构</h4><h5 id="Color"><a href="#Color" class="headerlink" title="Color"></a>Color</h5><p><strong>静态成员</strong></p>
+<p>Color.Red</p>
+<p><strong>静态方法</strong></p>
+<ul>
+<li>FromArab</li>
+<li>FromKnownColor</li>
+<li>FromName</li>
+</ul>
+<h5 id="Size和SizeF"><a href="#Size和SizeF" class="headerlink" title="Size和SizeF"></a>Size和SizeF</h5><h5 id="Point"><a href="#Point" class="headerlink" title="Point"></a>Point</h5><h5 id="Rectangle"><a href="#Rectangle" class="headerlink" title="Rectangle"></a>Rectangle</h5><h3 id="8-2-绘图对象及绘图方法"><a href="#8-2-绘图对象及绘图方法" class="headerlink" title="8.2 绘图对象及绘图方法"></a>8.2 绘图对象及绘图方法</h3><h4 id="8-2-1-得到Graphics对象"><a href="#8-2-1-得到Graphics对象" class="headerlink" title="8.2.1 得到Graphics对象"></a>8.2.1 得到Graphics对象</h4><ul>
+<li><p>OnPaint事件中</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Graphics g = e.Graphics;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在其他情况使用</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Graphics g = <span class="keyword">this</span>.CreateGraphics();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="8-2-2-释放Graphics"><a href="#8-2-2-释放Graphics" class="headerlink" title="8.2.2 释放Graphics"></a>8.2.2 释放Graphics</h4><ul>
+<li>g.Dispose();</li>
+</ul>
+<p>用这样也可以using(Graphics g = this.CreateGraphics()) { …. }</p>
+<ul>
+<li>这种写法，相当于try{…….} finally{ g.Dispose(); }</li>
+</ul>
+<h4 id="8-2-3Graphics对象绘图方法"><a href="#8-2-3Graphics对象绘图方法" class="headerlink" title="8.2.3Graphics对象绘图方法"></a>8.2.3Graphics对象绘图方法</h4><p><img src="https://i.loli.net/2021/04/20/Dvd5e8jXiASCMha.png" alt="1.png" style="zoom:80%;" /></p>
+<ul>
+<li>Graphics对象绘制实心图形方法</li>
+</ul>
+<p><img src="https://i.loli.net/2021/04/20/pK2ZiPY3r4FTEbC.png" alt="2.png" style="zoom:80%;" /></p>
+<h4 id="8-2-4-Pen画笔"><a href="#8-2-4-Pen画笔" class="headerlink" title="8.2.4 Pen画笔"></a>8.2.4 Pen画笔</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Pen pen= <span class="keyword">new</span> Pen(Color.Blue,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="8-2-5-DrawString方法"><a href="#8-2-5-DrawString方法" class="headerlink" title="8.2.5 DrawString方法"></a>8.2.5 DrawString方法</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">DrawString(<span class="keyword">string</span>,Font,Brush,RectangleF);</span><br></pre></td></tr></table></figure>
+<h4 id="8-2-6-Path"><a href="#8-2-6-Path" class="headerlink" title="8.2.6 Path"></a>8.2.6 Path</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">GraphicsPath gp = <span class="keyword">new</span> ;</span><br><span class="line">gp.AddString();</span><br><span class="line">Brush brush = <span class="keyword">new</span>;</span><br><span class="line">e.Graphics.DrawPath(Pens.Black, gp);</span><br><span class="line">e.Graphics.FillPath(brush, gp);</span><br></pre></td></tr></table></figure>
+<h3 id="8-4-控件的重绘及双缓冲"><a href="#8-4-控件的重绘及双缓冲" class="headerlink" title="8.4 控件的重绘及双缓冲"></a>8.4 控件的重绘及双缓冲</h3><h4 id="8-4-1-处理重绘和无效操作"><a href="#8-4-1-处理重绘和无效操作" class="headerlink" title="8.4.1 处理重绘和无效操作"></a>8.4.1 处理重绘和无效操作</h4><p>当窗体被覆盖，前面的窗体移开后需要重绘</p>
+<ul>
+<li><p>调用以下几个方法</p>
+<ul>
+<li><p>void Invalidate();</p>
+</li>
+<li><p>void Invalidate( Rectangle ) ;</p>
+<p>使控件的特定区域无效并向控件发送绘制消息</p>
+</li>
+<li><p>void Update();</p>
+<p>使控件重绘其工作区内的无效区域</p>
+</li>
+<li><p>void Refresh();</p>
+<p>相当于this.Invalidate(true); this.Update();</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="8-4-2-双缓冲技术"><a href="#8-4-2-双缓冲技术" class="headerlink" title="8.4.2 双缓冲技术"></a>8.4.2 双缓冲技术</h4><p>在内存中画好再显示在窗体上</p>
+<ol>
+<li><p>在内存中建立一块“虚拟画布”：</p>
+<p>Bitmap bmp = new Bitmap(600, 600);</p>
+</li>
+<li><p>获取这块内存画布的Graphics引用：</p>
+<p>Graphics g = Graphics.FromImage(bmp);</p>
+</li>
+<li><p>在这块内存画布上绘图：</p>
+<p>g.FillEllipse(brush, i<em> 10, j </em> 10, 10, 10);</p>
+<p>g.DrawLine() g.DrawString()等等</p>
+</li>
+<li><p>将内存画布画到窗口中</p>
+<p>this.CreateGraphics().DrawImage(bmp, 0, 0);</p>
+</li>
+</ol>
+<p><strong>控件的DoubleBuffered属性</strong></p>
+<p>在framework3以上版本中有</p>
+<h3 id="8-5-图像处理"><a href="#8-5-图像处理" class="headerlink" title="8.5 图像处理"></a>8.5 图像处理</h3><h4 id="8-5-1-Bitmap类"><a href="#8-5-1-Bitmap类" class="headerlink" title="8.5.1 Bitmap类"></a>8.5.1 Bitmap类</h4><p>可以处理BMP、Jpeg、GIF、PNG等格式</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Bitmap bt1 = <span class="keyword">new</span> Bitmap(“c:\\<span class="number">1.b</span>mp”);</span><br><span class="line">Bitmap bt2 = <span class="keyword">new</span> Bitmap(bt1,<span class="number">200</span>,<span class="number">300</span>);</span><br><span class="line">bt3.FromFile(“文件名称”);</span><br></pre></td></tr></table></figure>
+<h4 id="8-5-2-图像处理"><a href="#8-5-2-图像处理" class="headerlink" title="8.5.2 图像处理"></a>8.5.2 图像处理</h4><p><strong>使用指针逐点处理</strong></p>
+<p>反转、变灰、加亮……</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需要设置unsafe</span></span><br><span class="line">bitmapData = bitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);</span><br><span class="line">pBase = (Bypte*)bitmapData.Scan0.ToPointer();</span><br><span class="line">(PixelData*)(pBase + y * stride + x * <span class="keyword">sizeof</span>(PixelData));</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第7章 Windows窗体应用与控件</title>
+    <url>/2021/04/08/C_/%E7%AC%AC7%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="Windows窗体应用与控件"><a href="#Windows窗体应用与控件" class="headerlink" title="Windows窗体应用与控件"></a>Windows窗体应用与控件</h2><h3 id="7-1-布局与事件"><a href="#7-1-布局与事件" class="headerlink" title="7.1 布局与事件"></a>7.1 布局与事件</h3><h4 id="7-1-1-控件与容器"><a href="#7-1-1-控件与容器" class="headerlink" title="7.1.1 控件与容器"></a>7.1.1 控件与容器</h4><a id="more"></a>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">容器.Controls.Add(...)</span><br></pre></td></tr></table></figure>
+<h4 id="7-1-2-布局"><a href="#7-1-2-布局" class="headerlink" title="7.1.2 布局"></a>7.1.2 布局</h4><ul>
+<li>Location——以像素为单位，设置控件的X坐标和Y坐标</li>
+<li>Size——以像素为单位，设置控件的宽度和高度</li>
+<li>Anchor——把控件附着在窗体的一个或多个边框上</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">this</span>.button.Anchor = (System.Windows.Forms.AnchorStyles.Bottom);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Dock——把控件和窗体的一个或多个边框连接起来</li>
+</ul>
+<p>在一定意义上，前两者是绝对布局，后两者是相对布局</p>
+<h3 id="7-2-常用控件"><a href="#7-2-常用控件" class="headerlink" title="7.2 常用控件"></a>7.2 常用控件</h3><h4 id="7-2-1-Control的常用属性"><a href="#7-2-1-Control的常用属性" class="headerlink" title="7.2.1 Control的常用属性"></a>7.2.1 Control的常用属性</h4><p><strong>外观</strong></p>
+<ul>
+<li>Size, Width, Height</li>
+<li>Location, Left, Right, Top, Bottom</li>
+<li>Font, ForeColor, BackColor</li>
+</ul>
+<p><strong>状态</strong></p>
+<ul>
+<li>Visible(可见), Enabled(使能/能不能用)</li>
+<li>Text, BackgroundImage</li>
+<li>Tag</li>
+</ul>
+<h4 id="7-2-2-Control的常用事件"><a href="#7-2-2-Control的常用事件" class="headerlink" title="7.2.2 Control的常用事件"></a>7.2.2 Control的常用事件</h4><p><strong>KeyXXX键盘事件</strong></p>
+<p>KeyDown    KeyUp    KeyPress</p>
+<p><strong>MouseXXX鼠标事件</strong></p>
+<p>MouseDown, MouseUp, MouseMove, MouseEnter, MouseHover, MouseLeave</p>
+<p><strong>Click/DoubleClick事件</strong></p>
+<p><strong>GotFocus事件</strong></p>
+<p><strong>TextChange事件</strong></p>
+<h4 id="7-2-3-常用控件"><a href="#7-2-3-常用控件" class="headerlink" title="7.2.3 常用控件"></a>7.2.3 常用控件</h4><ul>
+<li><p>Label</p>
+</li>
+<li><p>LinkedLabel</p>
+</li>
+<li><p>TextBox</p>
+<ul>
+<li>PasswordChar    可使之成为密码框  #、X</li>
+<li>MultiLine    多行文本       ScrollBars    滚动条</li>
+<li>ReadOnly</li>
+</ul>
+</li>
+<li><p>Button</p>
+</li>
+<li><p>复选框   CheckBox</p>
+</li>
+<li>单选框   RadioButton <ul>
+<li>Checked属性</li>
+<li>容器，如GroupBox</li>
+</ul>
+</li>
+<li>列表框    ListBox</li>
+<li><p>组合框    ComboBox</p>
+<ul>
+<li>复选框列表</li>
+<li>Xxx.Items.Add(…)</li>
+</ul>
+</li>
+<li><p>数字框    NumbericUpDown</p>
+<ul>
+<li>Value属性</li>
+</ul>
+</li>
+<li>日期时间框    DateTimePicker<ul>
+<li>Value属性</li>
+<li>Format及CustomFormat属性“yy-MM-dd”</li>
+</ul>
+</li>
+<li>掩码文本框    MaskedTextBox<ul>
+<li>Mask属性</li>
+</ul>
+</li>
+<li><p>进度条    ProgressBar</p>
+<ul>
+<li>Maximum    Minimum</li>
+<li>Step（步进值）    Value（当前值）</li>
+</ul>
+</li>
+<li><p>图片框    PictureBox    </p>
+<ul>
+<li>Image属性</li>
+<li>SizeMode属性</li>
+</ul>
+</li>
+<li>富文本框    RichTextBox<ul>
+<li>.Select(start, len)    .SelectText = “…”    .SelectionColor/Font</li>
+</ul>
+</li>
+<li><p>网页浏览器    WebBrowser</p>
+<ul>
+<li>Navigate(“<a href="http://www.baidu.com" target="_blank" rel="noopener">http://www.baidu.com</a>“)</li>
+</ul>
+</li>
+<li><p>TreeView</p>
+</li>
+<li>ListView</li>
+</ul>
+<h4 id="7-2-4-容器控件"><a href="#7-2-4-容器控件" class="headerlink" title="7.2.4 容器控件"></a>7.2.4 容器控件</h4><ul>
+<li><p>流式布局面板    FlowLayoutPanel</p>
+</li>
+<li><p>成组框                GroupBox    </p>
+</li>
+<li>面板                    Panel</li>
+<li>分隔容器            SplitContainer</li>
+<li>选项卡                TabControl</li>
+<li>表格布局面板     TableLayoutPanel</li>
+</ul>
+<h3 id="7-3-窗体"><a href="#7-3-窗体" class="headerlink" title="7.3 窗体"></a>7.3 窗体</h3><p>Form类是Control类的子类</p>
+<h4 id="7-3-1-多窗体"><a href="#7-3-1-多窗体" class="headerlink" title="7.3.1 多窗体"></a>7.3.1 多窗体</h4><p><strong>打开与关闭</strong></p>
+<ul>
+<li>Show()</li>
+<li>ShowDialog()</li>
+</ul>
+<p><strong>交互信息</strong></p>
+<ul>
+<li>static变量</li>
+<li>通过构造函数或属性传递变量</li>
+</ul>
+<h3 id="7-5-用户控件"><a href="#7-5-用户控件" class="headerlink" title="7.5 用户控件"></a>7.5 用户控件</h3>]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第6章 流、文件</title>
+    <url>/2021/04/07/C_/%E7%AC%AC6%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="流、文件"><a href="#流、文件" class="headerlink" title="流、文件"></a>流、文件</h2><h3 id="6-1-IO及文件管理"><a href="#6-1-IO及文件管理" class="headerlink" title="6.1 IO及文件管理"></a>6.1 IO及文件管理</h3><h4 id="6-1-1-Stream类"><a href="#6-1-1-Stream类" class="headerlink" title="6.1.1 Stream类"></a>6.1.1 Stream类</h4><a id="more"></a>
+<p><strong>按存取位置分</strong></p>
+<ul>
+<li>FileStream、MemoryStream、BufferedStream</li>
+</ul>
+<p><strong>读写类</strong></p>
+<ul>
+<li>BinaryReader和BinaryWriter</li>
+<li>TextReader和TextWriter<ul>
+<li>StreamReader和StreamWriter</li>
+<li>StringReader和StringWriter</li>
+</ul>
+</li>
+</ul>
+<p><strong>其关系</strong></p>
+<ul>
+<li><p>包装关系</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">FileStream fs = <span class="keyword">new</span> FileStream(<span class="string">"a.txt"</span>, FileMode.Create);</span><br><span class="line">StreamWriter writer = <span class="keyword">new</span> StreamWriter(fs);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="6-1-2-文件及文件夹管理"><a href="#6-1-2-文件及文件夹管理" class="headerlink" title="6.1.2 文件及文件夹管理"></a>6.1.2 文件及文件夹管理</h4><p><strong>对文件和文件夹操作的类</strong></p>
+<ul>
+<li>FileInfo               （具体的文件）<ul>
+<li>使用FileInfo，就可以获取文件大小等各种信息</li>
+</ul>
+</li>
+<li>File                      （提供static方法）</li>
+<li>DirectoryInfo     （具体的文件夹） <ul>
+<li>获取文件夹大小等各种信息</li>
+</ul>
+</li>
+<li>Directory            （提供static方法）</li>
+<li>FileSystemInfo   （FileInfo + DirectoryInfo）</li>
+<li>Path                     （文件路径类）</li>
+</ul>
+<h3 id="6-2-文件读写"><a href="#6-2-文件读写" class="headerlink" title="6.2 文件读写"></a>6.2 文件读写</h3><h4 id="6-2-1-StreamReader、StreamWriter"><a href="#6-2-1-StreamReader、StreamWriter" class="headerlink" title="6.2.1 StreamReader、StreamWriter"></a>6.2.1 StreamReader、StreamWriter</h4><p><strong>StreamReader</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> StreamReader(文件路径, FileEncode);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ReadLine、ReadToEnd、Read、Peek、Close</li>
+</ul>
+<p><strong>StreamWriter</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> StreamWriter(文件路径, FileMode, FileEncode)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>WriteLine、Write、Flush、Close</li>
+</ul>
+<h4 id="6-2-2-二进制文件"><a href="#6-2-2-二进制文件" class="headerlink" title="6.2.2 二进制文件"></a>6.2.2 二进制文件</h4><ul>
+<li>Seek、Read</li>
+</ul>
+<p><strong>序列化</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">[<span class="meta">Serializable</span>]</span><br><span class="line"><span class="keyword">class</span> <span class="title">Book</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> name;</span><br><span class="line">    <span class="comment">//public double price;</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> num=<span class="number">13</span>; <span class="comment">//如果book的版本变了，反序列化时，这个默认值不会被执行</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> [] reader;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">override</span> <span class="keyword">public</span> <span class="keyword">string</span> <span class="title">ToString</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name + <span class="string">":"</span> <span class="comment">//+ price </span></span><br><span class="line">            + <span class="string">":"</span> + <span class="keyword">string</span>.Join(<span class="string">","</span>,reader)</span><br><span class="line">            + <span class="string">":"</span> + num;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">Static <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//Serialization of String Object</span></span><br><span class="line">    BinaryFormatter formatter = <span class="keyword">new</span> BinaryFormatter();</span><br><span class="line">    FileStream stream = <span class="keyword">new</span> FileStream(<span class="string">"C:\\StrObj.t"</span>, FileMode.Create, </span><br><span class="line">                                       FileAccess.Write ,FileShare.None);</span><br><span class="line">	formatter.Serialize(stream, book);</span><br><span class="line">	stream.Close();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Deserialization of String Object</span></span><br><span class="line">    FileStream readstream = <span class="keyword">new</span> FileStream(<span class="string">"C:\\StrObj.t"</span>, FileMode.Open , </span><br><span class="line">                                           FileAccess.Read ,FileShare.Read );</span><br><span class="line">	Book book2 = (Book)formatter.Deserialize(readstream);</span><br><span class="line">	readstream.Close();</span><br><span class="line">	Console.WriteLine(book2);</span><br><span class="line">	Console.ReadLine();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-3-注册表"><a href="#6-3-注册表" class="headerlink" title="6.3 注册表"></a>6.3 注册表</h3><p><strong>|注册表|</strong>：存放计算机运行方式的配置信息的树状表。其中包括Windows操作系统配置信息、应用程序配置信息、专用用户设备配置信息、环境配置信息等。</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第1章 Unity介绍</title>
     <url>/2021/04/06/Unity/%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="unity介绍"><a class="markdownIt-Anchor" href="#unity介绍"></a> Unity介绍</h2>
@@ -463,19 +1041,390 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
       </categories>
   </entry>
   <entry>
-    <title>第1章 C#介绍</title>
-    <url>/2021/04/02/C#/%E7%AC%AC1%E7%AB%A0%20C#%E4%BB%8B%E7%BB%8D/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="c介绍"><a class="markdownIt-Anchor" href="#c介绍"></a> C#介绍</h2>
-<a id="more"></a>
-<p><img src="https://i.loli.net/2021/04/20/Icl5pC1zoBsuaMV.png" alt="1.png" /></p>
-<h3 id="11-exe文件中的内容"><a class="markdownIt-Anchor" href="#11-exe文件中的内容"></a> 1.1 exe文件中的内容</h3>
+    <title>第5章 基础类及常用算法</title>
+    <url>/2021/04/06/C_/%E7%AC%AC5%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="基础类及常用算法"><a href="#基础类及常用算法" class="headerlink" title="基础类及常用算法"></a>基础类及常用算法</h2><h3 id="5-1-DotNet基本类库"><a href="#5-1-DotNet基本类库" class="headerlink" title="5.1 DotNet基本类库"></a>5.1 DotNet基本类库</h3><a id="more"></a>
+<h3 id="5-2-类型转换"><a href="#5-2-类型转换" class="headerlink" title="5.2 类型转换"></a>5.2 类型转换</h3><p>任何对象都有以下方法</p>
 <ul>
+<li>ToString()、Equals()、GetType()</li>
+<li>MemberwiseClone()等</li>
+</ul>
+<p>常量也是对象</p>
+<h3 id="5-3-常用的类型"><a href="#5-3-常用的类型" class="headerlink" title="5.3 常用的类型"></a>5.3 常用的类型</h3><h4 id="5-3-1-Math类"><a href="#5-3-1-Math类" class="headerlink" title="5.3.1 Math类"></a>5.3.1 Math类</h4><ul>
+<li>Abs()</li>
+<li>Sin()、Cos()、Tan()</li>
+<li>Round()</li>
+<li>Exp()、Log()</li>
+<li>Pow()</li>
+</ul>
+<h4 id="5-3-2-Random类"><a href="#5-3-2-Random类" class="headerlink" title="5.3.2 Random类"></a>5.3.2 Random类</h4><ul>
+<li>Next(100)    0~100</li>
+<li>NextDouble()    0~1</li>
+</ul>
+<h4 id="5-3-3-DateTime及TimeSpan"><a href="#5-3-3-DateTime及TimeSpan" class="headerlink" title="5.3.3 DateTime及TimeSpan"></a>5.3.3 DateTime及TimeSpan</h4><ul>
+<li>new DateTime(y, m, d, h, m, s)</li>
+<li>.Now</li>
+<li>.ToString(“yyyy-MM-dd HH:mm:ss”)</li>
+<li>.AddMinutes(5)</li>
+<li>.Year, .Month, .Day, .Date</li>
+</ul>
+<p><strong>TimeSpan</strong></p>
+<ul>
+<li>两个日期相减</li>
+</ul>
+<h4 id="5-3-4-String类"><a href="#5-3-4-String类" class="headerlink" title="5.3.4 String类"></a>5.3.4 String类</h4><p>返回值为一个新串，<strong>不会对原字符串造成改变</strong>(immutable)</p>
+<ul>
+<li><p>.Length、.IndexOf、.LastInedxOf</p>
+</li>
+<li><p>.StartsWith、 .EndsWith</p>
+</li>
+<li><p>.Substring(idx, len)</p>
+</li>
+<li>.Trim、.TrimEnd、.PadLeft(补位)、.Insert、.Remove</li>
+<li>.Split(‘;’)、string.Join</li>
+</ul>
+<h4 id="5-3-5-StringBuilder类"><a href="#5-3-5-StringBuilder类" class="headerlink" title="5.3.5 StringBuilder类"></a>5.3.5 StringBuilder类</h4><p>StringBuilder内容可变</p>
+<ul>
+<li>在循环体中使用 += 可能会带来效率问题</li>
+</ul>
+<h3 id="5-4-集合、泛型"><a href="#5-4-集合、泛型" class="headerlink" title="5.4 集合、泛型"></a>5.4 集合、泛型</h3><h4 id="5-4-1-集合类"><a href="#5-4-1-集合类" class="headerlink" title="5.4.1 集合类"></a>5.4.1 集合类</h4><p><strong>数组列表 ArrayList</strong></p>
+<p>相当于动态数组</p>
+<p><strong>哈希表 Hashtable</strong></p>
+<p><strong>栈和队列Stack Queue</strong></p>
+<h4 id="5-4-2-泛型集合"><a href="#5-4-2-泛型集合" class="headerlink" title="5.4.2 泛型集合"></a>5.4.2 泛型集合</h4><p>System.Collections.Generic</p>
+<ul>
+<li>列表    List / LinkedList    SortedList</li>
+<li>字典    Dictionary             SortedDictionary</li>
+<li>集        HashSet                 SortedSet</li>
+<li>栈，队列 Stack, Queue</li>
+</ul>
+<p><strong>ListTest</strong></p>
+<ul>
+<li>Add方法、Count属性、[i]索引器</li>
+</ul>
+<p><strong>HashtableTest</strong></p>
+<ul>
+<li>[]索引</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Test[<span class="string">"Mr. John"</span>] = <span class="string">"071-222-33445"</span>;	<span class="comment">// 加入或修改</span></span><br><span class="line">Test[<span class="string">"Mr. John"</span>] = <span class="string">"null"</span>;			<span class="comment">// 删除</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Foreach遍历</li>
+</ul>
+<h4 id="5-4-3-排序"><a href="#5-4-3-排序" class="headerlink" title="5.4.3 排序"></a>5.4.3 排序</h4><ul>
+<li><p>自己写</p>
+</li>
+<li><p>使用SortedXXX类</p>
+</li>
+<li><p>使用Array.Sort方法</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Array.Sort(ary, (a, b)=&gt;a.Length - b.Length);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="5-5-常用算法"><a href="#5-5-常用算法" class="headerlink" title="5.5 常用算法"></a>5.5 常用算法</h3><p><strong>遍历</strong></p>
+<p>for中用if</p>
+<p><strong>迭代</strong></p>
+<p>while中n = f(n)</p>
+<p><strong>递归</strong></p>
+<p>f(n)中用f(n - 1)</p>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第4章 C#语言高级特性</title>
+    <url>/2021/04/05/C_/%E7%AC%AC4%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="C-语言高级特性"><a href="#C-语言高级特性" class="headerlink" title="C#语言高级特性"></a>C#语言高级特性</h2><h3 id="4-1-委托-delegate"><a href="#4-1-委托-delegate" class="headerlink" title="4.1 委托(delegate)"></a>4.1 委托(delegate)</h3><h4 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h4><a id="more"></a>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">delegate</span> <span class="keyword">double</span> <span class="title">MyDelegate</span>(<span class="params"><span class="keyword">double</span> x</span>)</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">MyDeletated d2 = <span class="keyword">new</span> MyDelegate(obj.myMethod);</span><br></pre></td></tr></table></figure>
+<h4 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h4><p>委托变量名（参数列表）</p>
+<h4 id="委托的合并-多播-Multicasting"><a href="#委托的合并-多播-Multicasting" class="headerlink" title="委托的合并/多播(Multicasting)"></a>委托的合并/多播(Multicasting)</h4><ul>
+<li>一个委托实例中可以“包含”多个函数</li>
+<li>调用委托，就是调用其中多个函数</li>
+</ul>
+<p><strong>运算符 +、 -、 +=、 -=</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">delegate</span> <span class="keyword">int</span> <span class="title">NumberChanger</span>(<span class="params"><span class="keyword">int</span> n</span>)</span>;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">DelegateAppl</span></span><br><span class="line">&#123;</span><br><span class="line">   <span class="keyword">class</span> <span class="title">TestDelegate</span></span><br><span class="line">   &#123;</span><br><span class="line">      <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">AddNum</span>(<span class="params"><span class="keyword">int</span> p</span>)</span></span><br><span class="line"><span class="function"></span>      &#123;</span><br><span class="line">         num += p;</span><br><span class="line">         <span class="keyword">return</span> num;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">MultNum</span>(<span class="params"><span class="keyword">int</span> q</span>)</span></span><br><span class="line"><span class="function"></span>      &#123;</span><br><span class="line">         num *= q;</span><br><span class="line">         <span class="keyword">return</span> num;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getNum</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>      &#123;</span><br><span class="line">         <span class="keyword">return</span> num;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>      &#123;</span><br><span class="line">         <span class="comment">// 创建委托实例</span></span><br><span class="line">         NumberChanger nc;</span><br><span class="line">         NumberChanger nc1 = <span class="keyword">new</span> NumberChanger(AddNum);</span><br><span class="line">         NumberChanger nc2 = <span class="keyword">new</span> NumberChanger(MultNum);</span><br><span class="line">         nc = nc1;</span><br><span class="line">         nc += nc2;</span><br><span class="line">         <span class="comment">// 调用多播</span></span><br><span class="line">         nc(<span class="number">5</span>);</span><br><span class="line">         Console.WriteLine(<span class="string">"Value of Num: &#123;0&#125;"</span>, getNum());</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="委托的转换与相等"><a href="#委托的转换与相等" class="headerlink" title="委托的转换与相等"></a>委托的转换与相等</h4><ul>
+<li>委托的转换<ul>
+<li>按声明的名称判断</li>
+</ul>
+</li>
+<li>委托的相等<ul>
+<li>按内容（即“包含的函数”）来判断</li>
+<li>有点像两个字符串的“equals”判断</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-2-事件"><a href="#4-2-事件" class="headerlink" title="4.2 事件"></a>4.2 事件</h3><h4 id="按钮点击事件基本的写法"><a href="#按钮点击事件基本的写法" class="headerlink" title="按钮点击事件基本的写法"></a>按钮点击事件基本的写法</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">this</span>.button1.Click += <span class="keyword">new</span> System.EventHandler(<span class="keyword">this</span>.button1_Click);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">button1_Click</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.label1.Text = DateTime.Now.ToString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="声明-1"><a href="#声明-1" class="headerlink" title="声明"></a>声明</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">event</span> 委托名 事件名;</span><br></pre></td></tr></table></figure>
+<h4 id="事件的注册与移除"><a href="#事件的注册与移除" class="headerlink" title="事件的注册与移除"></a>事件的注册与移除</h4><ul>
+<li>事件名+= 或 -=</li>
+<li>在事件所在类外面，只能用以上两个运算符</li>
+</ul>
+<h4 id="事件的发生（激发）"><a href="#事件的发生（激发）" class="headerlink" title="事件的发生（激发）"></a>事件的发生（激发）</h4><ul>
+<li>事件名（参数列表）</li>
+<li>相当于回调所注册的函数</li>
+</ul>
+<h4 id="定义及使用事件的6步曲"><a href="#定义及使用事件的6步曲" class="headerlink" title="定义及使用事件的6步曲"></a>定义及使用事件的6步曲</h4><p><img src="https://i.loli.net/2021/04/20/nuyQB62FlgackiO.png" alt="1.png"></p>
+<h4 id="事件与委托的关系"><a href="#事件与委托的关系" class="headerlink" title="事件与委托的关系"></a>事件与委托的关系</h4><ul>
+<li>事件一定有相关的委托类型</li>
+<li>与委托实例一样，事件也“包含”多个函数</li>
+<li>事件的运算受更多限制（在类外只能用+=或-=）</li>
+</ul>
+<h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>事件是一种消息机制</li>
+<li>事件源调用事件，别的类注册时间</li>
+<li>事件的类型是一个委托</li>
+</ul>
+<h3 id="4-3-Lambda表达式"><a href="#4-3-Lambda表达式" class="headerlink" title="4.3 Lambda表达式"></a>4.3 Lambda表达式</h3><h4 id="4-3-1-泛型"><a href="#4-3-1-泛型" class="headerlink" title="4.3.1 泛型"></a>4.3.1 泛型</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">T <span class="keyword">add</span>&lt;T&gt; (T a, T b)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-3-2-匿名方法"><a href="#4-3-2-匿名方法" class="headerlink" title="4.3.2 匿名方法"></a>4.3.2 匿名方法</h4><p>不写名字，直接写方法体的函数</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">delegate</span>(参数)&#123;方法体&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">delegate</span>()&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以省略参数</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">delegate</span>&#123;Console.Write(<span class="string">"my function"</span>;)&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="4-3-3-Lambda表达式"><a href="#4-3-3-Lambda表达式" class="headerlink" title="4.3.3 Lambda表达式"></a>4.3.3 Lambda表达式</h4><ul>
+<li><strong>相当于匿名方法的简写</strong><ul>
+<li>省略delegate，甚至<strong>省略参数类型</strong>，会<strong>自动推算参数类型</strong></li>
+<li>直接用（参数）=&gt;{语句或表达式}</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(()=&gt;&#123;Console.Write(<span class="string">"my function"</span>);&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="4-3-4-Linq"><a href="#4-3-4-Linq" class="headerlink" title="4.3.4 Linq"></a>4.3.4 Linq</h4><p>Language Integrated Query 集成查询语言</p>
+<h3 id="4-4-运算符重载"><a href="#4-4-运算符重载" class="headerlink" title="4.4 运算符重载"></a>4.4 运算符重载</h3><h4 id="4-4-1-一元运算符"><a href="#4-4-1-一元运算符" class="headerlink" title="4.4.1 一元运算符"></a>4.4.1 一元运算符</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> 类型 <span class="keyword">operator</span> 一元运算符(类型 参数名)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-4-2-类型转换运算符"><a href="#4-4-2-类型转换运算符" class="headerlink" title="4.4.2 类型转换运算符"></a>4.4.2 类型转换运算符</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">implicit</span> <span class="keyword">operator</span> 类型(类型 参数名)&#123;&#125;(隐式)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">explicit</span> <span class="keyword">operator</span> 类型(类型 参数名)&#123;&#125;(强制)</span><br></pre></td></tr></table></figure>
+<h3 id="4-5-异常处理"><a href="#4-5-异常处理" class="headerlink" title="4.5 异常处理"></a>4.5 异常处理</h3><p>子类异常写前面、更一般的异常写后面</p>
+<ul>
+<li>catch{}表示捕获所有类型的异常</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;...&#125;</span><br><span class="line"><span class="keyword">catch</span>(Exception e)&#123;...&#125;</span><br><span class="line"><span class="keyword">finally</span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>抛出异常</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(xxx) <span class="keyword">throw</span> <span class="keyword">new</span> SomeException;</span><br></pre></td></tr></table></figure>
+<h4 id="4-5-1-内部异常"><a href="#4-5-1-内部异常" class="headerlink" title="4.5.1 内部异常"></a>4.5.1 内部异常</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.IO;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"> </span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> num = <span class="keyword">int</span>.Parse(<span class="string">"abc"</span>);                </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> ( Exception inner )</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> openLog = File.Open(<span class="string">"DoesNotExist"</span>, FileMode.Open);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">catch</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> FileNotFoundException(<span class="string">"OutterException"</span>, inner);</span><br><span class="line">                &#125;                              </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> ( Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">string</span> inMes, outMes;</span><br><span class="line">            <span class="keyword">if</span> (e.InnerException != <span class="literal">null</span>)</span><br><span class="line">                inMes = e.InnerException.Message;</span><br><span class="line">            outMes = e.Message;</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，将abc转换为int会抛出FormatException异常；打开了一个不存在的文件，会抛出FileNotFoundException异常，<strong>由于我将捕获到的异常作为了FileNotFoundException的内部异常， 我在外部就可以通过内部异常（InnerException）来知道第一个FormatException异常</strong>。<br>此外，如果一个异常的内部异常为空，通常意味着它是造成当前异常状态的根源。</p>
+<h3 id="4-6-Atrribute"><a href="#4-6-Atrribute" class="headerlink" title="4.6 Atrribute"></a>4.6 Atrribute</h3><p>Attribute是与类、结构、方法等元素相关的额外信息，是对元信息的扩展</p>
+<h4 id="4-6-1-自定义Attribute"><a href="#4-6-1-自定义Attribute" class="headerlink" title="4.6.1 自定义Attribute"></a>4.6.1 自定义Attribute</h4><ul>
+<li>从System.Attribute继承而来</li>
+<li>名字要用xxxAttribute</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">[<span class="meta">AttributeUsage(AttributeTargets.Class | </span></span><br><span class="line"><span class="meta">               AttributeTargets.Method, </span></span><br><span class="line"><span class="meta">               AllowMultiple = true)</span>]</span><br><span class="line">public class HelpAttribute : System.Attribute</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">readonly</span> <span class="keyword">string</span> Url;		<span class="comment">// 位置参数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">string</span> topic;			<span class="comment">// 命名参数</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Topic&#123;<span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line">   	<span class="function"><span class="keyword">public</span> <span class="title">HelpAttribute</span>(<span class="params"><span class="keyword">string</span> url</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.Url = Url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-7-C-语言中的其他成分"><a href="#4-7-C-语言中的其他成分" class="headerlink" title="4.7 C#语言中的其他成分"></a>4.7 C#语言中的其他成分</h3><h4 id="4-7-1-编译预处理"><a href="#4-7-1-编译预处理" class="headerlink" title="4.7.1 编译预处理"></a>4.7.1 编译预处理</h4><p><strong>标识符声明</strong></p>
+<ul>
+<li><h1 id="define定义一个标识符"><a href="#define定义一个标识符" class="headerlink" title="define定义一个标识符"></a>define定义一个标识符</h1></li>
+<li><h1 id="undef“取消定义”一个标识符"><a href="#undef“取消定义”一个标识符" class="headerlink" title="undef“取消定义”一个标识符"></a>undef“取消定义”一个标识符</h1></li>
+</ul>
+<p><strong>条件处理</strong></p>
+<ul>
+<li><h1 id="if、-elif、-else、-endif"><a href="#if、-elif、-else、-endif" class="headerlink" title="if、#elif、#else、#endif"></a>if、#elif、#else、#endif</h1></li>
+</ul>
+<p><strong>信息报告</strong></p>
+<ul>
+<li><h1 id="error、-warning"><a href="#error、-warning" class="headerlink" title="error、#warning"></a>error、#warning</h1></li>
+</ul>
+<p><strong>行号标记</strong></p>
+<ul>
+<li><h1 id="line行号"><a href="#line行号" class="headerlink" title="line行号"></a>line行号</h1></li>
+</ul>
+<h4 id="4-7-2-unsafe及指针"><a href="#4-7-2-unsafe及指针" class="headerlink" title="4.7.2 unsafe及指针"></a>4.7.2 unsafe及指针</h4><ol>
+<li><p>用指针需要加上unsafe</p>
+</li>
+<li><p>fixed及指针</p>
+<p>fixed(类型* 指针名 = 表达式) 语句</p>
+</li>
+<li><p>sizeof运算符</p>
+<p>sizeof(简单或结构类型名)</p>
+</li>
+<li><p>stackalloc</p>
+<p>在栈上分配的内存，而不是在堆上，因此不会担心内存被垃圾回收器自动回收。</p>
+</li>
+</ol>
+<h3 id="4-8-程序的组织"><a href="#4-8-程序的组织" class="headerlink" title="4.8 程序的组织"></a>4.8 程序的组织</h3><h4 id="4-8-1-名字空间"><a href="#4-8-1-名字空间" class="headerlink" title="4.8.1 名字空间"></a>4.8.1 名字空间</h4><h4 id="4-8-2-嵌套类型"><a href="#4-8-2-嵌套类型" class="headerlink" title="4.8.2 嵌套类型"></a>4.8.2 嵌套类型</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">class A&#123;public class B&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-8-3-程序集"><a href="#4-8-3-程序集" class="headerlink" title="4.8.3 程序集"></a>4.8.3 程序集</h4><h3 id="4-9-语法总结"><a href="#4-9-语法总结" class="headerlink" title="4.9 语法总结"></a>4.9 语法总结</h3><h4 id="4-9-1-类的成员"><a href="#4-9-1-类的成员" class="headerlink" title="4.9.1 类的成员"></a>4.9.1 类的成员</h4><p><strong>常数</strong></p>
+<p><strong>域</strong></p>
+<ul>
+<li>它是类中的变量</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>它实现了可以被类实现的计算和行为</li>
+</ul>
+<p><strong>属性</strong></p>
+<ul>
+<li>它定义了命名的属性和与对这个属性进行读写的相关行为</li>
+</ul>
+<p><strong>事件</strong></p>
+<ul>
+<li>它定义了由类产生的通知</li>
+</ul>
+<p><strong>索引</strong></p>
+<ul>
+<li>它允许类的实例通过与数组相同的方法来索引</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第3章 类</title>
+    <url>/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><h3 id="3-1-this"><a href="#3-1-this" class="headerlink" title="3.1 this"></a>3.1 this</h3><a id="more"></a>
+<ul>
+<li>访问这个对象的字段及方法</li>
+<li>区分字段与局部变量</li>
+<li>用于构造方法调用另一个构造方法</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Person</span>(<span class="params"></span>) : <span class="title">this</span>(<span class="params"><span class="number">0</span>, <span class="string">""</span></span>)</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-属性、索引"><a href="#3-2-属性、索引" class="headerlink" title="3.2 属性、索引"></a>3.2 属性、索引</h3><h4 id="属性的书写"><a href="#属性的书写" class="headerlink" title="属性的书写"></a>属性的书写</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">string</span> Name&#123;<span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以只读或只写：只有get或set</li>
+<li>可以进行有效性检查：if</li>
+<li>可以是计算得到的数据</li>
+<li>可以定义抽象属性</li>
+</ul>
+<h4 id="索引器"><a href="#索引器" class="headerlink" title="索引器"></a>索引器</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">修饰符	类型名	<span class="keyword">this</span>[parameter]</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">set</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">get</span></span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-类的继承"><a href="#3-3-类的继承" class="headerlink" title="3.3 类的继承"></a>3.3 类的继承</h3><ul>
+<li><p>C#采用单继承（只能继承一个父类）</p>
+</li>
+<li><p>所有类都是通过继承object得到</p>
+</li>
+</ul>
+<h4 id="字段的继承、添加与隐藏"><a href="#字段的继承、添加与隐藏" class="headerlink" title="字段的继承、添加与隐藏"></a>字段的继承、添加与隐藏</h4><ul>
+<li>继承：自动</li>
+<li>添加：定义新变量<ul>
+<li>重载(Overloading)</li>
+<li>覆盖(Overriding)</li>
+</ul>
+</li>
+<li>隐藏：同名关键字前面加一个new</li>
+</ul>
+<h4 id="使用base"><a href="#使用base" class="headerlink" title="使用base"></a>使用base</h4><p>调用父类的方法</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Student(<span class="keyword">string</span> name, <span class="keyword">int</span> age, <span class="keyword">string</span> school)</span><br><span class="line">    : <span class="keyword">base</span>(name, age)</span><br><span class="line">    &#123; <span class="keyword">this</span>.school = school; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h4><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Person p1 = <span class="keyword">new</span> Person();</span><br><span class="line">Person p2 = <span class="keyword">new</span> Student();</span><br><span class="line">Student s1 = <span class="keyword">new</span> Student();</span><br><span class="line">Student s2 = <span class="keyword">new</span> Student();</span><br><span class="line">p1 = s1;	<span class="comment">// 可以</span></span><br><span class="line">s2 = p1;	<span class="comment">// 不行</span></span><br><span class="line">s2 = (Student)p1;	<span class="comment">// 可以</span></span><br><span class="line">s2 = (Student)p2;	<span class="comment">//可以，因为p2引用的正好是Student实例</span></span><br></pre></td></tr></table></figure>
+<p><strong>as运算符</strong></p>
+<p>如果不能转换，则值为null，<strong>不会引起异常</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Student s3 = p1 <span class="keyword">as</span> Student;		<span class="comment">// 结果为null</span></span><br></pre></td></tr></table></figure>
+<p><strong>is运算符</strong></p>
+<p>判断一个对象是不是某个类(<strong>及其子类</strong>)的实例</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(p <span class="keyword">is</span> Person)</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-修饰符"><a href="#3-4-修饰符" class="headerlink" title="3.4 修饰符"></a>3.4 修饰符</h3><h4 id="3-4-1-访问控制符"><a href="#3-4-1-访问控制符" class="headerlink" title="3.4.1 访问控制符"></a>3.4.1 访问控制符</h4><p><img src="https://i.loli.net/2021/04/20/3hJB7SmdY8s6eMR.png" alt="3.png" style="zoom:80%;" /></p>
+<ul>
+<li>类中的字段、方法默认为private，包括构造函数</li>
+</ul>
+<h4 id="3-4-2-static"><a href="#3-4-2-static" class="headerlink" title="3.4.2 static"></a>3.4.2 static</h4><ul>
+<li>调用static方法时，直接用类名访问</li>
+</ul>
+<h4 id="3-4-3-const及readonly"><a href="#3-4-3-const及readonly" class="headerlink" title="3.4.3 const及readonly"></a>3.4.3 const及readonly</h4><ul>
+<li>常量兼有只读和静态，所以常量一定是静态的，但只读字段不一定是。</li>
+<li><p>只读字段可以在运行时决定（例如在构造函数中赋值），而常量必须在定义时就赋值。</p>
+</li>
+<li><p>只读字段可修饰任何类型。</p>
+</li>
+<li>即使对于引用类型的只读字段，我们也可以更改引用类型引用对象的值，但是， 我们不能更改引用类型的引用本身。</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">A a = <span class="keyword">new</span> A();</span><br><span class="line">a.print();                      <span class="comment">//0</span></span><br><span class="line"><span class="comment">//可以更改引用对象成员的值</span></span><br><span class="line">a.field.b = <span class="number">999</span>;</span><br><span class="line">a.print();                      <span class="comment">//999</span></span><br><span class="line"><span class="comment">//但是不可以更改引用本身</span></span><br><span class="line"><span class="comment">//a.field = new B();</span></span><br><span class="line"><span class="comment">//a.str = "hello";</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-4-4-sealed及abstract"><a href="#3-4-4-sealed及abstract" class="headerlink" title="3.4.4 sealed及abstract"></a>3.4.4 sealed及abstract</h4><ul>
+<li><p>sealed类——不可继承</p>
+</li>
+<li><p>abstract类——不可实例化(new)</p>
+</li>
+<li><p>abstract的方法体，不用{}，用;</p>
+<ul>
+<li>abstract    类型    方法名(参数列表);</li>
+</ul>
+</li>
+</ul>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p><img src="3 类/2.png" alt="2" style="zoom:80%;" /></p>
+<h3 id="3-5-接口"><a href="#3-5-接口" class="headerlink" title="3.5 接口"></a>3.5 接口</h3><ul>
+<li>接口是一个引用类型，比抽象类更抽象</li>
+<li>接口能实现多继承</li>
+</ul>
+<p>定义一个接口</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IStringList</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Add</span>(<span class="params"><span class="keyword">string</span> s</span>)</span>;</span><br><span class="line">    <span class="keyword">int</span> Count&#123;<span class="keyword">get</span>;&#125;</span><br><span class="line">	<span class="keyword">string</span> <span class="keyword">this</span>[<span class="keyword">int</span> index] &#123;<span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>public、abstract这两个关键词不写出来</p>
+<h4 id="3-5-1-同名"><a href="#3-5-1-同名" class="headerlink" title="3.5.1 同名"></a>3.5.1 同名</h4><ul>
+<li>方法名前写接口名</li>
+<li>调用前先强制转换((IWindow))f.Close()</li>
+</ul>
+<h3 id="3-6-结构及枚举"><a href="#3-6-结构及枚举" class="headerlink" title="3.6 结构及枚举"></a>3.6 结构及枚举</h3><h4 id="3-6-1-struct"><a href="#3-6-1-struct" class="headerlink" title="3.6.1 struct"></a>3.6.1 struct</h4><p>struct是值类型</p>
+<ul>
+<li>结构不能包含无参数的构造方法</li>
+<li>每个字在定义时，不能给初始值</li>
+<li><p>构造方法中，必须对每个字段进行赋值</p>
+</li>
+<li><p>struct是sealed的，不能被继承</p>
+</li>
+<li><p>值类型变量在赋值时，实行的<strong>是字段的copy</strong></p>
+</li>
+</ul>
+<p><strong>结构 VS 类</strong></p>
+<p>​        类的对象是存储在堆空间中，结构存储在栈中。堆空间大，但访问速度较慢，栈空间小，访问速度相对更快。</p>
+<p>​        类是引用类型，结构是值类型。<strong>结构体中声明的字段无法赋予初值，类可以</strong>。</p>
+<h4 id="3-6-2-enum"><a href="#3-6-2-enum" class="headerlink" title="3.6.2 enum"></a>3.6.2 enum</h4><p>枚举值要用来表示符号化的常量</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">c = (MyColor)Enum.Parse(<span class="keyword">typeof</span>(MyColor), <span class="string">"Red"</span>);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第2章 C#语言基础</title>
+    <url>/2021/04/03/C_/%E7%AC%AC2%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="C-语言基础"><a href="#C-语言基础" class="headerlink" title="C#语言基础"></a>C#语言基础</h2><h3 id="2-1-数据类型"><a href="#2-1-数据类型" class="headerlink" title="2.1 数据类型"></a>2.1 数据类型</h3><a id="more"></a>
+<ul>
+<li><p>值类型</p>
+<p>int, double, struct</p>
+<p>存放在栈中</p>
+</li>
+<li><p>引用类型</p>
+<p>Button, Label, Book</p>
+<p>栈中指针指向堆</p>
+</li>
+</ul>
+<p><img src="images/3.png" alt="3" style="zoom:80%;" /></p>
+<h3 id="2-2-字符串类型"><a href="#2-2-字符串类型" class="headerlink" title="2.2 字符串类型"></a>2.2 字符串类型</h3><p><strong>@</strong></p>
+<ul>
+<li><p>可以换行，可以不用进行字符转义</p>
+<ul>
+<li><p>@”abcd</p>
+<p>​    Pqrst”</p>
+</li>
+<li><p>@”c:\windows\aaa.txt”</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-3-特殊类型"><a href="#2-3-特殊类型" class="headerlink" title="2.3 特殊类型"></a>2.3 特殊类型</h3><p><strong>推断类型 var</strong></p>
+<p><strong>Nullable，可以为空</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>? a = <span class="number">32</span>;</span><br><span class="line"><span class="keyword">if</span>(a.HasValue)</span><br></pre></td></tr></table></figure>
+<p><strong>Dynamic</strong></p>
+<p>编译时不检查，运行时确定类型</p>
+<h3 id="2-4-整型提升"><a href="#2-4-整型提升" class="headerlink" title="2.4 整型提升"></a>2.4 整型提升</h3><p>所有的byte, short, char 运算转换为int</p>
+<h3 id="2-5-类型转换"><a href="#2-5-类型转换" class="headerlink" title="2.5 类型转换"></a>2.5 类型转换</h3><p><strong>字符串转数值</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span>.Parse(s);</span><br><span class="line"><span class="keyword">int</span>.Parse(s);</span><br></pre></td></tr></table></figure>
+<p><strong>Convert</strong></p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Convert.ToInt32(textbox.Text);</span><br></pre></td></tr></table></figure>
+<h3 id="2-6-Switch与C-的不同"><a href="#2-6-Switch与C-的不同" class="headerlink" title="2.6 Switch与C++的不同"></a>2.6 Switch与C++的不同</h3><ul>
+<li>变量除了整型、枚举型、还可以用字符串</li>
+</ul>
+<h3 id="2-7-foreach"><a href="#2-7-foreach" class="headerlink" title="2.7 foreach"></a>2.7 foreach</h3><p>只读式遍历</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">foreach</span>(<span class="keyword">int</span> age <span class="keyword">in</span> ages)</span><br></pre></td></tr></table></figure>
+<h3 id="2-8-交错数组"><a href="#2-8-交错数组" class="headerlink" title="2.8 交错数组"></a>2.8 交错数组</h3><p>c#中多维数组的声明和初始化应按<strong>从高到低的顺序</strong>进行</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> [][]t  = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>][];</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第1章 C#介绍</title>
+    <url>/2021/04/02/C_/%E7%AC%AC1%E7%AB%A0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="C-介绍"><a href="#C-介绍" class="headerlink" title="C#介绍"></a>C#介绍</h2><a id="more"></a>
+<p><img src="https://i.loli.net/2021/04/20/Icl5pC1zoBsuaMV.png" alt="1.png"></p>
+<h3 id="1-1-exe文件中的内容"><a href="#1-1-exe文件中的内容" class="headerlink" title="1.1 exe文件中的内容"></a>1.1 exe文件中的内容</h3><ul>
 <li>IL指令</li>
 <li>元信息</li>
 </ul>
-<p><img src="https://i.loli.net/2021/04/20/QUHnFJiKLZBtwdC.png" alt="2.png" /></p>
-<h3 id="12-三种应用程序类型"><a class="markdownIt-Anchor" href="#12-三种应用程序类型"></a> 1.2 三种应用程序类型</h3>
-<p><strong>控制台程序</strong></p>
+<p><img src="https://i.loli.net/2021/04/20/QUHnFJiKLZBtwdC.png" alt="2.png"></p>
+<h3 id="1-2-三种应用程序类型"><a href="#1-2-三种应用程序类型" class="headerlink" title="1.2 三种应用程序类型"></a>1.2 三种应用程序类型</h3><p><strong>控制台程序</strong></p>
 <p><strong>Windows应用程序</strong></p>
 <ul>
 <li>可视化的设计窗体</li>
@@ -483,20 +1432,16 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
 </ul>
 <p><strong>Web应用程序(ASP.NET应用程序)</strong></p>
 <ul>
-<li>
-<p>应用程序在服务器上运行，客户端使用浏览器来进行输入输出</p>
+<li><p>应用程序在服务器上运行，客户端使用浏览器来进行输入输出</p>
 </li>
-<li>
-<p>这种方式称为B/S(Browser/Server)方式</p>
+<li><p>这种方式称为B/S(Browser/Server)方式</p>
 </li>
 </ul>
-<h3 id="13-输入输出"><a class="markdownIt-Anchor" href="#13-输入输出"></a> 1.3 输入输出</h3>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Console.WriteLine(<span class="string">"输出a:&#123;0&#125;"</span>, a);</span><br></pre></td></tr></table></figure>
-<h3 id="14-总结"><a class="markdownIt-Anchor" href="#14-总结"></a> 1.4 总结</h3>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">MessageBox.Show(<span class="string">"你好！"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.Text = <span class="string">"这是一个应用程序"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.BackColor = Color.FromArgb(<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.SetBounds(<span class="number">100</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.Text = e.X + <span class="string">","</span> + e.Y;</span><br><span class="line"></span><br><span class="line">Random rnd = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">rnd.Next(<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> a = <span class="keyword">double</span>.Parse( textBox1.Text );</span><br><span class="line"></span><br><span class="line">Console.WriteLine( <span class="string">"&#123;0&#125;&#123;1&#125;"</span>, a, b);</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-输入输出"><a href="#1-3-输入输出" class="headerlink" title="1.3 输入输出"></a>1.3 输入输出</h3><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">Console.WriteLine(<span class="string">"输出a:&#123;0&#125;"</span>, a);</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-总结"><a href="#1-4-总结" class="headerlink" title="1.4 总结"></a>1.4 总结</h3><figure class="highlight c#"><table><tr><td class="code"><pre><span class="line">MessageBox.Show(<span class="string">"你好！"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.Text = <span class="string">"这是一个应用程序"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.BackColor = Color.FromArgb(<span class="number">255</span>, <span class="number">255</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.SetBounds(<span class="number">100</span>, <span class="number">100</span>, <span class="number">200</span>, <span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">this</span>.label1.Text = e.X + <span class="string">","</span> + e.Y;</span><br><span class="line"></span><br><span class="line">Random rnd = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line">rnd.Next(<span class="number">255</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> a = <span class="keyword">double</span>.Parse( textBox1.Text );</span><br><span class="line"></span><br><span class="line">Console.WriteLine( <span class="string">"&#123;0&#125;&#123;1&#125;"</span>, a, b);</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>C2</category>
+        <category>C#</category>
       </categories>
   </entry>
   <entry>
