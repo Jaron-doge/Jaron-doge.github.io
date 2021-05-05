@@ -1,6 +1,758 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第六章 数据定义</title>
+    <url>/2021/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93/Chpater6%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第六章-数据定义"><a class="markdownIt-Anchor" href="#第六章-数据定义"></a> 第六章 数据定义</h2>
+<h3 id="61-iso数据类型"><a class="markdownIt-Anchor" href="#61-iso数据类型"></a> 6.1 ISO数据类型</h3>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2021/05/05/l8u6EwZv4BzpS9d.png" alt="1.png" /></p>
+<ul>
+<li>
+<p>CHAR: CHAR [VARYING] [length]</p>
+</li>
+<li>
+<p>定点数：DEC(5, 3)</p>
+</li>
+</ul>
+<h3 id="62-完整性增强特性"><a class="markdownIt-Anchor" href="#62-完整性增强特性"></a> 6.2 完整性增强特性</h3>
+<ul>
+<li>必须有值的数据</li>
+<li>域约束</li>
+<li>实体完整性</li>
+<li>引用完整性</li>
+<li>企业级约束</li>
+</ul>
+<h4 id="621-必须有值的数据"><a class="markdownIt-Anchor" href="#621-必须有值的数据"></a> 6.2.1 必须有值的数据</h4>
+<p>某些列的值必须为有效值，不允许为空</p>
+<h4 id="622-域约束"><a class="markdownIt-Anchor" href="#622-域约束"></a> 6.2.2 域约束</h4>
+<h5 id="check"><a class="markdownIt-Anchor" href="#check"></a> CHECK</h5>
+<p>CHECK子句只能引用已定义列。</p>
+<p>CHECK(searchCondition)</p>
+<p>例：</p>
+<p>​	sex CHAR NOT NULL CHECK(sex IN(‘M’, ‘F’));</p>
+<h5 id="create-domain"><a class="markdownIt-Anchor" href="#create-domain"></a> CREATE DOMAIN</h5>
+<p>可以创造值域</p>
+<p>CREATE DOMAIN DomainName [AS] dataType</p>
+<p>[DEFAULT defaultOption]</p>
+<p>[CHECK(searchCondition)];</p>
+<p>sex sexType NOT NULL;</p>
+<h5 id="drop-domain"><a class="markdownIt-Anchor" href="#drop-domain"></a> DROP DOMAIN</h5>
+<p>撤销域约束</p>
+<p>DROP DOMAIN DomainName[RESTRICT | CASCADE]</p>
+<p>如果指定为RESTRICT，而该域正在被用于某个现存的表、视图或断言的定义，那么撤销失败。若指定为CASCADE，则任一表中基于该域的列都会自动地变为用该域的基类型定义。</p>
+<h4 id="623-实体完整性"><a class="markdownIt-Anchor" href="#623-实体完整性"></a> 6.2.3 实体完整性</h4>
+<p>PRIMARY KEY(clientNo, propertyNo);</p>
+<p><strong>UNIQUE</strong></p>
+<p>每个表中只能使用一个PRIMARY KEY子句。但是，可用关键字UNIQUE保证列的唯一性。UNIQUE子句中出现的每个列必须被声明为NOT NULL。</p>
+<p>UNIQUE(clientNo, propertyNo);</p>
+<h4 id="624-引用完整性"><a class="markdownIt-Anchor" href="#624-引用完整性"></a> 6.2.4 引用完整性</h4>
+<p>FOREIGN KEY(branchNo) REFERENCES Branch[(branchNo)]</p>
+<p><strong>UPDATE / DELETE</strong></p>
+<ul>
+<li>CASCADE: 删除父表中的行并且自动删除子表中匹配的行。</li>
+<li>SET NULL: 删除父表中的元组且设置子表中的外键为NULL。</li>
+<li>SET DEFAULT: 删除父表中的元组且设子表中的外键为默认值。</li>
+<li>NO ACTION: 拒绝对父表进行删除操作。ON DELETE规则的默认设置为ON ACTION。</li>
+</ul>
+<p>FOREIGN KEY(branchNo) REFERENCES Branch[(branchNo)] ON UPDATE CASCADE；</p>
+<h4 id="625-企业级约束"><a class="markdownIt-Anchor" href="#625-企业级约束"></a> 6.2.5 企业级约束</h4>
+<p><strong>|断言|</strong>：跨表约束</p>
+<p>CREATE ASSERTION AssertionName</p>
+<p>CHECK(searchCondition)</p>
+<h3 id="63-数据定义"><a class="markdownIt-Anchor" href="#63-数据定义"></a> 6.3 数据定义</h3>
+<ul>
+<li>
+<p>CREATE SCHEMA / DOMAIN / TABLE / VIEW / INDEX</p>
+</li>
+<li>
+<p>DROP SCHEMA / DOMAIN / TABLE / VIEW / INDEX</p>
+</li>
+<li>
+<p>ALTER DOMAIN / TABLE</p>
+</li>
+</ul>
+<h4 id="631-创建数据库"><a class="markdownIt-Anchor" href="#631-创建数据库"></a> 6.3.1 创建数据库</h4>
+<p>CREATE SCHEMA[Name | AUTHORIZATION Creatorldentifier]</p>
+<p>DROP SCHEMA Name[RESTRICT | CASCADE]</p>
+<p>如果指定了RESTRICT，则模式必须为空才能删除。</p>
+<h4 id="632-创建表"><a class="markdownIt-Anchor" href="#632-创建表"></a> 6.3.2 创建表</h4>
+<p>CREATE TABLE TableName<br />
+({colName dataType [NOT NULL] [UNIQUE] [PRIMARY KEY]<br />
+[DEFAULT defaultOption]<br />
+[CHECK searchCondition] [,…]}<br />
+[PRIMARY KEY (listOfColumns),]<br />
+{[UNIQUE (listOfColumns),] […,]}<br />
+{[FOREIGN KEY (listOfFKColumns)<br />
+REFERENCES ParentTableName<br />
+[(listOfCKColumns)],<br />
+[ON UPDATE referentialAction]<br />
+[ON DELETE referentialAction ]] [,…]}<br />
+{[CHECK (searchCondition)] [,…] })</p>
+<p><strong>表约束可以用CONSTRAINT ConstraintName作为前缀</strong></p>
+<h4 id="633-修改表定义"><a class="markdownIt-Anchor" href="#633-修改表定义"></a> 6.3.3 修改表定义</h4>
+<ul>
+<li>添加/删除列</li>
+<li>添加/删除表约束</li>
+<li>设置/删除列默认值</li>
+</ul>
+<p>ALTER TABLE TabName<br />
+[ADD [COLUMN] columnName dataType<br />
+[NOT NULL][UNIQUE]<br />
+[DEFAULT defaultOption][CHECK (searchCondition)]]<br />
+[DROP [COLUMN] columnName [RESTRICT | CASCADE ]]<br />
+[ADD [CONSTRAINT [constraintName]] tableConstraintDefinition]<br />
+[DROP CONSTRAINT constraintName [RESTRICT | CASCADE ]]<br />
+[ALTER [COLUMN] SET DEFAULT defaultOption]<br />
+[ALTER [COLUMN] DROP DEFAULT]</p>
+<h4 id="634-删除表"><a class="markdownIt-Anchor" href="#634-删除表"></a> 6.3.4 删除表</h4>
+<p>DROP TABLE TableName [RESTRICT | CASCADE];</p>
+<h4 id="635-创建索引"><a class="markdownIt-Anchor" href="#635-创建索引"></a> 6.3.5 创建索引</h4>
+<p><strong>|索引|</strong>：索引是一种结构，它提供了基于一个或多个列值快速访问表中元组的方法。</p>
+<p>CREATE [UNIQUE] INDEX IndexName ON TableName (columnName [ASC |DESC][,…])</p>
+<p>索引只能基于基表建立，而不能基于视图。对于每个列，可以指定升序或降序排列。</p>
+<h4 id="636-删除索引"><a class="markdownIt-Anchor" href="#636-删除索引"></a> 6.3.6 删除索引</h4>
+<p>DROP INDEX IndexName;</p>
+<h3 id="64-视图"><a class="markdownIt-Anchor" href="#64-视图"></a> 6.4 视图</h3>
+<p><strong>|视图|</strong>：为了得到另一个关系而对际关系进行一次或多次关系操作所得到的动态结果。视图是虚关系，即在数据库中不存在，需要时根据特定用户的要求临时生成。</p>
+<p>​		当DBMS遇到视图引用时，一种方法是查找视图定义，并且将请求转换为对于视图源表的等价请求，然后完成等价的请求操作。这个转换的过程称为<strong>试图分解</strong>。</p>
+<p>​		另一种可供选择的方法称为<strong>视图物化</strong>，即把视图存储在数据库的临时表中，并在基表变化时更新临时表以及时维护试图。</p>
+<h4 id="641-创建视图"><a class="markdownIt-Anchor" href="#641-创建视图"></a> 6.4.1 创建视图</h4>
+<p>CREATE VIEW ViewName [ (newColumnName [,…]) ]<br />
+AS subselect [WITH [CASCADED | LOCAL] CHECK OPTION]</p>
+<ul>
+<li>subselect称为定义查询。如果说明WITH CHECK POTION， SQL将确保那些不满足定义查询中WHERE子句的行不会被添加到视图的基表中。</li>
+</ul>
+<p>例：</p>
+<p>CREATE VIEW StaffPropCnt (branchNo, staffNo, cnt)<br />
+AS SELECT s.branchNo, s.staffNo, COUNT(*)<br />
+FROM Staff s, PropertyForRent p<br />
+WHERE s.staffNo = p.staffNo<br />
+GROUP BY s.branchNo, s.staffNo;</p>
+<h4 id="642-删除视图"><a class="markdownIt-Anchor" href="#642-删除视图"></a> 6.4.2 删除视图</h4>
+<p>DROP VIEW ViewName [RESTRICT| CASCADE]</p>
+<h4 id="643-视图分解"><a class="markdownIt-Anchor" href="#643-视图分解"></a> 6.4.3 视图分解</h4>
+<p>例：</p>
+<p>SELECT staffNo, cnt<br />
+FROM StaffPropCnt<br />
+WHERE branchNo = ‘B003’<br />
+ORDER BY staffNo;</p>
+<p>​			↓</p>
+<p>SELECT s.staffNo, COUNT(*)<br />
+FROM staff s, PropertyForRent p<br />
+WHERE s.staffNo = p.staffNo AND branchNo = ‘B003’<br />
+GROUP BY s.branchNo, s.staffNo<br />
+ORDER BY s.staffNo;</p>
+<h4 id="644-视图的局限性"><a class="markdownIt-Anchor" href="#644-视图的局限性"></a> 6.4.4 视图的局限性</h4>
+<p>如果视图中某个列是基于聚集函数的，那么在访问该视图的查询语句中，该列只能出现在SELECT和ORDER BY子句里。具体地说，在基于该视图的查询语句中，该列不能出现在WHERE子句中，也不能作为任何聚集函数的参数。</p>
+<h4 id="645-视图的可更新性"><a class="markdownIt-Anchor" href="#645-视图的可更新性"></a> 6.4.5 视图的可更新性</h4>
+<p><strong>|可更新视图|</strong>：为了使视图可更新，对于任何一个行或列，DBMS必须都能追溯到其源表中相应的行或列。</p>
+<h4 id="646-with-check-option"><a class="markdownIt-Anchor" href="#646-with-check-option"></a> 6.4.6 WITH CHECK OPTION</h4>
+<p><strong>|行迁移|</strong>：视图中的行均满足定义查询中的WHERE条件。如果某行被修改后不再满足这种条件，那么它应当从视图中取出。进入或离开视图的行称为迁移行。通常来说，CREATE VIEW语句中的WITH CHECK POTION子句用于禁止行迁移出视图。</p>
+<p>例：</p>
+<p>CREATE VIEW LowSalary<br />
+AS SELECT * FROM Staff WHERE salary &gt; 9000;</p>
+<p>CREATE VIEW HighSalary<br />
+AS SELECT * FROM LowSalary<br />
+WHERE salary &gt; 10000<br />
+WITH LOCAL CHECK OPTION;</p>
+<p>CREATE VIEW Manager3Staff<br />
+AS SELECT * FROM HighSalary<br />
+WHERE branchNo = ‘B003’;</p>
+<p>失败</p>
+<p>UPDATE Manager3Staff SET salary = 9500<br />
+WHERE staffNo = ‘SG37’;</p>
+<p>成功</p>
+<p>UPDATE Manager3Staff SET salary = 8000<br />
+WHERE staffNo = ‘SG37’;</p>
+<p>因为该行也会从LowSalary中去除。</p>
+<h4 id="647-视图的优缺点"><a class="markdownIt-Anchor" href="#647-视图的优缺点"></a> 6.4.7 视图的优缺点</h4>
+<p>优点：</p>
+<ul>
+<li>数据独立性</li>
+<li>实时性</li>
+<li>提高了安全性</li>
+<li>降低了复杂性</li>
+<li>方便</li>
+<li>用户化</li>
+<li>数据完整性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>更新局限性</li>
+<li>结构局限性</li>
+<li>性能开销</li>
+</ul>
+<h4 id="648-视图物化"><a class="markdownIt-Anchor" href="#648-视图物化"></a> 6.4.8 视图物化</h4>
+<p><strong>|视图物化|</strong>：把第一次访问视图的结果存储为数据库的临时表。</p>
+<h3 id="65-事务"><a class="markdownIt-Anchor" href="#65-事务"></a> 6.5 事务</h3>
+<h4 id="651-结束事务四种方式"><a class="markdownIt-Anchor" href="#651-结束事务四种方式"></a> 6.5.1 结束事务四种方式</h4>
+<ul>
+<li>COMMIT语句成功提交事务</li>
+<li>ROLLBACK语句撤销事务</li>
+<li>程序成功终止</li>
+<li>不正常的程序终止撤销事务</li>
+</ul>
+<h4 id="652-格式"><a class="markdownIt-Anchor" href="#652-格式"></a> 6.5.2 格式</h4>
+<p>SET TRANSACTION<br />
+[READ ONLY | READ WRITE] |<br />
+[ISOLATION LEVEL READ UNCOMMITTED<br />
+|READ COMMITTED|REPEATABLE READ<br />
+|SERIALIZABLE ]</p>
+<p>隔离级表明事务执行过程中允许其他事务交互的程度。只有SERIALIZABLE隔离级是安全的。</p>
+<h3 id="66-自主访问控制"><a class="markdownIt-Anchor" href="#66-自主访问控制"></a> 6.6 自主访问控制</h3>
+<p><strong>授权标识符和所有权</strong></p>
+<p>​		授权标识符是SQL用于辨别用户的一般标识符。每个数据库用户都由数据库管理员分配一个授权标识符。为了安全起见，授权标识符都和一个密码相关联。可用授权标识符来确定用户可访问哪些数据库对象，以及对哪些对象进行什么操作。</p>
+<p>​		SQL中创建的每个对象都有一个所有者。所有者就是创建该对象所属的模式时AUTHORIZATION子句定义的授权标识符。最初只有所有者知道对象存在，并能对其进行任何操作。</p>
+<p><strong>权限</strong></p>
+<p>允许用户对指定基表或视图进行的操作。</p>
+<ul>
+<li>
+<p>SELECT</p>
+</li>
+<li>
+<p>INSERT</p>
+</li>
+<li>
+<p>UPDATE</p>
+</li>
+<li>
+<p>DELETE</p>
+</li>
+<li>
+<p>REFERENCES</p>
+</li>
+<li>
+<p>USAGE</p>
+</li>
+</ul>
+<p>​        INSERT和UPDATE权限可以限制表中指定的列，允许改变这些列但不允许改变其他列。相似地，REFERENCES权限可以限制表中指定的列。</p>
+<p>​		当用户用CREATE VIEW创建视图时，他自动成为视图的所有者但并不一定具有视图的所有权限。创建视图时，用户必须具有对组成视图的所有表的SELECT权限，以及视图中列的REFERENCES权限等。</p>
+<h4 id="661-授予其他用户权限grant"><a class="markdownIt-Anchor" href="#661-授予其他用户权限grant"></a> 6.6.1 授予其他用户权限(GRANT)</h4>
+<p>GRANT {PrivilegeList | ALL PRIVILEGES}<br />
+ON ObjectName<br />
+TO {AuthorizationIdList | PUBLIC}<br />
+[WITH GRANT OPTION]</p>
+<p>PrivilegeList由下列用逗号分开的一个或多个权限组成：<br />
+SELECT</p>
+<p>DELETE</p>
+<p>INSERT		[{cloName{…}}]</p>
+<p>UPDATE		[{cloName{…}}]</p>
+<p>REFERENCES	[{cloName{…}}]</p>
+<p>USAGE</p>
+<p>PUBLIC允许所有现在或未来授权用户访问数据，而不局限于DBMS系统当前已有的用户。</p>
+<p>WITH GRANT OPTION子句允许AuthorizationIdList中的用户讲他们拥有的对指定对象的权限传递给其他用户。</p>
+<h4 id="662-撤销用户权限revoke"><a class="markdownIt-Anchor" href="#662-撤销用户权限revoke"></a> 6.6.2 撤销用户权限(REVOKE)</h4>
+<p>REVOKE takes away privileges granted with GRANT.<br />
+REVOKE [GRANT OPTION FOR]<br />
+{PrivilegeList | ALL PRIVILEGES}<br />
+ON ObjectName<br />
+FROM {AuthorizationIdList | PUBLIC}<br />
+[RESTRICT | CASCADE]</p>
+<p>​		可选的子句GRANT OPTION FOR允许通过GRANT语句中的WITH GRANT OPTION传递的那些权限被独立地撤销。</p>
+<p>​		用户从其他用户那里获得的权限不受这个REVOKE语句的影响。</p>
+<p>例：</p>
+<p>A→B→C→D			E→D</p>
+<p>A撤销给B的权限后C、D不受影响</p>
+<p><img src="https://i.loli.net/2021/05/05/heclxiAfvDZE1OK.png" alt="2.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>Discuss the functionality and importance of the Integrity Enhancement Feature (IEF).</p>
+<p>完整性约束共有五种类型：必须有值的数据、域约束、实体完整性、引用完整性和企业级约束。必须有值的数据让某些列的值必须为有效值，不允许为空。域约束限制每列合法值的集合。实体完整性让表中每一行的主关键字必须是唯一的非空值。引用完整性让外键必须是父表中已存在的有效的元组。企业级约束用来约束表的更新。</p>
+</li>
+<li>
+<p>Discuss the advantages and disadvantages of views.</p>
+<p>优点：</p>
+<ul>
+<li>数据独立性</li>
+<li>实时性</li>
+<li>提高了安全性</li>
+<li>降低了复杂性</li>
+<li>方便</li>
+<li>用户化</li>
+<li>数据完整性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>更新局限性</li>
+<li>结构局限性</li>
+<li>性能开销</li>
+</ul>
+</li>
+<li>
+<p>What restrictions are necessary to ensure that a view is updatable?</p>
+<ul>
+<li>没有指定DISTINCT，即重复元组未从查询结果中消除。</li>
+<li>定义查询的SELECT列表中的每个元素均为列名，且列名出现的次数不多于一次。</li>
+<li>FROM子句只指定一个表，即视图只有一个源表且用户对该表有要求的权限。</li>
+<li>WHERE子句不能包括任何引用了FROM子句中的表的嵌套SELECT操作。</li>
+<li>定义查询中不能有GROUP BY或HAVING子句。</li>
+</ul>
+</li>
+<li>
+<p>Discuss how the Access Control mechanism of SQL works.</p>
+<p>SQL通过GRANT和REVOKE语句来支持自主访问控制。该机制基于授权标识符、所有权和权限的概念。</p>
+<p>授权标识符：授权标识符是SQL用于辨别用户的一般标识符。每个数据库用户都由数据库管理员分配一个授权标识符。为了安全起见，授权标识符都和一个密码相关联。可用授权标识符来确定用户可访问哪些数据库对象，以及对哪些对象进行什么操作。</p>
+<p>所有权：SQL中创建的每个对象都有一个所有者。所有者就是创建该对象所属的模式时AUTHORIZATION子句定义的授权标识符。最初只有所有者知道对象存在，并能对其进行任何操作。</p>
+<p>权限：允许用户对指定基表或视图进行的操作。有SELECT、INSERT、UPDATE、DELETE、REFERENCES和USAGE。其中，INSERT和UPDATE权限可以限制表中指定的列，允许改变这些列但不允许改变其他列。相似地，REFERENCES权限可以限制表中指定的列。</p>
+</li>
+</ol>
+<p>Answer the following questions using the relational schema from the Exercises at the end of Chapter 3.</p>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<ol start="5">
+<li>
+<p>Create the Hotel table using the integrity enhancement features of SQL.</p>
+<p>CREATE DOMAIN HotelNoType AS CHAR(4);</p>
+<p>CREATE TABLE Hotel(</p>
+<p>hotelNo HotelNoType NOT NULL PRIMARY KEY,</p>
+<p>hotelName VARCHAR(15) NOT NULL,</p>
+<p>city VARCHAR(30) NOT NULL</p>
+<p>);</p>
+</li>
+<li>
+<p>Now create the Room, Booking, and Guest tables using the integrity enhancement features of SQL with the following constraints:<br />
+(a) Type must be one of Single, Double, or Family.<br />
+(b) Price must be between £10 and £100.<br />
+© roomNo must be between 1 and 100.<br />
+(d) dateFrom and dateTo must be greater than today’s date.<br />
+(e) The same room cannot be double booked.<br />
+(f) The same guest cannot have overlapping bookings.</p>
+<p>CREATE TABLE Guest(</p>
+<p>guestNo INTEGER(10) NOT NULL PRIMARY KEY,</p>
+<p>guestName VARCHAR(20) NOT NULL,</p>
+<p>guestAddress VARCHAR(30) NOT NULL</p>
+<p>)</p>
+<p>CREATE TABLE Room(</p>
+<p>roomNo INTEGER(4) NOT NULL CHECK(roomNo BETWEEN 1 AND 100),</p>
+<p>hotelNo INTEGER(5) NOT NULL,</p>
+<p>type VARCHAR(10) CHECK(type IN(‘Single’, ‘Double’, ‘Family’)),</p>
+<p>price DECIMAL(8, 2) CHECK(price BETWEEN 10 AND 100),</p>
+<p>PRIMARYR KEY(roomNo, hotelNo),</p>
+<p>FOREIGN KEY(hotelNo) REFERENCES Hotel(hotelNo)</p>
+<p>ON DELETE CASCADE ON UPDATE CASCADE</p>
+<p>);</p>
+<p>CREATE TABLE Booking(</p>
+<p>hotelNo INTEGER(5) NOT NULL,</p>
+<p>guestNo INTEGER(10) NOT NULL,</p>
+<p>dateFrom DATE NOT NULL CHECK(VALUE &gt; currentDate),</p>
+<p>dateTo DATE NOT NULL CHECK(VALUE &gt; currentDate),</p>
+<p>roomNo INTEGER(4) NOT NULL,</p>
+<p>PRIMARY KEY(hotelNo, guestNo, dateFrom),</p>
+<p>FOREIGN KEY(hotelNo) REFERENCES Hotel(hotelNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>FOREIGN KEY(roomNo, hotelNo) REFERENCES Room(roomNo, hotelNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>FOREIGN KEY(guestNo) REFERENCES Guest(guestNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>CHECK(NOT EXISTS(SELECT * FROM Booking b WHERE b.dateTo &gt; Booking.dateFrom AND b.dateFrom &lt; Booking.dateTo AND</p>
+<p>b.roomNo = Booking.roomNo AND b.hotelNo = Booking.hotelNo)),</p>
+<p>CHECK(NOT EXISTS(SELECT * FROM Booking b WHERE b.dateTo &gt; Booking.dateFrom AND b.dateFrom &lt; Booking.dateTo AND b.guestNo = Booking.guestNo))</p>
+<p>) ;</p>
+</li>
+<li>
+<p>Consider the following view defined on the Hotel schema:<br />
+CREATE VIEW HotelBookingCount (hotelNo, bookingCount)<br />
+AS SELECT h.hotelNo, COUNT(*)<br />
+FROM Hotel h, Room r, Booking b<br />
+WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo<br />
+GROUP BY h.hotelNo;<br />
+For each of the following queries, state whether the query is valid and for the valid ones should how each of the queries would be mapped onto a query on the underling base tables.<br />
+(a) SELECT * FROM HotelBookingCount;</p>
+</li>
+</ol>
+<p>​	有效，视图分解为</p>
+<p>​	SELECT h.hotelNo, COUNT(*)</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​		GROUP BY h.hotelNo;</p>
+<p>(b) SELECT hotelNo FROM HotelBookingCount WHERE hotelNo = ‘H001’;</p>
+<p>​	有效，视图分解为</p>
+<p>​	SELECT h.hotelNo</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​		AND hotelNo = ‘H001’</p>
+<p>​		GROUP BY h.hotelNo;</p>
+<p>© SELECT MIN(bookingCount) FROM HotelBookingCount;</p>
+<p>​	无效，bookingCount是基于聚集函数的，所以不能作为聚集函数的参数</p>
+<p>(d) SELECT COUNT(*) FROM HotelBookingCount;</p>
+<p>​	无效，视图中的bookingCount是基于聚集函数的，不能作为聚集函数的参数</p>
+<p>(e) SELECT hotelNo FROM HotelBookingCount WHERE bookingCount &gt; 1000;</p>
+<p>​	无效，bookingCount是基于聚集函数的，不能出现在WHERE子句中</p>
+<p>(f) SELECT hotelNo FROM HotelBookingCount ORDER BY bookingCount;</p>
+<p>​	有效，视图分解为</p>
+<p>​		SELECT h.hotelNo,</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = 	b.roomNo</p>
+<p>​		GROUP BY h.hotelNo</p>
+<p>​		ORDER BY COUNT(*);</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第五章 数据操作</title>
+    <url>/2021/04/23/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter5%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第五章-数据操作"><a class="markdownIt-Anchor" href="#第五章-数据操作"></a> 第五章 数据操作</h2>
+<h3 id="51-简介"><a class="markdownIt-Anchor" href="#51-简介"></a> 5.1 简介</h3>
+<a id="more"></a>
+<p>SQL是一种<strong>面向转换语言</strong>，它由两个主要部分组成：</p>
+<p><strong>DDL</strong>：用于定义数据库结构和数据库的访问控制。</p>
+<p><strong>DML</strong>：用于检索和更新数据。</p>
+<h3 id="52-书写sql命令"><a class="markdownIt-Anchor" href="#52-书写sql命令"></a> 5.2 书写SQL命令</h3>
+<p><strong>扩展的巴克斯范式</strong></p>
+<ul>
+<li>
+<p>大写字母用于表示保留字。</p>
+</li>
+<li>
+<p>小写字母用于表示用户自定义字。</p>
+</li>
+<li>
+<p>竖线(|)表示从选项中进行<strong>选择</strong>，例如a|b|c。</p>
+</li>
+<li>
+<p>大括号表示<strong>所需元素</strong>，例如{ a }。</p>
+</li>
+<li>
+<p>中括号表示<strong>可选择元素</strong>，例如[a]。</p>
+</li>
+<li>
+<p>省略号(…)表示某一项<strong>可选择重复</strong>零到多次。</p>
+</li>
+</ul>
+<h3 id="53-数据操作"><a class="markdownIt-Anchor" href="#53-数据操作"></a> 5.3 数据操作</h3>
+<h4 id="531-简单查询"><a class="markdownIt-Anchor" href="#531-简单查询"></a> 5.3.1 简单查询</h4>
+<p><strong>SELECT</strong> 		   [<strong>DISTINCT</strong> | <strong>ALL</strong>]<br />
+{* | [columnExpression [<strong>AS</strong> newName]] [,…] }<br />
+<strong>FROM</strong> 		     TableName [alias] [, …]<br />
+[<strong>WHERE</strong> 		  condition]<br />
+[<strong>GROUP BY</strong> 	columnList] [<strong>HAVING</strong> condition]<br />
+[<strong>ORDER BY</strong> 	 columnList].</p>
+<p><strong>处理过程顺序</strong></p>
+<p><strong>FROM</strong>				给出将用到的表</p>
+<p><strong>WHERE</strong>			  过滤满足条件的行</p>
+<p><strong>GROUP BY</strong>        将具有相同属性值的行分成组</p>
+<p><strong>HAVING</strong>			 过滤满足条件的组</p>
+<p><strong>SELECT</strong>  			 指定查询结果中出现的列</p>
+<p><strong>ORDER BY</strong>		 指定查询结果的顺序</p>
+<hr />
+<p><strong>DISTINCT</strong></p>
+<p>去掉重复的元组</p>
+<p><strong>计算字段</strong></p>
+<p>SELECT staffNo, fName, lName, salary/12 AS monthlySalary</p>
+<p>FROM	Staff;</p>
+<p><strong>WHERE</strong></p>
+<ul>
+<li>
+<p>比较运算、复合比较运算(NOT/ADD/OR)</p>
+</li>
+<li>
+<p>范围(BETWEEN/NOT BETWEEN)</p>
+</li>
+<li>
+<p>成员关系(IN/NOT IN)</p>
+<img src="Chapter5 数据操作/1.png" alt="1" style="zoom:80%;" />
+</li>
+<li>
+<p>模式匹配(LIKE/NOT LIKE)</p>
+<ul>
+<li><strong>%</strong>：百分号表示零或多个字符序列。</li>
+<li><strong>_</strong>：下划线表示任意单个字符。</li>
+</ul>
+<hr />
+<ul>
+<li>address LIKE ‘<strong>H%</strong>’ 意味着字符串第一个字符必须是H</li>
+<li>address LIKE '<strong>H_ _ _</strong>'意味着字符串正好有四个字符，第一个字符为H</li>
+<li>address LIKE '<strong>%e</strong>’意味着一个字符序列，长度最小为1，最后一个字符为e</li>
+<li>address LIKE '<strong>%H%</strong>'意味着一个包含字符串H的任意长度序列</li>
+<li>address NOT LIKE '<strong>H%</strong>'意味着字符串第一个字符不能为H</li>
+</ul>
+</li>
+<li>
+<p>空查找(IS NULL/IS NOT NULL)</p>
+<p>SELECT 	clientNo</p>
+<p>FROM 	   Viewing</p>
+<p>WHERE	  comment IS NULL</p>
+</li>
+</ul>
+<h4 id="532-查询结果排序order-by"><a class="markdownIt-Anchor" href="#532-查询结果排序order-by"></a> 5.3.2 查询结果排序(ORDER BY)</h4>
+<p><strong>单列排序</strong></p>
+<p>ORDER BY 子句包括所需排序的<strong>列标识符</strong>的列表。<strong>列标识符</strong>可能是列名字或列序号，如“1”标识列表中第一个元素。</p>
+<p>SELECT 	  staffNo, fName, IName, salary</p>
+<p>FROM	     Staff</p>
+<p>ORDER BY  salary|4 DESC;</p>
+<p><strong>多列排序</strong></p>
+<p>ORDER BY 子句可能包含多个元素，<strong>主排序键</strong>决定查询结果总体的排序。<strong>次排序键</strong>控制主排序键相同行的顺序。</p>
+<p>SELECT 		propertyNo, type, rooms, rent</p>
+<p>FROM		    PropertyForRent</p>
+<p>ORDER BY	 type, rent DESC;</p>
+<p>查询结果首先以房产类型升序排列（默认值为ASC），对于相同的房产类型，以rent降序排列。</p>
+<h4 id="533-sql聚集函数"><a class="markdownIt-Anchor" href="#533-sql聚集函数"></a> 5.3.3 SQL聚集函数</h4>
+<p>COUNT、SUM、AVG、MIN、MAX</p>
+<p>​		SUM和AVG只能用于数值字段，除了COUNT(*)外，每一个函数首先要去掉空值，然后计算其非空值。</p>
+<p>​		聚集函数只能用于SELECT列表和HAVING子句中，用在其他地方都是不正确的。如果SELECT列表包括聚集函数，却没有使用GROUP BY子句分组，那么SELECT列表的任何项都不能引用列，除了作为聚集函数的参数。</p>
+<p>​		例：SELECT staffNo, COUNT(salary)</p>
+<p>​				FROM Staff</p>
+<p>​		是非法的</p>
+<p><strong>COUNT、SUM</strong></p>
+<p>SELECT 				COUNT(DISTINCT propertyNo) AS myCount, 							  							  SUM(salary) AS mySalary</p>
+<p>FROM 				  Staff</p>
+<p>WHERE				 position = ‘Manager’;</p>
+<p><strong>MIN、MAX、AVG</strong></p>
+<p>SELECT				  MIN(salary), MAX(salary), AVG(salary)</p>
+<p>FROM					Staff;</p>
+<h4 id="534-查询结果分组group-by"><a class="markdownIt-Anchor" href="#534-查询结果分组group-by"></a> 5.3.4 查询结果分组(GROUP BY)</h4>
+<p>GROUP BY 按SELECT列表中的列进行分组，每一组产生一个综合查询结果。当使用GROUP BY时，SELECT列表中的项必须每组都有单一值。SELECT子句中的所有列除非用在聚集函数上，否则必须在GROUP BY子句中出现。当WHERE子句和GROUP BY子句同时使用时，必须首先使用WHERE子句。应用GROUP BY子句时，两个空值被认为是相等的。</p>
+<img src="Chapter5 数据操作/2.png" alt="2" style="zoom:80%;" />
+<h5 id="分组约束having"><a class="markdownIt-Anchor" href="#分组约束having"></a> 分组约束（HAVING）</h5>
+<p>限定哪些<strong>分组</strong>将出现在最终查询结果中。</p>
+<img src="https://i.loli.net/2021/05/05/1YTeauwd24ZVhFX.png" alt="3.png" style="zoom:80%;" />
+<p><strong>HAVING和WHERE的差别</strong></p>
+<p>​		WHERE子句将单个行过滤到查询结果中，而HAVING子句则将分组过滤到查询结果表中。HAVING子句使用的列名必须出现在GROUP BY子句列表中，或包含在聚集函数中。</p>
+<h4 id="535-子查询"><a class="markdownIt-Anchor" href="#535-子查询"></a> 5.3.5 子查询</h4>
+<ul>
+<li>标量子查询</li>
+<li>行子查询</li>
+<li>表子查询</li>
+</ul>
+<p><strong>用于相等判断的子查询</strong></p>
+<p>列出在位于“163 Main St”的分公司中工作的员工的情况。</p>
+<p>SELECT 	staffNo, fName, lName, position<br />
+FROM 	  Staff<br />
+WHERE     branchNo = (SELECT    branchNo<br />
+FROM       Branch<br />
+WHERE     street = ‘163 Main St’);</p>
+<p><strong>用于聚集函数的子查询</strong></p>
+<p>列出个人工资高于平均工资的所有员工，并求出多于平均数的值。</p>
+<p>SELECT 		staffNo, fName, lName, position,<br />
+salary – (SELECT AVG(salary) FROM Staff) As SalDiff<br />
+FROM 		  Staff<br />
+WHERE         salary &gt;(SELECT AVG(salary)<br />
+FROM Staff);</p>
+<p><strong>子查询规则</strong></p>
+<ul>
+<li>
+<p>ORDER BY子句不能用于子查询。</p>
+</li>
+<li>
+<p>子查询SELECT列表必须由单个列名或表达式组成，除非子查询使用了关键词<strong>EXISTS</strong>。</p>
+</li>
+<li>
+<p>默认情况下，子查询中列名取自子查询的FROM子句中给出的表。</p>
+</li>
+<li>
+<p>当子查询是比较表达式中的一个操作数时，子查询必须出现在表达式的右边。</p>
+<ul>
+<li>
+<p>例：WHERE (SELECT AVG(salary) FROM Staff) &lt; salary</p>
+<p>是不正确的</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>嵌套子查询：IN</strong></p>
+<p>当子查询结果为行时，使用<strong>IN</strong>关键字</p>
+<img src="Chapter5 数据操作/4.png" alt="4" style="zoom:80%;" />
+<h4 id="536-any和all"><a class="markdownIt-Anchor" href="#536-any和all"></a> 5.3.6 ANY和ALL</h4>
+<p>用于产生单个列的子查询</p>
+<p><strong>ANY/SOME</strong></p>
+<p>列出工资高于分公司B003中至少一位员工的工资的所有员工</p>
+<p>SELECT 			staffNo, fName, lName, position, salary<br />
+FROM 			  Staff<br />
+WHERE 		    salary &gt; SOME (SELECT salary<br />
+FROM Staff<br />
+WHERE branchNo = ‘B003’);</p>
+<p><img src="https://i.loli.net/2021/05/05/GQ9SuXpVmKA5nYs.png" alt="5.png" style="zoom:80%;" /><img src="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png" alt="6.png" /></p>
+<p><strong>ALL</strong></p>
+<p>列出工资高于分公司B003中任何员工的工资的所有员工</p>
+<img src="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png" alt="6.png" style="zoom:80%;" />
+<h4 id="537-多表查询"><a class="markdownIt-Anchor" href="#537-多表查询"></a> 5.3.7 多表查询</h4>
+<p>如果最终结果表包括了多个表中的列，则必须用连接操作。</p>
+<h5 id="5371-简单连接"><a class="markdownIt-Anchor" href="#5371-简单连接"></a> 5.3.7.1 简单连接</h5>
+<ul>
+<li>
+<p>FROM	Client c	JOIN    Viewing v	ON	c.clientNo = v.clientNo</p>
+</li>
+<li>
+<p>FROM    Client c    JOIN    Viewing    Using    clientNo</p>
+</li>
+<li>
+<p>FROM    Client c NATURAL JOIN    Viewing</p>
+</li>
+</ul>
+<p>后两种是自然连接</p>
+<h5 id="5372-三表连接"><a class="markdownIt-Anchor" href="#5372-三表连接"></a> 5.3.7.2 三表连接</h5>
+<p>FROM    (Branch b     JOIN    Staff s    USING    branchNo)    AS  bs</p>
+<p>​				JOIN    PropertyForRent p    USING    staffNo</p>
+<h5 id="5373-外连接"><a class="markdownIt-Anchor" href="#5373-外连接"></a> 5.3.7.3 外连接</h5>
+<p>SELECT b.*, p.*</p>
+<p>FROM	Branch b    LEFT JOIN    PropertyForRent p    ON    b.city = p.city</p>
+<h5 id="5374-全外连接"><a class="markdownIt-Anchor" href="#5374-全外连接"></a> 5.3.7.4 全外连接</h5>
+<p>FULL JOIN</p>
+<h4 id="538-exists-和-not-exists"><a class="markdownIt-Anchor" href="#538-exists-和-not-exists"></a> 5.3.8 EXISTS 和 NOT EXISTS</h4>
+<p>仅用于子查询中，返回结果为真/假。</p>
+<p>仅检查子查询结果表中是否存在行。</p>
+<p>SELECT staffNo FROM Staff s</p>
+<p>WHERE EXISTS(SELECT * FROM Branch b</p>
+<p>​							WHERE s.branchNo = b.branchNo);</p>
+<h4 id="539-合并结果表"><a class="markdownIt-Anchor" href="#539-合并结果表"></a> 5.3.9 合并结果表</h4>
+<p><strong>UNION</strong>、<strong>INTERSECT</strong>、<strong>EXCEPT</strong></p>
+<p>operator [ALL] [CORRESPONDING [BY {col}]]</p>
+<p><strong>例：</strong></p>
+<ul>
+<li>
+<p>(SELECT city FROM Branch WHERE city IS NOT NULL)</p>
+<p>​	        UNION</p>
+<p>​				(SELECT city FROM PropertyForRent)</p>
+</li>
+<li>
+<p>(SELECT * FROM Branch WHERE city IS NOT NULL)</p>
+<p>​			UNION CORRESPONDING BY city</p>
+<p>​					(SELECT * FROM PropertyForRent)</p>
+</li>
+</ul>
+<h4 id="5310-数据库更新"><a class="markdownIt-Anchor" href="#5310-数据库更新"></a> 5.3.10 数据库更新</h4>
+<p><strong>INSERT</strong>、<strong>UPDATE</strong>、<strong>DELETE</strong></p>
+<h5 id="53101-insert"><a class="markdownIt-Anchor" href="#53101-insert"></a> 5.3.10.1 INSERT</h5>
+<p><strong>默认插入</strong></p>
+<p>INSERT INTO TableName[(col)]</p>
+<p>VALUES(dataValue)</p>
+<p><strong>批量插入</strong></p>
+<p>INSERT INTO TableName[{col}]</p>
+<p>​	SELECT …</p>
+<h5 id="53102-update"><a class="markdownIt-Anchor" href="#53102-update"></a> 5.3.10.2 UPDATE</h5>
+<p>UPDATE TableName</p>
+<p>SET [col = value], [col2 = value2]</p>
+<h5 id="53103-delete"><a class="markdownIt-Anchor" href="#53103-delete"></a> 5.3.10.3 DELETE</h5>
+<p><strong>删除指定行</strong></p>
+<p>DELETE FROM TableName WHERE</p>
+<p><strong>删除所有行</strong></p>
+<p>DELETE FROM Viewing</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>What are the advantages and disadvantages of SQL?</p>
+<p>优点：</p>
+<ol>
+<li>
+<p>安全性，只允许授权的用户进行访问</p>
+</li>
+<li>
+<p>唯一一个得到普遍认可的数据库标准语言</p>
+</li>
+<li>
+<p>可移植性高</p>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>sql查询语句需要知道有关数据库结构的详细信息</li>
+<li>处理聚合函数中的空值</li>
+</ol>
+</li>
+<li>
+<p>What restrictions apply to the use of the aggregate functions within the SELECT statement? How do nulls affect the aggregate functions?</p>
+<p>​		聚集函数只能用于SELECT列表和HAVING子句中，用在其他地方都是不正确的。如果SELECT列表包括聚集函数，却没有使用GROUP BY子句分组，那么SELECT列表的任何项都不能引用列，除了作为聚集函数的参数。除了COUNT(*)外，每一个函数首先要去掉空值，然后计算其非空值。</p>
+</li>
+<li>
+<p>Explain how the GROUP BY clause works. What is the difference between the WHERE and HAVING clauses?</p>
+<p>​		GROUP BY 按SELECT列表中的列进行分组，每一组产生一个综合查询结果。当使用GROUP BY时，SELECT列表中的项必须每组都有单一值。SELECT子句中的所有列除非用在聚集函数上，否则必须在GROUP BY子句中出现。当WHERE子句和GROUP BY子句同时使用时，必须首先使用WHERE子句。应用GROUP BY子句时，两个空值被认为是相等的。</p>
+<p>​		WHERE子句将单个行过滤到查询结果中，而HAVING子句则将分组过滤到查询结果表中。HAVING子句使用的列名必须出现在GROUP BY子句列表中，或包含在聚集函数中。</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<p>For the following exercises, use the Hotel schema defined at the start of the Exercises at the end of Chapter 3.</p>
+<p><strong>Simple Queries</strong></p>
+<ol start="4">
+<li>
+<p>List all double or family rooms with a price below £40.00 per night, in ascending order of price.</p>
+<p>SELECT * FROM Room</p>
+<p>WHERE price &lt; 40000 AND type in (‘double’, ‘family’)</p>
+<p>ORDER BY price;</p>
+</li>
+<li>
+<p>List the bookings for which no dateTo has been specified.</p>
+<p>SELECT * FROM Booking</p>
+<p>WHERE dateTo IS NULL;</p>
+</li>
+</ol>
+<p><strong>Aggregate Functions</strong></p>
+<ol start="6">
+<li>
+<p>How many different guests have made bookings for August?</p>
+<p>SELECT COUNT(DISTINCT guestNo) FROM Booking</p>
+<p>WHERE (dateFrom &gt;= ‘2021-08-01’ and dateTo &lt;= ‘2021-08-31’);</p>
+</li>
+</ol>
+<p><strong>Subqueries and Joins</strong></p>
+<ol start="7">
+<li>
+<p>List the details of all rooms at the Grosvenor Hotel, including the name of the guest staying in the room, if the room is occupied.</p>
+<p>SELECT * from Room r LEFT JOIN</p>
+<p>​		(SELECT b.hotelNo, g.guestNo FROM Hotel h,Booking b, Guest g</p>
+<p>​		 WHERE h.hotelNo = b.hotelNo and b.guestNo = g.guestNo</p>
+<p>​		 AND h.hotelName = ‘Grosvenor’</p>
+<p>​    	 AND dateFrom &lt;= currentDate AND dateTo &gt;= currentDate</p>
+<p>​		 ) AS t</p>
+<p>ON r.hotelNo = t.hotelNo AND r.roomNo = t.roomNo</p>
+</li>
+<li>
+<p>What is the total income from bookings for the Grosvenor Hotel today?</p>
+<p>SELECT SUM(price) From Room r, Booking b</p>
+<p>WHERE r.roomNo = b.roomNo</p>
+<p>AND dateFrom &lt;= currentDate AND dateTo  &gt;= currentDate</p>
+<p>AND r.hotelNo IN (SELECT h.hotelNo FROM Hotel h</p>
+<p>​								  WHERE h.hotelName = ‘Grosvenor’)</p>
+</li>
+<li>
+<p>What is the lost income from unoccupied rooms at the Grosvenor Hotel?</p>
+<p>SELECT SUM(price) From Room r</p>
+<p>WHERE r.roomNo NOT IN(SELECT b.roomNo</p>
+<p>​											   FROM Hotel h, Booking b</p>
+<p>​                                               WHERE h.hotelName = ‘Grosvenor’</p>
+<p>​											   AND dateFrom &lt;= currentDate</p>
+<p>​                                               AND dateTo  &gt;= currentDate</p>
+<p>​                                               AND h.hotelNo = b.hotelNo)</p>
+</li>
+</ol>
+<p><strong>Grouping</strong></p>
+<ol start="10">
+<li>
+<p>What is the average number of bookings for each hotel in August?</p>
+<p>SELECT hotelNo, COUNT(roomNo)/31 AS CNT</p>
+<p>FROM Booking b</p>
+<p>WHERE dateFrom &gt;= ‘2021-08-01’ AND dateTo  &lt;=‘2021-08-31’	GROUP BY hotelNo</p>
+</li>
+<li>
+<p>What is the most commonly booked room type for each hotel in London?</p>
+<p>SELECT t.hotelNo, MAX(CNT) FROM</p>
+<p>​	(SELECT hotelNo,type,COUNT(type) AS CNT</p>
+<p>​	FROM Hotel h, Room r, Booking b</p>
+<p>​	WHERE h.city = ‘London’</p>
+<p>​	AND h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​	GROUP BY hotelNo, type) AS t</p>
+<p>GROUP BY t.hotelNo</p>
+</li>
+</ol>
+<p><strong>Creating and Populating Tables</strong></p>
+<ol start="12">
+<li>
+<p>Insert records into each of these tables.</p>
+<p>INSERT INTO Hotel VALUES(‘H01’, ‘Grosvenor’, ‘London’);</p>
+<p>INSERT INTO Room VALUES(‘101’, ‘H01’, ‘small’, 100);</p>
+<p>INSERT INTO Booking VALUES(‘H01’, ‘G01’, ‘2021-4-14’, ‘2021-4-15’, ‘101’);</p>
+<p>INSERT INTO Guest VALUES(‘G01’, ‘ZHANG SAN’, ‘London’);</p>
+</li>
+<li>
+<p>Update the price of all rooms by 5%.</p>
+<p>UPDATE Room SET price = price * 1.05;</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第3章 Unity物理引擎</title>
     <url>/2021/04/19/Unity/%E7%AC%AC3%E7%AB%A0%20Unity%E7%89%A9%E7%90%86%E5%BC%95%E6%93%8E/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="unity物理引擎"><a class="markdownIt-Anchor" href="#unity物理引擎"></a> Unity物理引擎</h2>
@@ -86,6 +838,124 @@
 ]]></content>
       <categories>
         <category>Unity</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第四章 关系代数</title>
+    <url>/2021/04/16/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter4%20%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第四章-关系代数"><a class="markdownIt-Anchor" href="#第四章-关系代数"></a> 第四章 关系代数</h2>
+<h3 id="41-一元运算"><a class="markdownIt-Anchor" href="#41-一元运算"></a> 4.1 一元运算</h3>
+<h4 id="411-选择"><a class="markdownIt-Anchor" href="#411-选择"></a> 4.1.1 选择</h4>
+<a id="more"></a>
+<p><strong>|σ<sub>predicate</sub>®|</strong>：选择运算作用于单个关系R，得到一个新关系，它由R中满足特定条件的元组组成。</p>
+<p>例：σ<sub>salary &gt; 10000 </sub>(Staff)</p>
+<h4 id="412-投影运算"><a class="markdownIt-Anchor" href="#412-投影运算"></a> 4.1.2 投影运算</h4>
+<p><strong>|∏col<sub>1</sub>, … , col<sub>n</sub>®|</strong>：投影运算作用于单个关系R，得到由R的一个垂直子集构成的新关系，该垂直子集抽取R中指定属性上的值并<strong>去掉了重复元组</strong>。</p>
+<h3 id="42-集合运算"><a class="markdownIt-Anchor" href="#42-集合运算"></a> 4.2 集合运算</h3>
+<h4 id="421-并"><a class="markdownIt-Anchor" href="#421-并"></a> 4.2.1 并</h4>
+<p><strong>|R∪S|</strong>：两个关系R和S的并，定义了一个包含R、S中所有不同元组的新关系。R和S必须具有<strong>并相容性</strong>。</p>
+<p>例：∏<sub>city</sub>(Branch)∪Π<sub>city</sub>(PropertyForRent)</p>
+<h4 id="422-差"><a class="markdownIt-Anchor" href="#422-差"></a> 4.2.2 差</h4>
+<p><strong>|R - S |</strong>：集合差运算定义了一个新的关系，它由所有属于R但不属于S的元组构成。R和S必须具有并相容性。</p>
+<p>列出有分公司但待租房产的城市清单：∏<sub>city</sub>(Branch) - Π<sub>city</sub>(PropertyForRent)</p>
+<h4 id="423-交"><a class="markdownIt-Anchor" href="#423-交"></a> 4.2.3 交</h4>
+<p><strong>|R∩S|</strong>：交运算定义了一个关系，它由既属于R又属于S的元组构成。R和S必须具备<strong>并相容性</strong>。</p>
+<h4 id="424-笛卡尔乘积"><a class="markdownIt-Anchor" href="#424-笛卡尔乘积"></a> 4.2.4 笛卡尔乘积</h4>
+<p><strong>|R × S|</strong>：笛卡尔乘积运算定义了一个关系，它是关系R中每个元组与关系S中每个元组并联的结果。</p>
+<h3 id="43-连接运算"><a class="markdownIt-Anchor" href="#43-连接运算"></a> 4.3 连接运算</h3>
+<p>将两个关系结合起来组成一个新的关系。相当于对两个参与运算关系的笛卡尔乘积执行一次选择运算。</p>
+<h4 id="431-θ连接"><a class="markdownIt-Anchor" href="#431-θ连接"></a> 4.3.1 θ连接</h4>
+<p><strong>|R ⋈<sub>F</sub> S|</strong>：θ连接运算定义一个关系，它包含R和S的笛卡尔乘积中所有满足谓词F的元组。谓词F的格式为R.a<sub>i</sub> θ S.b<sub>i</sub>, 其中θ为6个比较运算符之一。</p>
+<p>​	R⋈<sub>F</sub>S = σ<sub>F</sub>(R × S)</p>
+<h4 id="432-等接运算"><a class="markdownIt-Anchor" href="#432-等接运算"></a> 4.3.2 等接运算</h4>
+<p>在谓词F仅包含等号(=)的情况下，θ连接就变成了等接。</p>
+<h4 id="433-自然连接"><a class="markdownIt-Anchor" href="#433-自然连接"></a> 4.3.3 自然连接</h4>
+<p><strong>|R ⋈ S|</strong>：自然连接是关系R和S在所有公共属性x上的等接。但在得到的结果中每个公共属性只保留一次，其余删除。</p>
+<img src="https://i.loli.net/2021/05/05/li2zGxt69XHsk4N.png" alt="1.png" style="zoom:80%;" />
+<h4 id="434-外连接"><a class="markdownIt-Anchor" href="#434-外连接"></a> 4.3.4 外连接</h4>
+<p><strong>|R ⋊ S|</strong>：(左)外连接是这样一种连接，它将R中的所有元组都保留在结果关系中，包括那些公共属性与S不匹配的，不过，结果关系中来自S的所有非公共属性均取空。</p>
+<h4 id="435-半连接"><a class="markdownIt-Anchor" href="#435-半连接"></a> 4.3.5 半连接</h4>
+<p><strong>|R<img src="https://i.loli.net/2021/05/05/MUHVFwZqfDliu26.png" alt="2.png" />S|</strong>：半连接运算定义的关系包含<strong>R中的这样一些元组</strong>，它们参与了R与S满足谓词F的连接。</p>
+<p>​		半连接运算执行了两个关系的连接后，再将结果投影到第一个参与运算的关系的所有属性上。</p>
+<p>R<img src="https://i.loli.net/2021/05/05/MUHVFwZqfDliu26.png" alt="2.png" />S = Π<sub>A</sub>(R ⋈<sub>F</sub> S)	A是R中所有属性的集合</p>
+<h3 id="44-除法运算"><a class="markdownIt-Anchor" href="#44-除法运算"></a> 4.4 除法运算</h3>
+<p>假设关系R定义在属性集合A上，关系S定义在属性集合B上，并且B ⊆ A。C = A - B，即C是属于R但不属于S的属性集合。</p>
+<p><strong>|R ÷ S|</strong>：除法运算定义了属性集合C上的一个关系，该关系的元组与S中每个元组的组合都能在R中找到匹配元组。</p>
+<p>除法运算的步骤：</p>
+<ul>
+<li>T<sub>1</sub> ⬅ Π<sub>c</sub>®</li>
+<li>T<sub>2</sub> ⬅ Π<sub>c</sub>( (T<sub>1</sub> × S) - R )</li>
+<li>T ⬅ T<sub>1</sub> - T<sub>2</sub></li>
+</ul>
+<img src="https://i.loli.net/2021/05/05/pzS2DgOT1vXARek.png" alt="3.png" style="zoom:80%;" />
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>Define the five basic relational algebra operations. Define the Join, Intersection, and Division operations in terms of these five basic operations.</p>
+<p><strong>|σ<sub>predicate</sub>®|</strong>：选择运算作用于单个关系R，得到一个新关系，它由R中满足特定条件的元组组成。</p>
+<p><strong>|∏col<sub>1</sub>, … , col<sub>n</sub>®|</strong>：投影运算作用于单个关系R，得到由R的一个垂直子集构成的新关系，该垂直子集抽取R中指定属性上的值并<strong>去掉了重复元组</strong>。</p>
+<p><strong>|R∪S|</strong>：两个关系R和S的并，定义了一个包含R、S中所有不同元组的新关系。R和S必须具有<strong>并相容性</strong>。</p>
+<p><strong>|R × S|</strong>：笛卡尔乘积运算定义了一个关系，它是关系R中每个元组与关系S中每个元组并联的结果。</p>
+<p><strong>|R - S |</strong>：集合差运算定义了一个新的关系，它由所有属于R但不属于S的元组构成。R和S必须具有并相容性。</p>
+<p><strong>|R∩S|</strong>：交运算定义了一个关系，它由既属于R又属于S的元组构成。R和S必须具备<strong>并相容性</strong>。</p>
+<p>连接关系：将两个关系结合起来组成一个新的关系。相当于对两个参与运算关系的笛卡尔乘积执行一次选择运算。</p>
+<p>假设关系R定义在属性集合A上，关系S定义在属性集合B上，并且B ⊆ A。C = A - B，即C是属于R但不属于S的属性集合。</p>
+<p><strong>|R ÷ S|</strong>：除法运算定义了属性集合C上的一个关系，该关系的元组与S中每个元组的组合都能在R中找到匹配元组。</p>
+<p>除法运算的步骤：</p>
+<ul>
+<li>T<sub>1</sub> ⬅ Π<sub>c</sub>®</li>
+<li>T<sub>2</sub> ⬅ Π<sub>c</sub>( (T<sub>1</sub> × S) - R )</li>
+<li>T ⬅ T<sub>1</sub> - T<sub>2</sub></li>
+</ul>
+</li>
+<li>
+<p>Discuss the difference between the five Join operations: Theta join, Equijoin, Natural join, Outer join, and Semijoin. Give examples to illustrate your answer.<br />
+Use the Hotel schema defined at the Exercises at the end of Chapter 3, finish exercises 4 and 5.</p>
+</li>
+</ol>
+<p><strong>|R ⋈<sub>F</sub> S|</strong>：θ连接运算定义一个关系，它包含R和S的笛卡尔乘积中所有满足谓词F的元组。谓词F的格式为R.a<sub>i</sub> θ S.b<sub>i</sub>, 其中θ为6个比较运算符之一。</p>
+<p>等接运算是特殊的θ运算。在谓词F仅包含等号(=)的情况下，θ连接就变成了等接。</p>
+<p>​	自然连接是特殊的等接运算。自然连接是关系R和S在所有公共属性x上的等接，得到结果后要去重。</p>
+<p>外连接将R中的所有元组都保留在结果关系中，包括那些公共属性与S不匹配的，不过，结果关系中来自S的所有非公共属性均取空。</p>
+<p>半连接运算执行了两个关系的连接后，再将结果投影到第一个参与运算的关系的所有属性上。</p>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<ol start="3">
+<li>
+<p>Describe the relations that would be produced by the following relational algebra operations:</p>
+<p>a) 列出所有房间价格高于50的酒店号列表</p>
+<p>b) 列出所有酒店的所有房间</p>
+<p>c) 列出所有房间价格高于50的酒店名</p>
+<p>d) 列出所有客人的详细资料，并显示预定结束时间在2007年1月1日后的客人的预定资料</p>
+<p>e) 列出所有房间价格高于50的酒店的详细资料</p>
+<p>f) 列出预定了伦敦的酒店的所有客人的姓名</p>
+</li>
+<li>
+<p>Generate the relational algebra for the following queries:</p>
+</li>
+</ol>
+<p>(a) List all hotels</p>
+<p>Hotel∨</p>
+<p>(b) List all single rooms with a price below £20 per night.</p>
+<p>σ<sub>type = “single” ∧ price &lt; 20 </sub>(Room)</p>
+<p>© List the names and cities of all guests.</p>
+<p>Π<sub>guestName, guestAddress</sub>(Guest)</p>
+<p>(d) List the price and type of all rooms at the Grosvenor Hotel.</p>
+<p>Π<sub>price, type</sub>(Room 半连接<sub>Room.hotelNo = Hotel.hotelNo</sub>(σ<sub>hotelName = ‘Grosvenor’</sub>(Hotel)))</p>
+<p>(e) List all guests currently staying at the Grosvenor Hotel.</p>
+<p>TempBooking(hotelNo, guestNo, dateFrom, dateTo, roomNo) ⬅ Booking半连接<sub>Booking.hoteltNo = Hotel.hotelNo</sub>(σ<sub>hotelName = ‘Grosvenor’</sub>(Hotel))</p>
+<p>Guest 半连接<sub>Guest.guestNo = TempBooking.guestNo</sub>(σ<sub>currentDate &gt;= dateFrom ∧ currentDate &lt;= dateTo</sub>(TempBooking)</p>
+<p>(f) List the details of all rooms at the Grosvenor Hotel, including the name of the guest staying in the room, if the room is occupied.</p>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<p>房间 外接 客人姓名</p>
+<p>TempBooking(hotelNo, guestNo, dateFrom, dateTo, roomNo) ⬅ Booking半连接<sub>Booking.hoteltNo = Hotel.hotelNo</sub>(σ<sub>hotelName = ‘Grosvenor’</sub>(Hotel))</p>
+<p>(Room 半连接<sub>Room.hotelNo = Hotel.hotelNo</sub>(σ<sub>hotelName = ‘Grosvenor’</sub>(Hotel)) )左外接</p>
+<p>(Π<sub>hotelNo, roomNo, guestName</sub>(Guest 连接<sub>Guest.guestNo = TempBooking.guestNo</sub> TempBooking))</p>
+<p>(g) List the guest details (guestNo, guestName, and guestAddress) of all guests staying at the Grosvenor Hotel.</p>
+<p>TempBooking(hotelNo, guestNo, dateFrom, dateTo, roomNo) ⬅ Booking半连接<sub>Booking.hoteltNo = Hotel.hotelNo</sub>(σ<sub>hotelName = ‘Grosvenor’</sub>(Hotel))</p>
+<p>Π<sub>guestNo, guestName, guestAddress</sub>(Guest 半连接<sub>Guest.guestNo = TempBooking.guestNo</sub> TempBooking)</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
       </categories>
   </entry>
   <entry>
@@ -841,6 +1711,144 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
       </categories>
   </entry>
   <entry>
+    <title>第三章 关系模型</title>
+    <url>/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-关系模型"><a class="markdownIt-Anchor" href="#第三章-关系模型"></a> 第三章 关系模型</h2>
+<h3 id="32-基本术语"><a class="markdownIt-Anchor" href="#32-基本术语"></a> 3.2 基本术语</h3>
+<h4 id="321-关系数据结构"><a class="markdownIt-Anchor" href="#321-关系数据结构"></a> 3.2.1 关系数据结构</h4>
+<a id="more"></a>
+<p><strong>|关系|</strong>：关系是由行和列组成的表</p>
+<p><strong>|属性|</strong>：属性是关系中命名的列</p>
+<p><strong>|域|</strong>：域是一个或多个属性的取值集合</p>
+<ul>
+<li>每一个关系中的属性都定义着一个域</li>
+</ul>
+<p><strong>|元组(Tuple)|</strong>：关系中的每一行称为元组</p>
+<p><strong>|维数/度(Degree)|</strong>：关系的度是指关系所包含属性的个数</p>
+<p><strong>|基数(Cardinality)|</strong>：关系的基数是指它所包含元组的个数</p>
+<img src="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png" alt="9.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/CRZqdUh5QDz2LAe.png" alt="10.png" />
+<h4 id="323-数据库中的关系"><a class="markdownIt-Anchor" href="#323-数据库中的关系"></a> 3.2.3 数据库中的关系</h4>
+<p><strong>|关系模式|</strong>：由一组属性和域名对定义的命名关系</p>
+<p>设属性A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub>对应的域分别为D<sub>1</sub>, D<sub>2</sub>, …, D<sub>n</sub>。那么，集合{A<sub>1</sub>😄<sub>1</sub>, A<sub>2</sub>D<sub>2</sub>, …, A<sub>n</sub>D<sub>n</sub>}就是一个关系模式。</p>
+<p><strong>|关系模式数据库|</strong>：关系模式的集合，集合中的每个关系都应有不同的名字</p>
+<h4 id="324-关系的性质"><a class="markdownIt-Anchor" href="#324-关系的性质"></a> 3.2.4 关系的性质</h4>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<h4 id="325-关系键"><a class="markdownIt-Anchor" href="#325-关系键"></a> 3.2.5 关系键</h4>
+<p><strong>|超键|</strong>：一个属性或<strong>属性集合</strong>，它能唯一地标识出关系中的每个元组。</p>
+<p><strong>|候选键|</strong>：本身是超键但其任何子集都不再是超键。</p>
+<p><strong>|主键|</strong>：被选用于唯一标识关系中各元组的候选键。</p>
+<p><strong>|外部关键字|</strong>：当一个关系中的某个属性或属性集合与另一个关系（也可能就是自己）的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<h3 id="33-完整性约束"><a class="markdownIt-Anchor" href="#33-完整性约束"></a> 3.3 完整性约束</h3>
+<p>关系数据模型有三个组成部分：数据结构、数据管理和完整性约束</p>
+<h4 id="331-空"><a class="markdownIt-Anchor" href="#331-空"></a> 3.3.1 空</h4>
+<p><strong>|空|</strong>：代表对一个元组当前取值还不知道或是不可用的属性值</p>
+<h4 id="332-实体完整性"><a class="markdownIt-Anchor" href="#332-实体完整性"></a> 3.3.2 实体完整性</h4>
+<p><strong>|实体完整性|</strong>：在基本关系中，主键的属性不能为空</p>
+<p>针对基关系</p>
+<ul>
+<li>基关系：table	定义 + 数据</li>
+<li>非基关系
+<ul>
+<li>view	定义</li>
+<li>select    X</li>
+</ul>
+</li>
+</ul>
+<h4 id="333-参考完整性"><a class="markdownIt-Anchor" href="#333-参考完整性"></a> 3.3.3 参考完整性</h4>
+<p><strong>|参考完整性|</strong>：如果在关系中存在某个外部关键字，则它的值或与主关系中某个元组的候选键取值相等，或者全为空</p>
+<h4 id="334-用户完整性"><a class="markdownIt-Anchor" href="#334-用户完整性"></a> 3.3.4 用户完整性</h4>
+<p><strong>|用户完整性|</strong>：由数据库用户或数据库管理员所指定的附加规则，它约束企业的某些方面。</p>
+<h3 id="34-视图"><a class="markdownIt-Anchor" href="#34-视图"></a> 3.4 视图</h3>
+<p>视图不完全是用户看到的外部模型，它指虚关系或导出关系，即无需单独存在，必要时可从一或多个基本关系中动态地将其导出。</p>
+<h4 id="341-术语"><a class="markdownIt-Anchor" href="#341-术语"></a> 3.4.1 术语</h4>
+<p><strong>|视图|</strong>：对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时在生成的虚关系。</p>
+<h4 id="342-视图的用途"><a class="markdownIt-Anchor" href="#342-视图的用途"></a> 3.4.2 视图的用途</h4>
+<ul>
+<li>通过对特定用户隐藏部分数据库信息，提供了一个强大而灵活的安全机制。</li>
+<li>允许用户根据自己的需求自定义访问数据的方法，因此不同的用户可以通过不同的途径同时看到相同的数据。</li>
+<li>可以简化对基本关系的复杂操作。</li>
+</ul>
+<h4 id="343-视图的更新"><a class="markdownIt-Anchor" href="#343-视图的更新"></a> 3.4.3 视图的更新</h4>
+<p>对某个基本关系的所有更新应该立即反应到涉及这个基本关系的视图中。</p>
+<ul>
+<li>如果视图由一个基本关系的简单查询生成，而且它还包含了基本关系中的主键或是候选键，则可以通过这个视图进行更新操作。</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<img src="https://i.loli.net/2021/05/05/ui3tyzSAe8Rrn7q.png" alt="11.png" style="zoom:80%;" />
+<ol>
+<li>a) 关系是由行和列组成的表</li>
+</ol>
+<p>b) 域是一个或多个属性的取值集合</p>
+<p>c) 属性是关系中命名的列</p>
+<p>d) 关系中的每一行称为元组</p>
+<p>e) 本身是超键但其任何子集都不再是超键是候选键</p>
+<p>f) 被选用于唯一标识关系中各元组的候选键。</p>
+<p>g) 当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<ol start="2">
+<li></li>
+</ol>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。与其他关系的候选键的属性相匹配的就是外键。例如</p>
+<p>Branch</p>
+<p>BranchNo street</p>
+<p>Staff</p>
+<p>staffNo BranchNo</p>
+<p>Staff表中的BranchNo与Branch表中的BranchNo相匹配，就是外键</p>
+</li>
+<li>
+<p>视图是对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时再生成的虚关系。与基本关系相比，视图是一个虚关系，从基本关系中导出得到。视图用于提供安全机制，而基本关系无法提供。基本关系有定义和数据，而视图只有定义没有数据。</p>
+</li>
+<li>
+<p>hotelNo和guestNo是模式中的外键，hotelNo是Hotel表中的主键也是Room表中的外键；guestNo是Guest表中的主键也是Booking表中的外键。根据实体完整性规则，主键中的属性不能为空，如hotelNo, roomNo不能为空。根据引用完整性规则，Booking表中的HotelNo与Hotel表中的hotelNo相匹配，因此Booking表中的HotelNo的取值应在Hotel表中的hotelNo属性的域内。guestNo也与之类似。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第7章 Windows窗体应用与控件</title>
     <url>/2021/04/08/C_/%E7%AC%AC7%E7%AB%A0/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="Windows窗体应用与控件"><a href="#Windows窗体应用与控件" class="headerlink" title="Windows窗体应用与控件"></a>Windows窗体应用与控件</h2><h3 id="7-1-布局与事件"><a href="#7-1-布局与事件" class="headerlink" title="7.1 布局与事件"></a>7.1 布局与事件</h3><h4 id="7-1-1-控件与容器"><a href="#7-1-1-控件与容器" class="headerlink" title="7.1.1 控件与容器"></a>7.1.1 控件与容器</h4><a id="more"></a>
@@ -1442,6 +2450,319 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
 ]]></content>
       <categories>
         <category>C#</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第二章 数据库环境</title>
+    <url>/2021/04/02/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第二章-数据库环境"><a class="markdownIt-Anchor" href="#第二章-数据库环境"></a> 第二章 数据库环境</h2>
+<h3 id="21-ansi-sparc三层体系结构"><a class="markdownIt-Anchor" href="#21-ansi-sparc三层体系结构"></a> 2.1 ANSI-SPARC三层体系结构</h3>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2021/05/05/tiply8ef9kZP4SJ.png" alt="3.png" /></p>
+<p>用户从外部层观察数据，DBMS和OS从内部层观察数据。概念层提供内、外部层的映射和必要的独立性。</p>
+<ul>
+<li>每个用户都能访问相同数据，但可用各自定制的数据视图。</li>
+<li>用户与数据库的交互应该独立与存储细节</li>
+<li>DBA能在不影响用户视图的情况下修改数据库存储结构</li>
+<li>数据库的内部结构不受存储的物理变化影响，例如转移数据</li>
+<li>DBA能在不影响所有用户的情况下修改数据库的概念结构</li>
+</ul>
+<h4 id="211-外部层"><a class="markdownIt-Anchor" href="#211-外部层"></a> 2.1.1 外部层</h4>
+<p><strong>|外部层|</strong>：数据库的用户视图。这一层描述与每一个用户相关的数据库部分。</p>
+<ul>
+<li>外部层由数据库的若干不同视图组成。</li>
+<li>描述数据库中与特定用户相关的部分。</li>
+</ul>
+<h4 id="212-概念层"><a class="markdownIt-Anchor" href="#212-概念层"></a> 2.1.2 概念层</h4>
+<p><strong>|概念层|</strong>：数据库的整体视图。这一层描述了哪些数据被存储在数据库中，以及这些数据之间的联系。</p>
+<p>这一层包含DBA看到的整个数据库的逻辑结构。概念层描述:</p>
+<ul>
+<li>所有实体、实体的属性和实体间的联系;</li>
+<li>数据的约束;</li>
+<li>数据的语义信息;</li>
+<li>安全性和完整性信息。</li>
+</ul>
+<p>例：对于实体的描述只包含属性的数据类型，以及它们的长度，但是不包括实际所占用的字节数。</p>
+<h4 id="213-内部层"><a class="markdownIt-Anchor" href="#213-内部层"></a> 2.1.3 内部层</h4>
+<p><strong>|内部层|</strong>：数据库在计算机上的物理表示。这一层描述数据是如何存储在数据库中的。</p>
+<ul>
+<li>内部层包括为了得到数据库运行时的最佳性能而采用的物理实现方法。它通过与OS的访问方法交互，完成在存储设备上存放数据等操作：
+<ul>
+<li>数据和索引的存储空间分配;</li>
+<li>记录存储的描述(带有数据项的存储大小);</li>
+<li>记录位置;</li>
+<li>数据压缩与加密技术。</li>
+</ul>
+</li>
+<li>在内部层之下有一个物理层，可以在DBMS的指导下由操作系统控制。</li>
+</ul>
+<h4 id="214-模式-映射和实例"><a class="markdownIt-Anchor" href="#214-模式-映射和实例"></a> 2.1.4 模式、映射和实例</h4>
+<p>对数据库的整体描述成为数据库模式，在任一时间点上，数据库中的数据构成一个数据库实例。</p>
+<p>外部模式：与不同的数据视图相对应。</p>
+<p>概念模式：描述所有的实体、属性和联系及其上的完整性约束。</p>
+<p>内部模式：内部模型的完整描述。</p>
+<h4 id="215-数据独立性"><a class="markdownIt-Anchor" href="#215-数据独立性"></a> 2.1.5 数据独立性</h4>
+<p><strong>|逻辑数据独立性|</strong>：逻辑数据独立性指的是外部模式不受概念模式变化的影响。</p>
+<p><strong>|物理数据独立性|</strong>：物理数据独立性指的是概念模式不受内部模式变化的影响</p>
+<h3 id="22-数据库语言"><a class="markdownIt-Anchor" href="#22-数据库语言"></a> 2.2 数据库语言</h3>
+<p>数据库语言包括两个部分：Data Definition Language(DDL)和Data Manipulation Language(DML)，DDL用来说明数据库模式，DML用来读取和更新数据库。</p>
+<h4 id="221-ddl"><a class="markdownIt-Anchor" href="#221-ddl"></a> 2.2.1 DDL</h4>
+<p><strong>|DDL|</strong>：一种供DBA或用户描述和命名应用所需实体、属性和联系及其相关的完整性约束和安全约束的语言。</p>
+<ul>
+<li>DDL可用于定义模式或修改已存在的模式，但不能用来操作数据。</li>
+</ul>
+<h4 id="222-dml"><a class="markdownIt-Anchor" href="#222-dml"></a> 2.2.2 DML</h4>
+<p><strong>|DML|</strong>：提供了一组基本操作，支持对数据库中存储数据进行各种处理操作的语言。</p>
+<ul>
+<li>增、删、改、查</li>
+</ul>
+<h5 id="过程化dml"><a class="markdownIt-Anchor" href="#过程化dml"></a> 过程化DML</h5>
+<p><strong>|过程化DML|</strong>：要求用户既告诉系统需要什么数据又说明如何检索这些数据的语言。</p>
+<h5 id="非过程化dml"><a class="markdownIt-Anchor" href="#非过程化dml"></a> 非过程化DML</h5>
+<p><strong>|非过程化DML|</strong>：只要求用户告诉系统需要哪些数据而不需说明如何检索它们的语言。也成为说明性语言。</p>
+<h3 id="23-数据模型和概念建模"><a class="markdownIt-Anchor" href="#23-数据模型和概念建模"></a> 2.3 数据模型和概念建模</h3>
+<p><strong>|数据模型|</strong>：一组集成的概念，用于描述和操纵组织机构内的数据、数据间联系以及对数据的约束。</p>
+<p>数据模型含下列三个组件：</p>
+<ul>
+<li>结构部分，由一组创建数据库的规则构成。</li>
+<li>操纵部分，定义允许对数据进行的操作的种类。</li>
+<li>一组完整性约束，确保数据的准确性。</li>
+</ul>
+<h4 id="231-基于对象的数据模型"><a class="markdownIt-Anchor" href="#231-基于对象的数据模型"></a> 2.3.1 基于对象的数据模型</h4>
+<p>基于对象的数据模型用到实体、属性和联系等概念。</p>
+<ul>
+<li>ER模型</li>
+<li>语义模型</li>
+</ul>
+<h4 id="232-基于记录的数据模型"><a class="markdownIt-Anchor" href="#232-基于记录的数据模型"></a> 2.3.2 基于记录的数据模型</h4>
+<p>在基于记录的数据模型中，数据库由若干不同类型的固定格式记录组成。</p>
+<p>关系系统对数据库处理采用说明性的方法，而网状和层次系统采用导航的方法。</p>
+<h5 id="关系数据模型"><a class="markdownIt-Anchor" href="#关系数据模型"></a> 关系数据模型</h5>
+<p>在关系模型中，数据和联系均以表格的形式表示，每个表格有若干具有唯一名称的列。</p>
+<h5 id="网状数据模型"><a class="markdownIt-Anchor" href="#网状数据模型"></a> 网状数据模型</h5>
+<p>在网络数据模型中，数据被表示成一组记录，联系被表示成络(set)，具体实现时一般使用指针。</p>
+<ul>
+<li>记录是节点而洛是边</li>
+</ul>
+<h5 id="层次数据模型"><a class="markdownIt-Anchor" href="#层次数据模型"></a> 层次数据模型</h5>
+<p>层次数据模型是一种受限的网状模型，层次数据模型规定一个节点只能有一个父节点。</p>
+<h4 id="233-物理数据模型"><a class="markdownIt-Anchor" href="#233-物理数据模型"></a> 2.3.3 物理数据模型</h4>
+<p>物理数据模型描述数据是如何存储在计算机中的，涉及记录结构、记录顺序及访问路径等信息。</p>
+<h3 id="24-dbms的功能"><a class="markdownIt-Anchor" href="#24-dbms的功能"></a> 2.4 DBMS的功能</h3>
+<p><strong>数据存储、检索和更新</strong></p>
+<p>DBMS必须为用户提供在数据库中存储、检索和更新数据的能力。</p>
+<p><strong>用户可访问的目录</strong></p>
+<p>DBMS必须提供一个目录，内存各类数据项的描述并允许用户访问。</p>
+<p><strong>事务支持</strong></p>
+<p>DBMS必须提供一个机制，确保给定事务的所有更新操作或者完全做完或者一个都不做。</p>
+<p><strong>并发控制服务</strong></p>
+<p>DBMS必须提供一个机制，确保当多个用户并行地更新数据库时，数据库被正确更新。</p>
+<p><strong>恢复服务</strong></p>
+<p>DBMS必须提供一个机制，无论数据库因何种原因受到破坏时，都能恢复数据库。</p>
+<p><strong>授权服务</strong></p>
+<p>DBMS必须提供一个机制，确保只有经过授权的用户才可以访问数据库。</p>
+<p><strong>支持数据通信</strong></p>
+<p>DBMS必须能够与通信软件集成。</p>
+<p><strong>完整性服务</strong></p>
+<p>DBMS必须提供一种方法， 确保数据库中的数据和对数据的修改遵循一定的规则。</p>
+<p><strong>提高数据独立性的服务</strong></p>
+<p>DBMS必须提供机制，使程序独立于数据库的实际结构。</p>
+<p><strong>实用服务程序</strong></p>
+<p>DBMS应该提供一组实用服务程序</p>
+<h3 id="25-dbms的组件"><a class="markdownIt-Anchor" href="#25-dbms的组件"></a> 2.5 DBMS的组件</h3>
+<img src="https://i.loli.net/2021/05/05/vNy5OaECrMeZHhD.png" alt="4.png" style="zoom:80%;" />
+<ul>
+<li>查询处理器：将所有的查询转换成一系列指导数据库管理器运行的低层指令</li>
+<li>DML预处理器：将嵌入应用程序中的DML语句转换成宿主语言中标准的函数调用</li>
+<li>DDL编译器：将DDL语句转换成一组包含元数据的表格</li>
+<li>目录管理器：控制对系统目录的访问</li>
+<li>DM: DM与用户提交的应用程序和查询处理器接口</li>
+</ul>
+<img src="https://i.loli.net/2021/05/05/GHo8bUM2xgZEqsT.png" alt="5.png" style="zoom:80%;"  />
+<ul>
+<li>授权控制：这个模块检查用户是否具有必要的操作权限。</li>
+<li>命令处理器：若有权限，则控制权交给命令管理器。</li>
+<li>完整性检查其：兑与每个修改数据库的操作，检查请求的操作是否满足所有必要的完整性约束。</li>
+<li>查询优化器：确定执行查询的最优策略。</li>
+<li>事务管理器：执行从事务接收到的操作序列。</li>
+<li>调度程序：确保当前数据库中并发运行的操作不相互冲突。</li>
+</ul>
+<h3 id="26-多用户dbms结构"><a class="markdownIt-Anchor" href="#26-多用户dbms结构"></a> 2.6 多用户DBMS结构</h3>
+<h4 id="261-远程处理"><a class="markdownIt-Anchor" href="#261-远程处理"></a> 2.6.1 远程处理</h4>
+<p>一台计算机和若干终端</p>
+<h4 id="262-文件服务器结构"><a class="markdownIt-Anchor" href="#262-文件服务器结构"></a> 2.6.2 文件服务器结构</h4>
+<p><strong>|文件服务器|</strong>：在网络上的一台计算机，其主要用途是为文档、电子表格、图像和数据库之类的计算机文件提供共享存储。</p>
+<img src="https://i.loli.net/2021/05/05/xrIlnRZdUN5QfaK.png" alt="6.png" style="zoom:80%;" />
+<ul>
+<li>数据库在文件服务器上</li>
+<li>应用程序和DBMS运行在各个工作站点上</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>
+<p>网络拥塞</p>
+</li>
+<li>
+<p>每台工作站上都要求有一个DBMS的完整副本</p>
+</li>
+<li>
+<p>并发、恢复和完整性控制变得相当复杂，因为可能有多个DBMS访问同一个文件</p>
+</li>
+</ul>
+<h4 id="263-传统的两层客户-服务器结构"><a class="markdownIt-Anchor" href="#263-传统的两层客户-服务器结构"></a> 2.6.3 传统的两层客户-服务器结构</h4>
+<img src="https://i.loli.net/2021/05/05/391HQhwDjlytOvx.png" alt="7.png" style="zoom:80%;" />
+<ul>
+<li>客户端管理用户界面和处理应用逻辑</li>
+<li>数据库和DBMS在服务器上</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>广泛支持对现存数据库的访问</li>
+<li>增强性能</li>
+<li>降低硬件费用</li>
+<li>降低通信费用</li>
+<li>增强一致性</li>
+</ul>
+<h4 id="264-事务处理监视器tpm"><a class="markdownIt-Anchor" href="#264-事务处理监视器tpm"></a> 2.6.4 事务处理监视器(TPM)</h4>
+<p><strong>|事务处理监视器|</strong>：控制客户端和服务器之间数据传输的程序，旨在为应用提供一致的环境，尤其是为联机事务处理(OLTP)一类的应用。</p>
+<p>复杂的应用程序经常建立在多个资源管理器之上。TP监视器是一个中间件，能访问各种资源管理器提供的服务，同时为事务型软件的开发者提供一个统一的接口。TP监视器作为三层结构中的中间层。</p>
+<img src="https://i.loli.net/2021/05/05/exN5bjSI8uVgqvK.png" alt="8.png" style="zoom:80%;" />
+<h3 id="27-系统目录"><a class="markdownIt-Anchor" href="#27-系统目录"></a> 2.7 系统目录</h3>
+<p><strong>|系统目录|</strong>：描述数据库中数据的信息存储库，即元数据</p>
+<p>目录必须是用户可访问的</p>
+<ul>
+<li>授权控制模块</li>
+<li>完整性检查器模块</li>
+<li>存放授权用户</li>
+<li>每个数据项的约束</li>
+</ul>
+<p>信息资源字典系统是一个ISO标准，定义了一组访问数据字典的方法。这样就允许共享字典，并且可以从一个系统转换到另一个系统。</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>To address the issue of data independence, the ANSI-SPARC three-level architecture was proposed. Compare and contrast the three levels of this model.怎么解决数据独立性的问题</p>
+<p>外部层由若干不同的用户视图组成，概念层是数据库的整体视图，描述了哪些数据被存储在数据库中，以及这些数据之间的联系。内部层是数据库在计算机上的物理表示。描述数据是如何存储在数据库中的。三层体系结构通过两段映射，外部层到概念层的映射和概念层到内部层的映射，保证对低层次的修改不会影响到高层次，提供了更强的数据独立性。</p>
+</li>
+<li>
+<p>What is a data model? Discuss three components of data model and the main types of data model.</p>
+<p>数据模型是一组集成的概念，用于描述和操纵组织机构内的数据、数据间联系以及对数据的约束。数据模型的三个组成部分有结构部分，由一组创建数据库的规则构成；操纵部分，定义允许对数据进行的操作的种类；一组完整性约束，确保数据的准确性。主要的数据模型有关系数据模型、网状数据模型、层次数据模型、实体-联系模型等等。</p>
+</li>
+<li>
+<p>What is meant by the term ‘client-server architecture’ and what are the advantages of this approach? Compare the client-server architecture with other architecture.</p>
+<p>客户-服务器指的是软组件相互作用形成系统的一个方式。这种方法中存在一个请求资源的客户进程和一个提供资源的服务器。优点有广泛支持对现存数据库的访问、增强性能、降低硬件费用、降低通信费用和增强一致性。与远程处理和文件服务器结构相比，客户-服务器与文件-服务器的客户端与服务器都通过LAN进行通信，但文件-服务器的应用程序和DBMS都在客户端而客户-服务器的应用程序在客户端，数据库和DBMS在服务器。远程处理结构中终端没有处理能力，要交由中央计算机处理，中心计算机要运行应用程序和DBMS。</p>
+</li>
+<li>
+<p>Discuss the function and importance of the system catalog.</p>
+<p>系统目录存放元数据，存放授权用户，存放每个数据项的约束，用户可以查询系统目录。设立系统目录，数据的信息可以被集中保存。由于数据被集中保存，冗余和一致性的问题可以被识别和控制。增强了安全性和完整性。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第一章 数据库简介</title>
+    <url>/2021/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter1%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第一章-数据库简介"><a class="markdownIt-Anchor" href="#第一章-数据库简介"></a> 第一章 数据库简介</h2>
+<h3 id="12传统的基于文件的系统"><a class="markdownIt-Anchor" href="#12传统的基于文件的系统"></a> 1.2传统的基于文件的系统</h3>
+<h4 id="122-基于文件方法的局限性"><a class="markdownIt-Anchor" href="#122-基于文件方法的局限性"></a> 1.2.2 基于文件方法的局限性</h4>
+<a id="more"></a>
+<ul>
+<li>
+<p>数据分离和孤立</p>
+</li>
+<li>
+<p>数据冗余</p>
+</li>
+<li>
+<p>数据依赖</p>
+</li>
+<li>
+<p>文件不兼容、固定查询/增殖的应用程序</p>
+</li>
+</ul>
+<h3 id="13-数据库方法"><a class="markdownIt-Anchor" href="#13-数据库方法"></a> 1.3 数据库方法</h3>
+<h4 id="131-数据库"><a class="markdownIt-Anchor" href="#131-数据库"></a> 1.3.1 数据库</h4>
+<p><strong>|数据库|</strong>：为满足某个组织机构的信息要求而设计的一个逻辑相关数据及其描述的共享集。</p>
+<h4 id="132-数据库管理系统dbms"><a class="markdownIt-Anchor" href="#132-数据库管理系统dbms"></a> 1.3.2 数据库管理系统(DBMS)</h4>
+<p><strong>|DBMS|</strong>:一个支持用户对数据库进行定义、创建、维护及控制访问的软件系统</p>
+<p>DBMS = DDL + DML</p>
+<ul>
+<li>Data Definition Language：指定数据类型、数据结构，约束数据</li>
+<li>Data Manipulation Language(DML)：Insert, update, delete, retrieve数据</li>
+</ul>
+<p>与基于文件的系统相比，数据的物理结构和存储是由DBMS控制的</p>
+<h4 id="133-数据库应用程序"><a class="markdownIt-Anchor" href="#133-数据库应用程序"></a> 1.3.3 （数据库）应用程序</h4>
+<p><strong>|应用程序|</strong>：通过向DBMS提出合适的请求(通常是一个SQL语句)而与数据库交互作用的计算机程序</p>
+<p><strong>视图</strong></p>
+<ul>
+<li>视图提供了一个保密级别。</li>
+<li>视图有助于提高数据独立性——当基本数据库改变时，视图可能不变。</li>
+</ul>
+<h4 id="134-dbms环境的组成部分"><a class="markdownIt-Anchor" href="#134-dbms环境的组成部分"></a> 1.3.4 DBMS环境的组成部分</h4>
+<img src="https://i.loli.net/2021/05/05/mCYNRD1B7yhkJMr.png" alt="1.png" style="zoom:80%;" />
+<p><strong>硬件</strong>：硬件支撑DBMS和应用的运行，它可以是一台PC机或是多台计算机连接的网络。</p>
+<p><strong>软件</strong>：软件包含DBMS软件本身以及应用程序和操作系统。</p>
+<p><strong>数据</strong>：数据是原始事务的集合。数据在机器和人中间起到了桥梁作用。数据库同时包含了操作数据和元数据，数据库结构称为模式。</p>
+<p><strong>过程</strong>：过程是对数据库的设计和使用进行控制的一组命令和规则。</p>
+<p><strong>人</strong>：可以是DA、DBA、数据库设计人员、应用开发人员和终端用户。他们收集数据，把它们编成程序并使用。</p>
+<h3 id="14-数据库环境中的各种角色"><a class="markdownIt-Anchor" href="#14-数据库环境中的各种角色"></a> 1.4 数据库环境中的各种角色</h3>
+<h4 id="141-da和dba"><a class="markdownIt-Anchor" href="#141-da和dba"></a> 1.4.1 DA和DBA</h4>
+<p><strong>DA</strong>：管理数据资源，数据库规划，概念/逻辑数据库设计</p>
+<p><strong>DBA</strong>：数据库的物理实现，包括物理数据库设计和实现、安全性和完整性控制</p>
+<h4 id="142-数据库设计人员"><a class="markdownIt-Anchor" href="#142-数据库设计人员"></a> 1.4.2 数据库设计人员</h4>
+<p><strong>逻辑数据库设计人员</strong>：负责标识数据、数据之间的联系、对将存储到数据库的数据的约束。概念数据库设计、逻辑数据库设计(例：员工不能管理超过10处房产)</p>
+<p><strong>物理数据库设计人员</strong>：将逻辑数据库设计映射为一组表和一组完整性约束；选择特定的数据存储结构来得到最佳性能</p>
+<h3 id="16-dbms的优点和缺点"><a class="markdownIt-Anchor" href="#16-dbms的优点和缺点"></a> 1.6 DBMS的优点和缺点</h3>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>
+<p>受控的数据冗余</p>
+</li>
+<li>
+<p>数据一致性</p>
+</li>
+<li>
+<p>数据共享</p>
+</li>
+<li>
+<p>增强的数据完整性</p>
+</li>
+<li>
+<p>增强的安全性</p>
+</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>复杂性</li>
+<li>DBMS的费用</li>
+<li>性能相对较低</li>
+<li>故障带来的影响较大</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p><img src="https://i.loli.net/2021/05/05/l6oGHxIXvCFqasB.png" alt="2.png" /></p>
+<ol>
+<li>
+<p>a)数据是原始事务的集合</p>
+<p>b)数据库是为满足某个组织机构的信息要求而设计的一个逻辑相关数据及其描述的共享集</p>
+<p>c)一个支持用户对数据库进行定义、创建、维护及控制访问的软件系统</p>
+<p>d)数据独立性是对数据库模式中较低层的修改不会对较高层产生影响。有两种数据独立性，物理数据独立性和逻辑数据独立性</p>
+</li>
+<li>
+<p>数据方法的特性有数据独立性、受控的数据冗余、数据共享、数据完整性和安全性。而基于文件的方法则有数据被分离与孤立、数据冗余、数据依赖、文件格式不相容、固定查询/应用程序需不断翻新的缺点。</p>
+</li>
+<li>
+<p><strong>硬件</strong>：硬件支撑DBMS和应用的运行，它可以是一台PC机或是多台计算机连接的网络。</p>
+</li>
+</ol>
+<p><strong>软件</strong>：软件包含DBMS软件本身以及应用程序和操作系统。</p>
+<p><strong>数据</strong>：数据是原始事务的集合。数据在机器和人中间起到了桥梁作用。数据库同时包含了操作数据和元数据，数据库结构称为模式。</p>
+<p><strong>过程</strong>：过程是对数据库的设计和使用进行控制的一组命令和规则。</p>
+<p><strong>人</strong>：可以是DA、DBA、数据库设计人员、应用开发人员和终端用户。他们收集数据，把它们编成程序并使用。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
       </categories>
   </entry>
   <entry>
