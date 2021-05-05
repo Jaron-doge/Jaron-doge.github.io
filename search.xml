@@ -450,7 +450,7 @@ For each of the following queries, state whether the query is valid and for the 
 </li>
 <li>
 <p>成员关系(IN/NOT IN)</p>
-<img src="Chapter5 数据操作/1.png" alt="1" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/lWcMUs5FXrZkLhS.png" alt="1.png" style="zoom:80%;" />
 </li>
 <li>
 <p>模式匹配(LIKE/NOT LIKE)</p>
@@ -502,7 +502,7 @@ For each of the following queries, state whether the query is valid and for the 
 <p>FROM					Staff;</p>
 <h4 id="534-查询结果分组group-by"><a class="markdownIt-Anchor" href="#534-查询结果分组group-by"></a> 5.3.4 查询结果分组(GROUP BY)</h4>
 <p>GROUP BY 按SELECT列表中的列进行分组，每一组产生一个综合查询结果。当使用GROUP BY时，SELECT列表中的项必须每组都有单一值。SELECT子句中的所有列除非用在聚集函数上，否则必须在GROUP BY子句中出现。当WHERE子句和GROUP BY子句同时使用时，必须首先使用WHERE子句。应用GROUP BY子句时，两个空值被认为是相等的。</p>
-<img src="Chapter5 数据操作/2.png" alt="2" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/DBQCkuFxegm6n94.png" alt="2.png" style="zoom:80%;" />
 <h5 id="分组约束having"><a class="markdownIt-Anchor" href="#分组约束having"></a> 分组约束（HAVING）</h5>
 <p>限定哪些<strong>分组</strong>将出现在最终查询结果中。</p>
 <img src="https://i.loli.net/2021/05/05/1YTeauwd24ZVhFX.png" alt="3.png" style="zoom:80%;" />
@@ -551,7 +551,7 @@ FROM Staff);</p>
 </ul>
 <p><strong>嵌套子查询：IN</strong></p>
 <p>当子查询结果为行时，使用<strong>IN</strong>关键字</p>
-<img src="Chapter5 数据操作/4.png" alt="4" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/yFVXqPkOih9BjsN.png" alt="4.png" style="zoom:80%;" />
 <h4 id="536-any和all"><a class="markdownIt-Anchor" href="#536-any和all"></a> 5.3.6 ANY和ALL</h4>
 <p>用于产生单个列的子查询</p>
 <p><strong>ANY/SOME</strong></p>
