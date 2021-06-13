@@ -50,12 +50,12 @@
   };
 </script>
 
-  <meta name="description" content="数据库12.2 ADO.NET">
+  <meta name="description" content="数据库  12.2 ADO.NET">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第12章 数据库">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;13&#x2F;C_&#x2F;%E7%AC%AC12%E7%AB%A0&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="数据库12.2 ADO.NET">
+<meta property="og:description" content="数据库  12.2 ADO.NET">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;20&#x2F;7wIoXtaiT4vBpUq.png">
 <meta property="og:updated_time" content="2021-04-20T04:22:28.571Z">
@@ -274,35 +274,46 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="12-2-ADO-NET"><a href="#12-2-ADO-NET" class="headerlink" title="12.2 ADO.NET"></a>12.2 ADO.NET</h3><a id="more"></a>
+        <h2 id="数据库"><a class="markdownIt-Anchor" href="#数据库"></a> 数据库</h2>
+<h3 id="122-adonet"><a class="markdownIt-Anchor" href="#122-adonet"></a> 12.2 <a href="http://ADO.NET" target="_blank" rel="noopener">ADO.NET</a></h3>
+<a id="more"></a>
 <p>System.Data名称空间</p>
-<h4 id="12-2-1-ADO-NET的四个重要对象"><a href="#12-2-1-ADO-NET的四个重要对象" class="headerlink" title="12.2.1 ADO.NET的四个重要对象"></a>12.2.1 ADO.NET的四个重要对象</h4><p><img src="https://i.loli.net/2021/04/20/7wIoXtaiT4vBpUq.png" alt="8.png"></p>
-<h3 id="12-3-访问数据库的方法"><a href="#12-3-访问数据库的方法" class="headerlink" title="12.3 访问数据库的方法"></a>12.3 访问数据库的方法</h3><h4 id="12-3-1-方式一-DataAdapter及DataSet"><a href="#12-3-1-方式一-DataAdapter及DataSet" class="headerlink" title="12.3.1 方式一 DataAdapter及DataSet"></a>12.3.1 方式一 DataAdapter及DataSet</h4><ul>
+<h4 id="1221-adonet的四个重要对象"><a class="markdownIt-Anchor" href="#1221-adonet的四个重要对象"></a> 12.2.1 ADO.NET的四个重要对象</h4>
+<p><img src="https://i.loli.net/2021/04/20/7wIoXtaiT4vBpUq.png" alt="8.png" /></p>
+<h3 id="123-访问数据库的方法"><a class="markdownIt-Anchor" href="#123-访问数据库的方法"></a> 12.3 访问数据库的方法</h3>
+<h4 id="1231-方式一-dataadapter及dataset"><a class="markdownIt-Anchor" href="#1231-方式一-dataadapter及dataset"></a> 12.3.1 方式一 DataAdapter及DataSet</h4>
+<ul>
 <li>适合于“离线”处理</li>
 <li>自动建立Command对象</li>
 </ul>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">OleDbCommandBuilder cmdbld = <span class="keyword">new</span> OleDbCommandBuilder(daAdapter);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据集</span></span><br><span class="line">DataSet dsMyData = <span class="keyword">new</span> DataSet();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 填充数据</span></span><br><span class="line">daAdapter.Fill(dyMyData);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 访问数据</span></span><br><span class="line"><span class="keyword">foreach</span>(DataTable table <span class="keyword">in</span> dyMyData.Tables) &#123;</span><br><span class="line">    <span class="keyword">foreach</span>(DataRow row <span class="keyword">in</span> table.Rows) &#123;</span><br><span class="line">        <span class="keyword">foreach</span>(<span class="keyword">object</span> field <span class="keyword">in</span> row.ItemArray) &#123;</span><br><span class="line">            Console.Write(field);</span><br><span class="line">        &#125;</span><br><span class="line">        Console.WriteLine();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Console.WriteLine(dyMyData.Table[<span class="number">0</span>].Rows[<span class="number">0</span>][<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交数据的改变</span></span><br><span class="line">daAdapter.Update(dyMyData);</span><br><span class="line"></span><br><span class="line"><span class="comment">// DataSet与XML转换</span></span><br><span class="line">dyMyData.WriterXml(<span class="string">"test.xml"</span>);</span><br><span class="line">dyMyData.ReadXml(<span class="string">"test.xml"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="12-3-2-DataReader"><a href="#12-3-2-DataReader" class="headerlink" title="12.3.2 DataReader"></a>12.3.2 DataReader</h4><ul>
+<h4 id="1232-datareader"><a class="markdownIt-Anchor" href="#1232-datareader"></a> 12.3.2 DataReader</h4>
+<ul>
 <li>适合于只读数据，效率较高</li>
 </ul>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OleDbDataReader MyReader = MyCommand.ExecuteReader();</span><br><span class="line"><span class="keyword">while</span>(MyReader.Read())</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(</span><br><span class="line">    	MyReader.GetString(<span class="number">1</span>) + </span><br><span class="line">        MyReader[<span class="string">"Name"</span>].ToString() +</span><br><span class="line">        MyReader[<span class="number">2</span>].ToString()</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="12-3-3-使用Command对象"><a href="#12-3-3-使用Command对象" class="headerlink" title="12.3.3 使用Command对象"></a>12.3.3 使用Command对象</h4><ul>
-<li>ExecuteReader ()<ul>
+<h4 id="1233-使用command对象"><a class="markdownIt-Anchor" href="#1233-使用command对象"></a> 12.3.3 使用Command对象</h4>
+<ul>
+<li>ExecuteReader ()
+<ul>
 <li>得到 Reader 对象，单向只读</li>
 </ul>
 </li>
-<li>ExecuteScalar ()<ul>
+<li>ExecuteScalar ()
+<ul>
 <li>得到单一的量，如 sum,avg 等的结果</li>
 </ul>
 </li>
-<li>ExecuteNonQuery ()<ul>
+<li>ExecuteNonQuery ()
+<ul>
 <li>执行非查询性的命令（如 Update/Delete/Insert)</li>
 <li>返回的是它所影响的记录数</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用Command的ExecuteScalar</span></span><br><span class="line">MyCommand.CommandText = <span class="string">"Select COUNT(*) From [Test]"</span>;</span><br><span class="line"><span class="keyword">int</span> cnt = (<span class="keyword">int</span>) MyCommand.ExecuteScalar();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用Command的ExecuteNonQuery</span></span><br><span class="line">MyCommand.CommandText = <span class="string">"Delete From [Test] Where [Name] = 'T'"</span>;</span><br><span class="line"><span class="keyword">int</span> cntDeleted = MyCommand.ExecuteNonQuery();</span><br></pre></td></tr></table></figure>
-<h4 id="12-3-4-使用参数"><a href="#12-3-4-使用参数" class="headerlink" title="12.3.4 使用参数"></a>12.3.4 使用参数</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmd.CommandText = <span class="string">"INSERT INTO CName , EName , FName ) VALUES</span></span><br><span class="line"><span class="string">(@CName , @EName , @FName);</span></span><br><span class="line"><span class="string">cmd.Connection = this.sqlConnection1;</span></span><br><span class="line"><span class="string">cmd.Parameters.Add(@CName "</span>, SqlDbType.VarChar, <span class="number">60</span>).Value =</span><br><span class="line">                   <span class="string">" aaaaaa "</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1234-使用参数"><a class="markdownIt-Anchor" href="#1234-使用参数"></a> 12.3.4 使用参数</h4>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmd.CommandText = <span class="string">"INSERT INTO CName , EName , FName ) VALUES</span></span><br><span class="line"><span class="string">(@CName , @EName , @FName);</span></span><br><span class="line"><span class="string">cmd.Connection = this.sqlConnection1;</span></span><br><span class="line"><span class="string">cmd.Parameters.Add(@CName "</span>, SqlDbType.VarChar, <span class="number">60</span>).Value =</span><br><span class="line">                   <span class="string">" aaaaaa "</span>;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -364,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库"><span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-2-ADO-NET"><span class="nav-text">12.2 ADO.NET</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#12-2-1-ADO-NET的四个重要对象"><span class="nav-text">12.2.1 ADO.NET的四个重要对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3-访问数据库的方法"><span class="nav-text">12.3 访问数据库的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#12-3-1-方式一-DataAdapter及DataSet"><span class="nav-text">12.3.1 方式一 DataAdapter及DataSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-3-2-DataReader"><span class="nav-text">12.3.2 DataReader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-3-3-使用Command对象"><span class="nav-text">12.3.3 使用Command对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-3-4-使用参数"><span class="nav-text">12.3.4 使用参数</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库"><span class="nav-text"> 数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#122-adonet"><span class="nav-text"> 12.2 ADO.NET</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1221-adonet的四个重要对象"><span class="nav-text"> 12.2.1 ADO.NET的四个重要对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#123-访问数据库的方法"><span class="nav-text"> 12.3 访问数据库的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1231-方式一-dataadapter及dataset"><span class="nav-text"> 12.3.1 方式一 DataAdapter及DataSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1232-datareader"><span class="nav-text"> 12.3.2 DataReader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1233-使用command对象"><span class="nav-text"> 12.3.3 使用Command对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1234-使用参数"><span class="nav-text"> 12.3.4 使用参数</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -380,7 +391,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -431,12 +442,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">249k</span>
+    <span title="站点总字数">254k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:46</span>
+    <span title="站点阅读时长">3:51</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>

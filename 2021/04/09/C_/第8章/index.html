@@ -50,12 +50,12 @@
   };
 </script>
 
-  <meta name="description" content="绘图及图像8.1 绘图基础GDI+">
+  <meta name="description" content="绘图及图像  8.1 绘图基础GDI+">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第8章 绘图及图像">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;09&#x2F;C_&#x2F;%E7%AC%AC8%E7%AB%A0&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="绘图及图像8.1 绘图基础GDI+">
+<meta property="og:description" content="绘图及图像  8.1 绘图基础GDI+">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;20&#x2F;Dvd5e8jXiASCMha.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2021&#x2F;04&#x2F;20&#x2F;pK2ZiPY3r4FTEbC.png">
@@ -275,13 +275,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="绘图及图像"><a href="#绘图及图像" class="headerlink" title="绘图及图像"></a>绘图及图像</h2><h3 id="8-1-绘图基础GDI"><a href="#8-1-绘图基础GDI" class="headerlink" title="8.1 绘图基础GDI+"></a>8.1 绘图基础GDI+</h3><a id="more"></a>
+        <h2 id="绘图及图像"><a class="markdownIt-Anchor" href="#绘图及图像"></a> 绘图及图像</h2>
+<h3 id="81-绘图基础gdi"><a class="markdownIt-Anchor" href="#81-绘图基础gdi"></a> 8.1 绘图基础GDI+</h3>
+<a id="more"></a>
 <p>GDI：Graphics Device Interface（图形设备界面）</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Graphics g = <span class="keyword">this</span>.CreateGraphics();</span><br><span class="line">Pen pen = <span class="keyword">new</span> Pen(Color.Red, <span class="number">2</span>);</span><br><span class="line">Brush brush = <span class="keyword">new</span> SolidBrush(Color.Blue);</span><br><span class="line">Font font = <span class="keyword">new</span> Font(<span class="string">"宋体"</span>, <span class="number">25</span>);</span><br><span class="line">Rectangle rect = <span class="keyword">new</span> Rectangle(<span class="number">20</span>, <span class="number">120</span>, <span class="number">100</span>, <span class="number">160</span>);</span><br><span class="line">g.DrawLine(pen, <span class="number">20</span>, <span class="number">100</span>, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">g.DrawRectangle(pen, rect);</span><br><span class="line">g.DrawString(<span class="string">"GDI+图形编程"</span>, font, brush, <span class="number">20</span>, <span class="number">20</span>);</span><br><span class="line">brush.Dispose(); font.Dispose(); pen.Dispose();</span><br><span class="line">g.Dispose();</span><br></pre></td></tr></table></figure>
-<h4 id="8-1-1-坐标系统"><a href="#8-1-1-坐标系统" class="headerlink" title="8.1.1 坐标系统"></a>8.1.1 坐标系统</h4><p>(0, 0)    ——&gt;    (x, 0)</p>
-<p>​    ⬇</p>
+<h4 id="811-坐标系统"><a class="markdownIt-Anchor" href="#811-坐标系统"></a> 8.1.1 坐标系统</h4>
+<p>(0, 0)	——&gt;	(x, 0)</p>
+<p>​	⬇</p>
 <p>(0, y)</p>
-<h4 id="8-1-2-System-Drawing中常用的结构"><a href="#8-1-2-System-Drawing中常用的结构" class="headerlink" title="8.1.2 System.Drawing中常用的结构"></a>8.1.2 System.Drawing中常用的结构</h4><h5 id="Color"><a href="#Color" class="headerlink" title="Color"></a>Color</h5><p><strong>静态成员</strong></p>
+<h4 id="812-systemdrawing中常用的结构"><a class="markdownIt-Anchor" href="#812-systemdrawing中常用的结构"></a> 8.1.2 System.Drawing中常用的结构</h4>
+<h5 id="color"><a class="markdownIt-Anchor" href="#color"></a> Color</h5>
+<p><strong>静态成员</strong></p>
 <p>Color.Red</p>
 <p><strong>静态方法</strong></p>
 <ul>
@@ -289,68 +294,94 @@
 <li>FromKnownColor</li>
 <li>FromName</li>
 </ul>
-<h5 id="Size和SizeF"><a href="#Size和SizeF" class="headerlink" title="Size和SizeF"></a>Size和SizeF</h5><h5 id="Point"><a href="#Point" class="headerlink" title="Point"></a>Point</h5><h5 id="Rectangle"><a href="#Rectangle" class="headerlink" title="Rectangle"></a>Rectangle</h5><h3 id="8-2-绘图对象及绘图方法"><a href="#8-2-绘图对象及绘图方法" class="headerlink" title="8.2 绘图对象及绘图方法"></a>8.2 绘图对象及绘图方法</h3><h4 id="8-2-1-得到Graphics对象"><a href="#8-2-1-得到Graphics对象" class="headerlink" title="8.2.1 得到Graphics对象"></a>8.2.1 得到Graphics对象</h4><ul>
-<li><p>OnPaint事件中</p>
+<h5 id="size和sizef"><a class="markdownIt-Anchor" href="#size和sizef"></a> Size和SizeF</h5>
+<h5 id="point"><a class="markdownIt-Anchor" href="#point"></a> Point</h5>
+<h5 id="rectangle"><a class="markdownIt-Anchor" href="#rectangle"></a> Rectangle</h5>
+<h3 id="82-绘图对象及绘图方法"><a class="markdownIt-Anchor" href="#82-绘图对象及绘图方法"></a> 8.2 绘图对象及绘图方法</h3>
+<h4 id="821-得到graphics对象"><a class="markdownIt-Anchor" href="#821-得到graphics对象"></a> 8.2.1 得到Graphics对象</h4>
+<ul>
+<li>
+<p>OnPaint事件中</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Graphics g = e.Graphics;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>在其他情况使用</p>
+<li>
+<p>在其他情况使用</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Graphics g = <span class="keyword">this</span>.CreateGraphics();</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h4 id="8-2-2-释放Graphics"><a href="#8-2-2-释放Graphics" class="headerlink" title="8.2.2 释放Graphics"></a>8.2.2 释放Graphics</h4><ul>
+<h4 id="822-释放graphics"><a class="markdownIt-Anchor" href="#822-释放graphics"></a> 8.2.2 释放Graphics</h4>
+<ul>
 <li>g.Dispose();</li>
 </ul>
 <p>用这样也可以using(Graphics g = this.CreateGraphics()) { …. }</p>
 <ul>
 <li>这种写法，相当于try{…….} finally{ g.Dispose(); }</li>
 </ul>
-<h4 id="8-2-3Graphics对象绘图方法"><a href="#8-2-3Graphics对象绘图方法" class="headerlink" title="8.2.3Graphics对象绘图方法"></a>8.2.3Graphics对象绘图方法</h4><p><img src="https://i.loli.net/2021/04/20/Dvd5e8jXiASCMha.png" alt="1.png" style="zoom:80%;" /></p>
+<h4 id="823graphics对象绘图方法"><a class="markdownIt-Anchor" href="#823graphics对象绘图方法"></a> 8.2.3Graphics对象绘图方法</h4>
+<img src="https://i.loli.net/2021/04/20/Dvd5e8jXiASCMha.png" alt="1.png" style="zoom:80%;" />
 <ul>
 <li>Graphics对象绘制实心图形方法</li>
 </ul>
-<p><img src="https://i.loli.net/2021/04/20/pK2ZiPY3r4FTEbC.png" alt="2.png" style="zoom:80%;" /></p>
-<h4 id="8-2-4-Pen画笔"><a href="#8-2-4-Pen画笔" class="headerlink" title="8.2.4 Pen画笔"></a>8.2.4 Pen画笔</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pen pen= <span class="keyword">new</span> Pen(Color.Blue,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="8-2-5-DrawString方法"><a href="#8-2-5-DrawString方法" class="headerlink" title="8.2.5 DrawString方法"></a>8.2.5 DrawString方法</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DrawString(<span class="keyword">string</span>,Font,Brush,RectangleF);</span><br></pre></td></tr></table></figure>
-<h4 id="8-2-6-Path"><a href="#8-2-6-Path" class="headerlink" title="8.2.6 Path"></a>8.2.6 Path</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GraphicsPath gp = <span class="keyword">new</span> ;</span><br><span class="line">gp.AddString();</span><br><span class="line">Brush brush = <span class="keyword">new</span>;</span><br><span class="line">e.Graphics.DrawPath(Pens.Black, gp);</span><br><span class="line">e.Graphics.FillPath(brush, gp);</span><br></pre></td></tr></table></figure>
-<h3 id="8-4-控件的重绘及双缓冲"><a href="#8-4-控件的重绘及双缓冲" class="headerlink" title="8.4 控件的重绘及双缓冲"></a>8.4 控件的重绘及双缓冲</h3><h4 id="8-4-1-处理重绘和无效操作"><a href="#8-4-1-处理重绘和无效操作" class="headerlink" title="8.4.1 处理重绘和无效操作"></a>8.4.1 处理重绘和无效操作</h4><p>当窗体被覆盖，前面的窗体移开后需要重绘</p>
+<img src="https://i.loli.net/2021/04/20/pK2ZiPY3r4FTEbC.png" alt="2.png" style="zoom:80%;" />
+<h4 id="824-pen画笔"><a class="markdownIt-Anchor" href="#824-pen画笔"></a> 8.2.4 Pen画笔</h4>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Pen pen= <span class="keyword">new</span> Pen(Color.Blue,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="825-drawstring方法"><a class="markdownIt-Anchor" href="#825-drawstring方法"></a> 8.2.5 DrawString方法</h4>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DrawString(<span class="keyword">string</span>,Font,Brush,RectangleF);</span><br></pre></td></tr></table></figure>
+<h4 id="826-path"><a class="markdownIt-Anchor" href="#826-path"></a> 8.2.6 Path</h4>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GraphicsPath gp = <span class="keyword">new</span> ;</span><br><span class="line">gp.AddString();</span><br><span class="line">Brush brush = <span class="keyword">new</span>;</span><br><span class="line">e.Graphics.DrawPath(Pens.Black, gp);</span><br><span class="line">e.Graphics.FillPath(brush, gp);</span><br></pre></td></tr></table></figure>
+<h3 id="84-控件的重绘及双缓冲"><a class="markdownIt-Anchor" href="#84-控件的重绘及双缓冲"></a> 8.4 控件的重绘及双缓冲</h3>
+<h4 id="841-处理重绘和无效操作"><a class="markdownIt-Anchor" href="#841-处理重绘和无效操作"></a> 8.4.1 处理重绘和无效操作</h4>
+<p>当窗体被覆盖，前面的窗体移开后需要重绘</p>
 <ul>
-<li><p>调用以下几个方法</p>
+<li>调用以下几个方法
 <ul>
-<li><p>void Invalidate();</p>
+<li>
+<p>void Invalidate();</p>
 </li>
-<li><p>void Invalidate( Rectangle ) ;</p>
+<li>
+<p>void Invalidate( Rectangle ) ;</p>
 <p>使控件的特定区域无效并向控件发送绘制消息</p>
 </li>
-<li><p>void Update();</p>
+<li>
+<p>void Update();</p>
 <p>使控件重绘其工作区内的无效区域</p>
 </li>
-<li><p>void Refresh();</p>
+<li>
+<p>void Refresh();</p>
 <p>相当于this.Invalidate(true); this.Update();</p>
 </li>
 </ul>
 </li>
 </ul>
-<h4 id="8-4-2-双缓冲技术"><a href="#8-4-2-双缓冲技术" class="headerlink" title="8.4.2 双缓冲技术"></a>8.4.2 双缓冲技术</h4><p>在内存中画好再显示在窗体上</p>
+<h4 id="842-双缓冲技术"><a class="markdownIt-Anchor" href="#842-双缓冲技术"></a> 8.4.2 双缓冲技术</h4>
+<p>在内存中画好再显示在窗体上</p>
 <ol>
-<li><p>在内存中建立一块“虚拟画布”：</p>
+<li>
+<p>在内存中建立一块“虚拟画布”：</p>
 <p>Bitmap bmp = new Bitmap(600, 600);</p>
 </li>
-<li><p>获取这块内存画布的Graphics引用：</p>
+<li>
+<p>获取这块内存画布的Graphics引用：</p>
 <p>Graphics g = Graphics.FromImage(bmp);</p>
 </li>
-<li><p>在这块内存画布上绘图：</p>
-<p>g.FillEllipse(brush, i<em> 10, j </em> 10, 10, 10);</p>
+<li>
+<p>在这块内存画布上绘图：</p>
+<p>g.FillEllipse(brush, i* 10, j * 10, 10, 10);</p>
 <p>g.DrawLine() g.DrawString()等等</p>
 </li>
-<li><p>将内存画布画到窗口中</p>
+<li>
+<p>将内存画布画到窗口中</p>
 <p>this.CreateGraphics().DrawImage(bmp, 0, 0);</p>
 </li>
 </ol>
 <p><strong>控件的DoubleBuffered属性</strong></p>
 <p>在framework3以上版本中有</p>
-<h3 id="8-5-图像处理"><a href="#8-5-图像处理" class="headerlink" title="8.5 图像处理"></a>8.5 图像处理</h3><h4 id="8-5-1-Bitmap类"><a href="#8-5-1-Bitmap类" class="headerlink" title="8.5.1 Bitmap类"></a>8.5.1 Bitmap类</h4><p>可以处理BMP、Jpeg、GIF、PNG等格式</p>
+<h3 id="85-图像处理"><a class="markdownIt-Anchor" href="#85-图像处理"></a> 8.5 图像处理</h3>
+<h4 id="851-bitmap类"><a class="markdownIt-Anchor" href="#851-bitmap类"></a> 8.5.1 Bitmap类</h4>
+<p>可以处理BMP、Jpeg、GIF、PNG等格式</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bt1 = <span class="keyword">new</span> Bitmap(“c:\\<span class="number">1.b</span>mp”);</span><br><span class="line">Bitmap bt2 = <span class="keyword">new</span> Bitmap(bt1,<span class="number">200</span>,<span class="number">300</span>);</span><br><span class="line">bt3.FromFile(“文件名称”);</span><br></pre></td></tr></table></figure>
-<h4 id="8-5-2-图像处理"><a href="#8-5-2-图像处理" class="headerlink" title="8.5.2 图像处理"></a>8.5.2 图像处理</h4><p><strong>使用指针逐点处理</strong></p>
+<h4 id="852-图像处理"><a class="markdownIt-Anchor" href="#852-图像处理"></a> 8.5.2 图像处理</h4>
+<p><strong>使用指针逐点处理</strong></p>
 <p>反转、变灰、加亮……</p>
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 需要设置unsafe</span></span><br><span class="line">bitmapData = bitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);</span><br><span class="line">pBase = (Bypte*)bitmapData.Scan0.ToPointer();</span><br><span class="line">(PixelData*)(pBase + y * stride + x * <span class="keyword">sizeof</span>(PixelData));</span><br></pre></td></tr></table></figure>
 
@@ -374,8 +405,8 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/" rel="prev" title="第2章 Unity脚本开发">
-                  第2章 Unity脚本开发 <i class="fa fa-chevron-right"></i>
+                <a href="/2021/04/10/C_/%E7%AC%AC9%E7%AB%A0/" rel="prev" title="第9章 文本处理及正则表达式">
+                  第9章 文本处理及正则表达式 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -415,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#绘图及图像"><span class="nav-text">绘图及图像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1-绘图基础GDI"><span class="nav-text">8.1 绘图基础GDI+</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-1-坐标系统"><span class="nav-text">8.1.1 坐标系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-2-System-Drawing中常用的结构"><span class="nav-text">8.1.2 System.Drawing中常用的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Color"><span class="nav-text">Color</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Size和SizeF"><span class="nav-text">Size和SizeF</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Point"><span class="nav-text">Point</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Rectangle"><span class="nav-text">Rectangle</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2-绘图对象及绘图方法"><span class="nav-text">8.2 绘图对象及绘图方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-1-得到Graphics对象"><span class="nav-text">8.2.1 得到Graphics对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-2-释放Graphics"><span class="nav-text">8.2.2 释放Graphics</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-3Graphics对象绘图方法"><span class="nav-text">8.2.3Graphics对象绘图方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-4-Pen画笔"><span class="nav-text">8.2.4 Pen画笔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-5-DrawString方法"><span class="nav-text">8.2.5 DrawString方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-6-Path"><span class="nav-text">8.2.6 Path</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-4-控件的重绘及双缓冲"><span class="nav-text">8.4 控件的重绘及双缓冲</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-4-1-处理重绘和无效操作"><span class="nav-text">8.4.1 处理重绘和无效操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-4-2-双缓冲技术"><span class="nav-text">8.4.2 双缓冲技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-5-图像处理"><span class="nav-text">8.5 图像处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-5-1-Bitmap类"><span class="nav-text">8.5.1 Bitmap类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-5-2-图像处理"><span class="nav-text">8.5.2 图像处理</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#绘图及图像"><span class="nav-text"> 绘图及图像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#81-绘图基础gdi"><span class="nav-text"> 8.1 绘图基础GDI+</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#811-坐标系统"><span class="nav-text"> 8.1.1 坐标系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#812-systemdrawing中常用的结构"><span class="nav-text"> 8.1.2 System.Drawing中常用的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#color"><span class="nav-text"> Color</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#size和sizef"><span class="nav-text"> Size和SizeF</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#point"><span class="nav-text"> Point</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rectangle"><span class="nav-text"> Rectangle</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#82-绘图对象及绘图方法"><span class="nav-text"> 8.2 绘图对象及绘图方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#821-得到graphics对象"><span class="nav-text"> 8.2.1 得到Graphics对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#822-释放graphics"><span class="nav-text"> 8.2.2 释放Graphics</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#823graphics对象绘图方法"><span class="nav-text"> 8.2.3Graphics对象绘图方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#824-pen画笔"><span class="nav-text"> 8.2.4 Pen画笔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#825-drawstring方法"><span class="nav-text"> 8.2.5 DrawString方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#826-path"><span class="nav-text"> 8.2.6 Path</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#84-控件的重绘及双缓冲"><span class="nav-text"> 8.4 控件的重绘及双缓冲</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#841-处理重绘和无效操作"><span class="nav-text"> 8.4.1 处理重绘和无效操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#842-双缓冲技术"><span class="nav-text"> 8.4.2 双缓冲技术</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#85-图像处理"><span class="nav-text"> 8.5 图像处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#851-bitmap类"><span class="nav-text"> 8.5.1 Bitmap类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#852-图像处理"><span class="nav-text"> 8.5.2 图像处理</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -431,7 +462,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -482,12 +513,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">249k</span>
+    <span title="站点总字数">254k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:46</span>
+    <span title="站点阅读时长">3:51</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>

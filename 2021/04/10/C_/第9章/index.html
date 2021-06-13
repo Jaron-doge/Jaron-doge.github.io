@@ -50,12 +50,12 @@
   };
 </script>
 
-  <meta name="description" content="文本处理及正则表达式9.1 基于文本的应用">
+  <meta name="description" content="文本处理及正则表达式  9.1 基于文本的应用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第9章 文本处理及正则表达式">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;04&#x2F;10&#x2F;C_&#x2F;%E7%AC%AC9%E7%AB%A0&#x2F;index.html">
 <meta property="og:site_name" content="blog">
-<meta property="og:description" content="文本处理及正则表达式9.1 基于文本的应用">
+<meta property="og:description" content="文本处理及正则表达式  9.1 基于文本的应用">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2021-04-20T04:25:13.689Z">
 <meta name="twitter:card" content="summary">
@@ -272,33 +272,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="文本处理及正则表达式"><a href="#文本处理及正则表达式" class="headerlink" title="文本处理及正则表达式"></a>文本处理及正则表达式</h2><h3 id="9-1-基于文本的应用"><a href="#9-1-基于文本的应用" class="headerlink" title="9.1 基于文本的应用"></a>9.1 基于文本的应用</h3><a id="more"></a>
+        <h2 id="文本处理及正则表达式"><a class="markdownIt-Anchor" href="#文本处理及正则表达式"></a> 文本处理及正则表达式</h2>
+<h3 id="91-基于文本的应用"><a class="markdownIt-Anchor" href="#91-基于文本的应用"></a> 9.1 基于文本的应用</h3>
+<a id="more"></a>
 <ul>
-<li><p>Console类</p>
+<li>
+<p>Console类</p>
 </li>
-<li><p>String类</p>
+<li>
+<p>String类</p>
 </li>
-<li><p>StringBuilder类</p>
+<li>
+<p>StringBuilder类</p>
 </li>
-<li><p>System.Text.Encoding类</p>
+<li>
+<p>System.Text.Encoding类</p>
 <ul>
-<li><p>.Default    .UTF8    .GetEncoding</p>
+<li>
+<p>.Default	.UTF8	.GetEncoding</p>
 </li>
-<li><p>.GetBytes(str)    .GetString(byte[])</p>
+<li>
+<p>.GetBytes(str)    .GetString(byte[])</p>
 </li>
 </ul>
 </li>
 </ul>
-<h3 id="9-2-正则表达式"><a href="#9-2-正则表达式" class="headerlink" title="9.2 正则表达式"></a>9.2 正则表达式</h3><h4 id="9-2-1-正则表达式中几个主要要素"><a href="#9-2-1-正则表达式中几个主要要素" class="headerlink" title="9.2.1 正则表达式中几个主要要素"></a>9.2.1 正则表达式中几个主要要素</h4><p><strong>字符</strong>  ab</p>
+<h3 id="92-正则表达式"><a class="markdownIt-Anchor" href="#92-正则表达式"></a> 9.2 正则表达式</h3>
+<h4 id="921-正则表达式中几个主要要素"><a class="markdownIt-Anchor" href="#921-正则表达式中几个主要要素"></a> 9.2.1 正则表达式中几个主要要素</h4>
+<p><strong>字符</strong>  ab</p>
 <p>大写表示非</p>
 <ul>
-<li><p>[a-zA-z] 即\w</p>
+<li>
+<p>[a-zA-z] 即\w</p>
 </li>
-<li><p>[0-9] 即\d     [\^0-9] 即\D</p>
+<li>
+<p>[0-9] 即\d     [^0-9] 即\D</p>
 </li>
-<li><p>\s 即空白\S 即非空白</p>
+<li>
+<p>\s 即空白\S 即非空白</p>
 </li>
-<li><p>. 表任意</p>
+<li>
+<p>. 表任意</p>
 </li>
 </ul>
 <p><strong>次数</strong> {2, 6}</p>
@@ -320,24 +334,29 @@
 <li>若不命名,则为​$1, $2等等    而$0 表示整个匹配</li>
 </ul>
 <p><strong>(?i:xxxxxxxxx)    表示选项(i表示忽略大小写)</strong></p>
-<h4 id="9-2-2-Regex"><a href="#9-2-2-Regex" class="headerlink" title="9.2.2 Regex"></a>9.2.2 Regex</h4><p>using System.Text.RegularExpressions;</p>
+<h4 id="922-regex"><a class="markdownIt-Anchor" href="#922-regex"></a> 9.2.2 Regex</h4>
+<p>using System.Text.RegularExpressions;</p>
 <p><strong>Static方法</strong></p>
 <ul>
 <li>Regex.IsMatch( s, pattern )</li>
 </ul>
 <p><strong>使用对象</strong></p>
 <ul>
-<li><p>Regex对象</p>
+<li>
+<p>Regex对象</p>
 <ul>
-<li><p>.IsMatch(s)     .Match(s)     .Matches(s)</p>
+<li>
+<p>.IsMatch(s) 	.Match(s) 	.Matches(s)</p>
 </li>
-<li><p>.Replace(s, r)</p>
+<li>
+<p>.Replace(s, r)</p>
 </li>
 </ul>
 </li>
-<li><p>Match对象</p>
+<li>
+<p>Match对象</p>
 <ul>
-<li>.Groups 各组    .Value 原串    .Result(xxxxx)替换</li>
+<li>.Groups 各组	.Value 原串	.Result(xxxxx)替换</li>
 </ul>
 </li>
 </ul>
@@ -355,8 +374,8 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/" rel="next" title="第2章 Unity脚本开发">
-                  <i class="fa fa-chevron-left"></i> 第2章 Unity脚本开发
+                <a href="/2021/04/09/C_/%E7%AC%AC8%E7%AB%A0/" rel="next" title="第8章 绘图及图像">
+                  <i class="fa fa-chevron-left"></i> 第8章 绘图及图像
                 </a>
             </div>
 
@@ -404,7 +423,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本处理及正则表达式"><span class="nav-text">文本处理及正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-基于文本的应用"><span class="nav-text">9.1 基于文本的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-正则表达式"><span class="nav-text">9.2 正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-1-正则表达式中几个主要要素"><span class="nav-text">9.2.1 正则表达式中几个主要要素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-2-Regex"><span class="nav-text">9.2.2 Regex</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本处理及正则表达式"><span class="nav-text"> 文本处理及正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#91-基于文本的应用"><span class="nav-text"> 9.1 基于文本的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#92-正则表达式"><span class="nav-text"> 9.2 正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#921-正则表达式中几个主要要素"><span class="nav-text"> 9.2.1 正则表达式中几个主要要素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#922-regex"><span class="nav-text"> 9.2.2 Regex</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -420,7 +439,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -471,12 +490,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-area-chart"></i>
     </span>
-    <span title="站点总字数">249k</span>
+    <span title="站点总字数">254k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:46</span>
+    <span title="站点阅读时长">3:51</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
   </div>
