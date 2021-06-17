@@ -2245,144 +2245,6 @@ doubleresult = task.Result; 			//等待直到获得结果</li>
       </categories>
   </entry>
   <entry>
-    <title>第三章 关系模型</title>
-    <url>/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-关系模型"><a class="markdownIt-Anchor" href="#第三章-关系模型"></a> 第三章 关系模型</h2>
-<h3 id="32-基本术语"><a class="markdownIt-Anchor" href="#32-基本术语"></a> 3.2 基本术语</h3>
-<h4 id="321-关系数据结构"><a class="markdownIt-Anchor" href="#321-关系数据结构"></a> 3.2.1 关系数据结构</h4>
-<a id="more"></a>
-<p><strong>|关系|</strong>：关系是由行和列组成的表</p>
-<p><strong>|属性|</strong>：属性是关系中命名的列</p>
-<p><strong>|域|</strong>：域是一个或多个属性的取值集合</p>
-<ul>
-<li>每一个关系中的属性都定义着一个域</li>
-</ul>
-<p><strong>|元组(Tuple)|</strong>：关系中的每一行称为元组</p>
-<p><strong>|维数/度(Degree)|</strong>：关系的度是指关系所包含属性的个数</p>
-<p><strong>|基数(Cardinality)|</strong>：关系的基数是指它所包含元组的个数</p>
-<img src="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png" alt="9.png" style="zoom:80%;" />
-<img src="https://i.loli.net/2021/05/05/CRZqdUh5QDz2LAe.png" alt="10.png" />
-<h4 id="323-数据库中的关系"><a class="markdownIt-Anchor" href="#323-数据库中的关系"></a> 3.2.3 数据库中的关系</h4>
-<p><strong>|关系模式|</strong>：由一组属性和域名对定义的命名关系</p>
-<p>设属性A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub>对应的域分别为D<sub>1</sub>, D<sub>2</sub>, …, D<sub>n</sub>。那么，集合{A<sub>1</sub>😄<sub>1</sub>, A<sub>2</sub>D<sub>2</sub>, …, A<sub>n</sub>D<sub>n</sub>}就是一个关系模式。</p>
-<p><strong>|关系模式数据库|</strong>：关系模式的集合，集合中的每个关系都应有不同的名字</p>
-<h4 id="324-关系的性质"><a class="markdownIt-Anchor" href="#324-关系的性质"></a> 3.2.4 关系的性质</h4>
-<ul>
-<li>
-<p>关系模式中各关系不能重名</p>
-</li>
-<li>
-<p>每个属性都有不同的名字</p>
-</li>
-<li>
-<p>属性的值都来自同一个域</p>
-</li>
-<li>
-<p>每个元组是不同的，没有重复的元组</p>
-</li>
-<li>
-<p>属性的顺序并不重要</p>
-</li>
-<li>
-<p>元组的顺序并不重要</p>
-</li>
-</ul>
-<h4 id="325-关系键"><a class="markdownIt-Anchor" href="#325-关系键"></a> 3.2.5 关系键</h4>
-<p><strong>|超键|</strong>：一个属性或<strong>属性集合</strong>，它能唯一地标识出关系中的每个元组。</p>
-<p><strong>|候选键|</strong>：本身是超键但其任何子集都不再是超键。</p>
-<p><strong>|主键|</strong>：被选用于唯一标识关系中各元组的候选键。</p>
-<p><strong>|外部关键字|</strong>：当一个关系中的某个属性或属性集合与另一个关系（也可能就是自己）的候选键匹配时，就称这个属性或属性集合为外键。</p>
-<h3 id="33-完整性约束"><a class="markdownIt-Anchor" href="#33-完整性约束"></a> 3.3 完整性约束</h3>
-<p>关系数据模型有三个组成部分：数据结构、数据管理和完整性约束</p>
-<h4 id="331-空"><a class="markdownIt-Anchor" href="#331-空"></a> 3.3.1 空</h4>
-<p><strong>|空|</strong>：代表对一个元组当前取值还不知道或是不可用的属性值</p>
-<h4 id="332-实体完整性"><a class="markdownIt-Anchor" href="#332-实体完整性"></a> 3.3.2 实体完整性</h4>
-<p><strong>|实体完整性|</strong>：在基本关系中，主键的属性不能为空</p>
-<p>针对基关系</p>
-<ul>
-<li>基关系：table	定义 + 数据</li>
-<li>非基关系
-<ul>
-<li>view	定义</li>
-<li>select    X</li>
-</ul>
-</li>
-</ul>
-<h4 id="333-参考完整性"><a class="markdownIt-Anchor" href="#333-参考完整性"></a> 3.3.3 参考完整性</h4>
-<p><strong>|参考完整性|</strong>：如果在关系中存在某个外部关键字，则它的值或与主关系中某个元组的候选键取值相等，或者全为空</p>
-<h4 id="334-用户完整性"><a class="markdownIt-Anchor" href="#334-用户完整性"></a> 3.3.4 用户完整性</h4>
-<p><strong>|用户完整性|</strong>：由数据库用户或数据库管理员所指定的附加规则，它约束企业的某些方面。</p>
-<h3 id="34-视图"><a class="markdownIt-Anchor" href="#34-视图"></a> 3.4 视图</h3>
-<p>视图不完全是用户看到的外部模型，它指虚关系或导出关系，即无需单独存在，必要时可从一或多个基本关系中动态地将其导出。</p>
-<h4 id="341-术语"><a class="markdownIt-Anchor" href="#341-术语"></a> 3.4.1 术语</h4>
-<p><strong>|视图|</strong>：对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时在生成的虚关系。</p>
-<h4 id="342-视图的用途"><a class="markdownIt-Anchor" href="#342-视图的用途"></a> 3.4.2 视图的用途</h4>
-<ul>
-<li>通过对特定用户隐藏部分数据库信息，提供了一个强大而灵活的安全机制。</li>
-<li>允许用户根据自己的需求自定义访问数据的方法，因此不同的用户可以通过不同的途径同时看到相同的数据。</li>
-<li>可以简化对基本关系的复杂操作。</li>
-</ul>
-<h4 id="343-视图的更新"><a class="markdownIt-Anchor" href="#343-视图的更新"></a> 3.4.3 视图的更新</h4>
-<p>对某个基本关系的所有更新应该立即反应到涉及这个基本关系的视图中。</p>
-<ul>
-<li>如果视图由一个基本关系的简单查询生成，而且它还包含了基本关系中的主键或是候选键，则可以通过这个视图进行更新操作。</li>
-</ul>
-<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
-<img src="https://i.loli.net/2021/05/05/ui3tyzSAe8Rrn7q.png" alt="11.png" style="zoom:80%;" />
-<ol>
-<li>a) 关系是由行和列组成的表</li>
-</ol>
-<p>b) 域是一个或多个属性的取值集合</p>
-<p>c) 属性是关系中命名的列</p>
-<p>d) 关系中的每一行称为元组</p>
-<p>e) 本身是超键但其任何子集都不再是超键是候选键</p>
-<p>f) 被选用于唯一标识关系中各元组的候选键。</p>
-<p>g) 当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。</p>
-<ol start="2">
-<li></li>
-</ol>
-<ul>
-<li>
-<p>关系模式中各关系不能重名</p>
-</li>
-<li>
-<p>每个属性都有不同的名字</p>
-</li>
-<li>
-<p>属性的值都来自同一个域</p>
-</li>
-<li>
-<p>每个元组是不同的，没有重复的元组</p>
-</li>
-<li>
-<p>属性的顺序并不重要</p>
-</li>
-<li>
-<p>元组的顺序并不重要</p>
-</li>
-</ul>
-<ol start="3">
-<li>
-<p>当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。与其他关系的候选键的属性相匹配的就是外键。例如</p>
-<p>Branch</p>
-<p>BranchNo street</p>
-<p>Staff</p>
-<p>staffNo BranchNo</p>
-<p>Staff表中的BranchNo与Branch表中的BranchNo相匹配，就是外键</p>
-</li>
-<li>
-<p>视图是对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时再生成的虚关系。与基本关系相比，视图是一个虚关系，从基本关系中导出得到。视图用于提供安全机制，而基本关系无法提供。基本关系有定义和数据，而视图只有定义没有数据。</p>
-</li>
-<li>
-<p>hotelNo和guestNo是模式中的外键，hotelNo是Hotel表中的主键也是Room表中的外键；guestNo是Guest表中的主键也是Booking表中的外键。根据实体完整性规则，主键中的属性不能为空，如hotelNo, roomNo不能为空。根据引用完整性规则，Booking表中的HotelNo与Hotel表中的hotelNo相匹配，因此Booking表中的HotelNo的取值应在Hotel表中的hotelNo属性的域内。guestNo也与之类似。</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>数据库</category>
-      </categories>
-  </entry>
-  <entry>
     <title>第2章 Unity脚本开发</title>
     <url>/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="unity脚本开发"><a class="markdownIt-Anchor" href="#unity脚本开发"></a> Unity脚本开发</h2>
@@ -2740,6 +2602,144 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
 ]]></content>
       <categories>
         <category>Unity</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第三章 关系模型</title>
+    <url>/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第三章-关系模型"><a class="markdownIt-Anchor" href="#第三章-关系模型"></a> 第三章 关系模型</h2>
+<h3 id="32-基本术语"><a class="markdownIt-Anchor" href="#32-基本术语"></a> 3.2 基本术语</h3>
+<h4 id="321-关系数据结构"><a class="markdownIt-Anchor" href="#321-关系数据结构"></a> 3.2.1 关系数据结构</h4>
+<a id="more"></a>
+<p><strong>|关系|</strong>：关系是由行和列组成的表</p>
+<p><strong>|属性|</strong>：属性是关系中命名的列</p>
+<p><strong>|域|</strong>：域是一个或多个属性的取值集合</p>
+<ul>
+<li>每一个关系中的属性都定义着一个域</li>
+</ul>
+<p><strong>|元组(Tuple)|</strong>：关系中的每一行称为元组</p>
+<p><strong>|维数/度(Degree)|</strong>：关系的度是指关系所包含属性的个数</p>
+<p><strong>|基数(Cardinality)|</strong>：关系的基数是指它所包含元组的个数</p>
+<img src="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png" alt="9.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/CRZqdUh5QDz2LAe.png" alt="10.png" />
+<h4 id="323-数据库中的关系"><a class="markdownIt-Anchor" href="#323-数据库中的关系"></a> 3.2.3 数据库中的关系</h4>
+<p><strong>|关系模式|</strong>：由一组属性和域名对定义的命名关系</p>
+<p>设属性A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub>对应的域分别为D<sub>1</sub>, D<sub>2</sub>, …, D<sub>n</sub>。那么，集合{A<sub>1</sub>😄<sub>1</sub>, A<sub>2</sub>D<sub>2</sub>, …, A<sub>n</sub>D<sub>n</sub>}就是一个关系模式。</p>
+<p><strong>|关系模式数据库|</strong>：关系模式的集合，集合中的每个关系都应有不同的名字</p>
+<h4 id="324-关系的性质"><a class="markdownIt-Anchor" href="#324-关系的性质"></a> 3.2.4 关系的性质</h4>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<h4 id="325-关系键"><a class="markdownIt-Anchor" href="#325-关系键"></a> 3.2.5 关系键</h4>
+<p><strong>|超键|</strong>：一个属性或<strong>属性集合</strong>，它能唯一地标识出关系中的每个元组。</p>
+<p><strong>|候选键|</strong>：本身是超键但其任何子集都不再是超键。</p>
+<p><strong>|主键|</strong>：被选用于唯一标识关系中各元组的候选键。</p>
+<p><strong>|外部关键字|</strong>：当一个关系中的某个属性或属性集合与另一个关系（也可能就是自己）的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<h3 id="33-完整性约束"><a class="markdownIt-Anchor" href="#33-完整性约束"></a> 3.3 完整性约束</h3>
+<p>关系数据模型有三个组成部分：数据结构、数据管理和完整性约束</p>
+<h4 id="331-空"><a class="markdownIt-Anchor" href="#331-空"></a> 3.3.1 空</h4>
+<p><strong>|空|</strong>：代表对一个元组当前取值还不知道或是不可用的属性值</p>
+<h4 id="332-实体完整性"><a class="markdownIt-Anchor" href="#332-实体完整性"></a> 3.3.2 实体完整性</h4>
+<p><strong>|实体完整性|</strong>：在基本关系中，主键的属性不能为空</p>
+<p>针对基关系</p>
+<ul>
+<li>基关系：table	定义 + 数据</li>
+<li>非基关系
+<ul>
+<li>view	定义</li>
+<li>select    X</li>
+</ul>
+</li>
+</ul>
+<h4 id="333-参考完整性"><a class="markdownIt-Anchor" href="#333-参考完整性"></a> 3.3.3 参考完整性</h4>
+<p><strong>|参考完整性|</strong>：如果在关系中存在某个外部关键字，则它的值或与主关系中某个元组的候选键取值相等，或者全为空</p>
+<h4 id="334-用户完整性"><a class="markdownIt-Anchor" href="#334-用户完整性"></a> 3.3.4 用户完整性</h4>
+<p><strong>|用户完整性|</strong>：由数据库用户或数据库管理员所指定的附加规则，它约束企业的某些方面。</p>
+<h3 id="34-视图"><a class="markdownIt-Anchor" href="#34-视图"></a> 3.4 视图</h3>
+<p>视图不完全是用户看到的外部模型，它指虚关系或导出关系，即无需单独存在，必要时可从一或多个基本关系中动态地将其导出。</p>
+<h4 id="341-术语"><a class="markdownIt-Anchor" href="#341-术语"></a> 3.4.1 术语</h4>
+<p><strong>|视图|</strong>：对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时在生成的虚关系。</p>
+<h4 id="342-视图的用途"><a class="markdownIt-Anchor" href="#342-视图的用途"></a> 3.4.2 视图的用途</h4>
+<ul>
+<li>通过对特定用户隐藏部分数据库信息，提供了一个强大而灵活的安全机制。</li>
+<li>允许用户根据自己的需求自定义访问数据的方法，因此不同的用户可以通过不同的途径同时看到相同的数据。</li>
+<li>可以简化对基本关系的复杂操作。</li>
+</ul>
+<h4 id="343-视图的更新"><a class="markdownIt-Anchor" href="#343-视图的更新"></a> 3.4.3 视图的更新</h4>
+<p>对某个基本关系的所有更新应该立即反应到涉及这个基本关系的视图中。</p>
+<ul>
+<li>如果视图由一个基本关系的简单查询生成，而且它还包含了基本关系中的主键或是候选键，则可以通过这个视图进行更新操作。</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<img src="https://i.loli.net/2021/05/05/ui3tyzSAe8Rrn7q.png" alt="11.png" style="zoom:80%;" />
+<ol>
+<li>a) 关系是由行和列组成的表</li>
+</ol>
+<p>b) 域是一个或多个属性的取值集合</p>
+<p>c) 属性是关系中命名的列</p>
+<p>d) 关系中的每一行称为元组</p>
+<p>e) 本身是超键但其任何子集都不再是超键是候选键</p>
+<p>f) 被选用于唯一标识关系中各元组的候选键。</p>
+<p>g) 当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<ol start="2">
+<li></li>
+</ol>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。与其他关系的候选键的属性相匹配的就是外键。例如</p>
+<p>Branch</p>
+<p>BranchNo street</p>
+<p>Staff</p>
+<p>staffNo BranchNo</p>
+<p>Staff表中的BranchNo与Branch表中的BranchNo相匹配，就是外键</p>
+</li>
+<li>
+<p>视图是对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时再生成的虚关系。与基本关系相比，视图是一个虚关系，从基本关系中导出得到。视图用于提供安全机制，而基本关系无法提供。基本关系有定义和数据，而视图只有定义没有数据。</p>
+</li>
+<li>
+<p>hotelNo和guestNo是模式中的外键，hotelNo是Hotel表中的主键也是Room表中的外键；guestNo是Guest表中的主键也是Booking表中的外键。根据实体完整性规则，主键中的属性不能为空，如hotelNo, roomNo不能为空。根据引用完整性规则，Booking表中的HotelNo与Hotel表中的hotelNo相匹配，因此Booking表中的HotelNo的取值应在Hotel表中的hotelNo属性的域内。guestNo也与之类似。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>数据库</category>
       </categories>
   </entry>
   <entry>
@@ -3846,6 +3846,1043 @@ Instantiate(Prefabs, transform.position transform.rotation )</p>
 ]]></content>
       <categories>
         <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>总结</title>
+    <url>/2020/12/20/OS/%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h3 id="第1章-导论"><a class="markdownIt-Anchor" href="#第1章-导论"></a> 第1章 导论</h3>
+<p><strong>操作系统是一组控制和管理计算机软硬件资源、合理地对各类作业进行调度以及方便用户的程序的集合</strong></p>
+<h4 id="multiprogramming"><a class="markdownIt-Anchor" href="#multiprogramming"></a> Multiprogramming</h4>
+<ul>
+<li>提高CPU利用率</li>
+<li>提高内存和I/O设备利用率</li>
+<li>增加系统吞吐量</li>
+</ul>
+<p>多道性 + 无序性</p>
+<h4 id="特权指令"><a class="markdownIt-Anchor" href="#特权指令"></a> 特权指令</h4>
+<ul>
+<li>访问某些禁止用户访问的硬件的指令</li>
+<li>直接访问I/O设备的指令</li>
+<li>用于操作内存管理状态的指令</li>
+<li>设置特殊状态位的指令</li>
+<li>HLT(停机指令)</li>
+</ul>
+<h4 id="kernel-user-mode"><a class="markdownIt-Anchor" href="#kernel-user-mode"></a> kernel / user mode</h4>
+<p>kernel → user —— PSW(程序状态字)</p>
+<p>user → kernel —— system call</p>
+<hr />
+<p><strong>1.1</strong>What are the three main purposes of an operating system?</p>
+<ul>
+<li>提供一个用户可以运行程序的环境</li>
+<li>提高软硬件资源的利用率</li>
+<li>作为控制系统
+<ul>
+<li>监督用户程序的执行，以防止错误和不当使用</li>
+<li>操作和控制管理I/O设备</li>
+</ul>
+</li>
+</ul>
+<h3 id="第2章-操作系统结构"><a class="markdownIt-Anchor" href="#第2章-操作系统结构"></a> 第2章 操作系统结构</h3>
+<h4 id="简单结构"><a class="markdownIt-Anchor" href="#简单结构"></a> 简单结构</h4>
+<p>用户——系统调用——硬件</p>
+<p>优点：内核通信和系统调用的开销小</p>
+<p>缺点：用户程序可能导致系统崩溃</p>
+<h4 id="分层结构"><a class="markdownIt-Anchor" href="#分层结构"></a> 分层结构</h4>
+<p>接受上一层的数据，并使用下一层的操作</p>
+<p>优点：构造和调试简单</p>
+<p>缺点：适当定义各层、效率较低</p>
+<h4 id="微内核"><a class="markdownIt-Anchor" href="#微内核"></a> 微内核</h4>
+<p>将内核中不必要的功能封装到用户程序中</p>
+<p>优点：内核小，可扩展性强</p>
+<p>缺点：系统需要的功能越多，微内核的性能越差</p>
+<h3 id="第3章-进程"><a class="markdownIt-Anchor" href="#第3章-进程"></a> 第3章 进程</h3>
+<p><strong>进程是活动的程序实体，包括寄存器、堆栈、数据、代码、堆</strong></p>
+<h4 id="进程状态转换图"><a class="markdownIt-Anchor" href="#进程状态转换图"></a> 进程状态转换图</h4>
+<p><img src="https://i.loli.net/2021/06/17/A2cZ6EyTno8kSgQ.png" alt="39.png" /></p>
+<h4 id="进程调度"><a class="markdownIt-Anchor" href="#进程调度"></a> 进程调度</h4>
+<ul>
+<li>Long-term scheduler选择应将哪些进程带入ready queue</li>
+<li>Short-term scheduler选择CPU执行哪个进程
+<ul>
+<li>从ready queue</li>
+<li>频度高</li>
+</ul>
+</li>
+<li>Medium-term scheduler
+<ul>
+<li>从内存或CPU中移出进程</li>
+<li>可以降低多道程序运行的度（与Long-term scheduler相反）</li>
+</ul>
+</li>
+</ul>
+<h4 id="进程间通讯"><a class="markdownIt-Anchor" href="#进程间通讯"></a> 进程间通讯</h4>
+<p><strong>消息传递</strong></p>
+<ul>
+<li>可用于交换少量数据，因为无需避免冲突</li>
+<li>更容易实施</li>
+<li>通过系统调用（例如send（），receive（））交换信息</li>
+</ul>
+<p><strong>共享内存</strong></p>
+<ul>
+<li>通过内存访问有更快的内存速度</li>
+<li>系统调用仅用于建立共享内存区域</li>
+</ul>
+<h3 id="第4章-线程"><a class="markdownIt-Anchor" href="#第4章-线程"></a> 第4章 线程</h3>
+<img src="https://i.loli.net/2020/10/23/A5bLvzJX6sPEdCO.png" alt="image-20201011095455371.png" style="zoom: 80%;" />
+<h4 id="进程与线程的比较"><a class="markdownIt-Anchor" href="#进程与线程的比较"></a> 进程与线程的比较</h4>
+<ul>
+<li>进程是资源分配单位，线程是CPU分配单位</li>
+<li>进程拥有一个完整的资源平台，而线程只独享必不可少的资源，如寄存器和栈</li>
+<li>线程同样具有就绪、阻塞和执行三种状态，同样具有状态之间的转换关系</li>
+<li>线程能减少并发执行的时间和空间开销</li>
+<li>线程 = 轻量级进程</li>
+</ul>
+<h4 id="线程优点"><a class="markdownIt-Anchor" href="#线程优点"></a> 线程优点</h4>
+<ul>
+<li>响应性</li>
+<li>资源共享</li>
+<li>经济</li>
+<li>可伸缩性</li>
+</ul>
+<h3 id="第5章-cpu调度"><a class="markdownIt-Anchor" href="#第5章-cpu调度"></a> 第5章 CPU调度</h3>
+<h4 id="cpu调度发生的情况"><a class="markdownIt-Anchor" href="#cpu调度发生的情况"></a> CPU调度发生的情况</h4>
+<ul>
+<li>从new到ready</li>
+<li>从running到waiting</li>
+<li>从running到ready</li>
+<li>从waiting到ready</li>
+<li>terminate</li>
+</ul>
+<p>2、5非抢占</p>
+<h4 id="调度准则"><a class="markdownIt-Anchor" href="#调度准则"></a> 调度准则</h4>
+<ul>
+<li>CPU利用率</li>
+<li>吞吐率：在时间单元内进程完成的数量</li>
+<li>周转时间：从进程提交到进程完成的时间段，包括等待进入内存、在就绪队列中等待、在CPU上执行和I/O执行</li>
+<li>等待时间：在就绪队列中等待所花时间之和</li>
+<li>响应时间：从提交请求到产生第一响应的时间</li>
+</ul>
+<h4 id="调度算法"><a class="markdownIt-Anchor" href="#调度算法"></a> 调度算法</h4>
+<p>FCFS、SJF、SRTF、优先级调度、RR、多级队列/多级反馈队列调度、实时调度算法（单调速率和最早截止优先调度）</p>
+<p>饥饿：SJF、SRTF、优先级、多级队列</p>
+<h4 id="线程调度"><a class="markdownIt-Anchor" href="#线程调度"></a> 线程调度</h4>
+<p>PCS发生在同一进程的线程之间，会将线程调度到可用LWP上；SCS用来决定哪个内核级线程调度到处理器上，发生在系统内的所有线程之间</p>
+<h3 id="第6章-进程同步"><a class="markdownIt-Anchor" href="#第6章-进程同步"></a> 第6章 进程同步</h3>
+<p><strong>竞争条件：多个进程并发访问且要求修改同一个数据</strong></p>
+<h4 id="临界区问题解决"><a class="markdownIt-Anchor" href="#临界区问题解决"></a> 临界区问题解决</h4>
+<ul>
+<li>mutual exclusion</li>
+<li>progress</li>
+<li>bounded waiting</li>
+</ul>
+<h4 id="互斥锁"><a class="markdownIt-Anchor" href="#互斥锁"></a> 互斥锁</h4>
+<p><img src="https://i.loli.net/2021/06/17/eAcW4CXnOPSzKjZ.png" alt="40.png" /></p>
+<p>优点：进程等待时无需上下文切换，简单容易实现</p>
+<p>缺点：浪费CPU资源，会忙碌等待，饥饿</p>
+<h4 id="信号量"><a class="markdownIt-Anchor" href="#信号量"></a> 信号量</h4>
+<p><img src="https://i.loli.net/2021/06/17/XfB9nwozpQMIGdi.png" alt="41.png" /></p>
+<p>优点：避免了busy waiting，可以适用于非互斥的情况</p>
+<p>缺点：用户的错误使用会导致死锁和饥饿</p>
+<h4 id="生产者-消费者问题"><a class="markdownIt-Anchor" href="#生产者-消费者问题"></a> 生产者-消费者问题</h4>
+<p><img src="https://i.loli.net/2021/06/17/y9SgXLVRr68zUua.png" alt="42.png" /></p>
+<h3 id="第7章-死锁"><a class="markdownIt-Anchor" href="#第7章-死锁"></a> 第7章 死锁</h3>
+<p><strong>死锁：在系统的某一部分中，所有进程都在等待其他进程释放资源而陷入的无尽循环的等待过程</strong></p>
+<ul>
+<li>互斥</li>
+<li>占有并等待</li>
+<li>非抢占</li>
+<li>循环等待</li>
+</ul>
+<h4 id="系统资源分配图申请边-分配边"><a class="markdownIt-Anchor" href="#系统资源分配图申请边-分配边"></a> 系统资源分配图：申请边、分配边</h4>
+<h4 id="死锁预防"><a class="markdownIt-Anchor" href="#死锁预防"></a> 死锁预防</h4>
+<p><strong>持有并等待</strong></p>
+<p>每个进程必须一次申请完自己所需的所有资源</p>
+<p>缺点：资源利用率低</p>
+<p><strong>防止循环等待</strong></p>
+<p>规划资源申请顺序，防止死锁</p>
+<p><strong>安全状态</strong></p>
+<p>进程的资源申请顺序&lt;p1, pn&gt;改顺序使得每个p都可申请到所需资源</p>
+<h4 id="银行家算法"><a class="markdownIt-Anchor" href="#银行家算法"></a> 银行家算法</h4>
+<p><strong>安全算法</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/xvoqhD3LCN41HwY.png" alt="43.png" /></p>
+<p><img src="https://i.loli.net/2021/06/17/pTlnzIDc8qBiv6K.png" alt="44.png" /></p>
+<p><strong>资源请求算法</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/pTlnzIDc8qBiv6K.png" alt="45.png" /></p>
+<h3 id="第8章-内存管理"><a class="markdownIt-Anchor" href="#第8章-内存管理"></a> 第8章 内存管理</h3>
+<h4 id="连续内存分配"><a class="markdownIt-Anchor" href="#连续内存分配"></a> 连续内存分配</h4>
+<p><strong>固定分区</strong></p>
+<p><strong>可变分区</strong></p>
+<ul>
+<li>首次适应</li>
+<li>最优适应</li>
+<li>最差适应</li>
+</ul>
+<p>问题：内部碎片、外部碎片</p>
+<h4 id="分页"><a class="markdownIt-Anchor" href="#分页"></a> 分页</h4>
+<h4 id="分段"><a class="markdownIt-Anchor" href="#分段"></a> 分段</h4>
+<p>&lt;段号、偏移&gt;</p>
+<p>STBR、STLR</p>
+<h4 id="分页与分段的区别"><a class="markdownIt-Anchor" href="#分页与分段的区别"></a> 分页与分段的区别</h4>
+<p><strong>动机和目的</strong></p>
+<ul>
+<li>分页：<strong>面向系统、物理上离散、减少外部和内部碎片、提高内存利用率</strong>；页是信息的物理单元</li>
+<li>分段：<strong>面向用户，逻辑上离散，满足用户需求</strong>；段是具有相对完整含义的信息的逻辑单元</li>
+</ul>
+<p><strong>大小</strong></p>
+<ul>
+<li>分页：大小固定，由硬件决定</li>
+<li>分段：大小不固定，由程序和编译时决定</li>
+</ul>
+<p><strong>维度</strong></p>
+<ul>
+<li>分页：一维</li>
+<li>分段：二维</li>
+</ul>
+<h3 id="虚拟内存管理"><a class="markdownIt-Anchor" href="#虚拟内存管理"></a> 虚拟内存管理</h3>
+<p><strong>请求调页：在程序需要一部分内存页面时，从硬盘中加载对应页面到内存的技术</strong></p>
+<p><strong>系统抖动：进程的调页时间多于执行时间，监视cpu利用率，降低说明发生抖动</strong></p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第13章 I/O系统</title>
+    <url>/2020/12/19/OS/%E7%AC%AC13%E7%AB%A0%20%20IO%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="io系统"><a class="markdownIt-Anchor" href="#io系统"></a> I/O系统</h2>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<a id="more"></a>
+<p>13.1 State three advantages of placing functionality in a device controller,<br />
+rather than in the kernel. State three disadvantages.</p>
+<p>优点：</p>
+<ul>
+<li>
+<p>bug不会导致系统崩溃</p>
+</li>
+<li>
+<p>内核部分更加简单</p>
+</li>
+<li>
+<p>硬件算法效率更高</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>bug不容易修复</li>
+<li>很难更新</li>
+<li>硬件算法可能无法适配所有软件算法</li>
+</ul>
+<p>13.3 Why might a system use interrupt-driven I/O to manage a single serial<br />
+port and polling I/O to manage a front-end processor, such as a terminal<br />
+concentrator?</p>
+<p>中断集中器会产生很多的短I/O操作，当I/O频繁且持续时间短时，轮询比中断更高效。如果只有一个端口，I/O请求不频繁，终端更高效。</p>
+<p>13.5 How does DMA increase system concurrency? How does it complicate<br />
+hardware design?</p>
+<p>DMA通过让CPU在工作的同时，通过自己的系统总线和内存总线传输数据，提高了并行性。DMA要放在系统中，而系统也要允许DMA使用总线，使得硬件设计变得复杂。</p>
+<p>13.8 When multiple interrupts from different devices appear at about the<br />
+same time, a priority scheme could be used to determine the order in<br />
+which the interrupts would be serviced. Discuss what issues need to<br />
+be considered in assigning priorities to different interrupts.</p>
+<p>硬件产生的中断要比软件产生的陷阱引起的中断具有更高的优先级。控制设备的中断应该有更高的优先级。有时间限制的中断应该有更高的优先级。</p>
+<p>13.9 What are the advantages and disadvantages of supporting memory mapped<br />
+I/O to device control registers?</p>
+<p>优点：这种I/O不需要特殊的I/O指令集</p>
+<p>缺点：需要保证用户程序不能访问设备控制寄存器</p>
+<p>13.11 In most multiprogrammed systems, user programs access memory<br />
+through virtual addresses, while the operating system uses raw physical<br />
+addresses to access memory. What are the implications of this<br />
+design for the initiation of I/O operations by the user program and<br />
+their execution by the operating system?</p>
+<p>用户程序的I/O操作会请求一片内存空间作为缓存，内核会将数据从用户程序的缓存区拷贝到内核空间中的缓存区。在软件的帮助下，内核在用户程序的虚拟地址空间的上下文中将虚拟地址转换为相应的物理地址来访问用户缓冲区。</p>
+<p>13.12 What are the various kinds of performance overhead associated with<br />
+servicing an interrupt?</p>
+<p>上下文切换的开销、保存和恢复指令的开销</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第12章 大容量存储结构</title>
+    <url>/2020/12/12/OS/%E7%AC%AC12%E7%AB%A0%20%E5%A4%A7%E5%AE%B9%E9%87%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="大容量存储结构"><a class="markdownIt-Anchor" href="#大容量存储结构"></a> 大容量存储结构</h2>
+<h3 id="121-大容量存储结构概述"><a class="markdownIt-Anchor" href="#121-大容量存储结构概述"></a> 12.1 大容量存储结构概述</h3>
+<a id="more"></a>
+<h3 id="1211-磁盘"><a class="markdownIt-Anchor" href="#1211-磁盘"></a> 12.1.1 磁盘</h3>
+<p><strong>传输速率(transfer rate)</strong></p>
+<p>是在驱动器和计算机之间的数据流的速率</p>
+<p><strong>定位时间(positioning time)</strong>：<strong>寻道时间(seek time)</strong>+<strong>旋转延迟(rotational latency)</strong></p>
+<p><strong>寻道时间</strong>：移动磁臂到所要柱面的所需时间</p>
+<p><strong>旋转延迟</strong>：旋转磁臂到所要扇区的所需时间**(旋转延迟为一圈时间/2)**</p>
+<ul>
+<li>磁盘是可移动的</li>
+<li>磁盘驱动器通过I/O总线连到计算机</li>
+</ul>
+<p>盘片、转轴、柱面、磁道、扇区、磁臂、读写磁头、机械臂杆</p>
+<p><img src="https://i.loli.net/2021/06/17/PhGp27YuCS1WiqI.png" alt="24.png" /></p>
+<p>计算机中的主机控制器使用总线与每个磁盘控制器通信</p>
+<h3 id="122-磁盘结构"><a class="markdownIt-Anchor" href="#122-磁盘结构"></a> 12.2 磁盘结构</h3>
+<p>现代磁盘驱动器可以看作**逻辑块(logical block)**的一维数组，逻辑块是最小的传输单元</p>
+<ul>
+<li>
+<p>一维<strong>逻辑块</strong>数组依次映射到磁盘扇区</p>
+<ul>
+<li>扇区0是最外面柱面的第一个磁道的第一个扇区</li>
+<li>先按磁道内扇区顺序，再按柱面内磁道顺序，再按从外到内的柱面顺序</li>
+</ul>
+</li>
+<li>
+<p>实际上，由于两个原因，映射较为困难</p>
+<ul>
+<li>缺陷扇区(defective sectors)</li>
+<li>磁道的扇区数不是常量</li>
+</ul>
+</li>
+</ul>
+<h3 id="124-磁盘调度"><a class="markdownIt-Anchor" href="#124-磁盘调度"></a> 12.4 磁盘调度</h3>
+<p><strong>磁盘带宽(disk bandwidth)</strong></p>
+<p>是传输字节的总数，除以从服务请求开始到最后传递结束时的总时间</p>
+<h4 id="1241-fcfs调度"><a class="markdownIt-Anchor" href="#1241-fcfs调度"></a> 12.4.1 FCFS调度</h4>
+<p><img src="https://i.loli.net/2021/06/17/AnuvQzN8adGyFUM.png" alt="25.png" /></p>
+<h4 id="1242-sstfshortest-seek-time-first调度"><a class="markdownIt-Anchor" href="#1242-sstfshortest-seek-time-first调度"></a> 12.4.2 SSTF(shortest-seek-time-first)调度</h4>
+<p>SSTF算法选择处理距离当前磁头位置的最短寻道时间的请求</p>
+<p>它会导致一些请求的饥饿</p>
+<p><img src="https://i.loli.net/2021/06/17/E7IxziqfbUl8Syt.png" alt="26.png" /></p>
+<h4 id="1243-scan调度电梯算法"><a class="markdownIt-Anchor" href="#1243-scan调度电梯算法"></a> 12.4.3 SCAN调度/电梯算法</h4>
+<p>磁臂从磁盘的一端开始，向另一端移动；当到达磁盘的另一端时，移动方向反转</p>
+<p><img src="https://i.loli.net/2021/06/17/7WLxy2HoKlBNAd9.png" alt="27.png" /></p>
+<h4 id="1244-c-scan调度"><a class="markdownIt-Anchor" href="#1244-c-scan调度"></a> 12.4.4 C-SCAN调度</h4>
+<p>磁臂从磁盘一端开始向另一端移动；当磁头到达另一端时，立即返回到磁盘的开头</p>
+<p><img src="https://i.loli.net/2021/06/17/nwKu43HqEms8NyR.png" alt="28.png" /></p>
+<h4 id="1245-c-look调度"><a class="markdownIt-Anchor" href="#1245-c-look调度"></a> 12.4.5 C-LOOK调度</h4>
+<p>磁臂只需移动到一个方向的最远请求为止</p>
+<p><img src="https://i.loli.net/2021/06/17/jVrvYc4WySl7DkL.png" alt="29.png" /></p>
+<h4 id="1246-磁盘调度算法的选择"><a class="markdownIt-Anchor" href="#1246-磁盘调度算法的选择"></a> 12.4.6 磁盘调度算法的选择</h4>
+<ul>
+<li>
+<p>SSTF较为常见</p>
+</li>
+<li>
+<p>对于磁盘负荷较大的系统，SCAN和C-SCAN表现更好，因为它们不太可能造成饥饿</p>
+</li>
+<li>
+<p>磁盘调度算法应该作为OS的一个单独模块，SSTF或LOOK是默认算法的合理选择</p>
+</li>
+<li>
+<p>性能取决于</p>
+<ul>
+<li>文件分配方式(连续/分散)</li>
+<li>目录和索引块的位置(柱面间距离)</li>
+</ul>
+</li>
+</ul>
+<h3 id="12-磁盘缓存"><a class="markdownIt-Anchor" href="#12-磁盘缓存"></a> 12.? 磁盘缓存</h3>
+<ul>
+<li>
+<p>磁盘缓存是内存中磁盘扇区的缓冲区</p>
+<ul>
+<li>包含磁盘上某些扇区的副本</li>
+</ul>
+</li>
+<li>
+<p>当针对特定扇区发出I / O请求时</p>
+<ul>
+<li>检查以确定该扇区是否在磁盘缓存中</li>
+</ul>
+</li>
+<li>
+<p>存在许多填充缓存的方法</p>
+</li>
+</ul>
+<p><strong>单缓存</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/lH7W5G8QfBDYA6S.png" alt="30.png" /></p>
+<p><img src="https://i.loli.net/2021/06/17/WNbDrgIvi3cPjKV.png" alt="31.png" /></p>
+<h3 id="125-磁盘管理"><a class="markdownIt-Anchor" href="#125-磁盘管理"></a> 12.5 磁盘管理</h3>
+<h4 id="1251-磁盘格式化"><a class="markdownIt-Anchor" href="#1251-磁盘格式化"></a> 12.5.1 磁盘格式化</h4>
+<p><strong>低级(low-level)格式化/物理(physical)格式化</strong></p>
+<p>将磁盘划分为磁盘控制器可以读取和写入的扇区</p>
+<hr />
+<p>在可以使用磁盘存储文件之前，OS仍需要将自己的数据结构记录在磁盘上</p>
+<ul>
+<li>
+<p>将磁盘分为由柱面组成的多个分区</p>
+</li>
+<li>
+<p>**逻辑格式化(logical formatting)**或创建文件系统</p>
+<p>将初始的文件系统数据结构存储到磁盘上</p>
+</li>
+</ul>
+<hr />
+<p>为了提高效率，大多数操作系统将块组合在一起变成更大的块，称为簇</p>
+<ul>
+<li>磁盘I/O按块完成</li>
+<li>文件I/O按簇完成</li>
+</ul>
+<p>有效确保了I/O具有更多的顺序访问和更少的随机访问的特点</p>
+<h4 id="1252-引导块"><a class="markdownIt-Anchor" href="#1252-引导块"></a> 12.5.2 引导块</h4>
+<ul>
+<li>
+<p>**自举(bootstrap)<strong>程序处在</strong>只读存储器(Read-Only Memory, ROM)**中</p>
+</li>
+<li>
+<p>自居程序的作用是从磁盘上调入完整的引导程序</p>
+</li>
+<li>
+<p><strong>引导分区(boot partition)</strong>：包含OS和设备驱动程序</p>
+</li>
+<li>
+<p><strong>(Master Boot Record)MBR</strong>：引导代码存放在磁盘的第一个扇区</p>
+</li>
+</ul>
+<p>引导首先运行驻留在ROM中的代码，指示系统从<strong>MBR</strong>中读取引导代码。通过<strong>MBR</strong>中的分区表找到<strong>引导分区</strong>，读取分区的第一个扇区，称为<strong>引导扇区</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/mAZopGb4t3XO8f6.png" alt="32.png" /></p>
+<h4 id="1253-坏块disk-failure"><a class="markdownIt-Anchor" href="#1253-坏块disk-failure"></a> 12.5.3 坏块(Disk Failure)</h4>
+<p><strong>坏块解决策略</strong></p>
+<ol>
+<li>
+<p>手动处理</p>
+<p>发现坏块标记为不可用</p>
+</li>
+<li>
+<p><strong>扇区备用(sector sparing)</strong></p>
+<p>低级格式化将一些块放在一边作为备用，控制器可以采用备用块来逻辑地替代坏块(每次读取坏块转换成控制器的替代扇区地址)</p>
+</li>
+<li>
+<p><strong>扇区滑动(sector slipping)</strong></p>
+<ul>
+<li>逻辑块17变坏</li>
+<li>第一个可用的备用块在202之后</li>
+<li>202→203, 201→202, …, 17→18</li>
+</ul>
+</li>
+</ol>
+<h3 id="126-交换空间管理"><a class="markdownIt-Anchor" href="#126-交换空间管理"></a> 12.6 交换空间管理</h3>
+<h4 id="交换空间"><a class="markdownIt-Anchor" href="#交换空间"></a> 交换空间</h4>
+<p>虚拟内存采用磁盘空间作为内存的扩展</p>
+<ul>
+<li>交换空间可以位于普通文件系统之上</li>
+<li>可以是一个单独的磁盘分区</li>
+</ul>
+<h3 id="127-raid-结构"><a class="markdownIt-Anchor" href="#127-raid-结构"></a> 12.7 RAID 结构</h3>
+<p><strong>磁盘冗余阵列(RAID)</strong>：多个磁盘驱动器通过冗余提供可靠性，更高的数据传输率</p>
+<h4 id="1273-raid级别"><a class="markdownIt-Anchor" href="#1273-raid级别"></a> 12.7.3 RAID级别</h4>
+<p>RAID共被分为六个级别</p>
+<p><img src="https://i.loli.net/2021/06/17/1dWraZblq3geD7c.png" alt="33.png" /></p>
+<h5 id="raid-0-磁盘分条disk-striping"><a class="markdownIt-Anchor" href="#raid-0-磁盘分条disk-striping"></a> RAID-0 磁盘分条(disk striping)</h5>
+<p><img src="https://i.loli.net/2021/06/17/BzgMy5LEmDCKrGR.png" alt="34.png" /></p>
+<ul>
+<li>并行数据块访问提供更大的磁盘带宽</li>
+</ul>
+<h5 id="raid-1-磁盘镜像"><a class="markdownIt-Anchor" href="#raid-1-磁盘镜像"></a> RAID-1 磁盘镜像</h5>
+<p>简单复制</p>
+<p><img src="https://i.loli.net/2021/06/17/Kv9ulp3Jx2Ij56c.png" alt="35.png" /></p>
+<ul>
+<li>
+<p>可靠性指数倍增长</p>
+</li>
+<li>
+<p>读取性能现性增长</p>
+</li>
+</ul>
+<h5 id="raid-4-块级分条block-level-striping-专用奇偶校验parity"><a class="markdownIt-Anchor" href="#raid-4-块级分条block-level-striping-专用奇偶校验parity"></a> RAID-4 块级分条(block-level striping) +  专用奇偶校验(parity)</h5>
+<p><img src="https://i.loli.net/2021/06/17/hesRWLO4SjXiGf7.png" alt="36.png" /></p>
+<ul>
+<li>允许从任何发生故障的磁盘中恢复</li>
+</ul>
+<h5 id="raid-5-磁盘分条-分布式奇偶校验"><a class="markdownIt-Anchor" href="#raid-5-磁盘分条-分布式奇偶校验"></a> RAID-5 磁盘分条 + 分布式奇偶校验</h5>
+<p><img src="https://i.loli.net/2021/06/17/g9WCEfKABReQmhT.png" alt="37.png" /></p>
+<h5 id="raid-0-1-1-0"><a class="markdownIt-Anchor" href="#raid-0-1-1-0"></a> RAID 0 + 1	/ 1 + 0</h5>
+<img src="https://i.loli.net/2021/06/17/G82i6rTUQqtljAD.png" alt="38.png"  />
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>10.1 Is disk scheduling, other than FCFS scheduling, useful in a single-user<br />
+environment? Explain your answer.</p>
+<p>10.2 Explain why SSTF scheduling tends to favor middle cylinders over the<br />
+innermost and outermost cylinders.</p>
+<p>10.3 Why is rotational latency usually not considered in disk scheduling?<br />
+How would you modify SSTF, SCAN, and C-SCAN to include latency<br />
+optimization?</p>
+<p>10.4 Why is it important to balance file-system I/O among the disks and<br />
+controllers on a system in a multitasking environment?</p>
+<p>10.9 None of the disk-scheduling disciplines, except FCFS, is truly fair<br />
+(starvation may occur).<br />
+a. Explain why this assertion is true.<br />
+b. Describe a way to modify algorithms such as SCAN to ensure<br />
+fairness.<br />
+c. Explain why fairness is an important goal in a time-sharing<br />
+system.<br />
+d. Give three or more examples of circumstances in which it is<br />
+important that the operating system be unfair in serving I/O<br />
+requests.</p>
+<p>10.11 Suppose that a disk drive has 5,000 cylinders, numbered 0 to 4,999. The drive is currently serving a request at cylinder 2,150, and the previous request was at cylinder 1,805. The queue of pending requests, in FIFO order, is: 2,069, 1,212, 2,296, 2,800, 544, 1,618, 356, 1,523, 4,965, 3681<br />
+Starting from the current head position, what is the total distance (in<br />
+cylinders) that the disk arm moves to satisfy all the pending requests<br />
+for each of the following disk-scheduling algorithms?<br />
+a. FCFS<br />
+b. SSTF<br />
+c. SCAN<br />
+d. LOOK<br />
+e. C-SCAN<br />
+f. C-LOOK</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第11章 文件系统实现</title>
+    <url>/2020/12/05/OS/%E7%AC%AC11%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="文件系统实现"><a class="markdownIt-Anchor" href="#文件系统实现"></a> 文件系统实现</h2>
+<h3 id="111-文件系统结构"><a class="markdownIt-Anchor" href="#111-文件系统结构"></a> 11.1 文件系统结构</h3>
+<a id="more"></a>
+<p><strong>分层文件系统</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/rslg7tjBNFiCbvn.png" alt="14.png" /></p>
+<h3 id="112-文件系统实现"><a class="markdownIt-Anchor" href="#112-文件系统实现"></a> 11.2 文件系统实现</h3>
+<h4 id="1121概述"><a class="markdownIt-Anchor" href="#1121概述"></a> 11.2.1概述</h4>
+<h5 id="在磁盘上"><a class="markdownIt-Anchor" href="#在磁盘上"></a> 在磁盘上</h5>
+<ul>
+<li>
+<p><strong>引导控制块(Boot control block)</strong>：包含系统从该卷引导OS所需的信息</p>
+<ul>
+<li>如果为空，则磁盘不包含OS</li>
+</ul>
+</li>
+<li>
+<p><strong>卷控制块</strong>：包含卷（或分区）的详细信息</p>
+</li>
+<li>
+<p><strong>目录结构</strong>用于组织文件</p>
+</li>
+<li>
+<p>每个文件的<strong>FCB</strong>包含该文件的许多详细信息</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/WEJyu8fqKBCpoUs.png" alt="15.png" /></p>
+<h5 id="在内存中"><a class="markdownIt-Anchor" href="#在内存中"></a> 在内存中</h5>
+<p>内存中的信息用于管理文件系统并通过缓存来提高性能，<strong>这些数据在挂载文件系统时被加载，在卸载时被丢弃</strong></p>
+<p><strong>结构类型</strong></p>
+<ul>
+<li>
+<p>每个进程的文件打开表</p>
+</li>
+<li>
+<p>整个系统的文件打开表</p>
+</li>
+<li>
+<p>内存中的挂载表</p>
+</li>
+<li>
+<p>内存中的目录结构的缓存</p>
+</li>
+</ul>
+<p><strong>文件系统实现的操作结构</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/XMYJHfnkT79yVWp.png" alt="16.png" /></p>
+<h4 id="1122-分区与安装"><a class="markdownIt-Anchor" href="#1122-分区与安装"></a> 11.2.2 分区与安装</h4>
+<ul>
+<li>
+<p>引导信息通常是一系列连续的快，可作为映像加载到内存。</p>
+</li>
+<li>
+<p>引导加载程序(boot loader)可以双重引导，允许具有多个FS和OS</p>
+</li>
+<li>
+<p>根分区在启动时安装，其他卷可以在引导时自动安装或手动安装</p>
+</li>
+</ul>
+<h4 id="1123-虚拟文件系统"><a class="markdownIt-Anchor" href="#1123-虚拟文件系统"></a> 11.2.3 虚拟文件系统</h4>
+<ul>
+<li>
+<p>虚拟文件系统（VFS，虚拟文件系统）提供了面向对象的文件系统实现方式</p>
+<p>VFS允许将相同的系统调用接口（API）用于不同类型的文件系统</p>
+</li>
+<li>
+<p>该API是针对VFS接口的，而不是任何特定的文件系统的类型</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/65NILXb2mZTqiQn.png" alt="17.png" /></p>
+<h3 id="113-目录实现"><a class="markdownIt-Anchor" href="#113-目录实现"></a> 11.3 目录实现</h3>
+<h4 id="1131-线性序列"><a class="markdownIt-Anchor" href="#1131-线性序列"></a> 11.3.1 线性序列</h4>
+<ul>
+<li>易于编程</li>
+<li>执行耗时</li>
+</ul>
+<h4 id="1132-哈希表"><a class="markdownIt-Anchor" href="#1132-哈希表"></a> 11.3.2 哈希表</h4>
+<ul>
+<li>减少目录搜索时间</li>
+<li>产生冲突</li>
+</ul>
+<h3 id="114-分配方法"><a class="markdownIt-Anchor" href="#114-分配方法"></a> 11.4 分配方法</h3>
+<h4 id="1141-连续分配"><a class="markdownIt-Anchor" href="#1141-连续分配"></a> 11.4.1 连续分配</h4>
+<ul>
+<li>每个文件的目录条目包括起始块的地址和文件所分配区域的长度</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/OsXf9QdTRlW2FiL.png" alt="18.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>支持随机访问和顺序访问</li>
+<li>磁头移动时间短(寻道时间短)，访问速度快</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>外部碎片</li>
+<li>需要事先知道文件的大小⇒文件可能无法扩展</li>
+</ul>
+<p><strong>解决方案：基于扩展的系统</strong></p>
+<p>当空间不够时添加另一块连续空间(extent)，然后文件块的位置就记录为：地址、块数、下一扩展的首块的指针</p>
+<h4 id="1142-链接linked分配"><a class="markdownIt-Anchor" href="#1142-链接linked分配"></a> 11.4.2 链接(Linked)分配</h4>
+<p>每个文件都是磁盘块上的链表，块可能分散在磁盘的任何位置</p>
+<h5 id="隐式链接"><a class="markdownIt-Anchor" href="#隐式链接"></a> 隐式链接</h5>
+<p>目录包含文件第一块和最后一块的指针</p>
+<p>每块都有下一块的一个指针</p>
+<p><img src="https://i.loli.net/2021/06/17/kcXeFfhSzrGqACi.png" alt="19.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p>简单——只需要起始地址</p>
+</li>
+<li>
+<p>不会浪费空间，没有外部碎片</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>
+<p>不能随机访问</p>
+</li>
+<li>
+<p>指针需要额外空间</p>
+</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<p>将多个块组成<strong>簇(cluster)</strong>，按<strong>簇</strong>分配</p>
+<ul>
+<li>提高磁盘吞吐量（更少的磁头移动）</li>
+<li>但是内部碎片增加：如果一个簇没有完全使用，会浪费更多空间</li>
+</ul>
+<h5 id="显式链接"><a class="markdownIt-Anchor" href="#显式链接"></a> 显式链接</h5>
+<p><strong>文件分配表(File-Allocation Table, FAT)</strong></p>
+<p><strong>通过将磁盘中的寻指针操作，替换成缓存过的FAT放入内存中，提高性能</strong></p>
+<p>每个卷的开始部分的磁盘用于存储<strong>FAT</strong></p>
+<ul>
+<li><strong>FAT</strong>的使用与链表相同，目录条目包含文件首块的块号。通过这个块号索引的表条目包含文件的下一块的块号</li>
+<li>未使用的块用0作为表条目的值来表示</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/nVJdSH83hRmLxPv.png" alt="20.png" /></p>
+<img src="https://i.loli.net/2021/06/17/4WVjd2Tw8DfJ3iv.png" alt="21.png" style="zoom:50%;" />
+<h4 id="1143-索引分配"><a class="markdownIt-Anchor" href="#1143-索引分配"></a> 11.4.3 索引分配</h4>
+<p>将所有指针放在一起——索引块</p>
+<ul>
+<li>每个文件都有自己的索引块</li>
+<li>每个索引块都是一个磁盘块地址的数组</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/QpYSZFN6tW9gxHM.png" alt="22.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p>随机访问</p>
+</li>
+<li>
+<p>动态访问且无外部碎片</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>索引块的额外开销</li>
+<li>文件大小的限制，索引块只能包含有限个数的指针</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<ol>
+<li>
+<p>链接方式</p>
+<p>最后一个地址为null(对于小文件)，或者另一个索引块的指针(对于大文件)</p>
+</li>
+<li>
+<p>多级索引</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/06/17/jQMPxa1eGy32KWp.png" alt="23.png" /></p>
+<ol start="3">
+<li>
+<p>组合方式</p>
+<p>将索引块的前几个指针指向<strong>直接块</strong>，接下来的几个指针指向<strong>间接块</strong>（一级、二级、三级逐级递增），这样的方式可以允许小文件直接访问</p>
+</li>
+</ol>
+<h3 id="115-空闲空间管理"><a class="markdownIt-Anchor" href="#115-空闲空间管理"></a> 11.5 空闲空间管理</h3>
+<p>为了跟踪空闲磁盘空间，系统需要维护一个<strong>空闲空间列表(free-space list)</strong></p>
+<h4 id="1151-位向量bit-vector"><a class="markdownIt-Anchor" href="#1151-位向量bit-vector"></a> 11.5.1 位向量(bit vector)</h4>
+<p>空闲空间列表按<strong>位图</strong>或<strong>位向量</strong>来实现，每块用一个位来表示。1表示空闲，0表示已分配</p>
+<p>如2，3，4，5，8, 9, 10, 11是空闲的，则位图为</p>
+<p>0011 1100 1111</p>
+<p><strong>位图长度</strong></p>
+<p>对于n个块，如果基本单位是word，则位图长度=（n + 15）/ 16</p>
+<p><strong>第一个空闲块</strong></p>
+<ol>
+<li>
+<p>找到第一个非0字</p>
+</li>
+<li>
+<p>在第一个非0字中找到第一个1位</p>
+</li>
+<li>
+<p>前K个字为0，第一个1位的偏移为L</p>
+<p>N = K * 16 + L</p>
+</li>
+</ol>
+<p><strong>特性</strong></p>
+<ul>
+<li>
+<p>简单</p>
+</li>
+<li>
+<p>必须保存在磁盘上</p>
+</li>
+<li>
+<p>位图需要额外空间</p>
+<h4 id="1152-链表"><a class="markdownIt-Anchor" href="#1152-链表"></a> 11.5.2 链表</h4>
+</li>
+</ul>
+<p>将所有空闲磁盘块用链表链接起来</p>
+<ul>
+<li>将指向第一空闲块的指针保存在磁盘特殊位置上，并缓存在内存中</li>
+<li>第一块包含下一个空闲磁盘块的指针</li>
+</ul>
+<p><strong>特性</strong></p>
+<ul>
+<li>无法轻易获得连续空间</li>
+<li>不浪费空间</li>
+</ul>
+<h4 id="1153-计数"><a class="markdownIt-Anchor" href="#1153-计数"></a> 11.5.3 计数</h4>
+<p>前提：通常，多个连续块可能需要同时分配获释放</p>
+<ul>
+<li>空闲空间列表的每个条目记录第一块的地址和紧跟第一块的连续空闲块的数量n</li>
+<li>通常情况下比链表短，counter &gt; 1</li>
+</ul>
+<h3 id="116-效率与性能"><a class="markdownIt-Anchor" href="#116-效率与性能"></a> 11.6 效率与性能</h3>
+<h4 id="1161-效率空间"><a class="markdownIt-Anchor" href="#1161-效率空间"></a> 11.6.1 效率（空间）</h4>
+<p>磁盘空间的有效使用在很大程度上取决于磁盘分配和目录算法</p>
+<p><strong>各种方法</strong></p>
+<ul>
+<li>不同的簇大小</li>
+<li>保存在文件目录条目内的数据类型</li>
+<li>用与访问数据的指针大小：大指针允许更大的文件，但需要使用更多磁盘空间</li>
+</ul>
+<h4 id="1162-性能时间"><a class="markdownIt-Anchor" href="#1162-性能时间"></a> 11.6.2 性能（时间）</h4>
+<ul>
+<li>
+<p>磁盘缓存——在磁盘控制器上，一旦进入寻道，就从磁头所处的扇区开始将整个磁道读到磁盘缓存</p>
+</li>
+<li>
+<p>缓冲区缓存(<strong>buffer cache</strong>)——假设其中的块会频繁访问</p>
+</li>
+<li>
+<p>随后释放(<strong>free-behind</strong>)和预先读取(<strong>read-ahead</strong>)——一旦请求下一个页面，就从缓冲区删除一个页面；请求的页面和一些之后的页面可以一起读取并缓存</p>
+</li>
+<li>
+<p>通过将一部分内存专用为虚拟磁盘或RAM磁盘来提高PC性能</p>
+</li>
+</ul>
+<h3 id="117-恢复"><a class="markdownIt-Anchor" href="#117-恢复"></a> 11.7 恢复</h3>
+<h4 id="1171-一致性检查"><a class="markdownIt-Anchor" href="#1171-一致性检查"></a> 11.7.1 一致性检查</h4>
+<p>将目录结构中的数据与磁盘上的数据块进行比较，并尝试解决不一致问题</p>
+<h4 id="1172-备份和恢复"><a class="markdownIt-Anchor" href="#1172-备份和恢复"></a> 11.7.2 备份和恢复</h4>
+<p>备份：将数据从磁盘备份到另一存储设备</p>
+<p>恢复：从备份还原数据来恢复丢失的文件或磁盘</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>12.2 What problems could occur if a system allowed a file system to be<br />
+mounted simultaneously at more than one location?</p>
+<p>同一文件会有多个路径，删除一个路径下的文件的同时也会删除其他路径下的该文件。</p>
+<p>12.3 Why must the bit map for file allocation be kept on mass storage, rather than in main memory?</p>
+<p>这样在系统崩溃时，如果位图在主存中则可用空间列表会丢失，在大容量存储中则不会。</p>
+<p>12.4 Consider a system that supports the strategies of contiguous, linked,<br />
+and indexed allocation. What criteria should be used in deciding which<br />
+strategy is best utilized for a particular file?</p>
+<p>如果文件相对较小，则可以用连续的策略；如果文件相对较大，且为顺序访问，则可以用链接的策略；如果文件相对较大，且为随机访问，则可以用索引的策略</p>
+<p>12.5 One problem with contiguous allocation is that the user must preallocate enough space for each file. If the file grows to be larger than the<br />
+space allocated for it, special actions must be taken. One solution to this<br />
+problem is to define a file structure consisting of an initial contiguous<br />
+area (of a specified size). If this area is filled, the operating system<br />
+automatically defines an overflow area that is linked to the initial<br />
+contiguous area. If the overflow area is filled, another overflow area<br />
+is allocated. Compare this implementation of a file with the standard<br />
+contiguous and linked implementations.</p>
+<p>与标准的连续策略来说，这种方法开销更大，因为需要动态分配额外的空间。但与链接策略比较，这种方法开销更小，因为起初就分配好了一些固定的空间。</p>
+<p>12.6 How do caches help improve performance? Why do systems not use<br />
+more or larger caches if they are so useful?</p>
+<p>caches可以让不同速度的设备进行有效率的通信，它将传输速度更慢的设备中的数据缓存在更快的设备中。caches一般较为昂贵，caches的大小增加会增加系统成本。</p>
+<p>12.7 Why is it advantageous to the user for an operating system to dynamically allocate its internal tables? What are the penalties to the operating system for doing so?</p>
+<p>动态分配内部表在系统使用量增长时可以提供更大的灵活性，避免了用户的使用限制。但是这样的设计会使得内核的结构和代码更为复杂，也更容易出错。而且动态分配表比静态表开销更大。</p>
+<p>12.9 Consider a file system that uses a modifed contiguous-allocation<br />
+scheme with support for extents. A file is a collection of extents, with<br />
+each extent corresponding to a contiguous set of blocks. A key issue in<br />
+such systems is the degree of variability in the size of the extents. What<br />
+are the advantages and disadvantages of the following schemes?<br />
+a. All extents are of the same size, and the size is predetermined.<br />
+b. Extents can be of any size and are allocated dynamically.<br />
+c. Extents can be of a few fixed sizes, and these sizes are predetermined.</p>
+<p>a. 分配方案简单，一个位图或者空闲列表就能解决分配的问题，缺点是会有内部碎片和外部碎片。</p>
+<p>b. 优点是没有内部碎片，缺点是分配方案较为复杂，而且可能会有外部碎片生成。</p>
+<p>c. 保证了分配的灵活性和较为简单，与a相比内部碎片较少，与b相比外部碎片较少，缺点是仍有内部和外部碎片。</p>
+<p>12.10 Contrast the performance of the three techniques for allocating disk<br />
+blocks (contiguous, linked, and indexed) for both sequential and<br />
+random file access.</p>
+<p>连续分配：每个文件占用一组磁盘块，同时支持顺序访问和随机访问，访问速度较快。但是它不能处理内部碎片和外部碎片，同时也难以增加大小。</p>
+<p>链接分配：每个文件是一个磁盘块链表，支持顺序访问，但不支持随机访问。这种分配方法没有外部碎片，因为访问要沿指针访问，所以访问速度不如连续分配快。</p>
+<p>索引分配：每个文件有自己的索引块。支持随机访问，不支持顺序访问。这种分配方法没有外部碎片。</p>
+<p>12.11 What are the advantages of the variant of linked allocation that uses a<br />
+FAT to chain together the blocks of a file?</p>
+<p>如果需要访问存储在磁盘中的块的时候。我们可以不用再先访问磁盘块，然后一个一个遍历指针，而是可以通过将FAT放入内存中，通过在FAT中检索找到所需的块，再去磁盘中访问，大大提高了性能。</p>
+<p>12.12 Consider a system where free space is kept in a free-space list.<br />
+a. Suppose that the pointer to the free-space list is lost. Can the<br />
+system reconstruct the free-space list? Explain your answer.</p>
+<p>可以，可以执行垃圾收集来重建空闲列表。</p>
+<p>b. Consider a file system similar to the one used by UNIX with<br />
+indexed allocation. How many disk I/O operations might be<br />
+required to read the contents of a small local file at /a/b/c?<br />
+Assume that none of the disk blocks is currently being cached.</p>
+<p>一共4个I/O操作，读目录a、b、c，读c中的文件</p>
+<p>c. Suggest a scheme to ensure that the pointer is never lost as a result<br />
+of memory failure.</p>
+<p>将空闲空间列表的指针存放在磁盘上</p>
+<p>12.14 Discuss how performance optimizations for file systems might result<br />
+in difficulties in maintaining the consistency of the systems in the event<br />
+of computer crashes.</p>
+<p>可能出现的主要困难是数据和元数据的延迟更新。系统可以推迟更新，让将来更新相同的数据。但是，如果系统没有提交延迟更新请求就崩溃了，那么文件系统的一致性就会被破坏。</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第10章 存储管理</title>
+    <url>/2020/11/29/OS/%E7%AC%AC10%E7%AB%A0%20%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="存储管理"><a class="markdownIt-Anchor" href="#存储管理"></a> 存储管理</h2>
+<h3 id="101-文件概念"><a class="markdownIt-Anchor" href="#101-文件概念"></a> 10.1 文件概念</h3>
+<a id="more"></a>
+<ul>
+<li>
+<p>文件是记录在外存上的相关信息的命名组合</p>
+</li>
+<li>
+<p>文件是逻辑外存的最小分配单元</p>
+</li>
+</ul>
+<h4 id="1011-文件属性"><a class="markdownIt-Anchor" href="#1011-文件属性"></a> 10.1.1 文件属性</h4>
+<p>文件的属性包括：名称、标识符、类型、位置、尺寸、保护、时间、日期和用户标识</p>
+<p><strong>目录</strong></p>
+<ul>
+<li>所有的文件信息保存在目录结构中，目录结构也保存在外存上</li>
+<li>通常，目录条目由文件的名称及其唯一的标志符组成</li>
+<li>根据标识符可定位其他文件属性</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/K7mRNYafjDu9XMJ.png" alt="1.png" /></p>
+<h4 id="1012-文件操作"><a class="markdownIt-Anchor" href="#1012-文件操作"></a> 10.1.2 文件操作</h4>
+<p>​	创建：分配空间 + 创建目录条目</p>
+<p>​	写：写指针</p>
+<p>​	读：读指针</p>
+<p>​	重定位文件：搜索</p>
+<p>​	删除：释放空间 + 删除目录条目</p>
+<p>​	截断(Truncate): 文件重置为0， 释放空间，保留其他文件属性</p>
+<h5 id="每个进程表per-process-table-整个系统表system-wide-table"><a class="markdownIt-Anchor" href="#每个进程表per-process-table-整个系统表system-wide-table"></a> 每个进程表(per-process table) &amp; 整个系统表(system-wide table)</h5>
+<p>每个进程表：存放进程对文件的使用信息</p>
+<p>整个系统表：存放与进程无关的文件的信息</p>
+<p><img src="https://i.loli.net/2021/06/17/hJKXLFw2fde7vVj.png" alt="2.png" /></p>
+<p>​	文件指针：上次读写位置，<strong>每个进程都是唯一的</strong></p>
+<p>​	文件打开计数：跟踪打开文件的进程个数，为0时删除条目</p>
+<p>​	文件的磁盘位置：查找磁盘上的文件所需的信息保存在内存中</p>
+<p>​	访问权限：每个进程采用访问模式打开文件</p>
+<h5 id="打开文件锁"><a class="markdownIt-Anchor" href="#打开文件锁"></a> 打开文件锁</h5>
+<p><strong>共享锁</strong></p>
+<p>类似于读者锁，多个进程可以并发获取它</p>
+<p><strong>独占(Exclusive)锁</strong></p>
+<p>类似于写者锁，一次只有一个进程可以获取这样的锁</p>
+<h6 id="强制-建议"><a class="markdownIt-Anchor" href="#强制-建议"></a> 强制 &amp; 建议</h6>
+<p>操作系统可以提供<strong>强制</strong>或<strong>建议</strong>文件锁定机制。如果锁是<strong>强制性</strong>的，则一旦进程获取独占锁，操作系统就阻止任何其他进程访问锁定的文件。如果锁是<strong>建议性</strong>的，则操作系统不会阻止其他进程的访问。</p>
+<h4 id="1013-文件类型"><a class="markdownIt-Anchor" href="#1013-文件类型"></a> 10.1.3 文件类型</h4>
+<h4 id="1014-文件结构"><a class="markdownIt-Anchor" href="#1014-文件结构"></a> 10.1.4 文件结构</h4>
+<p>大多现代操作系统支持最小数量的文件结构</p>
+<ul>
+<li>Example: UNIX认为每个文件为8个字节序列</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>应用程序更灵活</li>
+<li>简化OS</li>
+</ul>
+<h4 id="1015-内部文件结构"><a class="markdownIt-Anchor" href="#1015-内部文件结构"></a> 10.1.5 内部文件结构</h4>
+<p>将<strong>逻辑文件(记录)<strong>放入</strong>物理块</strong>中</p>
+<h5 id="打包packing"><a class="markdownIt-Anchor" href="#打包packing"></a> 打包(Packing)</h5>
+<ul>
+<li>
+<p>打包 &amp; 解包：文件系统会自动将字节打包以存入物理磁盘块，或从磁盘块中解包得到字节</p>
+</li>
+<li>
+<p>有内部碎片出现</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/ZzRuLnrITcY4N2d.png" alt="3.png" /></p>
+<h3 id="102-访问方法"><a class="markdownIt-Anchor" href="#102-访问方法"></a> 10.2 访问方法</h3>
+<h4 id="1021-顺序访问"><a class="markdownIt-Anchor" href="#1021-顺序访问"></a> 10.2.1 顺序访问</h4>
+<p><img src="https://i.loli.net/2021/06/17/HvYlOfDs78mTwiX.png" alt="4.png" /></p>
+<h4 id="1022-直接访问"><a class="markdownIt-Anchor" href="#1022-直接访问"></a> 10.2.2 直接访问</h4>
+<p>磁盘允许对任何文件块的随机访问</p>
+<p>通过<strong>相对块号</strong>进行索引</p>
+<p><img src="https://i.loli.net/2021/06/17/i1som3LxfrWGOBC.png" alt="5.png" /></p>
+<h4 id="1023-索引访问方式"><a class="markdownIt-Anchor" href="#1023-索引访问方式"></a> 10.2.3 索引访问方式</h4>
+<p><img src="https://i.loli.net/2021/06/17/7GKNVfpo3nh65Ea.png" alt="7.png" /></p>
+<h3 id="103-目录与磁盘的结构"><a class="markdownIt-Anchor" href="#103-目录与磁盘的结构"></a> 10.3 目录与磁盘的结构</h3>
+<h4 id="1031-储存结构"><a class="markdownIt-Anchor" href="#1031-储存结构"></a> 10.3.1 储存结构</h4>
+<p><strong>分区</strong> = <strong>文件</strong> + <strong>目录</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/tIDCVeJHjUTx9n2.png" alt="8.png" /></p>
+<h4 id="1032-目录概述"><a class="markdownIt-Anchor" href="#1032-目录概述"></a> 10.3.2 目录概述</h4>
+<p>搜索、创建、删除文件、遍历目录、重命名文件、遍历文件系统</p>
+<h4 id="1033-单层目录"><a class="markdownIt-Anchor" href="#1033-单层目录"></a> 10.3.3 单层目录</h4>
+<p><img src="https://i.loli.net/2021/06/17/JrKoAsHSZ3aLv4m.png" alt="9.png" /></p>
+<ul>
+<li>搜索速度慢</li>
+<li>多用户时出现<strong>命名冲突</strong></li>
+</ul>
+<h4 id="1034-双层目录"><a class="markdownIt-Anchor" href="#1034-双层目录"></a> 10.3.4 双层目录</h4>
+<p>用户文件目录(User File Directory, <strong>UFD</strong>)：每个条目拥有用户文件的信息</p>
+<p>主文件目录(Master File Directory, <strong>MFD</strong>)：每个词条包含用户名和指向UFD的指针</p>
+<p><img src="https://i.loli.net/2021/06/17/qOTzANPZj7kErlR.png" alt="10.png" /></p>
+<ul>
+<li>可以为不同的用户使用相同文件名</li>
+<li>搜索效率提升</li>
+<li>分组能力</li>
+</ul>
+<h4 id="1035-树形目录"><a class="markdownIt-Anchor" href="#1035-树形目录"></a> 10.3.5 树形目录</h4>
+<p>​		目录只不过是一个文件，但它是按特殊方式处理的。每个目录条目都有一位来将条目定义为文件(0)或子目录(1)</p>
+<p><strong>当前目录</strong></p>
+<p>包含进程当前感兴趣的大多数文件。当引用一个文件就搜索当前目录</p>
+<p><img src="https://i.loli.net/2021/06/17/B6poQeu9OWzxkCZ.png" alt="11.png" /></p>
+<ul>
+<li>搜索效率</li>
+<li>分组能力</li>
+<li>但阻止了文件和目录的共享</li>
+</ul>
+<h4 id="1036-无环图目录"><a class="markdownIt-Anchor" href="#1036-无环图目录"></a> 10.3.6 无环图目录</h4>
+<p>允许目录共享子目录和文件，但不能出现循环</p>
+<h5 id="链接link"><a class="markdownIt-Anchor" href="#链接link"></a> 链接(link)</h5>
+<p>文件的内容是真实文件的路径名</p>
+<h5 id="复制目录条目"><a class="markdownIt-Anchor" href="#复制目录条目"></a> 复制目录条目</h5>
+<p>在两个共享目录中复制有关共享文件的所有信息，因此两个条目相同切相等</p>
+<ul>
+<li>但是难以维护一致性，在修改文件时要维护一致性</li>
+</ul>
+<h5 id="遍历问题"><a class="markdownIt-Anchor" href="#遍历问题"></a> 遍历问题</h5>
+<ul>
+<li>不同的名字，实际上是同一个文件</li>
+<li>需要不止一次地遍历共享结构</li>
+</ul>
+<h5 id="删除问题"><a class="markdownIt-Anchor" href="#删除问题"></a> 删除问题</h5>
+<ul>
+<li>只要有用户删除就删除—&gt;空悬指针</li>
+<li>保留文件，直到它的所有引用都被删除</li>
+</ul>
+<h4 id="1037-通用图目录"><a class="markdownIt-Anchor" href="#1037-通用图目录"></a> 10.3.7 通用图目录</h4>
+<p><img src="https://i.loli.net/2021/06/17/FB9eYrLo6tjnSKW.png" alt="12.png" /></p>
+<p><strong>遍历问题</strong>和<strong>删除问题</strong>依旧存在，甚至更复杂</p>
+<ul>
+<li>限制访问目录的数量</li>
+<li>垃圾回收方案</li>
+</ul>
+<p><strong>如何保证无环</strong></p>
+<ul>
+<li>可以只允许链接到文件而不是子目录</li>
+<li>每次添加新链接时，使用周期检测算法</li>
+</ul>
+<h3 id="104-文件系统安装挂载mounting"><a class="markdownIt-Anchor" href="#104-文件系统安装挂载mounting"></a> 10.4 文件系统安装/挂载(Mounting)</h3>
+<ul>
+<li>
+<p>文件系统在用于系统的进程之前必须先安装</p>
+</li>
+<li>
+<p>没有挂载的文件系统需要被挂载到挂载点</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/Zrg8GO1FMod3k5D.png" alt="13.png" /></p>
+<h3 id="105-文件共享"><a class="markdownIt-Anchor" href="#105-文件共享"></a> 10.5 文件共享</h3>
+<h4 id="1053-一致性语义"><a class="markdownIt-Anchor" href="#1053-一致性语义"></a> 10.5.3 一致性语义</h4>
+<p>一致性语义指定多个用户如何同时访问共享文件</p>
+<h5 id="10531-unix语义"><a class="markdownIt-Anchor" href="#10531-unix语义"></a> 10.5.3.1 UNIX语义</h5>
+<ul>
+<li>写入一个打开的文件，该打开文件对同一打开文件的其他用户立即可见</li>
+<li>共享文件指针以允许多个用户同时读写会话语义</li>
+</ul>
+<h5 id="10532-会话语义"><a class="markdownIt-Anchor" href="#10532-会话语义"></a> 10.5.3.2 会话语义</h5>
+<ul>
+<li>仅在关闭文件后开始的会话中可见</li>
+</ul>
+<h3 id="106-保护"><a class="markdownIt-Anchor" href="#106-保护"></a> 10.6 保护</h3>
+<h4 id="1061-访问类型"><a class="markdownIt-Anchor" href="#1061-访问类型"></a> 10.6.1 访问类型</h4>
+<p>读、写、执行、附加、删除、列表</p>
+<h4 id="1062-访问控制"><a class="markdownIt-Anchor" href="#1062-访问控制"></a> 10.6.2 访问控制</h4>
+<p><strong>访问控制列表(Access-Control List, ACL)</strong></p>
+<ul>
+<li>
+<p>为每个文件和目录关联一个ACL，指定每个用户的名称及其允许的访问类型</p>
+</li>
+<li>
+<p>存储在目录项中</p>
+</li>
+</ul>
+<p><strong>三类用户</strong></p>
+<p>所有者权限：1 1 1 RWX</p>
+<p>组权限：1 1 0 	RW</p>
+<p>其他权限：0 0 1	X</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>11.1 Some systems automatically delete all user files when a user logs off or<br />
+a job terminates, unless the user explicitly requests that they be kept.<br />
+Other systems keep all files unless the user explicitly deletes them.<br />
+Discuss the relative merits of each approach.</p>
+<p>11.2 Why do some systems keep track of the type of a file, while others leave<br />
+it to the user and others simply do not implement multiple file types?<br />
+Which system is “better”?</p>
+<p>11.3 Similarly, some systems support many types of structures for a file’s<br />
+data, while others simply support a stream of bytes. What are the<br />
+advantages and disadvantages of each approach?</p>
+<p>11.4 Could you simulate a multilevel directory structure with a single-level<br />
+directory structure in which arbitrarily long names can be used? If your<br />
+answer is yes, explain how you can do so, and contrast this scheme with<br />
+the multilevel directory scheme. If your answer is no, explain what<br />
+prevents your simulation’s success. How would your answer change<br />
+if file names were limited to seven characters?</p>
+<p>11.5 Explain the purpose of the open() and close() operations.</p>
+<p>11.6 In some systems, a subdirectory can be read and written by an<br />
+authorized user, just as ordinary files can be.<br />
+a. Describe the protection problems that could arise.<br />
+b. Suggest a scheme for dealing with each of these protection<br />
+problems.</p>
+<p>11.9 Consider a file system in which a file can be deleted and its disk space<br />
+reclaimed while links to that file still exist. What problems may occur if<br />
+a new file is created in the same storage area or with the same absolute<br />
+path name? How can these problems be avoided?</p>
+<p>11.10 The open-file table is used to maintain information about files that are<br />
+currently open. Should the operating system maintain a separate table<br />
+for each user or maintain just one table that contains references to files<br />
+that are currently being accessed by all users? If the same file is being<br />
+accessed by two different programs or users, should there be separate<br />
+entries in the open-file table? Explain.</p>
+<p>11.11 What are the advantages and disadvantages of providing mandatory<br />
+locks instead of advisory locks whose use is left to users’ discretion?</p>
+<p>11.12 Provide examples of applications that typically access files according<br />
+to the following methods:<br />
+• Sequential<br />
+• Random</p>
+<p>11.13 Some systems automatically open a file when it is referenced for the first<br />
+time and close the file when the job terminates. Discuss the advantages<br />
+and disadvantages of this scheme compared with the more traditional<br />
+one, where the user has to open and close the file explicitly.</p>
+<p>11.14 If the operating system knew that a certain application was going<br />
+to access file data in a sequential manner, how could it exploit this<br />
+information to improve performance?</p>
+<p>11.15 Give an example of an application that could benefit from operating system support for random access to indexed files.</p>
+<p>11.17 Some systems provide file sharing by maintaining a single copy of a<br />
+file. Other systems maintain several copies, one for each of the users<br />
+sharing the file. Discuss the relative merits of each approach.</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
       </categories>
   </entry>
   <entry>
