@@ -1,6 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>第十二章 数据库的安全性</title>
+    <url>/2021/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter12%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十二章-数据库的安全性"><a href="#第十二章-数据库的安全性" class="headerlink" title="第十二章 数据库的安全性"></a>第十二章 数据库的安全性</h2><a id="more"></a>
+<p>本章大部分内容cv自wht同学的笔记</p>
+<h3 id="12-1-数据库安全"><a href="#12-1-数据库安全" class="headerlink" title="12.1 数据库安全"></a>12.1 数据库安全</h3><p><strong>|数据库安全|</strong>：保护数据库免受威胁的机制。</p>
+<h3 id="12-2-威胁"><a href="#12-2-威胁" class="headerlink" title="12.2 威胁"></a>12.2 威胁</h3><p><strong>|威胁|</strong>：任何有意或无意的，对系统或组织造成负面影响的行为或事件。</p>
+<h3 id="12-3-对策-Countermeasures"><a href="#12-3-对策-Countermeasures" class="headerlink" title="12.3 对策(Countermeasures)"></a>12.3 对策(Countermeasures)</h3><h4 id="12-3-1-授权"><a href="#12-3-1-授权" class="headerlink" title="12.3.1 授权"></a>12.3.1 授权</h4><p><strong>|授权（authorization）|</strong>：授予一个主体权利或权限，使其能实现对系统或系统对象的合法访问。</p>
+<p><strong>|认证(Authentication)|</strong>：确认用户身份是否属实的机制。</p>
+<p><strong>|权限|</strong>：包括访问特定数据库对象（如关系、视图和索引）以及运行不同的DBMS系统实体。</p>
+<h4 id="12-3-2-视图"><a href="#12-3-2-视图" class="headerlink" title="12.3.2 视图"></a>12.3.2 视图</h4><p>通过向某些用户隐藏数据库的一部分信息来限制用户</p>
+<h4 id="12-3-3-备份和恢复"><a href="#12-3-3-备份和恢复" class="headerlink" title="12.3.3 备份和恢复"></a>12.3.3 备份和恢复</h4><ul>
+<li>备份Backup：周期性将数据库、日志文件、DBMS程序（可选）复制到脱机存储介质上</li>
+<li>日志Log：日志文件包含数据库的所有变化记录。保存并维护日志文件，使得数据库出现故障时能够有效地进行恢复</li>
+</ul>
+<h4 id="12-3-4-完整性约束"><a href="#12-3-4-完整性约束" class="headerlink" title="12.3.4 完整性约束"></a>12.3.4 完整性约束</h4><ul>
+<li>必须有值的数据</li>
+<li>域约束</li>
+<li>实体完整性</li>
+<li>引用完整性</li>
+<li>一般性约束</li>
+</ul>
+<h4 id="12-3-5-加密-Encryption"><a href="#12-3-5-加密-Encryption" class="headerlink" title="12.3.5 加密(Encryption)"></a>12.3.5 加密(Encryption)</h4><p>使用特定算法对数据进行编码</p>
+<ul>
+<li>对称加密：加密和解密密钥相同，因此密钥的交换也要保证安全性。</li>
+<li>非对称加密：使用公钥和私钥，并且加密算法可以公开。RSA。</li>
+</ul>
+<h4 id="12-3-6-RAID方法"><a href="#12-3-6-RAID方法" class="headerlink" title="12.3.6 RAID方法"></a>12.3.6 RAID方法</h4><p>对运行DBMS的硬件，尤其是磁盘驱动器，构建独立磁盘冗余阵列，保障硬件系统的安全性。</p>
+<h3 id="12-4-访问控制"><a href="#12-4-访问控制" class="headerlink" title="12.4 访问控制"></a>12.4 访问控制</h3><p><strong>自主访问控制（DAC）</strong></p>
+<p>拥有权限的用户通过GRANT和REVOKE 命令来控制用户权限</p>
+<p><strong>强制访问控制（MAC）</strong></p>
+<p>对数据库对象赋予安全级别（security class），并对每一个用户赋予访问许可级别（clearance）。系统根据用户的级别和访问对象的安全级别，通过特定的规则判断是否允许用户的读写操作。</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第十一章 查询处理</title>
+    <url>/2021/06/17/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter11%20%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十一章-查询处理"><a href="#第十一章-查询处理" class="headerlink" title="第十一章 查询处理"></a>第十一章 查询处理</h2><a id="more"></a>
+<p>本章大部分内容cv自wht同学的笔记</p>
+<h3 id="11-1-查询处理概述"><a href="#11-1-查询处理概述" class="headerlink" title="11.1 查询处理概述"></a>11.1 查询处理概述</h3><p><strong>|查询处理|</strong>：包括语法分析、正确性验证、查询优化以及查询执行等活动。</p>
+<p><strong>|查询优化|</strong>：为查询处理选择一个高效的执行策略。通常采取的策略是寻找一种近似最优解。</p>
+<h4 id="查询处理的四个主要阶段"><a href="#查询处理的四个主要阶段" class="headerlink" title="查询处理的四个主要阶段"></a>查询处理的四个主要阶段</h4><ul>
+<li>分解</li>
+<li>优化</li>
+<li>代码生成</li>
+<li>代码执行</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/18/4RMXLsxbjO6Tn1g.png" alt="1.png" style="zoom:67%;" /></p>
+<h3 id="11-2-查询解析"><a href="#11-2-查询解析" class="headerlink" title="11.2 查询解析"></a>11.2 查询解析</h3><p><strong>step 1 验证语法是否正确，若否，拒绝执行</strong></p>
+<p><strong>step 2 创建查询树：</strong></p>
+<ul>
+<li>为查询中的每一个基础关系创建一个叶子节点</li>
+<li>为每个关系代数运算产生的中间关系创建一个非叶子节点</li>
+<li>最终查询结构作为根节点，连接各个节点</li>
+<li>这样就形成了关系代数查询树 relational algebra tree，语句的运算按照从叶到根的顺序执行</li>
+</ul>
+<p><strong>step 3 规范化</strong> 将表达式里的谓词（SQL中的WHERE子句）转换为以下两种范式之一：</p>
+<ul>
+<li>合取范式 (a ∧ b) ∨ (c ∧ d) ∨ …</li>
+<li>析取范式 (a ∨ b) ∧ (c ∨ d) ∧ …</li>
+</ul>
+<p><strong>step 4 语义分析：</strong>判断是否有自相矛盾的谓词，简化它们为True或False</p>
+<p><strong>step 5 化简：</strong>检测冗余条件，去除公共子表达式</p>
+<h3 id="11-3-查询优化"><a href="#11-3-查询优化" class="headerlink" title="11.3 查询优化"></a>11.3 查询优化</h3><p>查询优化的目标：选择资源占用最少的等价查询形式，资源占用最少可以从<strong>所有运算执行时间的总和</strong>或<strong>查询的响应时间</strong>方面来量化。</p>
+<h3 id="11-4-关系代数运算的转换规则"><a href="#11-4-关系代数运算的转换规则" class="headerlink" title="11.4 关系代数运算的转换规则"></a>11.4 关系代数运算的转换规则</h3><ol>
+<li>串联式规则，合取选择运算转换为单个选择的运算的串联</li>
+<li>交换选择运算的顺序</li>
+<li>投影运算的串联与只执行最后一个投影运算等价</li>
+<li>选择运算和投影运算的交换律（谓词相同的情况下）</li>
+<li>θ连接/笛卡尔积运算的交换律、结合律</li>
+<li>选择运算和θ连接/笛卡尔积运算的分配律</li>
+<li>投影运算和θ连接/笛卡尔积运算的分配律</li>
+<li>交运算和并运算的交换律、结合律</li>
+<li>选择运算和交/并/差运算的分配律</li>
+<li>投影运算和并运算的分配律</li>
+</ol>
+<h3 id="11-5-启发式-Heuristic-处理策略"><a href="#11-5-启发式-Heuristic-处理策略" class="headerlink" title="11.5 启发式(Heuristic)处理策略"></a>11.5 启发式(Heuristic)处理策略</h3><ol>
+<li>尽早执行选择运算和投影运算</li>
+<li>合并笛卡尔积运算和其后的选择运算为连接运算</li>
+<li>利用二元运算的结合律对叶子节点进行重排序，条件越严格的选择运算，越先执行</li>
+<li>如果有公共表达式在计算中多次出现，只执行一次其值的计算</li>
+</ol>
+<h3 id="11-6-关系代数运算的代价估计"><a href="#11-6-关系代数运算的代价估计" class="headerlink" title="11.6 关系代数运算的代价估计"></a>11.6 关系代数运算的代价估计</h3><p>前提：DBMS知道数据库的统计信息，即其中数据的规模<br>参数：R-关系，A-属性，I-索引<br>数据库的统计信息包含三类：（DBMS应周期性更新这些数据）</p>
+<p><strong>基本关系统计信息</strong></p>
+<ul>
+<li>nTuples(R) ：关系R的元组数目（R的基数）</li>
+<li>bFactor(R) ：关系R的块因子blocking factor，即一块可以存储R中元组的个数</li>
+<li>nBlocks(R)：存储关系R需要的块数，即以上两个参数之商</li>
+</ul>
+<p><strong>关系中的属性的统计信息</strong></p>
+<ul>
+<li>nDistinct(A,R)：属性A在关系R中不同取值的个数</li>
+<li>min(A,R)/max(A,R)：属性A在R中的可能最小值/最大值</li>
+<li>SC(A,R)：属性A在关系R中的选择基数selection cardinality，即满足属性A的某个等值条件的平均元组个数，这需要DBMS根据实际情况估算</li>
+</ul>
+<p><strong>属性上多级索引的统计信息</strong></p>
+<ul>
+<li>nLevels(A,I)：I的索引级数</li>
+<li>nLfBlocks(A,I)：I中叶子的块数</li>
+</ul>
+<p>通过这些数据，以及DBMS在各种关系运算操作中使用的算法，即可估算不同算法的运算代价的相对值</p>
+]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
+  </entry>
+  <entry>
     <title>第十章 事务管理</title>
     <url>/2021/06/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter10%20%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="第十章-事务管理"><a class="markdownIt-Anchor" href="#第十章-事务管理"></a> 第十章 事务管理</h2>
