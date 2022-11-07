@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Unity脚本开发  2.1 脚本的创建与运行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第2章 Unity脚本开发">
+<meta property="og:url" content="http://yoursite.com/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="Unity脚本开发  2.1 脚本的创建与运行">
+<meta property="og:image" content="https://i.loli.net/2021/04/19/uSVtFyqsZgd3A9T.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/19/BupDtxYKqvAX9I5.png">
+<meta property="article:published_time" content="2021-04-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-19T13:11:56.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/19/uSVtFyqsZgd3A9T.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第2章 Unity脚本开发 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第2章 Unity脚本开发
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-09T00:00:00+08:00">2021-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-19 21:11:56" itemprop="dateModified" datetime="2021-04-19T21:11:56+08:00">2021-04-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Unity/" itemprop="url" rel="index">
+                    <span itemprop="name">Unity</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="unity脚本开发"><a class="markdownIt-Anchor" href="#unity脚本开发"></a> Unity脚本开发</h2>
+<h3 id="21-脚本的创建与运行"><a class="markdownIt-Anchor" href="#21-脚本的创建与运行"></a> 2.1 脚本的创建与运行</h3>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">	public int age;</span><br><span class="line">	public string name;</span><br><span class="line">&#x2F;&#x2F; Start is called before the first frame update</span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;Start&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Update is called once per frame</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;Update&quot;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="211-脚本注意事项"><a class="markdownIt-Anchor" href="#211-脚本注意事项"></a> 2.1.1 脚本注意事项</h4>
+<ul>
+<li>脚本文件名称与类名必须相同</li>
+<li>初始化信息不能写到脚本构造函数中，而应定义在Unity的事件函数Start中</li>
+<li>游戏对象中的脚本可以在属性窗口修改属性，public字段直接可以当属性用</li>
+<li>脚本只能依附于游戏对象或者其他脚本调用才会运行，一个脚本可以赋值给多个游戏对象</li>
+<li>脚本运行过程中，脚本的参数修改不被保存</li>
+</ul>
+<h3 id="22-脚本的生命周期"><a class="markdownIt-Anchor" href="#22-脚本的生命周期"></a> 2.2 脚本的生命周期</h3>
+<p>脚本的生命周期，就是所挂载到的游戏物体的生命周期</p>
+<h4 id="221-常用生命周期事件"><a class="markdownIt-Anchor" href="#221-常用生命周期事件"></a> 2.2.1 常用生命周期事件</h4>
+<p><img src="https://i.loli.net/2021/04/19/uSVtFyqsZgd3A9T.png" alt="1.png" /></p>
+<h3 id="23-向量"><a class="markdownIt-Anchor" href="#23-向量"></a> 2.3 向量</h3>
+<h4 id="231-二维向量vector2"><a class="markdownIt-Anchor" href="#231-二维向量vector2"></a> 2.3.1 二维向量(Vector2)</h4>
+<p><strong>静态属性</strong></p>
+<ul>
+<li>down(0, -1)、up、left(1, 0)、right、one(1, 1)、zero</li>
+</ul>
+<p><strong>属性</strong></p>
+<ul>
+<li>magnitude——长度</li>
+<li>normalized——单位化</li>
+</ul>
+<p><strong>公共方法</strong></p>
+<ul>
+<li>Normalize——对向量进行单位化</li>
+</ul>
+<p><strong>静态方法</strong></p>
+<ul>
+<li>
+<p>Distance——两个向量间的距离</p>
+</li>
+<li>
+<p>Angle——两个向量间的角度</p>
+</li>
+</ul>
+<h4 id="232-三维向量vector3"><a class="markdownIt-Anchor" href="#232-三维向量vector3"></a> 2.3.2 三维向量(Vector3)</h4>
+<p><strong>静态属性</strong></p>
+<ul>
+<li>back、forward(0, 0, 1)</li>
+</ul>
+<p><strong>属性</strong></p>
+<ul>
+<li>magnitude</li>
+<li>normalized</li>
+</ul>
+<p><strong>静态方法</strong></p>
+<ul>
+<li>
+<p>Cross(叉乘)</p>
+</li>
+<li>
+<p>Dot(点乘)</p>
+</li>
+<li>
+<p>Lerp(线性插值运算)</p>
+</li>
+<li>
+<p>MoveTowards(匀速运动)</p>
+</li>
+<li>
+<p>Slerp(球形插值运算) 角度+长度</p>
+</li>
+</ul>
+<h3 id="24-输入按键控制"><a class="markdownIt-Anchor" href="#24-输入按键控制"></a> 2.4 输入按键控制</h3>
+<h4 id="241-获取按键方法"><a class="markdownIt-Anchor" href="#241-获取按键方法"></a> 2.4.1 获取按键方法</h4>
+<ul>
+<li>Input.GetKey(); 				// 持续检测</li>
+<li>Input.GetKeyDown();       // 一次</li>
+<li>Input.GetKeyUp();            // 一次</li>
+</ul>
+<p>返回 ：键码，保存了物理键盘按键“索引码”。</p>
+<h4 id="242-获取鼠标事件"><a class="markdownIt-Anchor" href="#242-获取鼠标事件"></a> 2.4.2 获取鼠标事件</h4>
+<ul>
+<li>
+<p>Input.GetMouseButton ();			// 持续监测</p>
+</li>
+<li>
+<p>Input.GetMouseButtonDown ();  // 一次</p>
+</li>
+<li>
+<p>Input.GetMouseButtonUp ();       // 一次</p>
+<p>0	→	左键<br />
+1	→	右键<br />
+2	→	中 键</p>
+</li>
+</ul>
+<h4 id="243-获取按钮输入"><a class="markdownIt-Anchor" href="#243-获取按钮输入"></a> 2.4.3 获取按钮输入</h4>
+<p>自定义的虚拟按钮</p>
+<p>Edit	→	Project Setting	→	Input Manager</p>
+<ul>
+<li>
+<p>Input.GetButton (“Jump”);</p>
+</li>
+<li>
+<p>Input.GetButtonDown (“Jump”);</p>
+</li>
+<li>
+<p>Input.GetButtonUp (“Jump”);</p>
+</li>
+</ul>
+<h4 id="244-获取虚拟轴的值"><a class="markdownIt-Anchor" href="#244-获取虚拟轴的值"></a> 2.4.4 获取虚拟轴的值</h4>
+<p>Edit	→	Project Setting	→	Input Manager</p>
+<ul>
+<li>Input.GetAxis ();			// 返回-1到1之间的浮点数，有渐变效果</li>
+<li>Input.GetAxisRaw ();     // 没有渐变效果，只能返回-1，0，1三个值</li>
+</ul>
+<h4 id="245-鼠标按键行为"><a class="markdownIt-Anchor" href="#245-鼠标按键行为"></a> 2.4.5 鼠标按键行为</h4>
+<ul>
+<li>
+<p>OnMouseDrag()：当鼠标拖动</p>
+</li>
+<li>
+<p>OnMouseDown()：当鼠标按下</p>
+</li>
+<li>
+<p>OnMouseUp()：当鼠标抬起</p>
+</li>
+<li>
+<p>OnMouseEnter()：当鼠标进入</p>
+</li>
+<li>
+<p>OnMouseExit()：当鼠标退出</p>
+</li>
+<li>
+<p>OnMouseOver()：当鼠标经过</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void OnMouseEnter() &#123;</span><br><span class="line">	gameObject.GetComponent&lt;MeshRenderer&gt;().material.color 				&#x3D; Color.red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>获取鼠标行为和获取鼠标按键的区别</strong></p>
+<ul>
+<li>获取鼠标按键针对鼠标左中右键，而获取鼠标行为不针对</li>
+<li>获取鼠标按键是一个方法，返回bool类型，而获取鼠标行为是一个时间函数，跟Start和Update同级别</li>
+</ul>
+<h3 id="25-时间控制"><a class="markdownIt-Anchor" href="#25-时间控制"></a> 2.5 时间控制</h3>
+<p><img src="https://i.loli.net/2021/04/19/BupDtxYKqvAX9I5.png" alt="2.png" /></p>
+<h4 id="251-应用示例"><a class="markdownIt-Anchor" href="#251-应用示例"></a> 2.5.1 应用示例</h4>
+<p><strong>Time.deltaTime</strong></p>
+<ul>
+<li>
+<p>计时器：实现每隔多少秒做什么事情</p>
+</li>
+<li>
+<p>控制物体匀速移动或旋转</p>
+<p>每秒移动多少米</p>
+<p>每秒旋转多少度</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 每秒移动speed米</span><br><span class="line">transform.Translate(Vector3.right* Time.deltaTime * speed);</span><br></pre></td></tr></table></figure>
+<p><strong>Time.timeScale</strong></p>
+<ul>
+<li>
+<p>时间流逝的快慢</p>
+<p>1：时间 正常<br />
+2：表示时间流逝加快，是正常的 2 倍<br />
+0：时间停止，游戏暂停</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if(Input.GetKeyDown(KeyCode.Q)) &#123;</span><br><span class="line">	Time.timeScale &#x3D; 10;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if(Input.GetKeyDown(KeyCode.P)) &#123;</span><br><span class="line">	Time.timeScale &#x3D; 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="26-游戏物体的实例化和销毁"><a class="markdownIt-Anchor" href="#26-游戏物体的实例化和销毁"></a> 2.6 游戏物体的实例化和销毁</h3>
+<h4 id="261-预制体"><a class="markdownIt-Anchor" href="#261-预制体"></a> 2.6.1 预制体</h4>
+<p><strong>|预制体|</strong>：Prefab，预先准备好的物体 可以被重复使用，是 Unity 中很 重要的资源 类型</p>
+<p><strong>创建</strong></p>
+<p>手动创建：从 Hierachy 面板用鼠标拖动游戏物体到 Asserts 资源文件<br />
+夹中</p>
+<p>脚本动态创建：<br />
+Instantiate(Prefabs, transform.position transform.rotation )</p>
+<p><strong>基本操作</strong></p>
+<ul>
+<li>
+<p>Select 查找 Hierachy 面板 中预制体实例对象在 Asserts 资源中的位置</p>
+</li>
+<li>
+<p>Revert ：丢弃对当前预制体实例对象所做的修改，重置到跟预制体原型一致的状态</p>
+</li>
+<li>
+<p>Apply ：将对当前预制体实例对象所做的修改应用到其他预制体实例对象上</p>
+</li>
+</ul>
+<p><strong>特点</strong></p>
+<ul>
+<li>
+<p>所有的 Prefab 实例都是 Prefab 原型的 克隆，通过脚本实例化生<br />
+成的对象会有 Clone 的标记</p>
+</li>
+<li>
+<p>只要 Prefab 原型发生改变，所有的 Prefab 实例都会发生变化</p>
+</li>
+</ul>
+<h4 id="262-创建游戏物体"><a class="markdownIt-Anchor" href="#262-创建游戏物体"></a> 2.6.2 创建游戏物体</h4>
+<ul>
+<li>
+<p>GameObject go = new GameObject (“Go&quot;);</p>
+</li>
+<li>
+<p>GameObject.CreatePrimitive(PrimitiveType.Cube);</p>
+</li>
+<li>
+<p>通过 Instantiate 方法实例化创建游戏对象</p>
+<ul>
+<li>克隆预制体(prefab)</li>
+<li>克隆普通的游戏对象</li>
+</ul>
+<p>Instantiate(Prefabs, transform.position , transform.rotation);</p>
+</li>
+</ul>
+<h4 id="263-游戏物体的销毁"><a class="markdownIt-Anchor" href="#263-游戏物体的销毁"></a> 2.6.3 游戏物体的销毁</h4>
+<ul>
+<li>
+<p>GameObject.Destroy(Object);</p>
+</li>
+<li>
+<p>GameObject.Destroy(Object, float);    // 延迟销毁</p>
+</li>
+</ul>
+<p>销毁游戏物体时将销毁该物体所有的组件和子物体。</p>
+<h3 id="27-游戏物体的访问和控制"><a class="markdownIt-Anchor" href="#27-游戏物体的访问和控制"></a> 2.7 游戏物体的访问和控制</h3>
+<h4 id="271-查找游戏物体的方法"><a class="markdownIt-Anchor" href="#271-查找游戏物体的方法"></a> 2.7.1 查找游戏物体的方法</h4>
+<ol>
+<li>GameObject.Find(“Cube”);     // 根据游戏物体的名称全局查找)</li>
+<li>transform.Find(“G1/G11”);    // 在当前对象的子物体中查找，参数必须指明具体的查找路径</li>
+<li>GameObject.Find(“Cube”).transform.GetChild(0));     // 通过父物体查找子物体</li>
+<li>通过 tag 标签查找：</li>
+</ol>
+<ul>
+<li>GameObject.FindWithTag(“Player”);     // 查找一个物体</li>
+<li>GameObject.FindGameObjectWithTag(“Player&quot;);     // 查找一个物体</li>
+<li>GameObject.FindGameObjectsWithTag(“Player&quot;);     // 查找一批物体</li>
+</ul>
+<p><strong>若游戏物体未激活时(禁用)，方法 1 和 4 将查找不到，方法 2 和 3 可以查找到</strong></p>
+<h4 id="272-禁用和启用游戏物体"><a class="markdownIt-Anchor" href="#272-禁用和启用游戏物体"></a> 2.7.2 禁用和启用游戏物体</h4>
+<ul>
+<li>gameObject.SetActive(true/false);</li>
+</ul>
+<p><strong>访问游戏物体的激活状态</strong></p>
+<ul>
+<li>gameObject.activeSelf				// 取决于自身是否被禁用</li>
+<li>gameObject.activeInHierarchy  // 物体自身及所有祖先物体是否被禁用</li>
+</ul>
+<h3 id="28-组件的访问和控制"><a class="markdownIt-Anchor" href="#28-组件的访问和控制"></a> 2.8 组件的访问和控制</h3>
+<h4 id="281-获取组件"><a class="markdownIt-Anchor" href="#281-获取组件"></a> 2.8.1 获取组件</h4>
+<ul>
+<li>
+<p>获取当前游戏对象上的组件</p>
+<p>GetComponent&lt;BoxCollider&gt;();</p>
+</li>
+<li>
+<p>获取其他游戏对象的组件(先定义public gameObject)</p>
+<p>other.GetComponent&lt;Transform&gt;();</p>
+</li>
+<li>
+<p>获取所有子物体的某种组件</p>
+<p>GetComponentsInChildren&lt;Collider&gt;();</p>
+</li>
+<li>
+<p>获取所有父物体的某种组件</p>
+<p>GetComponentsInParent&lt;Collider &gt;();</p>
+</li>
+</ul>
+<h4 id="282-组件的添加和删除"><a class="markdownIt-Anchor" href="#282-组件的添加和删除"></a> 2.8.2 组件的添加和删除</h4>
+<ul>
+<li>
+<p>启用当前游戏物体上的某个组件</p>
+<p>GetComponent&lt;BoxCollider &gt;().enabled = true</p>
+</li>
+<li>
+<p>启用其他游戏物体上的某个组件(先定义public gameObject)</p>
+<p>other.GetComponent&lt;BoxCollider &gt;().enabled = true</p>
+</li>
+</ul>
+<h3 id="29-游戏物体的移动和旋转"><a class="markdownIt-Anchor" href="#29-游戏物体的移动和旋转"></a> 2.9 游戏物体的移动和旋转</h3>
+<h4 id="291-物体移动方法"><a class="markdownIt-Anchor" href="#291-物体移动方法"></a> 2.9.1 物体移动方法</h4>
+<ul>
+<li>
+<p>transform.Translate();</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transform.Translate(Vector3.right * Time.deltaTime * 2, Space.World);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Vector3.Lerp(), 先快后慢;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transform.position &#x3D; Vector3.Lerp(transform.position, target, Time.deltaTime);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>Vector3.MoveToward(), 匀速;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transform.position &#x3D; Vector3.MoveTowards(transform.position, target, Time.deltaTime);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>控制物体移动</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">float h &#x3D; Input.GetAxis(&quot;Horizontal&quot;);</span><br><span class="line">float v &#x3D; Input.GetAxis(&quot;Vertical&quot;);</span><br><span class="line">transform.Translate(Vector3.right * h * Time.deltaTime);</span><br><span class="line">transform.Translate(Vector3.forward * v * Time.deltaTime);</span><br></pre></td></tr></table></figure>
+<h4 id="292-物体旋转方法"><a class="markdownIt-Anchor" href="#292-物体旋转方法"></a> 2.9.2 物体旋转方法</h4>
+<ul>
+<li>
+<p>第一种方法：使用transform.Rotate方法</p>
+<p>transform.Rotate(), 参数是欧拉角</p>
+</li>
+<li>
+<p>第二种方法：使用四元数的乘法，实现当按下R键的时候让物体在当前角度的基础上沿Y轴旋转5度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Quaternion q1 &#x3D;  transform.rotation;</span><br><span class="line">Quaternion q2 &#x3D; Quaternion.Euler(0, 5 ,0);</span><br><span class="line">if(Input.GetKeyDown(KeyCode.R)) &#123;</span><br><span class="line">    transform.rotation &#x3D;  q1 * q2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="210-invoke方法"><a class="markdownIt-Anchor" href="#210-invoke方法"></a> 2.10 Invoke方法</h3>
+<ul>
+<li>
+<p>调用函数，多少秒后执行某个函数</p>
+<p>Invoke(string, float);</p>
+</li>
+<li>
+<p>重复调用函数，多少秒后执行某个函数，并且每隔多少秒都会执行一次</p>
+<p>InvokeRepeating(string, float, float);</p>
+</li>
+<li>
+<p>取消脚本中所有的Invoke调用</p>
+<p>CancelInvoke();</p>
+</li>
+<li>
+<p>取消某个函数的Invoke调用</p>
+<p>CancelInvoke(“函数名”);</p>
+</li>
+<li>
+<p>判断某个函数是否在等候调用</p>
+<p>IsInvoking(string);</p>
+</li>
+</ul>
+<h3 id="211-协程"><a class="markdownIt-Anchor" href="#211-协程"></a> 2.11 协程</h3>
+<p><strong>|协程|</strong>：协同程序，即主程序在运行的同时开启另外一段处理逻辑。调用协程方法可以不用等这个方法执行完就继续向下执行。</p>
+<h4 id="2111-协程的定义"><a class="markdownIt-Anchor" href="#2111-协程的定义"></a> 2.11.1 协程的定义</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">IEnumerator Task() &#123;</span><br><span class="line">	yield return new WaitForSeconds(2f); &#x2F;&#x2F; 等待2s后继续执行下面语句</span><br><span class="line">    Debug.Log(&quot;Test&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回值为IEnumerator，使用yield语句可以暂停协程的执行，yield return的返回值决定了什么时候恢复协程的执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yield return null;&#x2F;&#x2F; 暂停，下一帧继续</span><br><span class="line">yield return new WaitForSeconds(2f);&#x2F;&#x2F; 暂停2s	</span><br><span class="line">yield return StartCoroutine(&quot;Other&quot;);&#x2F;&#x2F; 暂停当前协程，开启协程Ohter</span><br><span class="line">yield new WaitForFixedUpdate();&#x2F;&#x2F; 暂停，下一次FixedUpdate继续</span><br></pre></td></tr></table></figure>
+<h4 id="2112-协程的开启和关闭"><a class="markdownIt-Anchor" href="#2112-协程的开启和关闭"></a> 2.11.2 协程的开启和关闭</h4>
+<p><strong>两种开启与关闭的方法</strong></p>
+<ul>
+<li>
+<p>参数为协程方法名</p>
+<p>StartCoroutine (string methodName);</p>
+<p>StopCoroutine (string methodName);</p>
+</li>
+<li>
+<p>参数为IEnumerator类型</p>
+<p>StartCoroutine(IEnumerator routine);</p>
+<p>StopCoroutine(IEnumerator routine);</p>
+</li>
+<li>
+<p>停止当前脚本所有协程</p>
+<p>StopAllCoroutines();</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void Start() &#123;</span><br><span class="line">    StartCoroutine (&quot;TestCoroutine&quot;);</span><br><span class="line">    StartCoroutine (TestCoroutine());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>**PS：**开启协程和停止协程的方式必须保持一致</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/" rel="next" title="第三章 关系模型">
+                  <i class="fa fa-chevron-left"></i> 第三章 关系模型
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/04/09/C_/%E7%AC%AC8%E7%AB%A0/" rel="prev" title="第8章 绘图及图像">
+                  第8章 绘图及图像 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#unity脚本开发"><span class="nav-text"> Unity脚本开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#21-脚本的创建与运行"><span class="nav-text"> 2.1 脚本的创建与运行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#211-脚本注意事项"><span class="nav-text"> 2.1.1 脚本注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-脚本的生命周期"><span class="nav-text"> 2.2 脚本的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#221-常用生命周期事件"><span class="nav-text"> 2.2.1 常用生命周期事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-向量"><span class="nav-text"> 2.3 向量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#231-二维向量vector2"><span class="nav-text"> 2.3.1 二维向量(Vector2)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#232-三维向量vector3"><span class="nav-text"> 2.3.2 三维向量(Vector3)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-输入按键控制"><span class="nav-text"> 2.4 输入按键控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#241-获取按键方法"><span class="nav-text"> 2.4.1 获取按键方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#242-获取鼠标事件"><span class="nav-text"> 2.4.2 获取鼠标事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#243-获取按钮输入"><span class="nav-text"> 2.4.3 获取按钮输入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#244-获取虚拟轴的值"><span class="nav-text"> 2.4.4 获取虚拟轴的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#245-鼠标按键行为"><span class="nav-text"> 2.4.5 鼠标按键行为</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-时间控制"><span class="nav-text"> 2.5 时间控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#251-应用示例"><span class="nav-text"> 2.5.1 应用示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-游戏物体的实例化和销毁"><span class="nav-text"> 2.6 游戏物体的实例化和销毁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#261-预制体"><span class="nav-text"> 2.6.1 预制体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#262-创建游戏物体"><span class="nav-text"> 2.6.2 创建游戏物体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#263-游戏物体的销毁"><span class="nav-text"> 2.6.3 游戏物体的销毁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-游戏物体的访问和控制"><span class="nav-text"> 2.7 游戏物体的访问和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#271-查找游戏物体的方法"><span class="nav-text"> 2.7.1 查找游戏物体的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#272-禁用和启用游戏物体"><span class="nav-text"> 2.7.2 禁用和启用游戏物体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-组件的访问和控制"><span class="nav-text"> 2.8 组件的访问和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#281-获取组件"><span class="nav-text"> 2.8.1 获取组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#282-组件的添加和删除"><span class="nav-text"> 2.8.2 组件的添加和删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-游戏物体的移动和旋转"><span class="nav-text"> 2.9 游戏物体的移动和旋转</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#291-物体移动方法"><span class="nav-text"> 2.9.1 物体移动方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#292-物体旋转方法"><span class="nav-text"> 2.9.2 物体旋转方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#210-invoke方法"><span class="nav-text"> 2.10 Invoke方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#211-协程"><span class="nav-text"> 2.11 协程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2111-协程的定义"><span class="nav-text"> 2.11.1 协程的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2112-协程的开启和关闭"><span class="nav-text"> 2.11.2 协程的开启和关闭</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

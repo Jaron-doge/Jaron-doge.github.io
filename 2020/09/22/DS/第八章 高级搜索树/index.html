@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="高级搜索树  伸展树(splay tree)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八章 高级搜索树">
+<meta property="og:url" content="http://yoursite.com/2020/09/22/DS/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E6%A0%91/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="高级搜索树  伸展树(splay tree)">
+<meta property="og:image" content="https://i.loli.net/2020/09/19/Be4tUCRzwpmSEfM.png">
+<meta property="og:image" content="d:%5Cstudy%5C%E7%BC%96%E7%A8%8B%5C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5Cnotes%5Cimages%5Cimage-20200920191030377.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/e3DAoCjkhNWHz6L.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/i9jeYJQbHSd8GLN.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/AewRLstB45P3ji8.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/VPTHR3Ga5ihZrdA.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/f2rgo8t4s1i7hvN.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/GUz4cfeS8FiAvNK.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/20/lbriztVP6EqvHRp.png">
+<meta property="article:published_time" content="2020-09-22T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-09-22T08:54:38.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/09/19/Be4tUCRzwpmSEfM.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/22/DS/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E6%A0%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第八章 高级搜索树 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/22/DS/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第八章 高级搜索树
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-22 20:30:15 / 修改时间：16:54:38" itemprop="dateCreated datePublished" datetime="2020-09-22T20:30:15+08:00">2020-09-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>11 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="高级搜索树"><a class="markdownIt-Anchor" href="#高级搜索树"></a> 高级搜索树</h2>
+<h3 id="伸展树splay-tree"><a class="markdownIt-Anchor" href="#伸展树splay-tree"></a> 伸展树(splay tree)</h3>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Splay</span> :</span> <span class="keyword">public</span> BST&lt;T&gt; &#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">  	BinNodePosi(T) splay(BinNodePosi(T) v);</span><br><span class="line"><span class="keyword">public</span>:		<span class="comment">// 伸展树的search也会引起整树的结构调整</span></span><br><span class="line">    BinNodePosi(T)&amp; search(<span class="keyword">const</span> T&amp; e);</span><br><span class="line">    BinNodePosi(T) insert(<span class="keyword">const</span> T&amp; e);</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> T&amp; e)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="伸展"><a class="markdownIt-Anchor" href="#伸展"></a> 伸展</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T)</span><br><span class="line">Splay&lt;T&gt;::splay(BinNodePosi(T) v) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!v) <span class="keyword">return</span> <span class="literal">NULL</span>; </span><br><span class="line">    BinNodePosi(T) p; BinNodePosi(T) g;</span><br><span class="line">    <span class="keyword">while</span>((p = v-&gt;parent) &amp;&amp; g = p-&gt;parent) &#123;</span><br><span class="line">        BinNodePosi(T) gg = g-&gt;parent;</span><br><span class="line">        <span class="keyword">if</span>(IsLChild(*v))</span><br><span class="line">            <span class="keyword">if</span>(IsLChild(*p)) &#123; 		<span class="comment">// zig-zig</span></span><br><span class="line">            	attachAsLChild(g, p-&gt;rc);</span><br><span class="line">                attachAsLChild(p, v-&gt;rc);</span><br><span class="line">                attachAsRChild(p, g);</span><br><span class="line">                attachAsRChild(v, p);</span><br><span class="line">            &#125;	</span><br><span class="line">        	<span class="keyword">else</span> &#123; &#125;				<span class="comment">// zag-zig</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(IsRChild(*p)) &#123; &#125;	<span class="comment">// zag-zag</span></span><br><span class="line">        <span class="keyword">else</span> &#123; &#125;					<span class="comment">// zig-zag</span></span><br><span class="line">        <span class="keyword">if</span>(!gg)					<span class="comment">// 若无曾祖父gg,则v现即为树根，</span></span><br><span class="line">            v-&gt;parent = <span class="literal">NULL</span>;	<span class="comment">// 否则，gg应以v为左或右孩子</span></span><br><span class="line">        <span class="keyword">else</span>(g == gg-&gt;lc) ? attachAsLChild(gg, v) : attachAsRChild(gg, v);</span><br><span class="line">        updateHeight(g); updateHeight(p); updateHeight(v);</span><br><span class="line">    &#125;	<span class="comment">// 双层伸展结束时，必有g == NULL,但p可能非空</span></span><br><span class="line">    <span class="keyword">if</span>(p = v-&gt;parent) &#123;	<span class="comment">// 若p为根，只需单旋一次</span></span><br><span class="line">		<span class="keyword">if</span>(IsLChild(*v)) &#123;</span><br><span class="line">            attachAsLChild(p, v-&gt;rChild);</span><br><span class="line">            attachAsRChild(v, p);        </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            attachAsRChild(p, v-&gt;lChild);</span><br><span class="line">            attachAsLChild(v, p);</span><br><span class="line">        &#125;</span><br><span class="line">        updateHeight(p); updateHeight(v);</span><br><span class="line">    &#125;</span><br><span class="line">    v-&gt;parent = <span class="literal">NULL</span>; <span class="keyword">return</span> v;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="查找"><a class="markdownIt-Anchor" href="#查找"></a> 查找</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T)&amp;</span><br><span class="line">Splay&lt;T&gt;::search(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) p = searchIn(_root, e, _hot = <span class="literal">NULL</span>);</span><br><span class="line">    _root = splay(p ? p : _hot);		<span class="comment">// 成功、失败</span></span><br><span class="line">    <span class="keyword">return</span> _root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入"><a class="markdownIt-Anchor" href="#插入"></a> 插入</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T)&amp;</span><br><span class="line">Splay&lt;T&gt;::search(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!_root) &#123;</span><br><span class="line">        _size++;</span><br><span class="line">        <span class="keyword">return</span> _root = <span class="keyword">new</span> BinNode&lt;T&gt; (e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(e == search(e)-&gt;data) <span class="keyword">return</span> _root;	<span class="comment">// 若存在</span></span><br><span class="line">    _size++; BinNodePosi(T) t = _root;</span><br><span class="line">    <span class="keyword">if</span>(_root-&gt;data &lt; e) &#123;<span class="comment">// 插入新根，以t和t-&gt;rChild为左、右孩子</span></span><br><span class="line">        t-&gt;parent = _root = <span class="keyword">new</span> BinNode&lt;T&gt;(e, <span class="literal">NULL</span>, t, </span><br><span class="line">                                           t-&gt;rChild);</span><br><span class="line">        <span class="keyword">if</span>(HasRChild(*t)) &#123;</span><br><span class="line">            t-&gt;rChild-&gt;parent = _root;</span><br><span class="line">            t-&gt;rChild = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;   </span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;			<span class="comment">// 插入新根，以t-&gt;lChild和t为左、右孩子</span></span><br><span class="line">            t-&gt;parent = _root = <span class="keyword">new</span> BinNode&lt;T&gt;(e, <span class="literal">NULL</span>, </span><br><span class="line">                                              t-&gt;lChild, t);</span><br><span class="line">        	<span class="keyword">if</span>(HasLChild(*t)) &#123;</span><br><span class="line">                t-&gt;lChild-&gt;parent = _root;</span><br><span class="line">               	t-&gt;lChild = <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">	updateHeightAbove(t);	<span class="comment">// 更新_root的高度</span></span><br><span class="line">    <span class="keyword">return</span> _root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除"><a class="markdownIt-Anchor" href="#删除"></a> 删除</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="keyword">bool</span> Splay&lt;T&gt;::<span class="built_in">remove</span>(<span class="keyword">const</span> T&amp; e)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!_root || (e != search(e)-&gt;data)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    BinNodePosi(T) w = _root;	<span class="comment">// 经search后节点已伸展至树根</span></span><br><span class="line">    <span class="keyword">if</span>(!HasLChild(*_root)) &#123;	<span class="comment">// 若无左子树，直接删除</span></span><br><span class="line">        _root = _root-&gt;rChild; <span class="keyword">if</span>(_root) _root-&gt;parent=<span class="literal">NULL</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(!HasRChild(*_root)) &#123;	<span class="comment">// 若无右子树，直接删除</span></span><br><span class="line">        _root = _root-&gt;lChild; <span class="keyword">if</span>(_root) _root-&gt;parent=<span class="literal">NULL</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;					<span class="comment">// 左右子树同时存在</span></span><br><span class="line">        BinNodePosi(T) lTree = _root-&gt;lChild;<span class="comment">//暂时切除左子树</span></span><br><span class="line">        lTree-&gt;parent = <span class="literal">NULL</span>; _root-&gt;lChild = <span class="literal">NULL</span>;</span><br><span class="line">        _root = _root-&gt;rChild; _root-&gt;parent = <span class="literal">NULL</span>;</span><br><span class="line">        search(w-&gt;data);	  <span class="comment">// 再做一次查找，返回大于e的最小值</span></span><br><span class="line">        _root-&gt;lChild = lTree; lTree-&gt;parent = _root;<span class="comment">//接回</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">release</span>(w-&gt;data); <span class="built_in">release</span>(w); _size--;		<span class="comment">// 释放节点</span></span><br><span class="line">    <span class="keyword">if</span>(_root) updateHeight(_root);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="b-树"><a class="markdownIt-Anchor" href="#b-树"></a> B-树</h3>
+<ul>
+<li>
+<p>每d代合并：m = 2^d路， m - 1个关键码</p>
+</li>
+<li>
+<p>充分利用外存对批量访问的高效支持，将此特点转化为优点，每下降一层，都以超级节点为单位，读入一组关键码</p>
+</li>
+<li>
+<p>m的大小视磁盘的数据块大小而定KB/4 = 200 ~ 300</p>
+</li>
+<li>
+<p><strong>树高h = 外部节点深度</strong></p>
+</li>
+<li>
+<p>内部节点的分支数n+1也不能太少</p>
+<ul>
+<li>树根：2 &lt;= n+1 &lt;= m</li>
+<li>其余： 「m / 2 ⌉ &lt;= n + 1 &lt;= m</li>
+</ul>
+</li>
+<li>
+<p>也称为(「m / 2 ⌉,  m)-树</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">tempalte &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">struct</span> <span class="title">BTNode</span> &#123;</span></span><br><span class="line">	BTNodePosi(T) parent;</span><br><span class="line">    <span class="built_in">vector</span>&lt;T&gt; key;</span><br><span class="line">    <span class="built_in">vector</span>&lt;BTNodePosi(T)&gt; child;</span><br><span class="line">    BTNode() &#123; parent = <span class="literal">NULL</span>; child.insert(<span class="number">0</span>, <span class="literal">NULL</span>); &#125;</span><br><span class="line">    BTNode(T e, BTNodePosi(T) lc = <span class="literal">NULL</span>, BTNodePosi(T) rc = 													<span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        parent = <span class="literal">NULL</span>;</span><br><span class="line">        key.insert(<span class="number">0</span>, e);</span><br><span class="line">        child.insert(<span class="number">0</span>, lc);</span><br><span class="line">        child.insert(<span class="number">1</span>, rc);</span><br><span class="line">        <span class="keyword">if</span>(lc) lc-&gt;parent = <span class="keyword">this</span>;</span><br><span class="line">        <span class="keyword">if</span>(rc) rc-&gt;parent = <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BTNodePosi(T) BTNode<span class="meta-string">&lt;T&gt;*</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">BTree</span> &#123;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">int</span> _size; <span class="keyword">int</span> _order; BTNodePosi(T) _root;<span class="comment">// 总数、阶次</span></span><br><span class="line">    BTNodePosi(T) _hot;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solveOverflow</span><span class="params">(BTNodePosi(T))</span></span>;<span class="comment">//因插入而上溢后的分裂处理</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solveUnderflow</span><span class="params">(BTNodePosi(T))</span></span>;<span class="comment">//因删除而下溢后的合并</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	BTNodePosi(T) search(<span class="keyword">const</span> T&amp; e);</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">insert</span><span class="params">(<span class="keyword">const</span> T&amp; e)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> T&amp; e)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="查找-2"><a class="markdownIt-Anchor" href="#查找-2"></a> 查找</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line">BTNodePosi(T) BTree&lt;T&gt;::search(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BTNodePosi(T) v = _root; _hot = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">while</span>(v) &#123;</span><br><span class="line">        <span class="keyword">int</span> r = v-&gt;key.search(e);</span><br><span class="line">        <span class="keyword">if</span>(<span class="number">0</span> &lt;= r &amp;&amp; e == v-&gt;key[r]) <span class="keyword">return</span> v;</span><br><span class="line">        _hot = v; v = v-&gt;child[r + <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入-2"><a class="markdownIt-Anchor" href="#插入-2"></a> 插入</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> BTree&lt;T&gt;::insert(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BTNodePosi(T) v = search(e);</span><br><span class="line">    <span class="keyword">if</span>(v) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = _hot-&gt;key.search(e);</span><br><span class="line">    _hot-&gt;key.insert(r + <span class="number">1</span>, e);</span><br><span class="line">    _hot-&gt;child.insert(r + <span class="number">2</span>, <span class="literal">NULL</span>);</span><br><span class="line">    _size++; solveOverflow(_hot);	<span class="comment">// 如发生上溢，需做分裂</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="分裂"><a class="markdownIt-Anchor" href="#分裂"></a> 分裂</h4>
+<p>​		取关键码中位数k<sub>s</sub>，k<sub>s</sub>上升一层，并分裂，以所得的两个节点作为左、右孩子</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">tempalte &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> BTree&lt;T&gt;::solveOverflow(BTNodePosi(T) v) &#123;</span><br><span class="line">	<span class="keyword">if</span>(_order &gt;= v-&gt;child.<span class="built_in">size</span>()) <span class="keyword">return</span>;	<span class="comment">// 递归基</span></span><br><span class="line">    <span class="keyword">int</span> s = _order / <span class="number">2</span>;</span><br><span class="line">    BTNodePosi(T) u = <span class="keyword">new</span> BTNode&lt;T&gt;();		<span class="comment">// 新节点有个空孩子</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; _order - s - <span class="number">1</span>; j++) &#123;	<span class="comment">// 右侧孩子</span></span><br><span class="line">        u-&gt;child.insert(j, v-&gt;child.<span class="built_in">remove</span>(s + <span class="number">1</span>));<span class="comment">// u的也没</span></span><br><span class="line">        u-&gt;key.insert(j, v-&gt;key.<span class="built_in">remove</span>(s + <span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    u-&gt;child[_order - s - <span class="number">1</span>] = v-&gt;child.<span class="built_in">remove</span>(s + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(u-&gt;child[<span class="number">0</span>])							<span class="comment">// 若u孩子非空</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; _order - s; j++)	<span class="comment">// 将父节点统一</span></span><br><span class="line">            u-&gt;child[j]-&gt;parent = u;</span><br><span class="line">    BTNodePosi(T) p = v-&gt;parent;</span><br><span class="line">    <span class="keyword">if</span>(!P) &#123;								<span class="comment">// p为空则创建</span></span><br><span class="line">        _root = p = newBTNode&lt;T&gt;();</span><br><span class="line">        p-&gt;child[<span class="number">0</span>] = v;</span><br><span class="line">        v-&gt;parent = p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> r = <span class="number">1</span> + p-&gt;key.search(v-&gt;key[<span class="number">0</span>]); <span class="comment">// p中指向u的指针的秩</span></span><br><span class="line">    p-&gt;key.insert(r, v-&gt;key.<span class="built_in">remove</span>(s));	  <span class="comment">// 轴点关键码上升</span></span><br><span class="line">    p-&gt;child.insert(r + <span class="number">1</span>, u); u-&gt;parent = p;	<span class="comment">// 互联</span></span><br><span class="line">    solveOverflow(p);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除-2"><a class="markdownIt-Anchor" href="#删除-2"></a> 删除</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">bool</span> BTree&lt;T&gt;::insert(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BTNodePosi(T) v = search(e);</span><br><span class="line">    <span class="keyword">if</span>(v) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">int</span> r = v-&gt;key.search(e);</span><br><span class="line">    <span class="keyword">if</span>(v-&gt;child[<span class="number">0</span>]) &#123;					<span class="comment">// 若v非叶子</span></span><br><span class="line">        BTNodePosi(T) u = v-&gt;child[r + <span class="number">1</span>];	<span class="comment">// 在右子树中向左</span></span><br><span class="line">        <span class="keyword">while</span>(u-&gt;child[<span class="number">0</span>]) u = u-&gt;child[<span class="number">0</span>];	<span class="comment">// 找到e的后继</span></span><br><span class="line">        v-&gt;key[r] = u-&gt;key[<span class="number">0</span>]; v = u; r = <span class="number">0</span>;<span class="comment">// 互换位置</span></span><br><span class="line">    &#125;	<span class="comment">// 至此,v必然位于最底层，且其中第r个关键码就是待删除者			v-&gt;key.remove(r); v-&gt;child.remove(r + 1); _size--;</span></span><br><span class="line">    solveUnderflow(v);				<span class="comment">// 如有必要，需做旋转或合并</span></span><br><span class="line">    <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="旋转"><a class="markdownIt-Anchor" href="#旋转"></a> 旋转</h4>
+<ul>
+<li>左或右兄弟关键码 ≥ ⌈m / 2⌉</li>
+</ul>
+<h4 id="合并"><a class="markdownIt-Anchor" href="#合并"></a> 合并</h4>
+<ul>
+<li>左或右兄弟关键码 = ⌈m / 2 - 1⌉</li>
+</ul>
+<p><img src="https://i.loli.net/2020/09/19/Be4tUCRzwpmSEfM.png" alt="image-20200919194411160.png" /></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> BTree&lt;T&gt;::solveUnderflow(BTNodePosi(T) v) &#123;</span><br><span class="line">    <span class="keyword">if</span>((_order + <span class="number">1</span>) / <span class="number">2</span> &lt;= v-&gt;child.<span class="built_in">size</span>()) <span class="keyword">return</span>;<span class="comment">// 递归基</span></span><br><span class="line">    BTNodePosi(T) p = v-&gt;parent;</span><br><span class="line">    <span class="keyword">if</span>(!p) &#123;							<span class="comment">// 递归基：已到根节点</span></span><br><span class="line">        <span class="keyword">if</span>(!v-&gt;key.<span class="built_in">size</span>() &amp;&amp; v-&gt;child[<span class="number">0</span>]) &#123;</span><br><span class="line">            <span class="comment">// 倘若v不含关键码，却有非空孩子</span></span><br><span class="line">            _root = v-&gt;child[<span class="number">0</span>];</span><br><span class="line">            _root-&gt;panret = <span class="literal">NULL</span>;</span><br><span class="line">            v-&gt;child[<span class="number">0</span>] = <span class="literal">NULL</span>; <span class="built_in">release</span>(v);			<span class="comment">// 删除</span></span><br><span class="line">        &#125;	<span class="comment">// 整树高度降低一层</span></span><br><span class="line">        <span class="keyword">return</span>;        </span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">int</span> r = <span class="number">0</span>; <span class="keyword">while</span>(p-&gt;child[r] != v) r++;</span><br><span class="line">    <span class="comment">// 确定v是p的第r个孩子</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 情况1：向左兄弟借关键码</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="number">0</span> &lt; r) &#123;	<span class="comment">// 若v不是p的第一个孩子，则</span></span><br><span class="line">        BTNodePosi(T) ls = p-&gt;child[r - <span class="number">1</span>];	   <span class="comment">// 左兄弟必存在</span></span><br><span class="line">        <span class="keyword">if</span>((_order + <span class="number">1</span>) / <span class="number">2</span> &lt; ls-&gt;child.<span class="built_in">size</span>()) &#123;	<span class="comment">// 足够胖</span></span><br><span class="line">            v-&gt;key.insert(<span class="number">0</span>, p-&gt;key[r - <span class="number">1</span>]);	<span class="comment">// p借给v</span></span><br><span class="line">            <span class="comment">// ls的最大关键码转入p</span></span><br><span class="line">            p-&gt;key[r - <span class="number">1</span>]=ls-&gt;key.<span class="built_in">remove</span>(ls-&gt;key.<span class="built_in">size</span>()<span class="number">-1</span>);</span><br><span class="line">        	v-&gt;child.insert(<span class="number">0</span>, ls-&gt;child.<span class="built_in">remove</span>(</span><br><span class="line">                ls-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>));		<span class="comment">// ls最右侧孩子给v</span></span><br><span class="line">        	<span class="keyword">if</span>(v-&gt;child[<span class="number">0</span>])</span><br><span class="line">                v-&gt;child[<span class="number">0</span>]-&gt;parent = v;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="comment">// 至此，左兄弟要么为空，要么太“瘦”</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 情况2：向右兄弟借关键码</span></span><br><span class="line">	<span class="keyword">if</span>(p-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span> &gt; r) &#123;	<span class="comment">// 若v不是p最后一个孩子</span></span><br><span class="line">        BTNodePosi(T) rs = p-&gt;child.<span class="built_in">size</span>();	<span class="comment">// 右兄弟必存在</span></span><br><span class="line">    	<span class="keyword">if</span>((_order + <span class="number">1</span>) / <span class="number">2</span> &lt; rs-&gt;child.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            v-&gt;key.insert(v-&gt;key.<span class="built_in">size</span>(), p-&gt;key[r]);</span><br><span class="line">            p-&gt;key[r] = rs-&gt;key.<span class="built_in">remove</span>(<span class="number">0</span>);</span><br><span class="line">            v-&gt;child.insert(v-&gt;child.<span class="built_in">size</span>(), </span><br><span class="line">                            rs-&gt;child.<span class="built_in">remove</span>(<span class="number">0</span>));</span><br><span class="line">            <span class="keyword">if</span>(v-&gt;child[v-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>])</span><br><span class="line">                v-&gt;child[v-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;parent = v;</span><br><span class="line">            <span class="keyword">return</span>;            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 情况3：左、右兄弟都太“瘦”，需要合并</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="number">0</span> &lt; r) &#123;	<span class="comment">// 与左兄弟合并</span></span><br><span class="line">        BTNodePosi(T) ls = p-&gt;child[r - <span class="number">1</span>];	<span class="comment">// 左兄弟必存在</span></span><br><span class="line">    	ls-&gt;key.insert(ls-&gt;key.<span class="built_in">size</span>(), p-&gt;key.<span class="built_in">remove</span>(r<span class="number">-1</span>));</span><br><span class="line">        p-&gt;child.<span class="built_in">remove</span>(r);		<span class="comment">// p的第r-1个关键码转入ls</span></span><br><span class="line">        <span class="comment">// v的最左侧孩子过继给ls做最右侧孩子</span></span><br><span class="line">        ls-&gt;child.insert(ls-&gt;child.<span class="built_in">size</span>(), </span><br><span class="line">                         v-&gt;child.<span class="built_in">remove</span>(<span class="number">0</span>));</span><br><span class="line">        <span class="keyword">if</span>(ls-&gt;child[ls-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>])</span><br><span class="line">            ls-&gt;child[ls-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;parent = ls;</span><br><span class="line">        <span class="keyword">while</span>(!v-&gt;key.empty()) &#123;	<span class="comment">// v剩余的关键码和孩子入ls</span></span><br><span class="line">            ls.key.insert(ls-&gt;key.<span class="built_in">size</span>(), v-&gt;key.<span class="built_in">remove</span>(<span class="number">0</span>));</span><br><span class="line">            ls-&gt;child.insert(ls-&gt;child.<span class="built_in">size</span>(), </span><br><span class="line">                             v-&gt;child.<span class="built_in">remove</span>(<span class="number">0</span>));</span><br><span class="line">            <span class="keyword">if</span>(ls-&gt;child[ls-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>])</span><br><span class="line">                ls-&gt;child[ls-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>]-&gt;parent=ls;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">release</span>(v);					<span class="comment">//释放v</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;	<span class="comment">// 与右兄弟合并</span></span><br><span class="line">    	BTNodePosi(T) rs = p-&gt;child[r + <span class="number">1</span>];	<span class="comment">//右兄弟必存在</span></span><br><span class="line">        rs-&gt;key.insert(<span class="number">0</span>, p-&gt;key.<span class="built_in">remove</span>(r)); </span><br><span class="line">        					p-&gt;childremove(r);</span><br><span class="line">        rs-&gt;child.insert(<span class="number">0</span>, v-&gt;child.<span class="built_in">remove</span>(</span><br><span class="line">            				v-&gt;child.<span class="built_in">size</span>()<span class="number">-1</span>));</span><br><span class="line">        <span class="keyword">if</span>(rs-&gt;child[<span class="number">0</span>]) </span><br><span class="line">            rs-&gt;child[<span class="number">0</span>]-&gt;parent = rs;</span><br><span class="line">        <span class="keyword">while</span>(!v-&gt;key.empty()) &#123;</span><br><span class="line">            rs-&gt;key.insert(<span class="number">0</span>, v-&gt;key.<span class="built_in">remove</span>(</span><br><span class="line">                				v-&gt;key.<span class="built_in">size</span>() - <span class="number">1</span>));</span><br><span class="line">            rs-&gt;child.insert(<span class="number">0</span>, v-&gt;child.<span class="built_in">remove</span>(</span><br><span class="line">                                v-&gt;child.<span class="built_in">size</span>() - <span class="number">1</span>));</span><br><span class="line">            <span class="keyword">if</span>(rs-&gt;child[<span class="number">0</span>])</span><br><span class="line">                rs-&gt;child[<span class="number">0</span>]-&gt;parent = rs;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">release</span>(v);    </span><br><span class="line">    &#125;</span><br><span class="line">    solveUnderflow(p);		<span class="comment">// 上升一层</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="红黑树"><a class="markdownIt-Anchor" href="#红黑树"></a> 红黑树</h3>
+<ul>
+<li>支持对历史版本的访问</li>
+<li>任何一次动态操作引发的结构变化量不超过O(1)</li>
+<li>红黑树与4阶B数相同</li>
+</ul>
+<h4 id="定义规则"><a class="markdownIt-Anchor" href="#定义规则"></a> 定义规则</h4>
+<ul>
+<li>树根：黑色</li>
+<li>外部节点：均为黑色</li>
+<li>其余节点：若为红，则只能有黑孩子</li>
+<li>外部节点到根：黑节点数目相等</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; <span class="class"><span class="keyword">class</span> <span class="title">RedBlack</span> :</span> <span class="keyword">public</span> BST&lt;T&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// search()继承</span></span><br><span class="line">    BinNodePosi(T) insert(<span class="keyword">const</span> T&amp; e);</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">(<span class="keyword">const</span> T&amp; e)</span></span>;</span><br><span class="line"><span class="keyword">protected</span>: </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solveDoubleRed</span><span class="params">(BinNodePosi(T) x)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">solveDoubleBlack</span><span class="params">(BinNodePosi(T) x)</span></span>;	</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">updateHeight</span><span class="params">(BinNodePosi(T) x)</span></span>;		<span class="comment">// 黑高度</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="keyword">int</span> RedBlack&lt;T&gt;::updateHeight(BinNodePosi(T) x) &#123;</span><br><span class="line">    x-&gt;<span class="built_in">height</span> = <span class="built_in">max</span>(stature(x-&gt;lc), stature(x-&gt;rc));</span><br><span class="line">    <span class="keyword">if</span>(IsBlack(x)) x-&gt;<span class="built_in">height</span>++; <span class="keyword">return</span> x-&gt;<span class="built_in">height</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="插入-3"><a class="markdownIt-Anchor" href="#插入-3"></a> 插入</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) </span><br><span class="line">RedBlack&lt;T&gt;::insert(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BinNodePosi(T) &amp; x = search(e);		</span><br><span class="line">    <span class="keyword">if</span>(x) <span class="keyword">return</span> x;					<span class="comment">// 假设不存在</span></span><br><span class="line">    x = <span class="keyword">new</span> BinNode&lt;T&gt;(e, _hot, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="number">-1</span>); _size++;</span><br><span class="line">    solveDoubleRed(x);</span><br><span class="line">    <span class="keyword">return</span> x ? x : _hot-&gt;parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双红缺陷"><a class="markdownIt-Anchor" href="#双红缺陷"></a> 双红缺陷</h4>
+<p><img src="D:%5Cstudy%5C%E7%BC%96%E7%A8%8B%5C%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%5Cnotes%5Cimages%5Cimage-20200920191030377.png" alt="image-20200920191030377" /></p>
+<p><img src="https://i.loli.net/2020/09/20/e3DAoCjkhNWHz6L.png" alt="image-20200920190926947" /></p>
+<p><img src="https://i.loli.net/2020/09/20/i9jeYJQbHSd8GLN.png" alt="image-20200920191511955.png" /></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">RedBlack::solveDoubleRed</span><span class="params">(BinNodePosi(T) x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(IsRoot(*x))	<span class="comment">// 若递归至树根，则将其转黑，整树黑高度增加</span></span><br><span class="line">    &#123; _root-&gt;color = RB_BLACK; +root-&gt;<span class="built_in">height</span>++; <span class="keyword">return</span>; &#125;</span><br><span class="line">    BinNodePosi(T) p = x-&gt;parent; <span class="keyword">if</span>(IsBlack(p)) <span class="keyword">return</span>;</span><br><span class="line">    BinNodePosi(T) g = p-&gt;parent;	<span class="comment">// p为红，g为黑</span></span><br><span class="line">    BinNodePosi(T) u = uncle(x);	<span class="comment">// 以下，视u颜色分别处理</span></span><br><span class="line">    <span class="keyword">if</span>(IsBlack(u)) &#123;	<span class="comment">// u为黑色</span></span><br><span class="line">        <span class="keyword">if</span>(IsLChild(*x) == IsLChild(*p)) </span><br><span class="line">            p-&gt;color = RB_BLACK;</span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            x-&gt;color = RB_BLACK;</span><br><span class="line">        g-&gt;color = RB_RED;</span><br><span class="line">        BinNodePosi(T) gg = g-&gt;parent;</span><br><span class="line">        BinNodePosi(T) r= FromParentTo(*g) = rotateAt(x);</span><br><span class="line">        r-&gt;parent = g;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;			<span class="comment">// u为红色</span></span><br><span class="line">        p-&gt;color = RB_BLACK; p-&gt;<span class="built_in">height</span>++;	<span class="comment">// p、u转黑</span></span><br><span class="line">        u-&gt;color = RB_BLACK; u-&gt;<span class="built_in">height</span>++;	<span class="comment">// g非根转红</span></span><br><span class="line">        <span class="keyword">if</span>(!(IsRoot(*g)) g-&gt;color = RB_RED;</span><br><span class="line">           solveDoubleRed(g);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="删除-3"><a class="markdownIt-Anchor" href="#删除-3"></a> 删除</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; BinNodePosi(T) </span><br><span class="line">RedBlack&lt;T&gt;::<span class="built_in">remove</span>(<span class="keyword">const</span> T&amp; e) &#123;</span><br><span class="line">    BinNodePosi(T)&amp; x = search(e);</span><br><span class="line">    <span class="keyword">if</span>(!x) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    BinNodePosi(T) r = removeAt(x, _hot);</span><br><span class="line">    <span class="keyword">if</span>(<span class="number">0</span> &gt;= --_size) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(!_hot)	<span class="comment">// 如果被删除的是根节点，置黑并更新黑高度</span></span><br><span class="line">    &#123; _root-&gt;color = RB_BLACK; updateHeight(_root); </span><br><span class="line">     <span class="keyword">return</span> <span class="literal">true</span>; &#125;</span><br><span class="line">    <span class="keyword">if</span>(BlackHeightUpdated(*(_hot))) <span class="comment">// 若祖先黑深度平衡</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(IsRed(r))		<span class="comment">// 若r为红，转黑</span></span><br><span class="line">    &#123; r-&gt;color = RB_BLACK; r-&gt;<span class="built_in">height</span>++; <span class="keyword">return</span> <span class="literal">true</span>; &#125;</span><br><span class="line">    soloveDoubleBlack(r); <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="双黑缺陷"><a class="markdownIt-Anchor" href="#双黑缺陷"></a> 双黑缺陷</h4>
+<p><img src="https://i.loli.net/2020/09/20/AewRLstB45P3ji8.png" alt="image-20200920193316876" /></p>
+<p><img src="https://i.loli.net/2020/09/20/VPTHR3Ga5ihZrdA.png" alt="image-20200920193246521" /></p>
+<p><img src="https://i.loli.net/2020/09/20/f2rgo8t4s1i7hvN.png" alt="image-20200920193333324" /></p>
+<p><img src="https://i.loli.net/2020/09/20/GUz4cfeS8FiAvNK.png" alt="image-20200920193631842.png" /></p>
+<p><img src="https://i.loli.net/2020/09/20/lbriztVP6EqvHRp.png" alt="image-20200920193958612.png" /></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt; </span><br><span class="line"><span class="keyword">void</span> RedBlack&lt;T&gt;::solveDoubleBlack(BinNodePosi(T) r) &#123;</span><br><span class="line">    BinNodePosi(T) p = r ? r-&gt;parent : _hot; </span><br><span class="line">    <span class="keyword">if</span>(!p) <span class="keyword">return</span>;			<span class="comment">// r的父亲</span></span><br><span class="line">    BinNodePosi(T) s = (r == p-&gt;lChild) ? p-&gt;rChild </span><br><span class="line">        							: p-&gt;lChild; <span class="comment">// r的兄弟</span></span><br><span class="line">    <span class="keyword">if</span>(IsBlack(s)) &#123;		<span class="comment">// s为黑</span></span><br><span class="line">        BinNodePosi(T) t = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span>(HasLChild(*s) &amp;&amp; IsRed(s-&gt;lChild)) t=s-&gt;lChild;</span><br><span class="line">   <span class="keyword">else</span> <span class="keyword">if</span>(HasRChild(*s) &amp;&amp; IsRed(s-&gt;rChild)) t=s-&gt;rChild;</span><br><span class="line">    <span class="keyword">if</span>(t) &#123;</span><br><span class="line">        RBColor oldColor = p-&gt;color;</span><br><span class="line">        <span class="comment">// 重平衡，并将新子树的左、右孩子染黑</span></span><br><span class="line">        BinNodePosi(T) b = FromParentTo(*p) = rotateAt(t);</span><br><span class="line">    	<span class="keyword">if</span>(HasLChild(*b)) b-&gt;lChild-&gt;color = RB_BLACK;</span><br><span class="line">        updateHeight(b-&gt;lChild);</span><br><span class="line">        <span class="keyword">if</span>(HasRChild(*b)) b-&gt;rChild-&gt;color = RB_BLACK;</span><br><span class="line">        updateHeight(b-&gt;rChild);</span><br><span class="line">        b-&gt;color = oldColor; updateHeight(b);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;	<span class="comment">// 黑s无红孩子</span></span><br><span class="line">        s-&gt;color = RB_RED; s-&gt;<span class="built_in">height</span>--;	<span class="comment">// s转红</span></span><br><span class="line">        <span class="keyword">if</span>(IsRed(p)) &#123;		<span class="comment">// BB-2R</span></span><br><span class="line">            p-&gt;color = RB_BLACK;<span class="comment">// p转黑，但黑高度不变</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;			<span class="comment">// BB-2B</span></span><br><span class="line">            p-&gt;<span class="built_in">height</span>--;		<span class="comment">// p保持黑，但黑高度下降</span></span><br><span class="line">            solveDoubleBlack(p);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;	<span class="comment">// 兄弟s为红：BB-3</span></span><br><span class="line">        s-&gt;color = RB_BLACK; p-&gt;color = RB_RED;	<span class="comment">// s红p黑</span></span><br><span class="line">        BinNodePosi(T) t = IsLChild(*s) ? s-&gt;lChild</span><br><span class="line">            		: s-&gt;rChild;		   <span class="comment">// 取t与其父s同侧</span></span><br><span class="line">        _hot = p; FromParentTo(*p) = rotateAt(t); <span class="comment">//平衡调整</span></span><br><span class="line">        solveDoubleBlack(r);			   <span class="comment">// 继续修正r处双黑</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="kd-树"><a class="markdownIt-Anchor" href="#kd-树"></a> kd-树</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">KdTree* <span class="title">buildKdTree</span><span class="params">(P, d)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(p == &#123;p&#125;) <span class="keyword">return</span> CreateLeaf(p);	<span class="comment">// 递归基</span></span><br><span class="line">    root = CreateKdNode();				<span class="comment">// 创建子树根</span></span><br><span class="line">    <span class="comment">// 确定划分方向及中位点</span></span><br><span class="line">    root-&gt;splitDirection = Even(d) ? VERTICAL: HORIZONTAL;</span><br><span class="line">    root-&gt;splitLine = FindMedian(root-&gt;splitDirection, P);</span><br><span class="line">    (P1, P2) = Divide(P, root-&gt;splitDirection, </span><br><span class="line">                      root-&gt;splitLine);	  <span class="comment">// 子集划分</span></span><br><span class="line">    root-&gt;lChild = buildKdTree(P1, d + <span class="number">1</span>);<span class="comment">// 在d+1构造左子树</span></span><br><span class="line">    root-&gt;rChild = buildKdTree(P2, d + <span class="number">1</span>);<span class="comment">// 在d+1构造右子树</span></span><br><span class="line">    <span class="keyword">return</span> root;					      <span class="comment">// 返回树根</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kdSearch(v, R) &#123;</span><br><span class="line">    <span class="keyword">if</span>(lsLeaf(v))				<span class="comment">// 直接判断，终止递归</span></span><br><span class="line">    &#123; <span class="keyword">if</span>(inside(v, R)) report(v); <span class="keyword">return</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(region(v-&gt;lChild) ⊆ R)	<span class="comment">// 若左子树完全包含于R内，遍历</span></span><br><span class="line">        reportSubtree(v-&gt;lChild);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(region(v-&gt;lChild) ∩ R ≠ Ø)<span class="comment">// 与R相交，递归查询</span></span><br><span class="line">        kdSearch(v-&gt;lChild, R);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(region(v-&gt;rChild) ⊆ R)	<span class="comment">// 若右子树完全包含于R内，遍历</span></span><br><span class="line">        reportSubtree(v-&gt;rChild);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(region(v-&gt;rChild) ∩ R ≠ Ø)<span class="comment">// 与R相交，递归查询</span></span><br><span class="line">        kdSearch(v-&gt;rChild, R);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%A0%91/" rel="tag"># 树</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/19/DS/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" rel="next" title="第七章 二叉搜索树">
+                  <i class="fa fa-chevron-left"></i> 第七章 二叉搜索树
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/24/OS/%E7%AC%AC1%E7%AB%A0%20%E5%AF%BC%E8%AE%BA/" rel="prev" title="第1章 导论">
+                  第1章 导论 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#高级搜索树"><span class="nav-text"> 高级搜索树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#伸展树splay-tree"><span class="nav-text"> 伸展树(splay tree)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#伸展"><span class="nav-text"> 伸展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查找"><span class="nav-text"> 查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入"><span class="nav-text"> 插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除"><span class="nav-text"> 删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#b-树"><span class="nav-text"> B-树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查找-2"><span class="nav-text"> 查找</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入-2"><span class="nav-text"> 插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分裂"><span class="nav-text"> 分裂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除-2"><span class="nav-text"> 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转"><span class="nav-text"> 旋转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并"><span class="nav-text"> 合并</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#红黑树"><span class="nav-text"> 红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义规则"><span class="nav-text"> 定义规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插入-3"><span class="nav-text"> 插入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双红缺陷"><span class="nav-text"> 双红缺陷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除-3"><span class="nav-text"> 删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双黑缺陷"><span class="nav-text"> 双黑缺陷</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kd-树"><span class="nav-text"> kd-树</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

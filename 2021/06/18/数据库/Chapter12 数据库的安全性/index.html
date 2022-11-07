@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第十二章 数据库的安全性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十二章 数据库的安全性">
+<meta property="og:url" content="http://yoursite.com/2021/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter12%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第十二章 数据库的安全性">
+<meta property="article:published_time" content="2021-06-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-18T13:27:15.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter12%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第十二章 数据库的安全性 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter12%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十二章 数据库的安全性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-06-18 00:00:00 / 修改时间：21:27:15" itemprop="dateCreated datePublished" datetime="2021-06-18T00:00:00+08:00">2021-06-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>732</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第十二章-数据库的安全性"><a class="markdownIt-Anchor" href="#第十二章-数据库的安全性"></a> 第十二章 数据库的安全性</h2>
+<a id="more"></a>
+<p>本章大部分内容cv自wht同学的笔记</p>
+<h3 id="121-数据库安全"><a class="markdownIt-Anchor" href="#121-数据库安全"></a> 12.1 数据库安全</h3>
+<p><strong>|数据库安全|</strong>：保护数据库免受威胁的机制。</p>
+<h3 id="122-威胁"><a class="markdownIt-Anchor" href="#122-威胁"></a> 12.2 威胁</h3>
+<p><strong>|威胁|</strong>：任何有意或无意的，对系统或组织造成负面影响的行为或事件。</p>
+<h3 id="123-对策countermeasures"><a class="markdownIt-Anchor" href="#123-对策countermeasures"></a> 12.3 对策(Countermeasures)</h3>
+<h4 id="1231-授权"><a class="markdownIt-Anchor" href="#1231-授权"></a> 12.3.1 授权</h4>
+<p><strong>|授权（authorization）|</strong>：授予一个主体权利或权限，使其能实现对系统或系统对象的合法访问。</p>
+<p><strong>|认证(Authentication)|</strong>：确认用户身份是否属实的机制。</p>
+<p><strong>|权限|</strong>：包括访问特定数据库对象（如关系、视图和索引）以及运行不同的DBMS系统实体。</p>
+<h4 id="1232-视图"><a class="markdownIt-Anchor" href="#1232-视图"></a> 12.3.2 视图</h4>
+<p>通过向某些用户隐藏数据库的一部分信息来限制用户</p>
+<h4 id="1233-备份和恢复"><a class="markdownIt-Anchor" href="#1233-备份和恢复"></a> 12.3.3 备份和恢复</h4>
+<ul>
+<li>备份Backup：周期性将数据库、日志文件、DBMS程序（可选）复制到脱机存储介质上</li>
+<li>日志Log：日志文件包含数据库的所有变化记录。保存并维护日志文件，使得数据库出现故障时能够有效地进行恢复</li>
+</ul>
+<h4 id="1234-完整性约束"><a class="markdownIt-Anchor" href="#1234-完整性约束"></a> 12.3.4 完整性约束</h4>
+<ul>
+<li>必须有值的数据</li>
+<li>域约束</li>
+<li>实体完整性</li>
+<li>引用完整性</li>
+<li>一般性约束</li>
+</ul>
+<h4 id="1235-加密encryption"><a class="markdownIt-Anchor" href="#1235-加密encryption"></a> 12.3.5 加密(Encryption)</h4>
+<p>使用特定算法对数据进行编码</p>
+<ul>
+<li>对称加密：加密和解密密钥相同，因此密钥的交换也要保证安全性。</li>
+<li>非对称加密：使用公钥和私钥，并且加密算法可以公开。RSA。</li>
+</ul>
+<h4 id="1236-raid方法"><a class="markdownIt-Anchor" href="#1236-raid方法"></a> 12.3.6 RAID方法</h4>
+<p>对运行DBMS的硬件，尤其是磁盘驱动器，构建独立磁盘冗余阵列，保障硬件系统的安全性。</p>
+<h3 id="124-访问控制"><a class="markdownIt-Anchor" href="#124-访问控制"></a> 12.4 访问控制</h3>
+<p><strong>自主访问控制（DAC）</strong></p>
+<p>拥有权限的用户通过GRANT和REVOKE 命令来控制用户权限</p>
+<p><strong>强制访问控制（MAC）</strong></p>
+<p>对数据库对象赋予安全级别（security class），并对每一个用户赋予访问许可级别（clearance）。系统根据用户的级别和访问对象的安全级别，通过特定的规则判断是否允许用户的读写操作。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/06/17/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter11%20%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86/" rel="next" title="第十一章 查询处理">
+                  <i class="fa fa-chevron-left"></i> 第十一章 查询处理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/07/13/%E5%89%8D%E7%AB%AF/%E5%BF%AB%E6%8D%B7%E9%94%AE/" rel="prev" title="快捷键">
+                  快捷键 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十二章-数据库的安全性"><span class="nav-text"> 第十二章 数据库的安全性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#121-数据库安全"><span class="nav-text"> 12.1 数据库安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#122-威胁"><span class="nav-text"> 12.2 威胁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#123-对策countermeasures"><span class="nav-text"> 12.3 对策(Countermeasures)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1231-授权"><span class="nav-text"> 12.3.1 授权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1232-视图"><span class="nav-text"> 12.3.2 视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1233-备份和恢复"><span class="nav-text"> 12.3.3 备份和恢复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1234-完整性约束"><span class="nav-text"> 12.3.4 完整性约束</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1235-加密encryption"><span class="nav-text"> 12.3.5 加密(Encryption)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1236-raid方法"><span class="nav-text"> 12.3.6 RAID方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#124-访问控制"><span class="nav-text"> 12.4 访问控制</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

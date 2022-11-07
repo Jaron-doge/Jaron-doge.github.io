@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第三章 关系模型  3.2 基本术语  3.2.1 关系数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三章 关系模型">
+<meta property="og:url" content="http://yoursite.com/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第三章 关系模型  3.2 基本术语  3.2.1 关系数据结构">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/CRZqdUh5QDz2LAe.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/ui3tyzSAe8Rrn7q.png">
+<meta property="article:published_time" content="2021-04-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-05T11:13:45.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第三章 关系模型 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter3%20%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三章 关系模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-09 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-09T00:00:00+08:00">2021-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-05 19:13:45" itemprop="dateModified" datetime="2021-05-05T19:13:45+08:00">2021-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第三章-关系模型"><a class="markdownIt-Anchor" href="#第三章-关系模型"></a> 第三章 关系模型</h2>
+<h3 id="32-基本术语"><a class="markdownIt-Anchor" href="#32-基本术语"></a> 3.2 基本术语</h3>
+<h4 id="321-关系数据结构"><a class="markdownIt-Anchor" href="#321-关系数据结构"></a> 3.2.1 关系数据结构</h4>
+<a id="more"></a>
+<p><strong>|关系|</strong>：关系是由行和列组成的表</p>
+<p><strong>|属性|</strong>：属性是关系中命名的列</p>
+<p><strong>|域|</strong>：域是一个或多个属性的取值集合</p>
+<ul>
+<li>每一个关系中的属性都定义着一个域</li>
+</ul>
+<p><strong>|元组(Tuple)|</strong>：关系中的每一行称为元组</p>
+<p><strong>|维数/度(Degree)|</strong>：关系的度是指关系所包含属性的个数</p>
+<p><strong>|基数(Cardinality)|</strong>：关系的基数是指它所包含元组的个数</p>
+<img src="https://i.loli.net/2021/05/05/iLKf6SmTFoDuMbO.png" alt="9.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2021/05/05/CRZqdUh5QDz2LAe.png" alt="10.png" />
+<h4 id="323-数据库中的关系"><a class="markdownIt-Anchor" href="#323-数据库中的关系"></a> 3.2.3 数据库中的关系</h4>
+<p><strong>|关系模式|</strong>：由一组属性和域名对定义的命名关系</p>
+<p>设属性A<sub>1</sub>, A<sub>2</sub>, …, A<sub>n</sub>对应的域分别为D<sub>1</sub>, D<sub>2</sub>, …, D<sub>n</sub>。那么，集合{A<sub>1</sub>😄<sub>1</sub>, A<sub>2</sub>D<sub>2</sub>, …, A<sub>n</sub>D<sub>n</sub>}就是一个关系模式。</p>
+<p><strong>|关系模式数据库|</strong>：关系模式的集合，集合中的每个关系都应有不同的名字</p>
+<h4 id="324-关系的性质"><a class="markdownIt-Anchor" href="#324-关系的性质"></a> 3.2.4 关系的性质</h4>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<h4 id="325-关系键"><a class="markdownIt-Anchor" href="#325-关系键"></a> 3.2.5 关系键</h4>
+<p><strong>|超键|</strong>：一个属性或<strong>属性集合</strong>，它能唯一地标识出关系中的每个元组。</p>
+<p><strong>|候选键|</strong>：本身是超键但其任何子集都不再是超键。</p>
+<p><strong>|主键|</strong>：被选用于唯一标识关系中各元组的候选键。</p>
+<p><strong>|外部关键字|</strong>：当一个关系中的某个属性或属性集合与另一个关系（也可能就是自己）的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<h3 id="33-完整性约束"><a class="markdownIt-Anchor" href="#33-完整性约束"></a> 3.3 完整性约束</h3>
+<p>关系数据模型有三个组成部分：数据结构、数据管理和完整性约束</p>
+<h4 id="331-空"><a class="markdownIt-Anchor" href="#331-空"></a> 3.3.1 空</h4>
+<p><strong>|空|</strong>：代表对一个元组当前取值还不知道或是不可用的属性值</p>
+<h4 id="332-实体完整性"><a class="markdownIt-Anchor" href="#332-实体完整性"></a> 3.3.2 实体完整性</h4>
+<p><strong>|实体完整性|</strong>：在基本关系中，主键的属性不能为空</p>
+<p>针对基关系</p>
+<ul>
+<li>基关系：table	定义 + 数据</li>
+<li>非基关系
+<ul>
+<li>view	定义</li>
+<li>select    X</li>
+</ul>
+</li>
+</ul>
+<h4 id="333-参考完整性"><a class="markdownIt-Anchor" href="#333-参考完整性"></a> 3.3.3 参考完整性</h4>
+<p><strong>|参考完整性|</strong>：如果在关系中存在某个外部关键字，则它的值或与主关系中某个元组的候选键取值相等，或者全为空</p>
+<h4 id="334-用户完整性"><a class="markdownIt-Anchor" href="#334-用户完整性"></a> 3.3.4 用户完整性</h4>
+<p><strong>|用户完整性|</strong>：由数据库用户或数据库管理员所指定的附加规则，它约束企业的某些方面。</p>
+<h3 id="34-视图"><a class="markdownIt-Anchor" href="#34-视图"></a> 3.4 视图</h3>
+<p>视图不完全是用户看到的外部模型，它指虚关系或导出关系，即无需单独存在，必要时可从一或多个基本关系中动态地将其导出。</p>
+<h4 id="341-术语"><a class="markdownIt-Anchor" href="#341-术语"></a> 3.4.1 术语</h4>
+<p><strong>|视图|</strong>：对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时在生成的虚关系。</p>
+<h4 id="342-视图的用途"><a class="markdownIt-Anchor" href="#342-视图的用途"></a> 3.4.2 视图的用途</h4>
+<ul>
+<li>通过对特定用户隐藏部分数据库信息，提供了一个强大而灵活的安全机制。</li>
+<li>允许用户根据自己的需求自定义访问数据的方法，因此不同的用户可以通过不同的途径同时看到相同的数据。</li>
+<li>可以简化对基本关系的复杂操作。</li>
+</ul>
+<h4 id="343-视图的更新"><a class="markdownIt-Anchor" href="#343-视图的更新"></a> 3.4.3 视图的更新</h4>
+<p>对某个基本关系的所有更新应该立即反应到涉及这个基本关系的视图中。</p>
+<ul>
+<li>如果视图由一个基本关系的简单查询生成，而且它还包含了基本关系中的主键或是候选键，则可以通过这个视图进行更新操作。</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<img src="https://i.loli.net/2021/05/05/ui3tyzSAe8Rrn7q.png" alt="11.png" style="zoom:80%;" />
+<ol>
+<li>a) 关系是由行和列组成的表</li>
+</ol>
+<p>b) 域是一个或多个属性的取值集合</p>
+<p>c) 属性是关系中命名的列</p>
+<p>d) 关系中的每一行称为元组</p>
+<p>e) 本身是超键但其任何子集都不再是超键是候选键</p>
+<p>f) 被选用于唯一标识关系中各元组的候选键。</p>
+<p>g) 当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。</p>
+<ol start="2">
+<li></li>
+</ol>
+<ul>
+<li>
+<p>关系模式中各关系不能重名</p>
+</li>
+<li>
+<p>每个属性都有不同的名字</p>
+</li>
+<li>
+<p>属性的值都来自同一个域</p>
+</li>
+<li>
+<p>每个元组是不同的，没有重复的元组</p>
+</li>
+<li>
+<p>属性的顺序并不重要</p>
+</li>
+<li>
+<p>元组的顺序并不重要</p>
+</li>
+</ul>
+<ol start="3">
+<li>
+<p>当一个关系中的某个属性或属性集合与另一个关系的候选键匹配时，就称这个属性或属性集合为外键。与其他关系的候选键的属性相匹配的就是外键。例如</p>
+<p>Branch</p>
+<p>BranchNo street</p>
+<p>Staff</p>
+<p>staffNo BranchNo</p>
+<p>Staff表中的BranchNo与Branch表中的BranchNo相匹配，就是外键</p>
+</li>
+<li>
+<p>视图是对一个或多个基本关系进行关系操作的得到的动态结果。视图是一个无需存在于数据库当中，但却可以根据某个特定用户需要在必要时再生成的虚关系。与基本关系相比，视图是一个虚关系，从基本关系中导出得到。视图用于提供安全机制，而基本关系无法提供。基本关系有定义和数据，而视图只有定义没有数据。</p>
+</li>
+<li>
+<p>hotelNo和guestNo是模式中的外键，hotelNo是Hotel表中的主键也是Room表中的外键；guestNo是Guest表中的主键也是Booking表中的外键。根据实体完整性规则，主键中的属性不能为空，如hotelNo, roomNo不能为空。根据引用完整性规则，Booking表中的HotelNo与Hotel表中的hotelNo相匹配，因此Booking表中的HotelNo的取值应在Hotel表中的hotelNo属性的域内。guestNo也与之类似。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/08/C_/%E7%AC%AC7%E7%AB%A0/" rel="next" title="第7章 Windows窗体应用与控件">
+                  <i class="fa fa-chevron-left"></i> 第7章 Windows窗体应用与控件
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/04/09/Unity/%E7%AC%AC2%E7%AB%A0%20Unity%E8%84%9A%E6%9C%AC%E5%BC%80%E5%8F%91/" rel="prev" title="第2章 Unity脚本开发">
+                  第2章 Unity脚本开发 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-关系模型"><span class="nav-text"> 第三章 关系模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#32-基本术语"><span class="nav-text"> 3.2 基本术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#321-关系数据结构"><span class="nav-text"> 3.2.1 关系数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#323-数据库中的关系"><span class="nav-text"> 3.2.3 数据库中的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#324-关系的性质"><span class="nav-text"> 3.2.4 关系的性质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#325-关系键"><span class="nav-text"> 3.2.5 关系键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-完整性约束"><span class="nav-text"> 3.3 完整性约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#331-空"><span class="nav-text"> 3.3.1 空</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#332-实体完整性"><span class="nav-text"> 3.3.2 实体完整性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#333-参考完整性"><span class="nav-text"> 3.3.3 参考完整性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#334-用户完整性"><span class="nav-text"> 3.3.4 用户完整性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-视图"><span class="nav-text"> 3.4 视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#341-术语"><span class="nav-text"> 3.4.1 术语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#342-视图的用途"><span class="nav-text"> 3.4.2 视图的用途</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#343-视图的更新"><span class="nav-text"> 3.4.3 视图的更新</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

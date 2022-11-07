@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="虚拟内存管理  9.1 背景  Virtual Memory">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第9章 虚拟内存管理">
+<meta property="og:url" content="http://yoursite.com/2020/11/22/OS/%E7%AC%AC9%E7%AB%A0%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="虚拟内存管理  9.1 背景  Virtual Memory">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/WYz1rBUaP2gjTwm.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/9UVHJMWhopwvRSk.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/zQCIvYSElZ9ULh7.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/DF7e8rzQcBnqytN.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/lXT8cdpJ9myknaM.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/cBsnDGN6TljQf1M.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/gRG7Qbvmx3IAjHB.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/RZliLOWQUuxJCh3.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/pk6hQ48Fm27wyzd.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/2Q4TtpqJk6U1fjM.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/261DXNW5fUZM7ow.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/bwOcqWldX9GKZe7.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/EcLrQIpHWiv2tJm.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/LR4h859ojrg1ZxF.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/22/mqZVHBSFfJL7i6Q.png">
+<meta property="article:published_time" content="2020-11-22T05:30:15.000Z">
+<meta property="article:modified_time" content="2021-04-19T13:09:12.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/11/22/WYz1rBUaP2gjTwm.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/22/OS/%E7%AC%AC9%E7%AB%A0%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第9章 虚拟内存管理 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/22/OS/%E7%AC%AC9%E7%AB%A0%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第9章 虚拟内存管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-11-22 13:30:15" itemprop="dateCreated datePublished" datetime="2020-11-22T13:30:15+08:00">2020-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-19 21:09:12" itemprop="dateModified" datetime="2021-04-19T21:09:12+08:00">2021-04-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="虚拟内存管理"><a class="markdownIt-Anchor" href="#虚拟内存管理"></a> 虚拟内存管理</h2>
+<h3 id="91-背景"><a class="markdownIt-Anchor" href="#91-背景"></a> 9.1 背景</h3>
+<h4 id="virtual-memory"><a class="markdownIt-Anchor" href="#virtual-memory"></a> Virtual Memory</h4>
+<a id="more"></a>
+<p>是指具有请求调页功能和置换功能，能从逻辑上对内存容量加以扩充的一种存储器系统</p>
+<p><strong>虚拟内存</strong> = <strong>物理内存</strong> + <strong>磁盘</strong></p>
+<ul>
+<li>
+<p>多次性</p>
+<p>一个作业被分成多次装入内存运行</p>
+</li>
+<li>
+<p>对换性</p>
+<p>允许在进程运行的过程中，(部分)换入换出</p>
+</li>
+<li>
+<p>虚拟性</p>
+<p>逻辑上的扩充</p>
+</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>
+<p>进程共享内存和文件</p>
+</li>
+<li>
+<p>加速进程创建</p>
+</li>
+<li>
+<p>程序员不用关系内存限制</p>
+</li>
+<li>
+<p>可以同时运行更多程序</p>
+</li>
+<li>
+<p>更少的I/O需求，程序运行更快</p>
+</li>
+</ul>
+<h3 id="92-请求调页demand-paging"><a class="markdownIt-Anchor" href="#92-请求调页demand-paging"></a> 9.2 请求调页(Demand Paging)</h3>
+<h4 id="921-基本概念"><a class="markdownIt-Anchor" href="#921-基本概念"></a> 9.2.1 基本概念</h4>
+<h5 id="swapper-vs-pager"><a class="markdownIt-Anchor" href="#swapper-vs-pager"></a> Swapper VS. Pager</h5>
+<ul>
+<li>交换器操纵整个进程</li>
+<li>处理单个页面的swapper是pager</li>
+</ul>
+<p><strong>惰性交换器(Lazy swapper)</strong></p>
+<p>除非需要某个页面，否则从不将它交换到内存中</p>
+<h5 id="修改页表机制有效无效位"><a class="markdownIt-Anchor" href="#修改页表机制有效无效位"></a> 修改页表机制(有效无效位)</h5>
+<p>v	⇒	in-memory &amp; logical</p>
+<p>i 	⇒	not-in-memory 或者有效但只在磁盘上</p>
+<h5 id="page-fault"><a class="markdownIt-Anchor" href="#page-fault"></a> Page Fault</h5>
+<p>请求调页的关键要求是在缺页错误后重新启动任何指令的能力。当发生<strong>page fault</strong>时，<strong>保存被中断的进程状态</strong>，在完全相同的位置和状态下，重新启动进程。如果在获取指令时出现了缺页错误，那么再次获取指令</p>
+<h5 id="page-fault-handling"><a class="markdownIt-Anchor" href="#page-fault-handling"></a> Page Fault Handling</h5>
+<ol>
+<li>检查进程的内部表(通常与PCB一起保存)，确定该引用是有效的还是无效的</li>
+<li>如果引用无效，那么终止进程，如果引用有效但尚未调入页面，则调入</li>
+<li>找到一个空闲帧</li>
+<li>调度一个磁盘操作，以将所需页面读到刚分配的帧</li>
+<li>修改进程的内部表和页表，设置v</li>
+<li>重新启动被缺页错误中断的指令</li>
+</ol>
+<img src="https://i.loli.net/2020/11/22/WYz1rBUaP2gjTwm.png" alt="image-20201122150607589.png" style="zoom:80%;" />
+<h5 id="address-translation"><a class="markdownIt-Anchor" href="#address-translation"></a> Address translation</h5>
+<p>Address translation hardware + page fault handling</p>
+<img src="https://i.loli.net/2020/11/22/9UVHJMWhopwvRSk.png" alt="image-20201122152004936.png" style="zoom:80%;" />
+<h4 id="922-请求调页的性能"><a class="markdownIt-Anchor" href="#922-请求调页的性能"></a> 9.2.2 请求调页的性能</h4>
+<h5 id="eat"><a class="markdownIt-Anchor" href="#eat"></a> EAT</h5>
+<p>p = <strong>Page Fault Rate</strong>(0 ≤ p ≤ 1.0)</p>
+<p><strong>EAT</strong> = (1 - p) × memory access + p × page fault time</p>
+<p>缺页错误时间 = 缺页错误开销 + 换出页面(optional) + 读入页面 + 重启进程</p>
+<ul>
+<li>程序执行局部化可以降低<strong>page fault rate</strong></li>
+</ul>
+<h5 id="交换空间"><a class="markdownIt-Anchor" href="#交换空间"></a> 交换空间</h5>
+<p>前提：交换空间的文件系统更快</p>
+<ol>
+<li>
+<p>系统可以在进程启动时将<strong>整个文件映像复制到交换空间中</strong>，然后从交换空间执行请求调页，从而获得更好的分页吞吐量</p>
+</li>
+<li>
+<p>开始时从文件系统进行请求调页，但在<strong>置换页面时将页面写入交换空间</strong>。这种方法确保<strong>只从文件系统读取所需的页面</strong>，后续调页都是从交换空间完成的</p>
+</li>
+</ol>
+<h3 id="93-写时复制copy-on-write"><a class="markdownIt-Anchor" href="#93-写时复制copy-on-write"></a> 9.3 写时复制(Copy-on-Write)</h3>
+<p>​		允许父进程和子进程最初共享内存中的相同页面。如果任一进程修改了共享页面，则将创建共享页面的副本，因为仅复制修改过的页面，所以COW更有效地创建进程。</p>
+<p>​		假设子进程试图修改包含部分堆栈的页面，并且设置为写时复制。操作系统会创建这个页面的副本，将其映射到子进程的地址空间。然后，子进程会修改复制的页面，而不是属于父进程的页面</p>
+<p>​		操作系统为这类请求提供了一个空闲的页面池**(page pool)<strong>，空闲页面从页面池中分配。分配这些页面的技术称为</strong>按需填零(zero-fill-on-demand)**技术，页面在分配前先填零，清除以前的内容</p>
+<h3 id="94-页面置换"><a class="markdownIt-Anchor" href="#94-页面置换"></a> 9.4 页面置换</h3>
+<p><strong>over-allocation</strong>:为了增加多道程序，可能会导致过度分配，没有空闲帧，所有的内存都在使用</p>
+<ul>
+<li>页面置换是请求调页的基础，它完成了逻辑内存和物理内存之间的分离</li>
+</ul>
+<p>算法评估：针对特定内存引用串，运行某个置换算法，并计算缺页错误的数量</p>
+<ul>
+<li>页面错误数量取决于进程分配的帧的数量</li>
+</ul>
+<h4 id="941-基本页面置换"><a class="markdownIt-Anchor" href="#941-基本页面置换"></a> 9.4.1 基本页面置换</h4>
+<ol>
+<li>
+<p>找到所需页面的磁盘位置</p>
+</li>
+<li>
+<p>找到空闲帧</p>
+<p>a. 如果有空闲帧，使用它</p>
+<p>b. 如果没有空闲帧，使用页面置换算法来选择一个牺牲帧**(victim frame)**</p>
+<p>c. 将牺牲帧的内容写到磁盘上，修改对应的页表和帧表</p>
+</li>
+<li>
+<p>将所需页面读入(新的)空闲帧，修改页表和帧表</p>
+</li>
+<li>
+<p>从发生缺页错误位置，继续用户进程</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/11/22/zQCIvYSElZ9ULh7.png" alt="image-20201122161446738.png" style="zoom:80%;" />
+<p>​		稍后，<strong>对该页面的引用将导致缺页错误</strong>。那时，页面将被调回到内存</p>
+<h5 id="修改位modify-bit-脏位dirty-bit"><a class="markdownIt-Anchor" href="#修改位modify-bit-脏位dirty-bit"></a> 修改位(modify bit) / 脏位(dirty bit)</h5>
+<p>​		当要选择一个页面进行置换时，就检查它的修改位。如果该位已被设置，那么该页面从磁盘读入以后已被修改。在这种情况下，应将页面写入磁盘。然而，如果修改位未被设置，那么该页面从磁盘读入以后还未被修改。在这种情况下，我们不需要将内存页面写到磁盘因为它已经存在。</p>
+<h4 id="942-fifo页面置换"><a class="markdownIt-Anchor" href="#942-fifo页面置换"></a> 9.4.2 FIFO页面置换</h4>
+<p>选择最旧的页面进行置换</p>
+<img src="https://i.loli.net/2020/11/22/DF7e8rzQcBnqytN.png" alt="image-20201122164853072.png" style="zoom:80%;" />
+<h5 id="beladys-anomaly贝莱迪异常现象"><a class="markdownIt-Anchor" href="#beladys-anomaly贝莱迪异常现象"></a> Belady’s anomaly(贝莱迪异常现象)</h5>
+<img src="https://i.loli.net/2020/11/22/lXT8cdpJ9myknaM.png" alt="image-20201122165117164.png" style="zoom:80%;" />
+<h4 id="943-最优页面置换"><a class="markdownIt-Anchor" href="#943-最优页面置换"></a> 9.4.3 最优页面置换</h4>
+<ul>
+<li>置换最长时间不会使用的页面</li>
+</ul>
+<p>然而，因为需要引用串的未来知识，难以实现，最优算法主要用于比较研究</p>
+<h4 id="944-lru页面置换"><a class="markdownIt-Anchor" href="#944-lru页面置换"></a> 9.4.4 LRU页面置换</h4>
+<p><strong>最近最少使用算法(Least-Recent-Used algorithm)</strong></p>
+<ul>
+<li>LRU置换将每个页面与它的上次使用的时间关联起来。当需要置换页面时，LRU选择最长时间没有使用的页面。</li>
+</ul>
+<h5 id="计数器实现"><a class="markdownIt-Anchor" href="#计数器实现"></a> 计数器实现</h5>
+<ul>
+<li>
+<p>每个页表条目关联一个使用时间域，并为CPU添加一个逻辑时钟</p>
+</li>
+<li>
+<p>每当进行页面引用时，复制时钟寄存器的内容到页表条目的使用时间域中</p>
+<p>​	(每次内存访问都要写到内存)</p>
+</li>
+<li>
+<p>当需要页面置换时，搜索页表，选择具有最小时间的页面</p>
+</li>
+</ul>
+<h5 id="堆栈实现"><a class="markdownIt-Anchor" href="#堆栈实现"></a> 堆栈实现</h5>
+<p>使用具有首指针和尾指针的双向链表实现</p>
+<ul>
+<li>
+<p>每当页面被引用时，就从堆栈中移除并放在顶部</p>
+<p>​	(可能每次需要改变6个指针)</p>
+</li>
+<li>
+<p>更新有点费时，但置换不用搜索</p>
+</li>
+</ul>
+<p>栈底页面就是LRU页面</p>
+<img src="https://i.loli.net/2020/11/22/cBsnDGN6TljQf1M.png" alt="image-20201122172558599.png" style="zoom:80%;" />
+<h4 id="945-近似lru页面置换"><a class="markdownIt-Anchor" href="#945-近似lru页面置换"></a> 9.4.5 近似LRU页面置换</h4>
+<p><strong>引用位</strong></p>
+<p><strong>每当引用一个页面时，它的页面引用位就被硬件置位</strong></p>
+<ul>
+<li>
+<p>最初所有<strong>reference bit</strong>由OS清0</p>
+</li>
+<li>
+<p>当页面被引用时，<strong>reference bit</strong>置1</p>
+</li>
+<li>
+<p>置换<strong>reference bit</strong>是0的页面</p>
+</li>
+</ul>
+<h5 id="9451-额外引用位算法additional-reference-bits"><a class="markdownIt-Anchor" href="#9451-额外引用位算法additional-reference-bits"></a> 9.4.5.1 额外引用位算法(Additional-Reference-Bits)</h5>
+<ul>
+<li>为内存中的页表的每个页面保留一个8位的字节</li>
+<li>定时器中断定期地将控制传到OS</li>
+<li>OS将每个页面引用位移到其8位字节的高位，将其他位右移1位</li>
+<li><strong>具有最小编号的页面是LRU页面</strong>，可以被替换</li>
+</ul>
+<h5 id="9452-第二次机会算法second-chance-algorithm"><a class="markdownIt-Anchor" href="#9452-第二次机会算法second-chance-algorithm"></a> 9.4.5.2 第二次机会算法(Second-Chance Algorithm)</h5>
+<ul>
+<li>按FIFO算法选择一个页面</li>
+<li>如果<strong>reference bit</strong>为0， 置换</li>
+<li>如果<strong>reference bit</strong>为1
+<ul>
+<li>设置<strong>reference bit</strong>为0</li>
+<li>保留页面</li>
+<li>按相同规则替换下一页面（按时钟顺序）</li>
+</ul>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/11/22/gRG7Qbvmx3IAjHB.png" alt="image-20201122180447872.png" style="zoom:80%;" />
+<h5 id="9453-增强型第二次机会算法"><a class="markdownIt-Anchor" href="#9453-增强型第二次机会算法"></a> 9.4.5.3 增强型第二次机会算法</h5>
+<p><strong>reference bit</strong> + <strong>modify bit</strong></p>
+<ul>
+<li>
+<p>四种类型</p>
+<ul>
+<li>(0, 0)—最近没有使用且没有修改的页面，<strong>最佳的页面置换</strong></li>
+<li>(0, 1)—最近没有使用但修改过的页面，需要置换前将页面写出到磁盘</li>
+<li>(1, 0)—最近使用过但没有修改的页面，可能很快再次使用</li>
+<li>(1, 1)—最近使用过且修改过，需要置换前将页面写出到</li>
+</ul>
+</li>
+<li>
+<p><strong>如果扫描到(0, 1)，则换为(0, 0)</strong></p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/11/22/RZliLOWQUuxJCh3.png" alt="image-20201122185018106.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2020/11/22/pk6hQ48Fm27wyzd.png" alt="image-20201122181130772.png" style="zoom:80%;" />
+<h3 id="946-基于计数的页面置换counting-algorithms"><a class="markdownIt-Anchor" href="#946-基于计数的页面置换counting-algorithms"></a> 9.4.6 基于计数的页面置换(Counting Algorithms)</h3>
+<p>为每个页面的引用次数保存一个计数器</p>
+<h5 id="9461-最不经常使用least-frequently-used-lfu"><a class="markdownIt-Anchor" href="#9461-最不经常使用least-frequently-used-lfu"></a> 9.4.6.1 最不经常使用(Least-Frequently Used, LFU)</h5>
+<ul>
+<li>置换具有最小计数的页面</li>
+</ul>
+<p>问题：一个页面最初大量使用但随后不用时，会出现问题</p>
+<p>解决方案：定期地将计数右移1位，以衰减平均使用计数</p>
+<img src="https://i.loli.net/2020/11/22/2Q4TtpqJk6U1fjM.png" alt="image-20201122185744389.png" style="zoom:80%;" />
+<h5 id="9462-最经常使用most-frequently-used-mfu"><a class="markdownIt-Anchor" href="#9462-最经常使用most-frequently-used-mfu"></a> 9.4.6.2 最经常使用(Most-Frequently Used, MFU)</h5>
+<p>具有最小计数的页面可能刚刚被引入并且尚未使用</p>
+<ul>
+<li>置换具有最大计数的页面</li>
+</ul>
+<h3 id="95-帧分配"><a class="markdownIt-Anchor" href="#95-帧分配"></a> 9.5 帧分配</h3>
+<h4 id="951-帧的最小数"><a class="markdownIt-Anchor" href="#951-帧的最小数"></a> 9.5.1 帧的最小数</h4>
+<p>每个进程需要最小数量的帧</p>
+<h4 id="952-分配算法"><a class="markdownIt-Anchor" href="#952-分配算法"></a> 9.5.2 分配算法</h4>
+<h5 id="fixed-allocation"><a class="markdownIt-Anchor" href="#fixed-allocation"></a> Fixed Allocation</h5>
+<p><strong>平均分配(Equal Allocation)</strong></p>
+<p>n个进程m个帧</p>
+<p>每个进程获得 m / n 帧</p>
+<p><strong>比例分配(Proportional Allocation)</strong></p>
+<p>根据进程大小进行分配可用内存</p>
+<p>a<sub>i</sub> =	s<sub>i</sub> / S	×	m</p>
+<h5 id="priority-allocation"><a class="markdownIt-Anchor" href="#priority-allocation"></a> Priority Allocation</h5>
+<p>根据进程的优先级分配内存</p>
+<h4 id="953-全局分配与局部分配"><a class="markdownIt-Anchor" href="#953-全局分配与局部分配"></a> 9.5.3 全局分配与局部分配</h4>
+<h5 id="全局置换global-replacement"><a class="markdownIt-Anchor" href="#全局置换global-replacement"></a> 全局置换(Global Replacement)</h5>
+<p>进程从所有帧的集合中选择一个置换帧，<strong>而不管该帧是否已分配给其他进程</strong></p>
+<p>问题：进程无法控制其自身的页面错误率</p>
+<h5 id="局部置换local-replacement"><a class="markdownIt-Anchor" href="#局部置换local-replacement"></a> 局部置换(Local Replacement)</h5>
+<p>每个进程只从它自己分配的帧中进行选择</p>
+<p>问题：不能使用其他进程的较少使用的内存页面</p>
+<h3 id="96-系统抖动thrashing"><a class="markdownIt-Anchor" href="#96-系统抖动thrashing"></a> 9.6 系统抖动(Thrashing)</h3>
+<h4 id="961-系统抖动的原因"><a class="markdownIt-Anchor" href="#961-系统抖动的原因"></a> 9.6.1 系统抖动的原因</h4>
+<p>​		如果一个进程没有需要支持活动使用页面的帧数，那么它会很快产生缺页错误。此时，必须置换某个页面。然后循环产生缺页错误。</p>
+<p>​		这种高度的页面调度活动称为抖动。如果<strong>一个进程的调页时间多于它的执行时间</strong>，那么这个进程就在抖动。</p>
+<ul>
+<li>缺页错误进程使用调页设备将页面换进换出，为调页设备排队，就绪队列清空，CPU利用率低</li>
+<li>OS增加多道程序度</li>
+<li>新进程试图获取帧来启动，导致更多的缺页错误和更长的调页设备队列</li>
+</ul>
+<p>​</p>
+<p>​	不合理的多道程序度造成系统抖动</p>
+<img src="https://i.loli.net/2020/11/22/261DXNW5fUZM7ow.png" alt="image-20201122193339588.png" style="zoom:80%;" />
+<h5 id="局部性模型locality-model"><a class="markdownIt-Anchor" href="#局部性模型locality-model"></a> 局部性模型(Locality model)</h5>
+<p>随着进程执行，它从一个局部移向另一个局部。局部性是最近使用页面的一个集合。局部可能会重叠</p>
+<h4 id="962-工作集模型working-set-model"><a class="markdownIt-Anchor" href="#962-工作集模型working-set-model"></a> 9.6.2 工作集模型(Working-Set Model)</h4>
+<p>工作集模型基于局部性假设</p>
+<p><strong>Δ ≡ 工作集窗口(Working-set Window)</strong>，检查最近Δ个页面引用，这<strong>最近Δ个页面引用的页面集合称为工作集(Working-set)</strong>，如果页面不再使用，它在最后一次引用的Δ时间单位后，会从工作集中删除。</p>
+<img src="https://i.loli.net/2020/11/22/bwOcqWldX9GKZe7.png" alt="image-20201122201545219.png" style="zoom:80%;" />
+<h5 id="working-set-sizewss"><a class="markdownIt-Anchor" href="#working-set-sizewss"></a> Working set size(WSS)</h5>
+<p><strong>WSS<sub>i</sub></strong>(working set of Process P<sub>i</sub>) = <strong>最近Δ个页面引用的数量</strong></p>
+<p><strong>D</strong> 	=	<strong>Σ WSS<sub>i</sub></strong>	≡ 	<strong>总需求</strong></p>
+<p>如果总需求大于可用帧的总数**(D &gt; m) ⇒ 发生抖动**</p>
+<h5 id="策略"><a class="markdownIt-Anchor" href="#策略"></a> 策略</h5>
+<p>如果工作集大小的总和超过可用帧的总数，OS会<strong>选择一个进程挂起</strong>，该进程的页面被写出，并且其帧可分配给其他进程</p>
+<h5 id="跟踪工作集"><a class="markdownIt-Anchor" href="#跟踪工作集"></a> 跟踪工作集</h5>
+<p><strong>定期时钟中断(fixed interval timer)</strong> + <strong>引用位(reference bit)</strong></p>
+<p>例：Δ = 10,000</p>
+<ul>
+<li>
+<p>每5000个引用引起定时器中断</p>
+</li>
+<li>
+<p>每页有两个内存的位</p>
+</li>
+<li>
+<p>当发生定时器中断时，复制并清除所有页面的引用位</p>
+</li>
+<li>
+<p>如果内存中两位有一位是1，那么页面在工作集中</p>
+</li>
+</ul>
+<p>通过增加历史位的数量和中断的频率可以降低不确定性，10位和每1000个引用引起定时器中断</p>
+<h4 id="963-缺页错误频率page-fault-frequency-pff"><a class="markdownIt-Anchor" href="#963-缺页错误频率page-fault-frequency-pff"></a> 9.6.3 缺页错误频率(Page-Fault Frequency, PFF)</h4>
+<p>设置可接受的缺页错误率</p>
+<img src="https://i.loli.net/2020/11/22/EcLrQIpHWiv2tJm.png" alt="image-20201122205056446.png" style="zoom:80%;" />
+<h3 id="98-分配内核内存"><a class="markdownIt-Anchor" href="#98-分配内核内存"></a> 9.8 分配内核内存</h3>
+<p>通常从空闲内存池中分配内核内存</p>
+<ul>
+<li>内核需要为不同大小的数据结构请求内存</li>
+<li>有些内核内存需要常驻在连续物理内存中</li>
+</ul>
+<h4 id="981-伙伴系统buddy-system"><a class="markdownIt-Anchor" href="#981-伙伴系统buddy-system"></a> 9.8.1 伙伴系统(Buddy System)</h4>
+<p>从物理连续的大小固定的段商进行分配</p>
+<p>内存分配采用2的幂分配器</p>
+<img src="https://i.loli.net/2020/11/22/LR4h859ojrg1ZxF.png" alt="image-20201122231351936.png" style="zoom:80%;" />
+<h4 id="982-slab分配器slab-allocator"><a class="markdownIt-Anchor" href="#982-slab分配器slab-allocator"></a> 9.8.2 slab分配器(Slab Allocator)</h4>
+<ul>
+<li>
+<p>每个slab由一个或多个物理连续的页面组成</p>
+</li>
+<li>
+<p>每个cache由一个或多个slab组成</p>
+</li>
+<li>
+<p>每个内核数据结构都有一个cache</p>
+</li>
+<li>
+<p>每个cache含有内核数据结构的对象实例</p>
+</li>
+</ul>
+<ol>
+<li>
+<p>在创建cache时，将若干标记为free的对象分配到cache</p>
+</li>
+<li>
+<p>从cache上分配的对象标记为used</p>
+</li>
+<li>
+<p>slab分配器首先在部分为空的slab中用空闲对象来满足请求，如果不存在，则从空的slab中分配空闲对象</p>
+<p>slab三状态：</p>
+<ul>
+<li>full: slab的所有对象标记为可用</li>
+<li>empty: slab上的所有对象标记为空闲</li>
+<li>partial: slab上的对象有的标记为使用，有的标记为空闲</li>
+</ul>
+</li>
+<li>
+<p>如果没有空的slab，则从连续物理页面分配新的slab</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/11/22/mqZVHBSFfJL7i6Q.png" alt="image-20201122232820522.png" style="zoom:80%;" />
+<p>优点：没有碎片，可以快速满足内存请求</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/15/OS/%E7%AC%AC8%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="next" title="第8章 内存管理">
+                  <i class="fa fa-chevron-left"></i> 第8章 内存管理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/11/29/OS/%E7%AC%AC10%E7%AB%A0%20%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86/" rel="prev" title="第10章 存储管理">
+                  第10章 存储管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存管理"><span class="nav-text"> 虚拟内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#91-背景"><span class="nav-text"> 9.1 背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#virtual-memory"><span class="nav-text"> Virtual Memory</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#92-请求调页demand-paging"><span class="nav-text"> 9.2 请求调页(Demand Paging)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#921-基本概念"><span class="nav-text"> 9.2.1 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#swapper-vs-pager"><span class="nav-text"> Swapper VS. Pager</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改页表机制有效无效位"><span class="nav-text"> 修改页表机制(有效无效位)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#page-fault"><span class="nav-text"> Page Fault</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#page-fault-handling"><span class="nav-text"> Page Fault Handling</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#address-translation"><span class="nav-text"> Address translation</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#922-请求调页的性能"><span class="nav-text"> 9.2.2 请求调页的性能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#eat"><span class="nav-text"> EAT</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#交换空间"><span class="nav-text"> 交换空间</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#93-写时复制copy-on-write"><span class="nav-text"> 9.3 写时复制(Copy-on-Write)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#94-页面置换"><span class="nav-text"> 9.4 页面置换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#941-基本页面置换"><span class="nav-text"> 9.4.1 基本页面置换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#修改位modify-bit-脏位dirty-bit"><span class="nav-text"> 修改位(modify bit) &#x2F; 脏位(dirty bit)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#942-fifo页面置换"><span class="nav-text"> 9.4.2 FIFO页面置换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#beladys-anomaly贝莱迪异常现象"><span class="nav-text"> Belady’s anomaly(贝莱迪异常现象)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#943-最优页面置换"><span class="nav-text"> 9.4.3 最优页面置换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#944-lru页面置换"><span class="nav-text"> 9.4.4 LRU页面置换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#计数器实现"><span class="nav-text"> 计数器实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#堆栈实现"><span class="nav-text"> 堆栈实现</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#945-近似lru页面置换"><span class="nav-text"> 9.4.5 近似LRU页面置换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#9451-额外引用位算法additional-reference-bits"><span class="nav-text"> 9.4.5.1 额外引用位算法(Additional-Reference-Bits)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9452-第二次机会算法second-chance-algorithm"><span class="nav-text"> 9.4.5.2 第二次机会算法(Second-Chance Algorithm)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9453-增强型第二次机会算法"><span class="nav-text"> 9.4.5.3 增强型第二次机会算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#946-基于计数的页面置换counting-algorithms"><span class="nav-text"> 9.4.6 基于计数的页面置换(Counting Algorithms)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#9461-最不经常使用least-frequently-used-lfu"><span class="nav-text"> 9.4.6.1 最不经常使用(Least-Frequently Used, LFU)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9462-最经常使用most-frequently-used-mfu"><span class="nav-text"> 9.4.6.2 最经常使用(Most-Frequently Used, MFU)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#95-帧分配"><span class="nav-text"> 9.5 帧分配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#951-帧的最小数"><span class="nav-text"> 9.5.1 帧的最小数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#952-分配算法"><span class="nav-text"> 9.5.2 分配算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fixed-allocation"><span class="nav-text"> Fixed Allocation</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#priority-allocation"><span class="nav-text"> Priority Allocation</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#953-全局分配与局部分配"><span class="nav-text"> 9.5.3 全局分配与局部分配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#全局置换global-replacement"><span class="nav-text"> 全局置换(Global Replacement)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#局部置换local-replacement"><span class="nav-text"> 局部置换(Local Replacement)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#96-系统抖动thrashing"><span class="nav-text"> 9.6 系统抖动(Thrashing)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#961-系统抖动的原因"><span class="nav-text"> 9.6.1 系统抖动的原因</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#局部性模型locality-model"><span class="nav-text"> 局部性模型(Locality model)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#962-工作集模型working-set-model"><span class="nav-text"> 9.6.2 工作集模型(Working-Set Model)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#working-set-sizewss"><span class="nav-text"> Working set size(WSS)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#策略"><span class="nav-text"> 策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#跟踪工作集"><span class="nav-text"> 跟踪工作集</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#963-缺页错误频率page-fault-frequency-pff"><span class="nav-text"> 9.6.3 缺页错误频率(Page-Fault Frequency, PFF)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#98-分配内核内存"><span class="nav-text"> 9.8 分配内核内存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#981-伙伴系统buddy-system"><span class="nav-text"> 9.8.1 伙伴系统(Buddy System)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#982-slab分配器slab-allocator"><span class="nav-text"> 9.8.2 slab分配器(Slab Allocator)</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

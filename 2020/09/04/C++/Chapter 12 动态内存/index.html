@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第十二章 动态内存  12.1 动态内存与智能指针   智能指针 自动释放所指向的对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十二章 动态内存">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chapter%2012%20%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第十二章 动态内存  12.1 动态内存与智能指针   智能指针 自动释放所指向的对象">
+<meta property="article:published_time" content="2020-09-04T08:45:12.000Z">
+<meta property="article:modified_time" content="2020-09-04T09:02:05.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chapter%2012%20%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第十二章 动态内存 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chapter%2012%20%E5%8A%A8%E6%80%81%E5%86%85%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十二章 动态内存
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:45:12 / 修改时间：17:02:05" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:12+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第十二章-动态内存"><a class="markdownIt-Anchor" href="#第十二章-动态内存"></a> 第十二章 动态内存</h2>
+<h3 id="121-动态内存与智能指针"><a class="markdownIt-Anchor" href="#121-动态内存与智能指针"></a> 12.1 动态内存与智能指针</h3>
+<ul>
+<li>
+<p>智能指针</p>
+<p>自动释放所指向的对象</p>
+</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="built_in">shared_ptr</span>			<span class="comment">// 多个指针指向同一个对象</span></span><br><span class="line"><span class="built_in">unique_ptr</span>			<span class="comment">// “独占”所指向的对象</span></span><br><span class="line">weak_ptr			<span class="comment">// 弱引用，指向shared_ptr所管理的对象</span></span><br></pre></td></tr></table></figure>
+<h4 id="1211-shared_ptr类"><a class="markdownIt-Anchor" href="#1211-shared_ptr类"></a> 12.1.1 shared_ptr类</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p1;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果在一个条件判断中使用智能指针，效果是检测其是否为空</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">p.<span class="built_in">get</span>()				<span class="comment">// 返回p中保存的指针</span></span><br><span class="line">p.swap(q)			<span class="comment">// 交换指针</span></span><br><span class="line">make_share&lt;T&gt;(args)	<span class="comment">// 返回一个shared_ptr</span></span><br><span class="line">p.unique()			<span class="comment">// 若p.use_count()为1返回true</span></span><br><span class="line">p.use_count()		<span class="comment">// 返回与p共享对象的智能指针数量</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>当进行拷贝或赋值操作时，每个shared_ptr都会记录有多少个其他shared_ptr指向相同的对象，<strong>当计数器变为0</strong>，它就会自动释放自己所管理的对象</p>
+</li>
+<li>
+<p>程序使用动态内存的三个原因</p>
+<ol>
+<li>程序不知道自己需要使用多少对象</li>
+<li>程序不知道所需对象的准确类型</li>
+<li>程序需要在多个对象间共享数据</li>
+</ol>
+</li>
+</ul>
+<h4 id="1212-直接管理内存"><a class="markdownIt-Anchor" href="#1212-直接管理内存"></a> 12.1.2 直接管理内存</h4>
+<ul>
+<li>
+<p>使用new动态分配和初始化对象</p>
+<p>只有当括号中仅有一个单一初始化器时才可以使用auto</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p1 = <span class="keyword">new</span> <span class="keyword">auto</span>(obj);			<span class="comment">// 该对象用obj进行初始化</span></span><br><span class="line"><span class="keyword">auto</span> p2 = <span class="keyword">new</span> <span class="keyword">auto</span>&#123;a, b, c&#125;;		<span class="comment">// 错误</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>内存耗尽</p>
+<p>默认情况下，new分配失败会抛出bad_alloc异常</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p1 = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line"><span class="keyword">int</span> *p2 = <span class="keyword">new</span> (nothrow) <span class="keyword">int</span>;	<span class="comment">// 阻止异常抛出，返回空指针</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>释放动态内存</p>
+<p>delete表达式执行两个动作：销毁给定的指针指向的对象；释放对应的内存。</p>
+</li>
+</ul>
+<h4 id="1213-shared_ptr和new结合使用"><a class="markdownIt-Anchor" href="#1213-shared_ptr和new结合使用"></a> 12.1.3 shared_ptr和new结合使用</h4>
+<ul>
+<li>接受指针参数的智能指针构造函数是explicit的，不能将一个内置指针隐式转换为一个智能指针</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p1 = <span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">1024</span>);		<span class="comment">// 错误</span></span><br><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p2</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">1024</span>))</span></span>;		<span class="comment">// 正确</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>用来初始化智能指针的普通指针必须指向动态内存</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;T&gt; <span class="title">p</span><span class="params">(p2, d)</span></span></span><br><span class="line">p.reset()				// p是唯一指向其对象的s_p，释放此对象</span><br><span class="line">p.reset(q)				<span class="comment">// 传递了可选的参数内置指针q，p指向q</span></span><br><span class="line">p.reset(q, d)			<span class="comment">// 调用d而不是delete来释放q</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>当将一个shared_ptr绑定到一个普通指针时，我们就将内存的管理责任交给了这个shared_ptr。一旦这样做了，我们就不应该再使用内置指针来访问shared_ptr所指向的内存了。</p>
+</li>
+<li>
+<p>get返回一个内置指针，永远不要用get初始化另一个智能指针或者为另一个智能指针赋值。</p>
+</li>
+<li>
+<p>在改变底层对象之前，检查自己是否是当前对象仅有的用户。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!p.unique())</span><br><span class="line">    p.reset(<span class="keyword">new</span> <span class="built_in">string</span>(*p));	<span class="comment">// 不是唯一用户，分配新的拷贝</span></span><br><span class="line">*p += newVal;					<span class="comment">// 唯一用户，可以改变对象的值</span></span><br></pre></td></tr></table></figure>
+<h4 id="1214-智能指针和异常"><a class="markdownIt-Anchor" href="#1214-智能指针和异常"></a> 12.1.4 智能指针和异常</h4>
+<ul>
+<li>
+<p>若异常发生在new之后delete之前，则内存不能正常释放</p>
+</li>
+<li>
+<p>使用我们自己的释放操作</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">destination</span>;</span>					<span class="comment">// 表示我们正在连接什么</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">connection</span>;</span>					<span class="comment">// 使用连接所需的信息</span></span><br><span class="line"><span class="function">connection <span class="title">connect</span><span class="params">(destination*)</span></span>;	<span class="comment">// 打开连接</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disconnect</span><span class="params">(connection)</span></span>;		<span class="comment">// 关闭给定的连接</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">end_connection</span><span class="params">(connection *p)</span></span>&#123; <span class="built_in">disconnect</span>(*p); &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination &amp;d <span class="comment">/* 其他参数 */</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c = <span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    <span class="function"><span class="built_in">shared_ptr</span>&lt;connection&gt; <span class="title">p</span><span class="params">(&amp;c, end_connection)</span></span>;</span><br><span class="line">    <span class="comment">// 当f退出时，connection会被正确关闭</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>智能指针陷阱
+<ul>
+<li>不使用相同的内置指针值初始化(或reset)多个智能指针</li>
+<li>不delete get()返回的指针</li>
+<li>如果使用get()返回的指针，当最后一个对应的智能指针销毁后，指针就变为无效了</li>
+<li>如果使用智能指针管理的资源不是new分配的内存，记住传递给它一个删除器</li>
+</ul>
+</li>
+</ul>
+<h4 id="1215-unique_ptr"><a class="markdownIt-Anchor" href="#1215-unique_ptr"></a> 12.1.5 unique_ptr</h4>
+<ul>
+<li>
+<p>没有类似make_shared的标准库函数，因此定义unique_ptr时需要将其绑定到一个new返回的指针上。</p>
+</li>
+<li>
+<p>unique_ptr不支持普通的拷贝或赋值操作</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unique_ptr</span>&lt;T&gt; u1</span><br><span class="line"><span class="built_in">unique_ptr</span>&lt;T, D&gt; u2			<span class="comment">// u2会使用一个可调用对象D释放指针</span></span><br><span class="line">u.<span class="built_in">release</span>()					<span class="comment">// 放弃对指针的控制权，返回指针</span></span><br><span class="line">u.reset()					<span class="comment">// 释放u指向的对象</span></span><br><span class="line">u.reset(q)					<span class="comment">// 如果提供内置指针q，令u指向q对象</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以通过调用release或reset将指针的所有权从一个unique转移给另一个:</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">p2</span><span class="params">(p1,<span class="built_in">release</span>())</span></span>;	<span class="comment">// p1转移给p2</span></span><br><span class="line">p2.reset(p3.<span class="built_in">release</span>());		<span class="comment">// reset释放了p2原来指向的内存</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们可以拷贝或赋值一个将要被销毁的unique_ptr</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">clone</span><span class="params">(<span class="keyword">int</span> p)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">new</span> <span class="keyword">int</span>(p));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向unique_ptr传递删除器</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;objT, decT&gt; p(new objT, func);</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination &amp;d <span class="comment">/* 其他需要的参数 */</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c = <span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    <span class="built_in">unique_ptr</span>&lt;connection, <span class="keyword">decltype</span>(end_connection)*&gt;</span><br><span class="line">        p(&amp;d, end_connection);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1216-weak_ptr"><a class="markdownIt-Anchor" href="#1216-weak_ptr"></a> 12.1.6 weak_ptr</h4>
+<ul>
+<li>weak_ptr指向一个由shared_ptr管理的对象，并且不改变shared_ptr的引用计数。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">w.reset()</span><br><span class="line">w.use_count()</span><br><span class="line">w.expired()					<span class="comment">// 若w.use_count()为0返回true</span></span><br><span class="line">w.lock()					<span class="comment">// 若expired为true，返回一个空								 shared_ptr；否则返回一个指向								w对象的shared_ptr</span></span><br></pre></td></tr></table></figure>
+<h3 id="122-动态数组"><a class="markdownIt-Anchor" href="#122-动态数组"></a> 12.2 动态数组</h3>
+<h4 id="1221-new和数组"><a class="markdownIt-Anchor" href="#1221-new和数组"></a> 12.2.1 new和数组</h4>
+<ul>
+<li>分配一个数组会得到一个元素类型的指针</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pia = <span class="keyword">new</span> <span class="keyword">int</span>[get_size()];</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pia2 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]();			<span class="comment">// 值初始化</span></span><br><span class="line"><span class="keyword">int</span> *pia3 = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>释放动态数组</p>
+<p>释放一个指向数组首元素的指针，元素被逆序销毁，空方括号对是必需的。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> [] pa;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>unique_ptr</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;int[]&gt; up(new int[10]);</span><br><span class="line">up.<span class="built_in">release</span>();					<span class="comment">// 自动用delete[]销毁其指针</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>unique_ptr指向的时一个数组而不是单个对象，<strong>不能使用点和箭头成员运算符，可以使用下标运算符</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;T[]&gt; u(p)		// u指向内置指针p所指向的动态分配								  的数组</span><br><span class="line">u[i]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>share_ptr不支持管理动态数组，如果希望使用，需要自己提供删除器</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">sp</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>], [](<span class="keyword">int</span> *p) &#123;<span class="keyword">delete</span>[]p;&#125;)</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>shared_ptr未定义下标运算符，智能指针类型不支持指针算术运算</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i != <span class="number">10</span>; ++i)</span><br><span class="line">	*(sp.<span class="built_in">get</span>() + i) = i;		<span class="comment">// 使用get获取内置指针</span></span><br></pre></td></tr></table></figure>
+<h4 id="1222-allocator类"><a class="markdownIt-Anchor" href="#1222-allocator类"></a> 12.2.2 allocator类</h4>
+<ul>
+<li>将内存分配和对象构造分离开来</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">allocator&lt;T&gt; a			<span class="comment">// 定义了一个名为a的allocator对象</span></span><br><span class="line">a.allocate(n)			<span class="comment">// 分配一段未构造的内存保存n个对象</span></span><br><span class="line">a.deallocate(p, n)		<span class="comment">// 释放从T*指针p地址开始的内存，p必须							 是一个先前由allocate返回的指针，且							 n必须是p创建时所要求的大小。</span></span><br><span class="line">a.construct(p, agrs)	<span class="comment">// p必须指向一块原始内存；用来在p指向							的内存中构造对象</span></span><br><span class="line">a.destroy(p)			<span class="comment">// 对p指向的对象执行析构函数</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>分配未构造的内存</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> q = p;</span><br><span class="line">alloc.construct(q++, <span class="number">10</span>, <span class="string">'c'</span>);	<span class="comment">// *q为cccccccccc</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>拷贝和填充未初始化内存的算法</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">uninitialized_copy(b, e, b2)	<span class="comment">// 从b和e范围拷贝元素到b2指									定的原始内存中。 </span></span><br><span class="line">uninitialized_copy_n(b, n, b2)	<span class="comment">// 从b开始拷贝n个元素到b2中</span></span><br><span class="line">uninitialized_fill(b, e, t)		<span class="comment">// 在b和e范围中创建值为t对象</span></span><br><span class="line">uninitialized_fill_n(b, n, t)	<span class="comment">// 从b开始创建n个值为t的对象</span></span><br></pre></td></tr></table></figure>
+<h3 id="123-文本查询程序"><a class="markdownIt-Anchor" href="#123-文本查询程序"></a> 12.3 文本查询程序</h3>
+<h4 id="1231-文本查询程序设计"><a class="markdownIt-Anchor" href="#1231-文本查询程序设计"></a> 12.3.1 文本查询程序设计</h4>
+<ul>
+<li>用vector&lt;string&gt;保存整个输入文件的一份拷贝，每行作为vector中的一个元素</li>
+<li>使用istringstream将每行分解为单词</li>
+<li>使用set保存每个单词在输入文本中出现的行号</li>
+<li>使用一个map将每个单词与它出现的行号set关联起来</li>
+</ul>
+<h4 id="1232-文本查询程序类的定义"><a class="markdownIt-Anchor" href="#1232-文本查询程序类的定义"></a> 12.3.2 文本查询程序类的定义</h4>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2011%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8/" rel="next" title="第十一章 关联容器">
+                  <i class="fa fa-chevron-left"></i> 第十一章 关联容器
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2013%20%E6%8B%B7%E8%B4%9D%E6%8E%A7%E5%88%B6/" rel="prev" title="第十三章 拷贝控制">
+                  第十三章 拷贝控制 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十二章-动态内存"><span class="nav-text"> 第十二章 动态内存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#121-动态内存与智能指针"><span class="nav-text"> 12.1 动态内存与智能指针</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1211-shared_ptr类"><span class="nav-text"> 12.1.1 shared_ptr类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1212-直接管理内存"><span class="nav-text"> 12.1.2 直接管理内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1213-shared_ptr和new结合使用"><span class="nav-text"> 12.1.3 shared_ptr和new结合使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1214-智能指针和异常"><span class="nav-text"> 12.1.4 智能指针和异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1215-unique_ptr"><span class="nav-text"> 12.1.5 unique_ptr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1216-weak_ptr"><span class="nav-text"> 12.1.6 weak_ptr</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#122-动态数组"><span class="nav-text"> 12.2 动态数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1221-new和数组"><span class="nav-text"> 12.2.1 new和数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1222-allocator类"><span class="nav-text"> 12.2.2 allocator类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#123-文本查询程序"><span class="nav-text"> 12.3 文本查询程序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1231-文本查询程序设计"><span class="nav-text"> 12.3.1 文本查询程序设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1232-文本查询程序类的定义"><span class="nav-text"> 12.3.2 文本查询程序类的定义</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

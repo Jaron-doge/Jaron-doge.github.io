@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="1.1 计算  1.2 计算模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一章 绪论">
+<meta property="og:url" content="http://yoursite.com/2019/11/24/DS/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="1.1 计算  1.2 计算模型">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/1n7aKGZLTqxRCPd.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/tP52nRFeaToH63E.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/c1pJ4HBTlyU89Rw.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/Z9nc42N8TmuShHY.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/uR9e43iNdjlrTb2.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/TVAbndXsEzlCtO6.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/UIr4lSGeDCPMsRZ.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/WSEHT8b1qiyFYj3.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/FqYHMa5eWt7OX3k.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/5sRqHd7JokQPAVB.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/ejY9EtvipaHKTMX.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/24/AiJe6Fn4aEmzMTI.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/25/bWtp5wHOoukqAzn.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/25/cGaI89uAQPBMtil.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/26/zTJn8rQB3GsLpKd.png">
+<meta property="article:published_time" content="2019-11-24T15:39:28.000Z">
+<meta property="article:modified_time" content="2019-11-29T07:54:33.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="递归">
+<meta property="article:tag" content="二分">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/24/DS/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第一章 绪论 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/24/DS/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第一章 绪论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-24 23:39:28" itemprop="dateCreated datePublished" datetime="2019-11-24T23:39:28+08:00">2019-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-11-29 15:54:33" itemprop="dateModified" datetime="2019-11-29T15:54:33+08:00">2019-11-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>973</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="11-计算"><a class="markdownIt-Anchor" href="#11-计算"></a> 1.1 计算</h3>
+<h3 id="12-计算模型"><a class="markdownIt-Anchor" href="#12-计算模型"></a> 1.2 计算模型</h3>
+<a id="more"></a>
+<h3 id="13-大o记号"><a class="markdownIt-Anchor" href="#13-大o记号"></a> 1.3 大O记号</h3>
+<p>O(1) &lt; O(logn) &lt; O(n) &lt; O(n<sup>c</sup>)  &lt; O(2<sup>n</sup>)</p>
+<h3 id="14-算法分析"><a class="markdownIt-Anchor" href="#14-算法分析"></a> 1.4 算法分析</h3>
+<h4 id="141-级数"><a class="markdownIt-Anchor" href="#141-级数"></a> 1.4.1 级数</h4>
+<p><img src="https://i.loli.net/2019/11/24/V1btcgR9pLoyizm.jpg" alt="1.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/1n7aKGZLTqxRCPd.jpg" alt="2.jpg" /></p>
+<h4 id="142-循环"><a class="markdownIt-Anchor" href="#142-循环"></a> 1.4.2 循环</h4>
+<p><img src="https://i.loli.net/2019/11/24/tP52nRFeaToH63E.jpg" alt="3.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/c1pJ4HBTlyU89Rw.jpg" alt="4.jpg" /></p>
+<h4 id="143-非极端元素"><a class="markdownIt-Anchor" href="#143-非极端元素"></a> 1.4.3 非极端元素</h4>
+<p><img src="https://i.loli.net/2019/11/24/Z9nc42N8TmuShHY.jpg" alt="5.jpg" /></p>
+<h4 id="144-封底估计"><a class="markdownIt-Anchor" href="#144-封底估计"></a> 1.4.4 封底估计</h4>
+<p><img src="https://i.loli.net/2019/11/24/uR9e43iNdjlrTb2.jpg" alt="6.jpg" /></p>
+<h3 id="15迭代与递归"><a class="markdownIt-Anchor" href="#15迭代与递归"></a> 1.5迭代与递归</h3>
+<h4 id="151-减而治之"><a class="markdownIt-Anchor" href="#151-减而治之"></a> 1.5.1 减而治之</h4>
+<p><img src="https://i.loli.net/2019/11/24/ATfNyjX3oYC1tOc.jpg" alt="7.jpg" /></p>
+<h4 id="152-数组求和线性递归"><a class="markdownIt-Anchor" href="#152-数组求和线性递归"></a> 1.5.2 数组求和：线性递归</h4>
+<p><img src="https://i.loli.net/2019/11/24/TVAbndXsEzlCtO6.jpg" alt="8.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/UIr4lSGeDCPMsRZ.jpg" alt="10.jpg" /></p>
+<h4 id="153-数组倒置"><a class="markdownIt-Anchor" href="#153-数组倒置"></a> 1.5.3 数组倒置</h4>
+<p><img src="https://i.loli.net/2019/11/24/WSEHT8b1qiyFYj3.jpg" alt="11.jpg" /></p>
+<h4 id="154-分而治之"><a class="markdownIt-Anchor" href="#154-分而治之"></a> 1.5.4 分而治之</h4>
+<p><img src="https://i.loli.net/2019/11/24/FqYHMa5eWt7OX3k.jpg" alt="12.jpg" /></p>
+<h4 id="155-二分递归数组求和"><a class="markdownIt-Anchor" href="#155-二分递归数组求和"></a> 1.5.5 二分递归：数组求和</h4>
+<p><img src="https://i.loli.net/2019/11/24/5sRqHd7JokQPAVB.jpg" alt="13.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/24/ejY9EtvipaHKTMX.jpg" alt="14.jpg" /></p>
+<h4 id="156-二分递归-max2"><a class="markdownIt-Anchor" href="#156-二分递归-max2"></a> 1.5.6 二分递归: Max2</h4>
+<p><img src="https://i.loli.net/2019/11/24/AiJe6Fn4aEmzMTI.jpg" alt="16.jpg" /></p>
+<p><img src="https://i.loli.net/2019/11/25/bWtp5wHOoukqAzn.png" alt="1.5.6 1.png" /></p>
+<p><img src="https://i.loli.net/2019/11/25/cGaI89uAQPBMtil.png" alt="1.5.6 2.png" /></p>
+<h4 id="157-总结"><a class="markdownIt-Anchor" href="#157-总结"></a> 1.5.7 总结</h4>
+<ul>
+<li>算法
+<ul>
+<li>迭代：Iteration</li>
+<li>递归：Recursion</li>
+</ul>
+</li>
+<li>策略
+<ul>
+<li>减而治之：Decrease-and-conquer</li>
+<li>分而治之：Divide-and-conquer</li>
+</ul>
+</li>
+<li>分析方法
+<ul>
+<li>递归跟踪：Recursion trace</li>
+<li>递归式：Recurrence</li>
+</ul>
+</li>
+</ul>
+<h3 id="16-动态规划"><a class="markdownIt-Anchor" href="#16-动态规划"></a> 1.6 动态规划</h3>
+<h4 id="161-动态规划"><a class="markdownIt-Anchor" href="#161-动态规划"></a> 1.6.1 动态规划</h4>
+<p><img src="https://i.loli.net/2019/11/26/zTJn8rQB3GsLpKd.png" alt="1.6.1_1_.png" /></p>
+<h4 id="162-fibonacci"><a class="markdownIt-Anchor" href="#162-fibonacci"></a> 1.6.2 Fibonacci</h4>
+<p class='katex-block katex-error' title='ParseError: KaTeX parse error: Can&#039;t use function &#039;$&#039; in math mode at position 28: …{\sqrt{5}+1}{2}$̲$							//1.618…'>\Phi = \frac{\sqrt{5}+1}{2}$$							//1.618
+
+![1.6.2 _1_.png](https://i.loli.net/2019/11/26/LXgH2ymOrRYGutZ.png)
+
+
+
+![1.6.2 (2).png](https://i.loli.net/2019/11/26/j1WKUn3YOlCeBEJ.png)
+
+#### 1.6.3 最长公共子序列(Longest Common Subsequence)
+
+##### 1.6.3.1 递归
+
+![1.6.3.1 (1).png](https://i.loli.net/2019/11/26/RAWx31J5BuorUIc.png)
+
+
+
+![1.6.3.1 (2).png](https://i.loli.net/2019/11/26/mpPSC6Z7J2Y8rKz.png)
+
+
+
+![1.6.3.1 (3).png](https://i.loli.net/2019/11/26/KBsuFmtA8iq5kVP.png)
+
+
+
+![1.6.3.1 (4).png](https://i.loli.net/2019/11/26/HipaucXqz6RrbZF.png)
+
+
+
+![1.6.3.1 (5).png](https://i.loli.net/2019/11/26/zfdLshY5UkSJ49i.png)
+
+##### 1.6.3.2 动态规划
+
+![1.6.3.2(1).png](https://i.loli.net/2019/11/26/vCLoYAXsTZB2VUq.png)
+
+</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%80%92%E5%BD%92/" rel="tag"># 递归</a>
+              <a href="/tags/%E4%BA%8C%E5%88%86/" rel="tag"># 二分</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/17/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C%E4%B8%8E%E8%BD%AF%E4%BB%B6/" rel="next" title="第五章 数据通信网络与软件">
+                  <i class="fa fa-chevron-left"></i> 第五章 数据通信网络与软件
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/12/16/C++/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/" rel="prev" title="第三章 泛型编程风格">
+                  第三章 泛型编程风格 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-计算"><span class="nav-text"> 1.1 计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-计算模型"><span class="nav-text"> 1.2 计算模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-大o记号"><span class="nav-text"> 1.3 大O记号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-算法分析"><span class="nav-text"> 1.4 算法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#141-级数"><span class="nav-text"> 1.4.1 级数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#142-循环"><span class="nav-text"> 1.4.2 循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#143-非极端元素"><span class="nav-text"> 1.4.3 非极端元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#144-封底估计"><span class="nav-text"> 1.4.4 封底估计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15迭代与递归"><span class="nav-text"> 1.5迭代与递归</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#151-减而治之"><span class="nav-text"> 1.5.1 减而治之</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#152-数组求和线性递归"><span class="nav-text"> 1.5.2 数组求和：线性递归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#153-数组倒置"><span class="nav-text"> 1.5.3 数组倒置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#154-分而治之"><span class="nav-text"> 1.5.4 分而治之</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#155-二分递归数组求和"><span class="nav-text"> 1.5.5 二分递归：数组求和</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#156-二分递归-max2"><span class="nav-text"> 1.5.6 二分递归: Max2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#157-总结"><span class="nav-text"> 1.5.7 总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-动态规划"><span class="nav-text"> 1.6 动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#161-动态规划"><span class="nav-text"> 1.6.1 动态规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#162-fibonacci"><span class="nav-text"> 1.6.2 Fibonacci</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

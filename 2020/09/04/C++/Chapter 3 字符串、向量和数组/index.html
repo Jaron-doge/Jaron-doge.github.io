@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三章 字符串、向量和数组">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chapter%203%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第三章 字符串、向量和数组  3.1 命名空间的using声明  3.2 string  3.2.1 四种初始化方式">
+<meta property="article:published_time" content="2020-09-04T08:45:03.000Z">
+<meta property="article:modified_time" content="2021-10-09T02:22:34.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chapter%203%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第三章 字符串、向量和数组 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chapter%203%20%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三章 字符串、向量和数组
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-04 16:45:03" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:03+08:00">2020-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-09 10:22:34" itemprop="dateModified" datetime="2021-10-09T10:22:34+08:00">2021-10-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第三章-字符串-向量和数组"><a class="markdownIt-Anchor" href="#第三章-字符串-向量和数组"></a> 第三章 字符串、向量和数组</h2>
+<h3 id="31-命名空间的using声明"><a class="markdownIt-Anchor" href="#31-命名空间的using声明"></a> 3.1 命名空间的using声明</h3>
+<h3 id="32-string"><a class="markdownIt-Anchor" href="#32-string"></a> 3.2 string</h3>
+<h4 id="321-四种初始化方式"><a class="markdownIt-Anchor" href="#321-四种初始化方式"></a> 3.2.1 四种初始化方式</h4>
+<a id="more"></a>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1;				<span class="comment">// s1是空串</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s2</span><span class="params">(s1)</span></span>;			<span class="comment">// s2是s1的副本</span></span><br><span class="line"><span class="built_in">string</span> s2 = s1;			<span class="comment">// 等价于s2(s1)</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s3</span><span class="params">(n, <span class="string">'c'</span>)</span></span>;		<span class="comment">// 把s3初始化为由连续n个字符c组成的串</span></span><br></pre></td></tr></table></figure>
+<h4 id="322-string对象上的操作"><a class="markdownIt-Anchor" href="#322-string对象上的操作"></a> 3.2.2 string对象上的操作</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">os&lt;&lt;s;				<span class="comment">// 将s写到os中，返回os</span></span><br><span class="line">is&gt;&gt;s;				<span class="comment">// 从is中读取字符串给s，返回is</span></span><br><span class="line">getline(is, s);		<span class="comment">// 从is中读取一行给s，返回is</span></span><br><span class="line">s.empty();			<span class="comment">// s为空返回true</span></span><br><span class="line">s.<span class="built_in">size</span>();			<span class="comment">// 返回s中字符的个数</span></span><br><span class="line">s[n];				<span class="comment">// 返回s中第n个字符的引用</span></span><br><span class="line">s1 + s2;			<span class="comment">// 返回s1和s2连接后的结果</span></span><br><span class="line">s1 = s2;			<span class="comment">// 用s2的副本代替s1中原来的字符</span></span><br><span class="line">s1 == s2;			<span class="comment">// 如果s1和s2中所含的字符完全一样，则相等</span></span><br><span class="line">s1 != s2;			</span><br><span class="line">&lt;. &lt;=, &gt;, &gt;=;</span><br></pre></td></tr></table></figure>
+<h4 id="323-getline"><a class="markdownIt-Anchor" href="#323-getline"></a> 3.2.3 getline</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">getline(<span class="built_in">cin</span>, <span class="built_in">line</span>);</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="built_in">line</span> &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="324-字面值和string对象相加"><a class="markdownIt-Anchor" href="#324-字面值和string对象相加"></a> 3.2.4 字面值和string对象相加</h4>
+<ul>
+<li>
+<p>string与字符串字面值相加必须保证至少有一个运算对象是string</p>
+</li>
+<li>
+<p>字符串字面值与string是不同类型</p>
+</li>
+</ul>
+<h4 id="325-string对象中的字符"><a class="markdownIt-Anchor" href="#325-string对象中的字符"></a> 3.2.5 string对象中的字符</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isalnum</span>(c);		<span class="comment">// 字母和数字</span></span><br><span class="line"><span class="built_in">isalpha</span>(c);		<span class="comment">// 字母</span></span><br><span class="line"><span class="built_in">iscntrl</span>(c);		<span class="comment">// 控制字符</span></span><br><span class="line"><span class="built_in">isdigit</span>(c);		<span class="comment">// 数字</span></span><br><span class="line"><span class="built_in">isgraph</span>(c);		<span class="comment">// 不是空格但可打印</span></span><br><span class="line"><span class="built_in">islower</span>(c);		<span class="comment">// 小写字母</span></span><br><span class="line"><span class="built_in">isprint</span>(c);		<span class="comment">// 可打印字符</span></span><br><span class="line"><span class="built_in">ispunct</span>(c);		<span class="comment">// 标调符号</span></span><br><span class="line"><span class="built_in">isspace</span>(c);		<span class="comment">// 空白(空格、横向制表符、回车、换行等)</span></span><br><span class="line"><span class="built_in">isupper</span>(c);		<span class="comment">// 大写字母</span></span><br><span class="line"><span class="built_in">isxdigit</span>(c);	<span class="comment">// 十六进制数字</span></span><br><span class="line"><span class="built_in">tolower</span>(c);		<span class="comment">// 输出小写字母</span></span><br><span class="line"><span class="built_in">toupper</span>(c);		<span class="comment">// 输出大写字母</span></span><br></pre></td></tr></table></figure>
+<h4 id="326-范围for语句"><a class="markdownIt-Anchor" href="#326-范围for语句"></a> 3.2.6 范围for语句</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(declaration: expression)</span><br><span class="line">    statement</span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>遍历</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">"some string"</span>)</span></span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> c: str)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; c &lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="number">2.</span>赋值</span><br><span class="line">    <span class="comment">// 必须把循环变量定义成引用类型</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;c: str)</span><br><span class="line">        c = <span class="built_in">toupper</span>(c);</span><br></pre></td></tr></table></figure>
+<h3 id="33-vector"><a class="markdownIt-Anchor" href="#33-vector"></a> 3.3 vector</h3>
+<h4 id="331-vector初始化"><a class="markdownIt-Anchor" href="#331-vector初始化"></a> 3.3.1 vector初始化</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v1;						<span class="comment">// 空vector				</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">v2</span><span class="params">(v1)</span></span>;	</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2 = v1;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">v3</span><span class="params">(n, val)</span></span>;				<span class="comment">// n个val</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">v4</span><span class="params">(n)</span></span>;					<span class="comment">// n个初始化元素</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v4&#123;n&#125;;					<span class="comment">// 1个n</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>()用来描述容量,{}用来赋值</li>
+</ul>
+<h4 id="332-添加元素"><a class="markdownIt-Anchor" href="#332-添加元素"></a> 3.3.2 添加元素</h4>
+<ul>
+<li>push_back</li>
+</ul>
+<h3 id="34-迭代器"><a class="markdownIt-Anchor" href="#34-迭代器"></a> 3.4 迭代器</h3>
+<h4 id="341-begin和end"><a class="markdownIt-Anchor" href="#341-begin和end"></a> 3.4.1 begin和end</h4>
+<ul>
+<li>cbegin和cend返回const_iterator</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> it = v.cbegin();		<span class="comment">// it的类型是vector&lt;int&gt;::const_iterator</span></span><br></pre></td></tr></table></figure>
+<h4 id="342-迭代器运算"><a class="markdownIt-Anchor" href="#342-迭代器运算"></a> 3.4.2 迭代器运算</h4>
+<ul>
+<li>the <strong>+</strong> operator between two iterators is illegal.</li>
+</ul>
+<h3 id="35-数组"><a class="markdownIt-Anchor" href="#35-数组"></a> 3.5 数组</h3>
+<h4 id="351-数组初始化"><a class="markdownIt-Anchor" href="#351-数组初始化"></a> 3.5.1 数组初始化</h4>
+<ul>
+<li>
+<p>维度必须是一个常量表达式</p>
+</li>
+<li>
+<p>不能用auto</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *ptrs[<span class="number">10</span>];				<span class="comment">// ptrs是含有10个整形指针的数组</span></span><br><span class="line"><span class="keyword">int</span> (*Parray)[<span class="number">10</span>] = &amp;arr;	<span class="comment">// Parray指向一个含有10个整数的数组</span></span><br><span class="line"><span class="keyword">int</span> (&amp;arrRef)[<span class="number">10</span>] = arr;	<span class="comment">// arrRef引用一个含有10个整数的数组</span></span><br></pre></td></tr></table></figure>
+<h4 id="352-访问数组元素"><a class="markdownIt-Anchor" href="#352-访问数组元素"></a> 3.5.2 访问数组元素</h4>
+<h4 id="353-指针和数组"><a class="markdownIt-Anchor" href="#353-指针和数组"></a> 3.5.3 指针和数组</h4>
+<ol>
+<li>begin和end</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ia[] = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> *beg = <span class="built_in">begin</span>(ia);</span><br><span class="line"><span class="keyword">int</span> *<span class="built_in">end</span> = <span class="built_in">end</span>(ia);</span><br></pre></td></tr></table></figure>
+<h4 id="354-c风格字符串"><a class="markdownIt-Anchor" href="#354-c风格字符串"></a> 3.5.4 C风格字符串</h4>
+<ul>
+<li>头文件cstring</li>
+</ul>
+<h4 id="355-与旧代码的接口"><a class="markdownIt-Anchor" href="#355-与旧代码的接口"></a> 3.5.5 与旧代码的接口</h4>
+<ol>
+<li>c_str</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *str = s.c_str();		<span class="comment">// 返回一个C风格的字符串</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>使用数组初始化vector对象</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[] = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(<span class="built_in">begin</span>(arr), <span class="built_in">end</span>(arr))</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="36-多维数组"><a class="markdownIt-Anchor" href="#36-多维数组"></a> 3.6 多维数组</h3>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> row = <span class="number">3</span>, col = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> ia[row][col] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;row: ia)</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> col: row)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; col &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ia[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="keyword">int</span> (*p)[<span class="number">4</span>] = ia;	<span class="comment">// *p是一个含有4个整数的数组</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> p = <span class="built_in">begin</span>(ia); p != <span class="built_in">end</span>(ia); ++p) &#123;</span><br><span class="line">    <span class="comment">// q指向内层数组的首元素</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> q = <span class="built_in">begin</span>(*p); q != <span class="built_in">end</span>(*p); ++q)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; *q &lt;&lt; <span class="string">' '</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%202%20%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/" rel="next" title="第二章 变量和基本类型">
+                  <i class="fa fa-chevron-left"></i> 第二章 变量和基本类型
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%204%20%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="第四章 表达式">
+                  第四章 表达式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-字符串-向量和数组"><span class="nav-text"> 第三章 字符串、向量和数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#31-命名空间的using声明"><span class="nav-text"> 3.1 命名空间的using声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-string"><span class="nav-text"> 3.2 string</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#321-四种初始化方式"><span class="nav-text"> 3.2.1 四种初始化方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#322-string对象上的操作"><span class="nav-text"> 3.2.2 string对象上的操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#323-getline"><span class="nav-text"> 3.2.3 getline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#324-字面值和string对象相加"><span class="nav-text"> 3.2.4 字面值和string对象相加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#325-string对象中的字符"><span class="nav-text"> 3.2.5 string对象中的字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#326-范围for语句"><span class="nav-text"> 3.2.6 范围for语句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-vector"><span class="nav-text"> 3.3 vector</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#331-vector初始化"><span class="nav-text"> 3.3.1 vector初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#332-添加元素"><span class="nav-text"> 3.3.2 添加元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-迭代器"><span class="nav-text"> 3.4 迭代器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#341-begin和end"><span class="nav-text"> 3.4.1 begin和end</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#342-迭代器运算"><span class="nav-text"> 3.4.2 迭代器运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-数组"><span class="nav-text"> 3.5 数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#351-数组初始化"><span class="nav-text"> 3.5.1 数组初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#352-访问数组元素"><span class="nav-text"> 3.5.2 访问数组元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#353-指针和数组"><span class="nav-text"> 3.5.3 指针和数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#354-c风格字符串"><span class="nav-text"> 3.5.4 C风格字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#355-与旧代码的接口"><span class="nav-text"> 3.5.5 与旧代码的接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-多维数组"><span class="nav-text"> 3.6 多维数组</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

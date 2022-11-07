@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第六章 以template进行编程  6.0 Binary tree">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 以template进行编程">
+<meta property="og:url" content="http://yoursite.com/2020/01/04/C++/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%A5template%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第六章 以template进行编程  6.0 Binary tree">
+<meta property="og:image" content="https://i.loli.net/2020/01/04/k5HXq9MRjQbGNc6.png">
+<meta property="article:published_time" content="2020-01-04T13:16:25.000Z">
+<meta property="article:modified_time" content="2021-04-20T04:40:00.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="Essential C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/01/04/k5HXq9MRjQbGNc6.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/04/C++/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%A5template%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第六章 以template进行编程 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/04/C++/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%A5template%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第六章 以template进行编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-04 21:16:25" itemprop="dateCreated datePublished" datetime="2020-01-04T21:16:25+08:00">2020-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-04-20 12:40:00" itemprop="dateModified" datetime="2021-04-20T12:40:00+08:00">2021-04-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>9.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第六章-以template进行编程"><a class="markdownIt-Anchor" href="#第六章-以template进行编程"></a> 第六章 以template进行编程</h2>
+<h3 id="60-binary-tree"><a class="markdownIt-Anchor" href="#60-binary-tree"></a> 6.0 Binary tree</h3>
+<a id="more"></a>
+<ul>
+<li>
+<p>tree由结点(node 或 vertice) 以及连接不同结点的链接(link)组成。</p>
+</li>
+<li>
+<p>左子节点(left child)、右子节点(right child)，根节点(root)、叶结点(leaf)。</p>
+</li>
+<li>
+<p>insert、remove、find、clear、print</p>
+</li>
+<li>
+<p>包含两个class: BinaryTree储存一个指向根节点的指针，BTnode存储节点实值以及连接至左、右两个子节点的链接。</p>
+</li>
+<li>
+<p>遍历</p>
+<p><img src="https://i.loli.net/2020/01/04/k5HXq9MRjQbGNc6.png" alt="image-20200104231238849.png" /></p>
+<ul>
+<li>
+<p>前序(preorder): 节点—&gt;左子树—&gt;右子树</p>
+<p>Piglet, Eeyore, Chris, Kanga, Roo, Pooh, Tigger</p>
+</li>
+<li>
+<p>中序(inorder): 左子树—&gt;节点—&gt;右子树</p>
+<p>Chris, Eeyore, Kanga, Piglet, Pooh, Roo, Tigger</p>
+</li>
+<li>
+<p>后序(postorder): 左子树—&gt;右子树—&gt;节点</p>
+<p>Chris, Kanga, Eeyore,  Pooh, Tigger, Roo, Piglet</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="61-被参数化的类型"><a class="markdownIt-Anchor" href="#61-被参数化的类型"></a> 6.1 被参数化的类型</h3>
+<h4 id="611-template"><a class="markdownIt-Anchor" href="#611-template"></a> 6.1.1 template</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">string_BTnode</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    valType _val;</span><br><span class="line">    <span class="keyword">int</span> _cnt;</span><br><span class="line">    string_BTnode *_lchild;</span><br><span class="line">    string_BTnode *_rchild;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>friend</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Type&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span>;</span>	<span class="comment">// 前置声明</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BTnode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 以下操作使得BinaryTree的全部member function都成为</span></span><br><span class="line">    <span class="comment">// BTnode的friend</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span>&lt;valType&gt;;</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>实例化</p>
+<p>将实际类型绑定至class template。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BTnode&lt;<span class="keyword">int</span>&gt; bti;</span><br><span class="line">BTnode&lt;<span class="built_in">string</span>&gt; bts;</span><br><span class="line"><span class="comment">// “代入string而产生出来的BinaryTree”是“代入string所产生出来的BTnode”的friend，不是“代入int所产生出来的BTnode”的friend。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// BTnode必须以template parameter list加以限定</span></span><br><span class="line">    BTnode&lt;elemType&gt; *_root;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="62-class-template-的定义"><a class="markdownIt-Anchor" href="#62-class-template-的定义"></a> 6.2 Class Template 的定义</h3>
+<ol>
+<li></li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    BinaryTree();</span><br><span class="line">    BinaryTree(<span class="keyword">const</span> BinaryTree&amp;);</span><br><span class="line">    ~BinaryTree();</span><br><span class="line">    BinaryTree&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> BinaryTree&amp;);</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _root == <span class="number">0</span>;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    BTnode&lt;elemType&gt; *_root;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将src所指子树(subtree)复制到tar所指子树。</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">copy</span><span class="params">(BTnode&lt;elemType&gt;*tar, 		  			BTnode&lt;elemType&gt;*src)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>为class template定义一个inline函数，正常定义，如empty()。</p>
+<p>但是在类体外，定义语法则不同。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> BinaryTree&lt;elemType&gt;::</span><br><span class="line">BinaryTree() : _root(<span class="number">0</span>) </span><br><span class="line">&#123;&#125;</span><br><span class="line"><span class="comment">// 在class scope运算符出现后，其后所有的东西</span></span><br><span class="line"><span class="comment">// 都被视为位于class定义范围内。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// copy constructor</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> BinaryTree&lt;elemType&gt;::</span><br><span class="line">BinaryTree(<span class="keyword">const</span> BinaryTree&amp; rhs)</span><br><span class="line">	&#123;copy(_root, rhs._root);&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// destructor</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> BinaryTree&lt;elemType&gt;::</span><br><span class="line">~BinaryTree()</span><br><span class="line">	&#123;<span class="built_in">clear</span>();&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// copy assignment operator</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> BinaryTree&lt;elemType&gt;&amp;</span><br><span class="line">BinaryTree&lt;elemType&gt;::</span><br><span class="line"><span class="keyword">operator</span>=(<span class="keyword">const</span> BinaryTree &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span> != &amp;rhs) &#123;</span><br><span class="line">        <span class="built_in">clear</span>();</span><br><span class="line">        copy(_root, rhs._root);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="63-template-类型的参数"><a class="markdownIt-Anchor" href="#63-template-类型的参数"></a> 6.3 Template 类型的参数</h3>
+<ol>
+<li>constructor初始化</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">inline</span> BTnode&lt;valType&gt;::</span><br><span class="line">BTnode(<span class="keyword">const</span> valType &amp;val)</span><br><span class="line">    <span class="comment">// 将valType视为某种class类型</span></span><br><span class="line">    : _val(val)	<span class="comment">// 不建议在函数体内赋值，因为可能是class类型</span></span><br><span class="line">&#123;</span><br><span class="line">	_cnt = <span class="number">1</span>;</span><br><span class="line">        _lchild  = _rchild = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="64-实现class-template"><a class="markdownIt-Anchor" href="#64-实现class-template"></a> 6.4 实现Class Template</h3>
+<h4 id="641-insert"><a class="markdownIt-Anchor" href="#641-insert"></a> 6.4.1 insert</h4>
+<ol>
+<li>insert</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span></span><br><span class="line">BinaryTree&lt;elemType&gt;::</span><br><span class="line">insert(<span class="keyword">const</span> elemType &amp;elem)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!_root)</span><br><span class="line">        _root = <span class="keyword">new</span> BTnode&lt;elemType&gt;(elem);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        _root-&gt;insert_value(elem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>insert_value</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">insert_value(<span class="keyword">const</span> valType &amp;val)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(val == _val) &#123;</span><br><span class="line">        _cnt++;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(val &lt; _val) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!_lchild)</span><br><span class="line">            _lchild = <span class="keyword">new</span> BTnode(val);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            _lchild-&gt;insert_value(val);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(!_rchild)</span><br><span class="line">            _rchild = <span class="keyword">new</span> BTnode(val);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            _rchild-&gt;insert_value(val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="642-remove"><a class="markdownIt-Anchor" href="#642-remove"></a> 6.4.2 remove</h4>
+<p>以节点的右子节点取代节点本身，然后搬移左子节点，使它成为右子节点的左子树的叶节点。如果此刻并无右子节点，那么就以左子节点取代节点本身。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">void</span></span><br><span class="line">BinaryTree&lt;elemType&gt;::</span><br><span class="line"><span class="built_in">remove</span>(<span class="keyword">const</span> elemType &amp;elem)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(_root) &#123;</span><br><span class="line">        <span class="keyword">if</span>(_root-&gt;val == elem)</span><br><span class="line">            remove_root();	<span class="comment">// 根节点的移除操作以特例处理</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            _root-&gt;remove_value(elem, _root);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​	无论remove_root()或remove_value()，都会搬移左子节点，使它成为右子节点的左子树的叶结点。将操作剥离至lchild_leaf()</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">lchild_leaf(BTnode *leaf, BTnode *subtree)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">while</span>(subtree-&gt;_lchild)</span><br><span class="line">        subtree = subtree-&gt;_lchild;</span><br><span class="line">    subtree-&gt;_lchild = leaf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>remove_root</li>
+</ol>
+<p>如果根节点拥有任何子节点，remove_root()就会重设根节点。如果右子节点存在，就以右子节点取而代之；如果左子节点存在，就直接搬移，或通过lchild_leaf()完成。如果右子节点为null，_root便以左子节点取代。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">void</span> BinaryTree&lt;elemType&gt;::</span><br><span class="line">remove_root()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!_root) </span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    BTnode&lt;elemType&gt; *tmp = _root;</span><br><span class="line">    <span class="keyword">if</span>(_root-&gt;_rchild) &#123;</span><br><span class="line">        _root = _root-&gt;_rchild;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 好啦，现在我们必须将左子节点搬移到</span></span><br><span class="line">        <span class="comment">// 右子节点的左子树的底部</span></span><br><span class="line">        <span class="keyword">if</span>(tmp-&gt;_lchild) &#123;</span><br><span class="line">            <span class="comment">// 为了可读性，分解如下。</span></span><br><span class="line">            BTnode&lt;elemType&gt; *lc = tmp-&gt;_lchild;</span><br><span class="line">            BTnode&lt;elemType&gt; *newlc = _root-&gt;_lchild;</span><br><span class="line">            <span class="keyword">if</span>(!newlc)</span><br><span class="line">                <span class="comment">// 没有任何子树，那么就直接接上</span></span><br><span class="line">                _root-&gt;_lchild= lc;</span><br><span class="line">            <span class="comment">// lchild_leaf()会遍历整个左子树</span></span><br><span class="line">            <span class="comment">// 寻找某个可接上去的null左子节点。</span></span><br><span class="line">            <span class="comment">// lchild_leaf是个static member function。</span></span><br><span class="line">            <span class="keyword">else</span> BTnode&lt;elemType&gt;::lchild_leaf(lc,newlc);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> _root = _root-&gt;_lchild;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">delete</span> tmp;	<span class="comment">// ok：现在我们已移去先前的那个根节点了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>remove_value</p>
+<p>remove_value()拥有两个参数，将被删除的值(如果存在的话)以及一个指针，指向目前关注的节点的父节点。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">remove_value(<span class="keyword">const</span> valType &amp;val, BTnode *&amp; prev);</span><br></pre></td></tr></table></figure>
+<p>​	两个参数皆以传址(by reference)方式传递，这是为了避免“当valType被指定为class类型时，因传值(by value)而产生的昂贵的复制开销”。</p>
+<p>​	第二个参数用reference to pointer。如果以pointer传递，只能改变pointer所指之物，而不是pointer本身。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">remove_value(<span class="keyword">const</span> valType &amp;val, BTnode *&amp; prev)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(val &lt; _val) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!_lchild)</span><br><span class="line">            <span class="keyword">return</span>;	<span class="comment">// 不在此二叉树中</span></span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            _lchild-&gt;remove_value(val, _lchild);</span><br><span class="line">        <span class="comment">// 指向下一个</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(val &gt; _val) &#123;</span><br><span class="line">        <span class="keyword">if</span>(!_rchild)</span><br><span class="line">            <span class="keyword">return</span>;	<span class="comment">// 不在此二叉树中</span></span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">            _rchild-&gt;romove_value(val, _rchild);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// ok: 找到了</span></span><br><span class="line">        <span class="comment">// 重置此树，然后删除这一节点</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(_rchild) &#123;</span><br><span class="line">            prev = _rchild;</span><br><span class="line">            <span class="comment">// 如果根节点的左子节点存在</span></span><br><span class="line">            <span class="keyword">if</span>(_lchild)</span><br><span class="line">                <span class="comment">// 如果右子节点的左子树点不存在</span></span><br><span class="line">                <span class="keyword">if</span>(! prev-&gt;_lchild)</span><br><span class="line">                    <span class="comment">// 根节点的左子节点给右子节点</span></span><br><span class="line">                    prev-&gt;_lchild = _lchild;</span><br><span class="line">            	<span class="comment">// 如果右子节点的左子树存在</span></span><br><span class="line">            	<span class="keyword">else</span></span><br><span class="line">                    <span class="comment">// 转移到最左边的那一个</span></span><br><span class="line">                    BTnode&lt;valType&gt;::</span><br><span class="line">            		lchild_leaf(_lchild, prev-&gt;_lchild);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> prev = _lchild;</span><br><span class="line">        <span class="keyword">delete</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="643-clear"><a class="markdownIt-Anchor" href="#643-clear"></a> 6.4.3 clear</h3>
+<p>​	删除整棵二叉树。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryTree</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(_root)</span><br><span class="line">            <span class="built_in">clear</span>(_root);</span><br><span class="line">        _root = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// 重载版本</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">(BTnode&lt;elemType&gt;*)</span></span>;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>定义</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">void</span> BinaryTree&lt;elemType&gt;::</span><br><span class="line"><span class="built_in">clear</span>(BTnode&lt;elemType&gt; *pt)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(pt) &#123;</span><br><span class="line">        <span class="built_in">clear</span>(pt-&gt;_lchild);</span><br><span class="line">        <span class="built_in">clear</span>(pt-&gt;_rchild);</span><br><span class="line">        <span class="keyword">delete</span> pt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="644-order"><a class="markdownIt-Anchor" href="#644-order"></a> 6.4.4 order</h3>
+<p>​	三个算法的差别仅在于三个操作的执行顺序</p>
+<ol>
+<li>preorder</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">preorder(BTnode *pt, ostream &amp;os) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(pt) &#123;</span><br><span class="line">        display_val(pt, os);</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_lchild)</span><br><span class="line">            preorder(pt-&gt;_lchild, os);</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_rchild)</span><br><span class="line">            preorder(pt-&gt;_rchild, os);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>inorder</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">inorder(BTnode *pt, ostream &amp;os) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(pt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_lchild)</span><br><span class="line">            preorder(pt-&gt;_lchild, os);</span><br><span class="line">        display_val(pt, os);</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_rchild)</span><br><span class="line">            preorder(pt-&gt;_rchild, os);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>postorder</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> valType&gt;</span><br><span class="line"><span class="keyword">void</span> BTnode&lt;valType&gt;::</span><br><span class="line">postorder(BTnode *pt, ostream &amp;os) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(pt) &#123;</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_lchild)</span><br><span class="line">            preorder(pt-&gt;_lchild, os);</span><br><span class="line">        <span class="keyword">if</span>(pt-&gt;_rchild)</span><br><span class="line">            preorder(pt-&gt;_rchild, os);</span><br><span class="line">         display_val(pt, os);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="65-output运算符"><a class="markdownIt-Anchor" href="#65-output运算符"></a> 6.5 output运算符</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// function template版本</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="keyword">inline</span> ostream&amp;</span><br><span class="line"><span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, <span class="keyword">const</span> BinaryTree&lt;elemType&gt; &amp;bt)</span><br><span class="line">&#123;</span><br><span class="line">    os &lt;&lt; <span class="string">"Tree: "</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    bt.<span class="built_in">print</span>(os);</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="66-常量表达式与默认参数值"><a class="markdownIt-Anchor" href="#66-常量表达式与默认参数值"></a> 6.6 常量表达式与默认参数值</h3>
+<ol>
+<li>Template参数并不是非得已某种类型不可，也可以用常量表达式作为template参数。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> len&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">num_sequence(<span class="keyword">int</span> beg_pos = <span class="number">1</span>);</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">int</span> len&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fibonacci</span>:</span><span class="keyword">public</span> num_sequence&lt;len&gt; &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">Fibonacci(<span class="keyword">int</span> beg_pos = <span class="number">1</span>)</span><br><span class="line">    : num_sequence&lt;len&gt;(beg_pos)&#123;&#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>默认值</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">int</span> len, <span class="keyword">int</span> beg_pos&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span>&#123;</span> ... &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">int</span> len, <span class="keyword">int</span> beg_pos = <span class="number">1</span>&gt;</span><br><span class="line">class Fibonacci:<span class="keyword">public</span> num_sequence&lt;len,beg_pos&gt;</span><br><span class="line">&#123; ... &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">    <span class="comment">// 下面这行会被展开为</span></span><br><span class="line">    <span class="comment">// num_sequence&lt;32,1&gt; *pnslto32 = new Fibonacci&lt;32,1&gt;;</span></span><br><span class="line">    num_seuquence&lt;<span class="number">32</span>&gt; *pnslto32 = <span class="keyword">new</span> Fibonacci&lt;<span class="number">32</span>&gt;;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>地址也是一种常量表达式</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">void</span> (*pf)(<span class="keyword">int</span> pos, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq)&gt;	<span class="comment">// 函数指针</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">numeric_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	numeric_sequence(<span class="keyword">int</span> len, <span class="keyword">int</span> beg_pos = <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!pf)</span><br><span class="line">            <span class="keyword">return</span> ;</span><br><span class="line">        </span><br><span class="line">        _len = len &gt; <span class="number">0</span> ? len : <span class="number">1</span>;</span><br><span class="line">        _beg_pos = beg_pos &gt; <span class="number">0</span> ? beg_pos : <span class="number">1</span>;</span><br><span class="line">        pf(beg_pos + len - <span class="number">1</span>, _elems);</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> 		_len;</span><br><span class="line">    <span class="keyword">int</span> 		_beg_pos;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; _elems;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// pf是一个指向“依据特定数列类型，产生pos个元素，放到vector内”的函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fibonacci</span><span class="params">(<span class="keyword">int</span> pos, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;seq)</span></span>;</span><br><span class="line"><span class="function">numeric_sequence&lt;fibonacci&gt; <span class="title">ns_fib</span><span class="params">(<span class="number">12</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="67-以template参数作为设计策略"><a class="markdownIt-Anchor" href="#67-以template参数作为设计策略"></a> 6.7 以Template参数作为设计策略</h3>
+<h4 id="671-lessthan-function-object"><a class="markdownIt-Anchor" href="#671-lessthan-function-object"></a> 6.7.1 LessThan function object</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LessThan</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	LessThan(<span class="keyword">const</span> elemType &amp;val) : _val(val) &#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> elemType &amp;val)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function">    			   </span>&#123; <span class="keyword">return</span> val &lt; _val;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">val</span><span class="params">(<span class="keyword">const</span> elemType &amp;newval)</span> </span>&#123;_val = newval;&#125;</span><br><span class="line">    <span class="function">elemType <span class="title">val</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _val;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    elemType _val;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// less&lt;&gt;(a, b) &#123;return a &lt; b;&#125;</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType, <span class="keyword">typename</span> Comp = less&lt;elemType&gt; &gt;</span><br><span class="line">class LessThanPred &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	LessThanPred(<span class="keyword">const</span> elemType &amp;val) : _val(val) &#123;&#125;</span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>() (<span class="keyword">const</span> elemType &amp;val) <span class="keyword">const</span></span><br><span class="line">    &#123;<span class="keyword">return</span> Comp(val, _val);&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">val</span><span class="params">(<span class="keyword">const</span> emeTYple &amp;newval)</span> </span>&#123;_val = newval;&#125;</span><br><span class="line">    <span class="function">elemType <span class="title">val</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _val;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	elemType _val;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串比较版本</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StringLen</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;s1, <span class="keyword">const</span> <span class="built_in">string</span> &amp;s2)</span></span></span><br><span class="line"><span class="function">    </span>&#123;<span class="keyword">return</span> s1.<span class="built_in">size</span>() &lt; s2.<span class="built_in">size</span>();&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="function">LessThanPred&lt;<span class="keyword">int</span>&gt; <span class="title">ltpi</span><span class="params">(<span class="number">1024</span>)</span></span>;</span><br><span class="line">LessThanPred&lt;string, StringLen&gt; ltps("Pooh");</span><br></pre></td></tr></table></figure>
+<h3 id="68-member-template-function"><a class="markdownIt-Anchor" href="#68-member-template-function"></a> 6.8 Member Template Function</h3>
+<ol>
+<li>member template function</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrintIt</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	PrintIt(ostream &amp;os)</span><br><span class="line">        : _os(os) &#123;&#125;</span><br><span class="line">    <span class="comment">// 下面是一个member template function</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> elemType&gt;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> elemTYpe &amp;elem, <span class="keyword">char</span> delimiter = <span class="string">'\n'</span>)</span></span></span><br><span class="line"><span class="function">    </span>&#123; _os &lt;&lt; elem &lt;&lt; delimiter;&#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	ostream&amp; _os;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="function">PrintIt <span class="title">to_standard_out</span><span class="params">(<span class="built_in">cout</span>)</span></span>;</span><br><span class="line">to_standard_out.<span class="built_in">print</span>(<span class="string">"hello"</span>);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Class template内也可以定义member template function.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> OutStream&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrintIt</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	PrintIt(OutStream &amp;os)</span><br><span class="line">        : _os(os) &#123;&#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Essential-C/" rel="tag"># Essential C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/03/C++/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/" rel="next" title="第五章 面向对象编程风格">
+                  <i class="fa fa-chevron-left"></i> 第五章 面向对象编程风格
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/01/11/C++/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="prev" title="第七章 异常处理">
+                  第七章 异常处理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-以template进行编程"><span class="nav-text"> 第六章 以template进行编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#60-binary-tree"><span class="nav-text"> 6.0 Binary tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#61-被参数化的类型"><span class="nav-text"> 6.1 被参数化的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#611-template"><span class="nav-text"> 6.1.1 template</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-class-template-的定义"><span class="nav-text"> 6.2 Class Template 的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-template-类型的参数"><span class="nav-text"> 6.3 Template 类型的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-实现class-template"><span class="nav-text"> 6.4 实现Class Template</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#641-insert"><span class="nav-text"> 6.4.1 insert</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#642-remove"><span class="nav-text"> 6.4.2 remove</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#643-clear"><span class="nav-text"> 6.4.3 clear</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#644-order"><span class="nav-text"> 6.4.4 order</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-output运算符"><span class="nav-text"> 6.5 output运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-常量表达式与默认参数值"><span class="nav-text"> 6.6 常量表达式与默认参数值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#67-以template参数作为设计策略"><span class="nav-text"> 6.7 以Template参数作为设计策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#671-lessthan-function-object"><span class="nav-text"> 6.7.1 LessThan function object</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#68-member-template-function"><span class="nav-text"> 6.8 Member Template Function</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

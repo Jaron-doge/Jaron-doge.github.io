@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CSS高级技巧  1. 精灵图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 CSS高级技巧">
+<meta property="og:url" content="http://yoursite.com/2021/07/19/%E5%89%8D%E7%AB%AF/4%20CSS%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="CSS高级技巧  1. 精灵图">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/LjC4XIKGqAR3QFV.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/KXMGtqLyEDH5VNf.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/OqobtJjlnQGi63A.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/a4Hl6MDkuA72wVp.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/sgLRzUrI3M8mWVc.png">
+<meta property="article:published_time" content="2021-07-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-29T10:58:17.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/21/LjC4XIKGqAR3QFV.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/19/%E5%89%8D%E7%AB%AF/4%20CSS%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>4 CSS高级技巧 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/19/%E5%89%8D%E7%AB%AF/4%20CSS%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          4 CSS高级技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-19 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-19T00:00:00+08:00">2021-07-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-29 18:58:17" itemprop="dateModified" datetime="2021-08-29T18:58:17+08:00">2021-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>4.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="css高级技巧"><a class="markdownIt-Anchor" href="#css高级技巧"></a> CSS高级技巧</h2>
+<h3 id="1-精灵图"><a class="markdownIt-Anchor" href="#1-精灵图"></a> 1. 精灵图</h3>
+<a id="more"></a>
+<p>有效地减少服务器接收和发送请求的次数，提高页面的加载速度</p>
+<h4 id="11-精灵图的使用"><a class="markdownIt-Anchor" href="#11-精灵图的使用"></a> 1.1 精灵图的使用</h4>
+<ol>
+<li>精灵技术主要针对于背景图片使用。就是把多个小背景图片整合到一张大图片中。</li>
+<li>这个大图片也称为 sprites 精灵图</li>
+<li>移动背景图片位置， 此时可以使用 background-position 。</li>
+<li>移动的距离就是这个目标图片的 x 和 y 坐标。注意网页中的坐标有所不同</li>
+<li>因为一般情况下都是往上往左移动，所以数值是负值。</li>
+<li>使用精灵图的时候需要精确测量，每个小背景图片的大小和位置。</li>
+</ol>
+ <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">60px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">60px</span>;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">100px</span> auto;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(./images/sprites.png) no-repeat -<span class="number">182px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-字体图标"><a class="markdownIt-Anchor" href="#2-字体图标"></a> 2. 字体图标</h3>
+<p>字体图标使用场景： 主要用于显示网页中通用、常用的一些小图标</p>
+<p>字体图标可以为前端工程师提供一种方便高效的图标使用方式，展示的是图标，本质属于字体。</p>
+<h4 id="21-优点"><a class="markdownIt-Anchor" href="#21-优点"></a> 2.1 优点</h4>
+<ul>
+<li>
+<p>轻量级</p>
+</li>
+<li>
+<p>灵活性</p>
+</li>
+<li>
+<p>兼容性</p>
+</li>
+</ul>
+<h4 id="22-字体图标的引入"><a class="markdownIt-Anchor" href="#22-字体图标的引入"></a> 2.2 字体图标的引入</h4>
+<p>通过css将字体图标引入（到阿里巴巴矢量图库上复制代码）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"iconfont"</span>; <span class="comment">/* Project id 2682552 */</span></span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">'http://at.alicdn.com/t/font_2682552_i74b4euo3zg.woff2?t=1626590070178'</span>) <span class="built_in">format</span>(<span class="string">'woff2'</span>),</span><br><span class="line">       <span class="built_in">url</span>(<span class="string">'http://at.alicdn.com/t/font_2682552_i74b4euo3zg.woff?t=1626590070178'</span>) <span class="built_in">format</span>(<span class="string">'woff'</span>),</span><br><span class="line">       <span class="built_in">url</span>(<span class="string">'http://at.alicdn.com/t/font_2682552_i74b4euo3zg.ttf?t=1626590070178'</span>) <span class="built_in">format</span>(<span class="string">'truetype'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.iconfont</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"iconfont"</span> <span class="meta">!important</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">  <span class="attribute">font-style</span>: normal;</span><br><span class="line">  <span class="attribute">-webkit-font-smoothing</span>: antialiased;</span><br><span class="line">  <span class="attribute">-moz-osx-font-smoothing</span>: grayscale;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.icon-sousuo_huaban1</span><span class="selector-pseudo">:before</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">"\e60d"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-css三角"><a class="markdownIt-Anchor" href="#3-css三角"></a> 3. CSS三角</h3>
+<p>三边设置透明，一边有颜色</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line"> <span class="attribute">line-height</span>: <span class="number">0</span>;</span><br><span class="line"> <span class="attribute">font-size</span>: <span class="number">0</span>;</span><br><span class="line"> <span class="attribute">border</span>: <span class="number">50px</span> solid transparent;</span><br><span class="line"> <span class="attribute">border-left-color</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="31-案例"><a class="markdownIt-Anchor" href="#31-案例"></a> 3.1 案例</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.jd</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">120px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">249px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line"><span class="selector-class">.jd</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">15px</span>;</span><br><span class="line">    <span class="attribute">top</span>: -<span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">5px</span> solid transparent;</span><br><span class="line">    <span class="attribute">border-bottom-color</span>: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-用户界面样式"><a class="markdownIt-Anchor" href="#4-用户界面样式"></a> 4. 用户界面样式</h3>
+<h4 id="41-鼠标样式cursor"><a class="markdownIt-Anchor" href="#41-鼠标样式cursor"></a> 4.1 鼠标样式cursor</h4>
+<p>设置或检索在对象上移动的鼠标指针采用何种系统预定义的光标形状。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/LjC4XIKGqAR3QFV.png" alt="1571521805183.png" /></p>
+<h4 id="42-轮廓线-outline"><a class="markdownIt-Anchor" href="#42-轮廓线-outline"></a> 4.2 轮廓线 outline</h4>
+<p>给表单添加 outline: 0; 或者 outline: none; 样式之后，就可以去掉默认的蓝色边框。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">input</span> &#123;</span><br><span class="line">    <span class="attribute">outline</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="43-防止拖拽文本域-resize"><a class="markdownIt-Anchor" href="#43-防止拖拽文本域-resize"></a> 4.3  防止拖拽文本域 resize</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">textarea</span>&#123; <span class="attribute">resize</span>: none;&#125;</span><br></pre></td></tr></table></figure>
+<p>注：文本域尽量放到一行，不然首字会有空隙</p>
+<h3 id="5-vertical-align"><a class="markdownIt-Anchor" href="#5-vertical-align"></a> 5. vertical-align</h3>
+<p>经常用于设置图片或者表单(行内块元素）和文字垂直对齐。</p>
+<p>用于设置一个元素的垂直对齐方式，但是它只针对于行内元素或者行内块元素有效。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vertical-align : baseline | top | middle | bottom</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/KXMGtqLyEDH5VNf.png" alt="1571522023413.png" /></p>
+<img src="https://i.loli.net/2021/07/21/OqobtJjlnQGi63A.png" alt="1571522040645.png" style="zoom:80%;" />
+<h4 id="51-图片和文字垂直居中"><a class="markdownIt-Anchor" href="#51-图片和文字垂直居中"></a> 5.1 图片和文字垂直居中</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">img</span> &#123;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="52-解决图片底部默认空白缝隙问题"><a class="markdownIt-Anchor" href="#52-解决图片底部默认空白缝隙问题"></a> 5.2 解决图片底部默认空白缝隙问题</h4>
+<p>图片底侧会有一个空白缝隙，原因是行内块元素会和文字的基线对齐。</p>
+<p><strong>解决方法</strong></p>
+<ol>
+<li>给图片添加 vertical-align: middle | top| bottom（提倡使用的）</li>
+<li>把图片转换为块级元素 display: block;</li>
+</ol>
+<h3 id="6-溢出的文字省略号显示"><a class="markdownIt-Anchor" href="#6-溢出的文字省略号显示"></a> 6. 溢出的文字省略号显示</h3>
+<h4 id="1-单行文本溢出显示省略号"><a class="markdownIt-Anchor" href="#1-单行文本溢出显示省略号"></a> 1. 单行文本溢出显示省略号</h4>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*1. 先强制一行内显示文本*/</span></span><br><span class="line"> white-space: nowrap; （ 默认 normal 自动换行）</span><br><span class="line"> <span class="comment">/*2. 超出的部分隐藏*/</span></span><br><span class="line"> overflow: hidden;</span><br><span class="line"> <span class="comment">/*3. 文字用省略号替代超出的部分*/</span></span><br><span class="line"> text-overflow: ellipsis;</span><br></pre></td></tr></table></figure>
+<h4 id="2-多行文本溢出显示省略号"><a class="markdownIt-Anchor" href="#2-多行文本溢出显示省略号"></a> 2. 多行文本溢出显示省略号</h4>
+<p>多行文本溢出显示省略号，有较大兼容性问题， 适合于webkit浏览器或移动端（移动端大部分是webkit内核）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">overflow</span>: <span class="selector-tag">hidden</span>;</span><br><span class="line"><span class="selector-tag">text-overflow</span>: <span class="selector-tag">ellipsis</span>;</span><br><span class="line"><span class="comment">/* 弹性伸缩盒子模型显示 */</span></span><br><span class="line"><span class="selector-tag">display</span>: <span class="selector-tag">-webkit-box</span>;</span><br><span class="line"><span class="comment">/* 限制在一个块元素显示的文本的行数 */</span></span><br><span class="line"><span class="selector-tag">-webkit-line-clamp</span>: 2;</span><br><span class="line"><span class="comment">/* 设置或检索伸缩盒对象的子元素的排列方式 */</span></span><br><span class="line"><span class="selector-tag">-webkit-box-orient</span>: <span class="selector-tag">vertical</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="7-常见布局技巧"><a class="markdownIt-Anchor" href="#7-常见布局技巧"></a> 7. 常见布局技巧</h3>
+<h4 id="71-margin负值运用"><a class="markdownIt-Anchor" href="#71-margin负值运用"></a> 7.1 margin负值运用</h4>
+<ol>
+<li>让每个盒子margin 往左侧移动 -1px 正好压住相邻盒子边框</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">    <span class="attribute">list-style</span>: none;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid red;</span><br><span class="line">    <span class="attribute">margin-left</span>: -<span class="number">1px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>鼠标经过某个盒子的时候，提高当前盒子的层级即可（如果没有有定位，则加相对定位（保留位置），如 果有定位，则加z-index）</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="72-文字围绕浮动元素"><a class="markdownIt-Anchor" href="#72-文字围绕浮动元素"></a> 7.2 文字围绕浮动元素</h4>
+<p>利用浮动元素不会压住文字的 特性</p>
+<h4 id="73-行内块巧妙运用"><a class="markdownIt-Anchor" href="#73-行内块巧妙运用"></a> 7.3 行内块巧妙运用</h4>
+<p><strong>页码在页面中间显示</strong></p>
+<ol>
+<li>把这些链接盒子转换为行内块， 之后给父级指定 text-align:center;</li>
+<li>利用行内块元素中间有缝隙，并且给父级添加 text-align:center; 行内块元素会水平会居中</li>
+</ol>
+<h4 id="74-css-三角强化"><a class="markdownIt-Anchor" href="#74-css-三角强化"></a> 7.4 CSS 三角强化</h4>
+<p><strong>原理：</strong></p>
+<p><img src="https://i.loli.net/2021/07/21/a4Hl6MDkuA72wVp.png" alt="1571523024087.png" /></p>
+<p><strong>代码：</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/* 只保留右边的边框有颜色 */</span></span><br><span class="line">    <span class="attribute">border-color</span>: transparent red transparent transparent;</span><br><span class="line">    <span class="attribute">border-style</span>: solid;            </span><br><span class="line">    <span class="comment">/* 左边和下边的边框宽度设置为0，上边框调大 */</span></span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">100px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="741-示例"><a class="markdownIt-Anchor" href="#741-示例"></a> 7.4.1 示例</h4>
+<img src="https://i.loli.net/2021/07/21/sgLRzUrI3M8mWVc.png" alt="1571548099631.png" style="zoom:80%;" />
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    * &#123;</span><br><span class="line">        margin: 0;</span><br><span class="line">        padding: 0;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line"><span class="css">    <span class="selector-class">.price</span> &#123;</span></span><br><span class="line">        width: 160px;</span><br><span class="line">        height: 24px;</span><br><span class="line">        line-height: 24px;</span><br><span class="line">        border: 1px solid red;</span><br><span class="line">        margin: 100px auto;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.price</span> <span class="selector-class">.discount</span> &#123;</span></span><br><span class="line">        float: left;</span><br><span class="line">        position: relative;</span><br><span class="line">        width: 90px;</span><br><span class="line">        height: 100%;</span><br><span class="line">        background-color: red;</span><br><span class="line">        text-align: center;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#fff</span>;</span></span><br><span class="line">        font-weight: 700;</span><br><span class="line">        margin-right: 8px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.price</span> <span class="selector-class">.discount</span> <span class="selector-tag">i</span> &#123;</span></span><br><span class="line">        position: absolute;</span><br><span class="line">        right: 0;</span><br><span class="line">        top: 0;</span><br><span class="line">        width: 0;</span><br><span class="line">        height: 0;</span><br><span class="line"><span class="css">        <span class="selector-tag">border-color</span>: <span class="selector-tag">transparent</span> <span class="selector-id">#fff</span> <span class="selector-tag">transparent</span> <span class="selector-tag">transparent</span>;</span></span><br><span class="line">        border-style: solid;</span><br><span class="line">        border-width: 24px 12px 0 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.price</span> <span class="selector-class">.origin</span> &#123;</span></span><br><span class="line">        font-size: 12px;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#ccc</span>;</span></span><br><span class="line">        text-decoration: line-through;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"price"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"discount"</span>&gt;</span></span><br><span class="line">            ￥1650 <span class="tag">&lt;<span class="name">i</span>&gt;</span><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"origin"</span>&gt;</span>￥5650<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="8-css-初始化"><a class="markdownIt-Anchor" href="#8-css-初始化"></a> 8. CSS 初始化</h3>
+<p>不同浏览器对有些标签的默认值是不同的，为了消除不同浏览器对HTML文本呈现的差异，照顾浏览器的兼 容，我们需要对CSS 初始化</p>
+<p><strong>例</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 把所有内外边距清零 */</span></span><br><span class="line">* &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 去掉li的小圆点 */</span></span><br><span class="line"><span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">list-style</span>: none</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">img</span> &#123;</span><br><span class="line">    <span class="comment">/* 取消图片底侧有空白缝隙的问题 */</span></span><br><span class="line">    <span class="attribute">vertical-align</span>: middle</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>Unicode编码字体</strong></p>
+<p>把中文字体的名称用相应的Unicode编码来代替，这样就可以有效的避免浏览器解释CSS代码时候出现乱码的问题。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">font-family: ' \9ED1\4F53', '\5B8B\4F53', '\5FAE\8F6F\96C5\9ED1'</span><br></pre></td></tr></table></figure>
+<ul>
+<li>黑体 \9ED1\4F53</li>
+<li>宋体 \5B8B\4F53</li>
+<li>微软雅黑 \5FAE\8F6F\96C5\9ED1</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css/" rel="tag"># css</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/18/%E5%89%8D%E7%AB%AF/3%20CSS%E5%AE%9A%E4%BD%8D/" rel="next" title="3 CSS CSS定位、元素显示与隐藏">
+                  <i class="fa fa-chevron-left"></i> 3 CSS CSS定位、元素显示与隐藏
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/07/20/%E5%89%8D%E7%AB%AF/5%20HTML5%E5%92%8CCSS3%E6%96%B0%E7%89%B9%E6%80%A7/" rel="prev" title="5 HTML5和CSS3新特性">
+                  5 HTML5和CSS3新特性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css高级技巧"><span class="nav-text"> CSS高级技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-精灵图"><span class="nav-text"> 1. 精灵图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-精灵图的使用"><span class="nav-text"> 1.1 精灵图的使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-字体图标"><span class="nav-text"> 2. 字体图标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#21-优点"><span class="nav-text"> 2.1 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-字体图标的引入"><span class="nav-text"> 2.2 字体图标的引入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-css三角"><span class="nav-text"> 3. CSS三角</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#31-案例"><span class="nav-text"> 3.1 案例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-用户界面样式"><span class="nav-text"> 4. 用户界面样式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#41-鼠标样式cursor"><span class="nav-text"> 4.1 鼠标样式cursor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#42-轮廓线-outline"><span class="nav-text"> 4.2 轮廓线 outline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#43-防止拖拽文本域-resize"><span class="nav-text"> 4.3  防止拖拽文本域 resize</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-vertical-align"><span class="nav-text"> 5. vertical-align</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#51-图片和文字垂直居中"><span class="nav-text"> 5.1 图片和文字垂直居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#52-解决图片底部默认空白缝隙问题"><span class="nav-text"> 5.2 解决图片底部默认空白缝隙问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-溢出的文字省略号显示"><span class="nav-text"> 6. 溢出的文字省略号显示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-单行文本溢出显示省略号"><span class="nav-text"> 1. 单行文本溢出显示省略号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-多行文本溢出显示省略号"><span class="nav-text"> 2. 多行文本溢出显示省略号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-常见布局技巧"><span class="nav-text"> 7. 常见布局技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#71-margin负值运用"><span class="nav-text"> 7.1 margin负值运用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#72-文字围绕浮动元素"><span class="nav-text"> 7.2 文字围绕浮动元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#73-行内块巧妙运用"><span class="nav-text"> 7.3 行内块巧妙运用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#74-css-三角强化"><span class="nav-text"> 7.4 CSS 三角强化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#741-示例"><span class="nav-text"> 7.4.1 示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-css-初始化"><span class="nav-text"> 8. CSS 初始化</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

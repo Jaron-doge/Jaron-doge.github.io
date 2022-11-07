@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第二章 文法  形式定义  G &#x3D; (V, T, P, S)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二章 文法">
+<meta property="og:url" content="http://yoursite.com/2020/10/05/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC2%E7%AB%A0%20%E6%96%87%E6%B3%95/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第二章 文法  形式定义  G &#x3D; (V, T, P, S)">
+<meta property="article:published_time" content="2020-10-05T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-05T10:38:33.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/05/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC2%E7%AB%A0%20%E6%96%87%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第二章 文法 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/05/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC2%E7%AB%A0%20%E6%96%87%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第二章 文法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-05 20:30:15 / 修改时间：18:38:33" itemprop="dateCreated datePublished" datetime="2020-10-05T20:30:15+08:00">2020-10-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">形式语言与自动机</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第二章-文法"><a class="markdownIt-Anchor" href="#第二章-文法"></a> 第二章 文法</h2>
+<h3 id="形式定义"><a class="markdownIt-Anchor" href="#形式定义"></a> 形式定义</h3>
+<h4 id="g-v-t-p-s"><a class="markdownIt-Anchor" href="#g-v-t-p-s"></a> G = (V, T, P, S)</h4>
+<a id="more"></a>
+<ul>
+<li>V——<strong>变量</strong>，∀A∈V, A叫作<strong>语法变量/非终极符号</strong>，它表示一个<strong>语法范畴L(A)</strong></li>
+<li>T——<strong>终极符</strong>, ∀a∈T, a叫作终极符</li>
+<li>P——<strong>产生式</strong></li>
+<li>S——<strong>开始符号</strong>， S∈V</li>
+</ul>
+<p>一般地，按如下方式使用符号：</p>
+<ul>
+<li>A, B, C…表示语法变量;</li>
+<li>a, b, c…表示终极符号;</li>
+<li>X, Y, Z…表示语法变量或终极符号;</li>
+<li>x, y, z…表示由终极符号组成的行；</li>
+<li>α, β, γ…表示由语法变量和终极符号组成的行</li>
+</ul>
+<h4 id="推导"><a class="markdownIt-Anchor" href="#推导"></a> 推导</h4>
+<ul>
+<li>α⇒<sup>+</sup>β：表示α在G中经过至少1步推导出β</li>
+<li>α⇒*β：表示α在G中经过若干步推导出β</li>
+</ul>
+<h5 id="几点结论"><a class="markdownIt-Anchor" href="#几点结论"></a> 几点结论</h5>
+<ul>
+<li>
+<p>对任意的x∈∑+，我们要使语法范畴D代表的集合为{xn|n≥0}，可用产生式组{D→ε|xD}来实现。</p>
+</li>
+<li>
+<p>对任意的x，y∈∑<sup>+</sup>，我们要使语法范畴D代表的集合为{xnyn|n≥1}，可用产生式组{D→xy|xDy}来实现</p>
+</li>
+<li>
+<p>对任意的x，y∈∑+，我们要使语法范畴D代表的集合为{xnyn|n≥0}，可用产生式组{D→ε|xDy}来实现</p>
+</li>
+</ul>
+<h4 id="语言"><a class="markdownIt-Anchor" href="#语言"></a> 语言</h4>
+<p>L(G)={w | w∈T*且S ⇒w*}</p>
+<h5 id="句子"><a class="markdownIt-Anchor" href="#句子"></a> 句子</h5>
+<p>∀w∈L(G)，w称为G产生的一个句子。</p>
+<h5 id="句型"><a class="markdownIt-Anchor" href="#句型"></a> 句型</h5>
+<p>G=(V，T，P，S)，对于∀α∈(V∪T)*，如果S ⇒* α，则称α是G产生的一个句型。</p>
+<ul>
+<li>句子不含语法变量，句型可能含语法变量</li>
+</ul>
+<h3 id="文法的构造"><a class="markdownIt-Anchor" href="#文法的构造"></a> 文法的构造</h3>
+<ul>
+<li>设有两个文法G1和G2，如果L(G1)= L(G2)，则称G1与G2等价。</li>
+</ul>
+<h3 id="文法的乔姆斯基体系"><a class="markdownIt-Anchor" href="#文法的乔姆斯基体系"></a> 文法的乔姆斯基体系</h3>
+<h4 id="g-v-t-p-s-2"><a class="markdownIt-Anchor" href="#g-v-t-p-s-2"></a> G = (V, T, P, S)</h4>
+<ul>
+<li>
+<p>G叫作<strong>0型文法</strong>，或<strong>短语结构文法(PSG)</strong></p>
+</li>
+<li>
+<p>如果对于如果对于∀α→β∈P，均有|β|≥|α|成立，则称G为<strong>1型文法</strong>，或<strong>上下文有关文法(CSG)</strong></p>
+</li>
+<li>
+<p>如果对于∀α→β∈P，均有|β|≥|α|，并且α∈V成立，则称G为<strong>2型文法</strong>，或<strong>上下文无关文法(CFG)</strong></p>
+</li>
+<li>
+<p>如果对于∀α→β∈P，α→β均具有形式<br />
+A→w<br />
+A→wB<br />
+其中A，B∈V，w∈T<sup>+</sup>。则称G为<strong>3型文法</strong>，也可称为<strong>正则文法(RG)</strong></p>
+<p>如果一个文法G是RG，则它也是CFG、CSG和短语结构文法。反之不一定成立</p>
+</li>
+</ul>
+<h5 id="定理2-1"><a class="markdownIt-Anchor" href="#定理2-1"></a> 定理2-1</h5>
+<p>​		L是RL的充要条件是存在一个文法，该文法产生语言L，并且它的产生式要么是形如：A→a的产生式，要么是形如A→aB的产生式。其中A、B为语法变量，a为终极符号。</p>
+<h4 id="线性文法"><a class="markdownIt-Anchor" href="#线性文法"></a> 线性文法</h4>
+<ul>
+<li>设G=(V，T，P，S)，如果对于∀α→β∈P，α →β均具有如下形式：<br />
+A→w<br />
+A→wBx<br />
+其中A，B∈V，w，x∈T*，则称G为<strong>线性文法</strong></li>
+<li>设G=(V，T，P，S)，如果对于∀α→β∈P，α→β均具有如下形式：<br />
+A→w<br />
+A→wB<br />
+其中A，B∈V，w∈T<sup>+</sup>，则称G为<strong>右线性文法</strong></li>
+<li>左线性文法(left liner grammar)<br />
+设G=(V，T，P，S)，如果对于∀α→β∈P，α→β均具有如下形式：<br />
+A→w<br />
+A→Bw<br />
+其中A，B∈V，w∈T<sup>+</sup>，则称G为<strong>左线性文法</strong></li>
+</ul>
+<h5 id="定理2-3"><a class="markdownIt-Anchor" href="#定理2-3"></a> 定理2-3</h5>
+<p>​	左线性文法与右线性文法等价</p>
+<h5 id="定理2-4"><a class="markdownIt-Anchor" href="#定理2-4"></a> 定理2-4</h5>
+<p>​	左线性文法的产生式与右线性文法的产生式混用所得到的文法不是RG</p>
+<h3 id="空语句"><a class="markdownIt-Anchor" href="#空语句"></a> 空语句</h3>
+<h5 id="定理2-5"><a class="markdownIt-Anchor" href="#定理2-5"></a> 定理2-5</h5>
+<p>​		设G=(V，T，P，S)为一文法，则存在与G同类型的文法G′=(V′，T，P′，S′)，使得L(G)=L(G′)，但G′的开始符号S′不出现在G′的任何产生式的右部</p>
+<h5 id="定义2-10"><a class="markdownIt-Anchor" href="#定义2-10"></a> 定义2-10</h5>
+<p>​		设G=(V，T，P，S)是一个文法，如果S不出现在G的任何产生式的右部，则：</p>
+<ul>
+<li>
+<p>如果G是CSG，则仍然称G=(V，T，P∪{S→ε}，S)为CSG；G产生的语言仍然称为CSL</p>
+</li>
+<li>
+<p>如果G是CFG，则仍然称G=(V，T，P∪{S→ε}，S)为CFG；G产生的语言仍然称为CFL</p>
+</li>
+<li>
+<p>如果G是RG，则仍然称G=(V，T，P∪{S→ε}，S)为RG。G产生的语言仍然称为RL</p>
+<p>对于G中的任何变量A，在需要的时候，可以出现形如A→ε的产生式</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/04/OS/%E7%AC%AC3%E7%AB%A0%20%20%E8%BF%9B%E7%A8%8B/" rel="next" title="第3章 进程">
+                  <i class="fa fa-chevron-left"></i> 第3章 进程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/08/DS/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E4%B8%B2/" rel="prev" title="第十一章 串">
+                  第十一章 串 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-文法"><span class="nav-text"> 第二章 文法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#形式定义"><span class="nav-text"> 形式定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#g-v-t-p-s"><span class="nav-text"> G &#x3D; (V, T, P, S)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#推导"><span class="nav-text"> 推导</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#几点结论"><span class="nav-text"> 几点结论</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#语言"><span class="nav-text"> 语言</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#句子"><span class="nav-text"> 句子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#句型"><span class="nav-text"> 句型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文法的构造"><span class="nav-text"> 文法的构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文法的乔姆斯基体系"><span class="nav-text"> 文法的乔姆斯基体系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#g-v-t-p-s-2"><span class="nav-text"> G &#x3D; (V, T, P, S)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定理2-1"><span class="nav-text"> 定理2-1</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线性文法"><span class="nav-text"> 线性文法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定理2-3"><span class="nav-text"> 定理2-3</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定理2-4"><span class="nav-text"> 定理2-4</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#空语句"><span class="nav-text"> 空语句</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定理2-5"><span class="nav-text"> 定理2-5</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定义2-10"><span class="nav-text"> 定义2-10</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

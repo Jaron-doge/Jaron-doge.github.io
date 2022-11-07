@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第三章 泛型编程风格  3.4顺序性容器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三章 泛型编程风格">
+<meta property="og:url" content="http://yoursite.com/2019/12/16/C++/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第三章 泛型编程风格  3.4顺序性容器">
+<meta property="article:published_time" content="2019-12-16T02:45:05.000Z">
+<meta property="article:modified_time" content="2019-12-21T09:43:34.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="Essential C++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/12/16/C++/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第三章 泛型编程风格 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/16/C++/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三章 泛型编程风格
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-16 10:45:05" itemprop="dateCreated datePublished" datetime="2019-12-16T10:45:05+08:00">2019-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-21 17:43:34" itemprop="dateModified" datetime="2019-12-21T17:43:34+08:00">2019-12-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第三章-泛型编程风格"><a class="markdownIt-Anchor" href="#第三章-泛型编程风格"></a> 第三章 泛型编程风格</h2>
+<h3 id="34顺序性容器"><a class="markdownIt-Anchor" href="#34顺序性容器"></a> 3.4顺序性容器</h3>
+<a id="more"></a>
+<h4 id="341-五种定义方式"><a class="markdownIt-Anchor" href="#341-五种定义方式"></a> 3.4.1 五种定义方式</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1. 产生空的容器：</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"></span><br><span class="line"><span class="comment">//2. 产生特定大小的容器。每个元素都以其默认值作为初值。</span></span><br><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ilist</span><span class="params">(<span class="number">1024</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec</span><span class="params">(<span class="number">32</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//3. 产生特定大小的容器，并为每个元素指定初值</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(<span class="number">10</span>, <span class="number">-1</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; <span class="title">slist</span><span class="params">(<span class="number">16</span>, <span class="string">"unassigned"</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//4. 通过一堆iterator产生容器。这对iterator用来标示一整组作为初值的元素的范围：</span></span><br><span class="line"><span class="keyword">int</span> ia[<span class="number">8</span>] = &#123; <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">13</span>, <span class="number">21</span> &#125;;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">fib</span><span class="params">(ia, ia + <span class="number">8</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//5. 根据某个容器产生出新容器。复制原容器内的元素，作为新容器的初值:</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; slist;	<span class="comment">// 空容器</span></span><br><span class="line"><span class="comment">// 填充slist</span></span><br><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; <span class="title">slist2</span><span class="params">(slist)</span></span>;	<span class="comment">// 将slist复制给slist2</span></span><br></pre></td></tr></table></figure>
+<h4 id="342-push和pop"><a class="markdownIt-Anchor" href="#342-push和pop"></a> 3.4.2 push和pop</h4>
+<ul>
+<li>push_back()和pop_back()</li>
+<li>push_front()和pop_front()</li>
+</ul>
+<h4 id="343-插入和删除"><a class="markdownIt-Anchor" href="#343-插入和删除"></a> 3.4.3 插入和删除</h4>
+<ul>
+<li>insert</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- <span class="function">iterator <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>, elemType value)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>, <span class="keyword">int</span> count, elemType </span></span></span><br><span class="line"><span class="function"><span class="params">value)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(iterator1 <span class="built_in">position</span>, iterator2 first, iterator2 last)</span></span>;</span><br><span class="line"></span><br><span class="line">- <span class="function">iterator <span class="title">insert</span><span class="params">(iterator <span class="built_in">position</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>erase</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- <span class="function">iterator <span class="title">erase</span><span class="params">(iterator posit)</span></span>;	<span class="comment">// posit所指的元素</span></span><br><span class="line"></span><br><span class="line">- <span class="function">iterator <span class="title">erase</span><span class="params">(iterator first, iterator last)</span></span>;	<span class="comment">//[first, last)范围内的元素</span></span><br></pre></td></tr></table></figure>
+<h3 id="35-泛型算法"><a class="markdownIt-Anchor" href="#35-泛型算法"></a> 3.5 泛型算法</h3>
+<h4 id="351-搜索算法"><a class="markdownIt-Anchor" href="#351-搜索算法"></a> 3.5.1 搜索算法</h4>
+<ol>
+<li>find()用于搜索无序集合中是否存在某值。范围由iterator[first,last)标出。返回iterator指向该值/last。</li>
+<li>binary_search()用于有序集合的搜索。返回true/false。</li>
+<li>count()返回数值相符的元素数目。</li>
+<li>search()比对某个容器内是否存在某个子序列。返回iterator指向子序列起始处/last。</li>
+</ol>
+<h4 id="352-max-sort-copy"><a class="markdownIt-Anchor" href="#352-max-sort-copy"></a> 3.5.2 max、sort、copy</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">max_element(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">sort(temp.<span class="built_in">begin</span>(), temp.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">copy(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>(), temp.<span class="built_in">begin</span>());</span><br></pre></td></tr></table></figure>
+<h3 id="36-设计泛型算法"><a class="markdownIt-Anchor" href="#36-设计泛型算法"></a> 3.6 设计泛型算法</h3>
+<h4 id="362-function-object"><a class="markdownIt-Anchor" href="#362-function-object"></a> 3.6.2 Function Object</h4>
+<h4 id="3621-functional"><a class="markdownIt-Anchor" href="#3621-functional"></a> 3.6.2.1  functional</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- <span class="meta">#<span class="meta-keyword">include</span>  <span class="meta-string">&lt;functional&gt;</span></span></span><br><span class="line"></span><br><span class="line">- 六个算数运算：plus &lt;type&gt;, minus &lt;type&gt;, negate &lt;type&gt;, </span><br><span class="line">		multiplies &lt;type&gt;, divides &lt;type&gt;, modules &lt;type&gt;</span><br><span class="line">                  </span><br><span class="line">- 六个关系运算：less &lt;type&gt;，less_equal &lt;type&gt;，greater &lt;type&gt;，</span><br><span class="line">              greater_equal &lt;type&gt;，euqal_to &lt;type&gt;，not_equal_to &lt;type&gt;</span><br><span class="line"></span><br><span class="line">- 三个逻辑运算：logical_and &lt;type&gt;，logical_or &lt;type&gt;，logical_not &lt;type&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="3622-示例"><a class="markdownIt-Anchor" href="#3622-示例"></a> 3.6.2.2  示例</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- sort(vec.<span class="built_in">begin</span>(), bec.<span class="built_in">end</span>(), greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- binary_search(vec,<span class="built_in">begin</span>(), vc.<span class="built_in">end</span>(), elem, greater &lt;<span class="keyword">int</span>&gt;());</span><br><span class="line"></span><br><span class="line">- transform(fib.<span class="built_in">begin</span>(), fib.<span class="built_in">end</span>(),		<span class="comment">// (1) 欲转换的元素范围</span></span><br><span class="line">			pell.<span class="built_in">begin</span>(),		<span class="comment">// (2) 所指元素将应用于转换操作</span></span><br><span class="line">			fib_plus_pell.<span class="built_in">begin</span>(), 	<span class="comment">// (3) 所指位指（及后续空间）用来存放转换结果</span></span><br><span class="line">			plus &lt;<span class="keyword">int</span>&gt;());		<span class="comment">// (4) 想要应用的转换操作</span></span><br></pre></td></tr></table></figure>
+<h4 id="363-function-object-adapter"><a class="markdownIt-Anchor" href="#363-function-object-adapter"></a> 3.6.3 Function Object Adapter</h4>
+<p>​		function object adapter 会对 function object 进行修改操作。所谓binder adapter（绑定适配器）会将 function object 的参数绑定至某特定值，使binary（二元）function object 转化为unary（一元）function object。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bind2nd(less&lt;<span class="keyword">int</span>&gt;,  val);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 会把val绑定与less&lt;int&gt;的第二个参数身上。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 于是，less&lt;int&gt;会将每个元素拿来和val比较。</span></span><br></pre></td></tr></table></figure>
+<h3 id="37-map"><a class="markdownIt-Anchor" href="#37-map"></a> 3.7 Map</h3>
+<h4 id="371-定义"><a class="markdownIt-Anchor" href="#371-定义"></a> 3.7.1 定义</h4>
+<p>map被定义为一对(pair)数值，带有key和value</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; words;</span><br><span class="line"></span><br><span class="line"><span class="comment">//赋值</span></span><br><span class="line">words[<span class="string">"vermeer"</span>] = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">string</span> tword;</span><br><span class="line"><span class="keyword">while</span> (<span class="built_in">cin</span> &gt;&gt; tword) &#123;</span><br><span class="line">    words[tword]++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//words[tword]会取出tword相应的value， 如果tword不在map内，它便会因此被放到map内，并获得默认值0。</span></span><br></pre></td></tr></table></figure>
+<h4 id="372-查询"><a class="markdownIt-Anchor" href="#372-查询"></a> 3.7.2 查询</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span></span><br><span class="line">    <span class="keyword">if</span>(!count = words[<span class="string">"vermeer"</span>]);</span><br><span class="line">	<span class="comment">//这种方法会将vermeer加入words中</span></span><br><span class="line"><span class="number">2.f</span>ind()函数</span><br><span class="line">    words.<span class="built_in">find</span>(<span class="string">"vermeer"</span>);</span><br><span class="line">	<span class="comment">//返回一个iterator，指向key/value形成的pair，反之返回end()</span></span><br><span class="line"><span class="number">3.</span>count()函数</span><br><span class="line">    words.count(<span class="string">"vermeer"</span>);</span><br><span class="line">    <span class="comment">//返回某特定项在map内的个数</span></span><br></pre></td></tr></table></figure>
+<h3 id="38-set"><a class="markdownIt-Anchor" href="#38-set"></a> 3.8 Set</h3>
+<h4 id="381-定义"><a class="markdownIt-Anchor" href="#381-定义"></a> 3.8.1 定义</h4>
+<ol>
+<li>set由一群key组合而成，如果想知道某值是否存在于某个集合内，就可以使用set.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;set&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; word_exclusion;</span><br><span class="line"></span><br><span class="line"><span class="comment">//先排查set，再加入map</span></span><br><span class="line"><span class="keyword">while</span>( <span class="built_in">cin</span> &gt;&gt; tword) &#123;</span><br><span class="line">    <span class="keyword">if</span> (word_exclusion.count(tword))</span><br><span class="line">        <span class="comment">//如果在“排除字集”内</span></span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    </span><br><span class="line">    words[tword]++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="382-操作"><a class="markdownIt-Anchor" href="#382-操作"></a> 3.8.2 操作</h4>
+<ol>
+<li>set只能储存一份key值</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>创建</span><br><span class="line">    <span class="keyword">int</span> ia[<span class="number">10</span>] = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">1</span>&#125;;</span><br><span class="line">    <span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">vec</span><span class="params">(ia,ia+<span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; <span class="title">iset</span><span class="params">(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>())</span></span>;</span><br><span class="line">    <span class="comment">//iset的元素将是&#123;1, 3, 5, 8&#125;</span></span><br><span class="line"><span class="number">2.</span>insert</span><br><span class="line">    iset.insert(ival);</span><br><span class="line">	iset.insert(vec.<span class="built_in">begin</span>(), vec.<span class="built_in">end</span>());</span><br><span class="line"><span class="number">3.</span>迭代</span><br><span class="line">    <span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt;::iterator it = iset.<span class="built_in">begin</span>();</span><br><span class="line">	<span class="keyword">for</span> (; it != <span class="built_in">set</span>.<span class="built_in">end</span>(); ++it) &#123;</span><br><span class="line">        cout &lt;&lt; *it &lt;&lt; '';</span><br><span class="line">    &#125;</span><br><span class="line"><span class="number">4.</span>其他算法</span><br><span class="line">    set_intersection(), set_union(), set_difference()和set_symmetric_difference()</span><br></pre></td></tr></table></figure>
+<h3 id="39-iterator-inserter"><a class="markdownIt-Anchor" href="#39-iterator-inserter"></a> 3.9 Iterator Inserter</h3>
+<h4 id="391-insertion-adapter"><a class="markdownIt-Anchor" href="#391-insertion-adapter"></a> 3.9.1 insertion adapter</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iterator&gt;</span></span></span><br><span class="line"><span class="number">1.b</span>ack_inserter</span><br><span class="line">    <span class="comment">//会以容器的push_back()取代assignment运算符</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; result_vec;</span><br><span class="line">	unique_copy(ivec.<span class="built_in">begin</span>(), ivec.<span class="built_in">end</span>(),</span><br><span class="line">                back_inserter(result_vec));</span><br><span class="line"><span class="number">2.</span>inserter</span><br><span class="line">    <span class="comment">//会以容器的insert()函数取代assignment运算符</span></span><br><span class="line">    <span class="comment">//两个参数：容器、iterator</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; svec_res;</span><br><span class="line">unique_copy(svec.<span class="built_in">begin</span>(), svec.<span class="built_in">end</span>(),</span><br><span class="line">           inserter(svec_res, svec_res.edn()));</span><br><span class="line"><span class="number">3.f</span>ront_inserter</span><br><span class="line">    <span class="comment">//会以容器的push_front()函数取代assignment运算符</span></span><br><span class="line">    <span class="comment">//只适用于list和deque</span></span><br><span class="line">    <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; ilist_clone;</span><br><span class="line">	copy(ilist.<span class="built_in">begin</span>(), ilist.<span class="built_in">end</span>(),</span><br><span class="line">        front_inserter(ilist_clone));</span><br></pre></td></tr></table></figure>
+<h3 id="310-iostream-iterator"><a class="markdownIt-Anchor" href="#310-iostream-iterator"></a> 3.10 iostream Iterator</h3>
+<h4 id="311-定义"><a class="markdownIt-Anchor" href="#311-定义"></a> 3.1.1 定义</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iterator&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="number">1.</span>istream_iterator</span><br><span class="line">    <span class="function">istream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">is</span><span class="params">(<span class="built_in">cin</span>)</span></span>;</span><br><span class="line">    <span class="comment">//将is定义为一个“绑至标准输入设备”的istream_iterator</span></span><br><span class="line">    istream_iterator&lt;<span class="built_in">string</span>&gt; eof;</span><br><span class="line">    <span class="comment">//eof代表EOF</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>ostream_iterator</span><br><span class="line">    <span class="function">ostream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">os</span><span class="params">(<span class="built_in">cout</span>, <span class="string">" "</span>)</span></span>;</span><br><span class="line">    <span class="comment">//将os定义为一个“绑至标准输出设备”的ostream_iterator</span></span><br><span class="line">    <span class="comment">//第二个参数表示各个元素被输出时的分隔符</span></span><br></pre></td></tr></table></figure>
+<h4 id="312-用法"><a class="markdownIt-Anchor" href="#312-用法"></a> 3.1.2 用法</h4>
+<ol>
+<li>标准输入输出</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iterator&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">istream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">is</span><span class="params">(<span class="built_in">cin</span>)</span></span>;</span><br><span class="line">    istream_iterator&lt;<span class="built_in">string</span>&gt; eof;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="built_in">text</span>;</span><br><span class="line">    copy(is, eof, back_inserter(<span class="built_in">text</span>));</span><br><span class="line">    </span><br><span class="line">    sort(<span class="built_in">text</span>.<span class="built_in">begin</span>(), <span class="built_in">text</span>.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="function">ostream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">os</span><span class="params">(<span class="built_in">cout</span>, <span class="string">" "</span>)</span></span>;</span><br><span class="line">    copy(<span class="built_in">text</span>.<span class="built_in">begin</span>(), <span class="built_in">text</span>.<span class="built_in">end</span>(), os);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>文件输入输出</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iterator&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">in_file</span><span class="params">(<span class="string">"input_file.txt"</span>)</span></span>;</span><br><span class="line">    <span class="function">ofstream <span class="title">out_file</span><span class="params">(<span class="string">"output_file.txt"</span>)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!in_file || !out_file) &#123;</span><br><span class="line">		<span class="built_in">cerr</span> &lt;&lt; <span class="string">"!! unable to open the necessary files.\n"</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function">istream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">is</span><span class="params">(in_file)</span></span>;</span><br><span class="line">    istream_iterator&lt;<span class="built_in">string</span>&gt; eof;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="built_in">text</span>;</span><br><span class="line">    copy(is, eof, back_inserter(<span class="built_in">text</span>));</span><br><span class="line">    </span><br><span class="line">    sort(<span class="built_in">text</span>.<span class="built_in">begin</span>(), <span class="built_in">text</span>.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="function">ostream_iterator&lt;<span class="built_in">string</span>&gt; <span class="title">os</span><span class="params">(out_file, <span class="string">" "</span>)</span></span>;</span><br><span class="line">    copy(<span class="built_in">text</span>.<span class="built_in">begin</span>(), <span class="built_in">text</span>.<span class="built_in">end</span>(), os);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Essential-C/" rel="tag"># Essential C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/24/DS/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/" rel="next" title="第一章 绪论">
+                  <i class="fa fa-chevron-left"></i> 第一章 绪论
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/12/19/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/" rel="prev" title="第六章 从数据管理到Web和信息通信">
+                  第六章 从数据管理到Web和信息通信 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-泛型编程风格"><span class="nav-text"> 第三章 泛型编程风格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#34顺序性容器"><span class="nav-text"> 3.4顺序性容器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#341-五种定义方式"><span class="nav-text"> 3.4.1 五种定义方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#342-push和pop"><span class="nav-text"> 3.4.2 push和pop</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#343-插入和删除"><span class="nav-text"> 3.4.3 插入和删除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-泛型算法"><span class="nav-text"> 3.5 泛型算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#351-搜索算法"><span class="nav-text"> 3.5.1 搜索算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#352-max-sort-copy"><span class="nav-text"> 3.5.2 max、sort、copy</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-设计泛型算法"><span class="nav-text"> 3.6 设计泛型算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#362-function-object"><span class="nav-text"> 3.6.2 Function Object</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3621-functional"><span class="nav-text"> 3.6.2.1  functional</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3622-示例"><span class="nav-text"> 3.6.2.2  示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#363-function-object-adapter"><span class="nav-text"> 3.6.3 Function Object Adapter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#37-map"><span class="nav-text"> 3.7 Map</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#371-定义"><span class="nav-text"> 3.7.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#372-查询"><span class="nav-text"> 3.7.2 查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-set"><span class="nav-text"> 3.8 Set</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#381-定义"><span class="nav-text"> 3.8.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#382-操作"><span class="nav-text"> 3.8.2 操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39-iterator-inserter"><span class="nav-text"> 3.9 Iterator Inserter</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#391-insertion-adapter"><span class="nav-text"> 3.9.1 insertion adapter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#310-iostream-iterator"><span class="nav-text"> 3.10 iostream Iterator</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#311-定义"><span class="nav-text"> 3.1.1 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#312-用法"><span class="nav-text"> 3.1.2 用法</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

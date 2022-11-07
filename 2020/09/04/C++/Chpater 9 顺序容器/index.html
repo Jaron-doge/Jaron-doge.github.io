@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第九章 顺序容器  9.1 顺序容器概述 123456vector			&#x2F;&#x2F; 可变大小数组，在尾部之外的位置修改元素可能很慢deque			&#x2F;&#x2F; 双端队列，在头尾修改速度很快list			&#x2F;&#x2F; 双向链表，只支持双向顺序访问，在任何位置修改都很快forward_list	&#x2F;&#x2F; 单向链表，支持单项顺序访问，在任何位置修改都很快array			&#x2F;&#x2F; 固定大小数组string			&#x2F;&#x2F; 与vector相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第九章 顺序容器">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chpater%209%20%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第九章 顺序容器  9.1 顺序容器概述 123456vector			&#x2F;&#x2F; 可变大小数组，在尾部之外的位置修改元素可能很慢deque			&#x2F;&#x2F; 双端队列，在头尾修改速度很快list			&#x2F;&#x2F; 双向链表，只支持双向顺序访问，在任何位置修改都很快forward_list	&#x2F;&#x2F; 单向链表，支持单项顺序访问，在任何位置修改都很快array			&#x2F;&#x2F; 固定大小数组string			&#x2F;&#x2F; 与vector相">
+<meta property="og:image" content="https://i.loli.net/2020/09/04/ye2oiVtGglhkb8B.png">
+<meta property="article:published_time" content="2020-09-04T08:45:09.000Z">
+<meta property="article:modified_time" content="2020-09-04T09:02:25.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/09/04/ye2oiVtGglhkb8B.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chpater%209%20%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第九章 顺序容器 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chpater%209%20%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第九章 顺序容器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:45:09 / 修改时间：17:02:25" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:09+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第九章-顺序容器"><a class="markdownIt-Anchor" href="#第九章-顺序容器"></a> 第九章 顺序容器</h2>
+<h3 id="91-顺序容器概述"><a class="markdownIt-Anchor" href="#91-顺序容器概述"></a> 9.1 顺序容器概述</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>			<span class="comment">// 可变大小数组，在尾部之外的位置修改元素可能很慢</span></span><br><span class="line"><span class="built_in">deque</span>			<span class="comment">// 双端队列，在头尾修改速度很快</span></span><br><span class="line"><span class="built_in">list</span>			<span class="comment">// 双向链表，只支持双向顺序访问，在任何位置修改都很快</span></span><br><span class="line">forward_list	<span class="comment">// 单向链表，支持单项顺序访问，在任何位置修改都很快</span></span><br><span class="line"><span class="built_in">array</span>			<span class="comment">// 固定大小数组</span></span><br><span class="line"><span class="built_in">string</span>			<span class="comment">// 与vector相似的容器，专门用于保存字符</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="92-容器库概览"><a class="markdownIt-Anchor" href="#92-容器库概览"></a> 9.2 容器库概览</h3>
+<h4 id="921-迭代器"><a class="markdownIt-Anchor" href="#921-迭代器"></a> 9.2.1 迭代器</h4>
+<ul>
+<li>迭代器范围为左闭合区间</li>
+</ul>
+<h4 id="922-容器定义与初始化"><a class="markdownIt-Anchor" href="#922-容器定义与初始化"></a> 9.2.2 容器定义与初始化</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C c;</span><br><span class="line"><span class="function">C <span class="title">c1</span><span class="params">(c2)</span></span>;</span><br><span class="line">C c&#123;a, b, c&#125;;</span><br><span class="line"><span class="function">C <span class="title">c</span><span class="params">(<span class="built_in">begin</span>, <span class="built_in">end</span>)</span></span>;</span><br><span class="line"><span class="function">C <span class="title">seq</span><span class="params">(n)</span></span>;		<span class="comment">// n个元素</span></span><br><span class="line"><span class="function">C <span class="title">seq</span><span class="params">(n, t)</span></span>;	<span class="comment">// n个初始值为t的元素</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>当传递迭代器参数来拷贝一个范围时，不要求容器类型是相同的，元素类型需可互相转化。</p>
+</li>
+<li>
+<p>标准库array的大小是类型的一部分</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 10&gt;;</span><br></pre></td></tr></table></figure>
+<h4 id="925-赋值和swap"><a class="markdownIt-Anchor" href="#925-赋值和swap"></a> 9.2.5 赋值和swap</h4>
+<ol>
+<li>assign操作</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seq.assign(<span class="built_in">begin</span>, <span class="built_in">end</span>);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>swap操作</p>
+<p>swap交换两个相同类型容器的内容。</p>
+</li>
+</ol>
+<h4 id="926-容器大小操作"><a class="markdownIt-Anchor" href="#926-容器大小操作"></a> 9.2.6 容器大小操作</h4>
+<ul>
+<li>size、empty、max_size</li>
+</ul>
+<h4 id="927-关系运算符"><a class="markdownIt-Anchor" href="#927-关系运算符"></a> 9.2.7 关系运算符</h4>
+<ul>
+<li>
+<p>只有当元素类型定义了相应的比较运算符时，才能使用关系运算符来比较两个容</p>
+<p>器</p>
+</li>
+</ul>
+<h3 id="93-顺序容器操作"><a class="markdownIt-Anchor" href="#93-顺序容器操作"></a> 9.3 顺序容器操作</h3>
+<h4 id="931-向顺序容器添加元素"><a class="markdownIt-Anchor" href="#931-向顺序容器添加元素"></a> 9.3.1 向顺序容器添加元素</h4>
+<ol>
+<li>
+<p>push_back、push_front、insert</p>
+</li>
+<li>
+<p>emplace操作</p>
+<p>在调用emplace时，会在容器管理的内存空间中直接创建对象。而调用push则会创建一个局部临时对象，并将其压入容器中。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c.emplace_back(<span class="string">"978-0590353403"</span>, <span class="number">25</span>, <span class="number">15.99</span>);</span><br><span class="line">c.push_back(Sales_data(<span class="string">"978-0590353403"</span>, <span class="number">25</span>, <span class="number">15.99</span>));</span><br></pre></td></tr></table></figure>
+<h4 id="932-访问元素"><a class="markdownIt-Anchor" href="#932-访问元素"></a> 9.3.2 访问元素</h4>
+<ul>
+<li>
+<p>front和back返回首尾元素的引用</p>
+</li>
+<li>
+<p>at返回下标为n的元素引用</p>
+</li>
+</ul>
+<h4 id="933-删除元素"><a class="markdownIt-Anchor" href="#933-删除元素"></a> 9.3.3 删除元素</h4>
+<ul>
+<li>
+<p>pop_back、pop_front、erase</p>
+</li>
+<li>
+<p>erase返回指向删除的元素之后位置的迭代器</p>
+</li>
+</ul>
+<h4 id="934-特殊的forward_list操作"><a class="markdownIt-Anchor" href="#934-特殊的forward_list操作"></a> 9.3.4 特殊的forward_list操作</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">before_begin()		<span class="comment">// 返回首元素之前不存在的元素的迭代器</span></span><br><span class="line">insert_after(p)		<span class="comment">// p后插入</span></span><br><span class="line">emplace_after(p,a)	<span class="comment">// p后插入</span></span><br><span class="line">lst.erase_after(p)	<span class="comment">// p后删除</span></span><br></pre></td></tr></table></figure>
+<h4 id="935-改变容器大小"><a class="markdownIt-Anchor" href="#935-改变容器大小"></a> 9.3.5 改变容器大小</h4>
+<ul>
+<li>resize</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c.resize(n)			<span class="comment">// 调整c的大小为n个元素，少增多删</span></span><br><span class="line">c.resize(n, t)		<span class="comment">// 带初始值</span></span><br></pre></td></tr></table></figure>
+<h4 id="936-容器操作可能使迭代器失效"><a class="markdownIt-Anchor" href="#936-容器操作可能使迭代器失效"></a> 9.3.6 容器操作可能使迭代器失效</h4>
+<ul>
+<li>循环中更新迭代器</li>
+</ul>
+<h3 id="94-vector对象是如何增长的"><a class="markdownIt-Anchor" href="#94-vector对象是如何增长的"></a> 9.4 vector对象是如何增长的</h3>
+<ul>
+<li>适用于vector和string</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c.shrink_to_fit()		<span class="comment">// 请将capacity()减少为与size()相同大小</span></span><br><span class="line">c.capacity()			<span class="comment">// 不重新分配内存空间，c可保存的元素</span></span><br><span class="line">c.reserve(n)			<span class="comment">// 分配至少能容纳n个元素的内存空间</span></span><br><span class="line">c.resize(n)				<span class="comment">// resize既分配空间又分配对象</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/09/04/ye2oiVtGglhkb8B.png" alt="image-20200814135745978.png" /></p>
+<h3 id="95-额外的string操作"><a class="markdownIt-Anchor" href="#95-额外的string操作"></a> 9.5 额外的string操作</h3>
+<h4 id="951-构造string的其他方法"><a class="markdownIt-Anchor" href="#951-构造string的其他方法"></a> 9.5.1 构造string的其他方法</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(cp, n)</span>		<span class="comment">// s是cp指向的数组中前n个字符的拷贝</span></span></span><br><span class="line">s.substr(pos, n)	// 返回一个从pos开始n个字符的拷贝</span><br></pre></td></tr></table></figure>
+<h4 id="952-改变string的其他方法"><a class="markdownIt-Anchor" href="#952-改变string的其他方法"></a> 9.5.2 改变string的其他方法</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在s[0]之前插入s2中s2[0]开始的s2.size()个字符</span></span><br><span class="line">s.insert(<span class="number">0</span>, s2, <span class="number">0</span>, s2,<span class="built_in">size</span>());	</span><br><span class="line">s.append(<span class="string">"4th"</span>);			<span class="comment">// 末尾追加</span></span><br><span class="line">s.replace(<span class="number">11</span>, <span class="number">3</span>, <span class="string">"5th"</span>);	<span class="comment">// 先删除3个字符再插入</span></span><br></pre></td></tr></table></figure>
+<h4 id="953-string搜索操作"><a class="markdownIt-Anchor" href="#953-string搜索操作"></a> 9.5.3 string搜索操作</h4>
+<ul>
+<li>均返回size_type</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.<span class="built_in">find</span>()				<span class="comment">// 第一次出现位置</span></span><br><span class="line">s.find_first_of()		<span class="comment">// 任何一个args中字符第一次出现位置</span></span><br><span class="line">s.find_first_not_of()	<span class="comment">// 第一个不在args中的字符</span></span><br></pre></td></tr></table></figure>
+<h4 id="954-compare函数"><a class="markdownIt-Anchor" href="#954-compare函数"></a> 9.5.4 compare函数</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s.compare(pos1, n1, s2, pos2, n2)</span><br><span class="line">s.compare(pos1, n1, cp, n2)</span><br></pre></td></tr></table></figure>
+<h4 id="955-数值转换"><a class="markdownIt-Anchor" href="#955-数值转换"></a> 9.5.5 数值转换</h4>
+<ul>
+<li>要转换为数值的string中第一个非空白符必须是数值中可能出现的字符</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d = stod(s2.substr(s2.find_first_of(<span class="string">"+-.0123456789"</span>)));</span><br><span class="line">to_string(val)		<span class="comment">// val可以是任何算术类型</span></span><br><span class="line">stoi(s, p, b)		<span class="comment">// b为转换基数，默认10，p默认0</span></span><br></pre></td></tr></table></figure>
+<h3 id="96-容器适配器"><a class="markdownIt-Anchor" href="#96-容器适配器"></a> 9.6 容器适配器</h3>
+<ul>
+<li>stack默认基于deque实现</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.pop()				<span class="comment">// 删除栈顶元素，不返回值</span></span><br><span class="line">s.push()			<span class="comment">// 压入栈顶</span></span><br><span class="line">s.top()				<span class="comment">// 返回栈顶元素</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>queue默认基于deque实现，priority_queue默认基于vector实现</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">q.pop()				<span class="comment">// 不删除</span></span><br><span class="line">q.back()			<span class="comment">// 不删除</span></span><br><span class="line">q.top()				<span class="comment">// 只适用于priority_queue</span></span><br><span class="line">q.push()			<span class="comment">// 末尾</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%208%20IO%E5%BA%93/" rel="next" title="第八章 IO库">
+                  <i class="fa fa-chevron-left"></i> 第八章 IO库
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2010%20%E6%B3%9B%E5%9E%8B%E7%AE%97%E6%B3%95/" rel="prev" title="第十章 泛型算法">
+                  第十章 泛型算法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第九章-顺序容器"><span class="nav-text"> 第九章 顺序容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#91-顺序容器概述"><span class="nav-text"> 9.1 顺序容器概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#92-容器库概览"><span class="nav-text"> 9.2 容器库概览</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#921-迭代器"><span class="nav-text"> 9.2.1 迭代器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#922-容器定义与初始化"><span class="nav-text"> 9.2.2 容器定义与初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#925-赋值和swap"><span class="nav-text"> 9.2.5 赋值和swap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#926-容器大小操作"><span class="nav-text"> 9.2.6 容器大小操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#927-关系运算符"><span class="nav-text"> 9.2.7 关系运算符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#93-顺序容器操作"><span class="nav-text"> 9.3 顺序容器操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#931-向顺序容器添加元素"><span class="nav-text"> 9.3.1 向顺序容器添加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#932-访问元素"><span class="nav-text"> 9.3.2 访问元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#933-删除元素"><span class="nav-text"> 9.3.3 删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#934-特殊的forward_list操作"><span class="nav-text"> 9.3.4 特殊的forward_list操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#935-改变容器大小"><span class="nav-text"> 9.3.5 改变容器大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#936-容器操作可能使迭代器失效"><span class="nav-text"> 9.3.6 容器操作可能使迭代器失效</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#94-vector对象是如何增长的"><span class="nav-text"> 9.4 vector对象是如何增长的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#95-额外的string操作"><span class="nav-text"> 9.5 额外的string操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#951-构造string的其他方法"><span class="nav-text"> 9.5.1 构造string的其他方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#952-改变string的其他方法"><span class="nav-text"> 9.5.2 改变string的其他方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#953-string搜索操作"><span class="nav-text"> 9.5.3 string搜索操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#954-compare函数"><span class="nav-text"> 9.5.4 compare函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#955-数值转换"><span class="nav-text"> 9.5.5 数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#96-容器适配器"><span class="nav-text"> 9.6 容器适配器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

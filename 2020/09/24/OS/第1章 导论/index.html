@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第1章 导论  操作系统  什么是操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第1章 导论">
+<meta property="og:url" content="http://yoursite.com/2020/09/24/OS/%E7%AC%AC1%E7%AB%A0%20%E5%AF%BC%E8%AE%BA/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第1章 导论  操作系统  什么是操作系统">
+<meta property="article:published_time" content="2020-09-24T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-03T11:23:18.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/24/OS/%E7%AC%AC1%E7%AB%A0%20%E5%AF%BC%E8%AE%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第1章 导论 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/24/OS/%E7%AC%AC1%E7%AB%A0%20%E5%AF%BC%E8%AE%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第1章 导论
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-24 20:30:15" itemprop="dateCreated datePublished" datetime="2020-09-24T20:30:15+08:00">2020-09-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-03 19:23:18" itemprop="dateModified" datetime="2020-10-03T19:23:18+08:00">2020-10-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第1章-导论"><a class="markdownIt-Anchor" href="#第1章-导论"></a> 第1章 导论</h2>
+<h3 id="操作系统"><a class="markdownIt-Anchor" href="#操作系统"></a> 操作系统</h3>
+<h4 id="什么是操作系统"><a class="markdownIt-Anchor" href="#什么是操作系统"></a> 什么是操作系统</h4>
+<a id="more"></a>
+<ul>
+<li>管理计算机硬件、为应用程序提供基础、作为用户和计算机硬件的中介的程序</li>
+<li>管理和分配资源、为了有效和公平的使用资源在冲突请求之间做出决定的资源分配器</li>
+<li>控制程序执行，以防止错误和错误使用计算机和控制IO设备操作的控制程序</li>
+</ul>
+<p><strong>操作系统是一组控制和管理计算机软硬件资源、合理地对各类作业进行调度以及方便用户的程序的集合</strong></p>
+<h4 id="多路批处理系统"><a class="markdownIt-Anchor" href="#多路批处理系统"></a> 多路批处理系统</h4>
+<ul>
+<li>两个/两个或更多作业同时进入主存储器</li>
+<li>在宏观操作状态</li>
+<li>共享所有系统资源</li>
+</ul>
+<h4 id="分时系统"><a class="markdownIt-Anchor" href="#分时系统"></a> 分时系统</h4>
+<ul>
+<li>
+<p>多终端单主机</p>
+</li>
+<li>
+<p>提供用户与系统之间的在线通信； 当操作系统完成一个命令的执行时，它不是从读卡器而是从用户的键盘中查找下一个“控制语句”。</p>
+</li>
+<li>
+<p>在线系统必须可供用户访问数据和代码。</p>
+</li>
+</ul>
+<h4 id="专用系统"><a class="markdownIt-Anchor" href="#专用系统"></a> 专用系统</h4>
+<p>​	通常在专用应用中用作控制设备</p>
+<ul>
+<li>严格的时间限制</li>
+</ul>
+<h4 id="pc-系统"><a class="markdownIt-Anchor" href="#pc-系统"></a> PC 系统</h4>
+<ul>
+<li>个人独占计算机不需要高级CPU保护技术</li>
+</ul>
+<h4 id="并行系统"><a class="markdownIt-Anchor" href="#并行系统"></a> 并行系统</h4>
+<ul>
+<li>紧密耦合系统-处理器共享内存和时钟；通信通常通过共享内存进行</li>
+</ul>
+<h4 id="分布式系统"><a class="markdownIt-Anchor" href="#分布式系统"></a> 分布式系统</h4>
+<ul>
+<li>在几个物理处理器之间分配计算。</li>
+<li>松耦合系统–每个处理器都有自己的本地内存； 处理器通过各种通信线路（例如高速总线或电话线）相互通信。</li>
+</ul>
+<h3 id="硬件功能"><a class="markdownIt-Anchor" href="#硬件功能"></a> 硬件功能</h3>
+<h4 id="特权指令"><a class="markdownIt-Anchor" href="#特权指令"></a> 特权指令</h4>
+<ul>
+<li>
+<p>访问某些禁止用户程序直接访问的硬件资源的指令</p>
+</li>
+<li>
+<p>直接访问I / O设备（例如磁盘，打印机等）的指令</p>
+</li>
+<li>
+<p>用于操作内存管理状态的指令（页表指针，刷新TLB等）</p>
+</li>
+<li>
+<p>一些特殊状态位的设置指令</p>
+</li>
+<li>
+<p>HLT(停机指令)</p>
+</li>
+</ul>
+<h4 id="处理器状态"><a class="markdownIt-Anchor" href="#处理器状态"></a> 处理器状态</h4>
+<ul>
+<li>kernel mode / user mode</li>
+</ul>
+<h5 id="pswprogram-status-word"><a class="markdownIt-Anchor" href="#pswprogram-status-word"></a> PSW(Program Status Word)</h5>
+<ul>
+<li>用来指示处理器的状态</li>
+</ul>
+<h4 id="系统调用"><a class="markdownIt-Anchor" href="#系统调用"></a> 系统调用</h4>
+<ul>
+<li>CPU执行访管指令、引起访管中断</li>
+<li>处理器保存中断点的程序执行上下文环境，CPU切换到管态</li>
+<li>中断处理程序开始工作，调用相应的系统服务</li>
+<li>中断处理结束后，恢复被中断程序的上下文环境，CPU恢复为目态，回到中断点继续执行</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p><strong>1.1</strong> What are the three main purposes of an operating system?</p>
+<ul>
+<li>提供一个用户可以运行程序的环境</li>
+<li>提高软硬件资源的利用率</li>
+<li>作为控制系统
+<ul>
+<li>监督用户程序的执行，以防止错误和不当使用</li>
+<li>操作和控制管理I/O设备</li>
+</ul>
+</li>
+</ul>
+<p><strong>1.2</strong> We have stressed the need for an operating system to make efficient use of the computing hardware. When is it appropriate for the operating<br />
+system to forsake this principle and to “waste” resources? Why is such a system not really wasteful?</p>
+<p>​	    如果用户更注重交互性的话，可以通过放弃这样的原则，浪费一些对于硬件计算的利用，提升用户的体验。这样的系统并不是真的浪费，而是能得到更好的用户反馈，达到为用户服务的目的。</p>
+<p><strong>1.3</strong> What is the main difficulty that a programmer must overcome in writing an operating system for a real-time environment?</p>
+<p>实时系统需要严格的时间限制，所以最主要的困难就是让操作系统有严格的时间限制。</p>
+<p><strong>1.4</strong> Keeping in mind the various definitions of operating system, consider<br />
+whether the operating system should include applications such as web<br />
+browsers and mail programs. Argue both that it should and that it should not, and support your answers.</p>
+<p>不应该有：</p>
+<ul>
+<li>应用程序是应用程序，而不是操作系统的一部分</li>
+<li>在内核中运行的任何性能优势都被安全漏洞所抵消</li>
+<li>这会导致操作系统臃肿</li>
+</ul>
+<p>应该有：</p>
+<ul>
+<li>它可能会更好地利用内核中的功能，因此比运行在内核之外的应用程序具有性能优势</li>
+</ul>
+<p><strong>1.5</strong> How does the distinction between kernel mode and user mode function as a rudimentary form of protection (security) system?</p>
+<pre><code>	把重要的指令设置为只有Kernel Mode时才可调用，只给User Mode较少的权限，可以提高系统安全性。
+</code></pre>
+<p><strong>1.6</strong> Which of the following instructions should be privileged?<br />
+a. Set value of timer. (Kernel Mode)<br />
+b. Read the clock. (User Mode)<br />
+c. Clear memory. (Kernel Mode)<br />
+d. Issue a trap instruction. (User Mode)<br />
+e. Turn off interrupts. (Kernel Mode)<br />
+f. Modify entries in device-status table. (Kernel Mode)<br />
+g. Switch from user to kernel mode. (User Mode)<br />
+h. Access I/O device. (Kernel Mode)</p>
+<p><strong>1.7</strong> Some early computers protected the operating system by placing it in a memory partition that could not be modified by either the user job or the operating system itself. Describe two difficulties that you think could arise with such a scheme.</p>
+<p>① 操作系统无法更新、出错时也无法修改</p>
+<p>② 用户的数据无法存储在被保护的内存中，有安全隐患</p>
+<p><strong>1.12</strong> In a multiprogramming and time-sharing environment, several users share the system simultaneously. This situation can result in various security problems.</p>
+<p>​		a. What are two such problems?</p>
+<p>​			①使用系统资源没有合适的记账</p>
+<p>​			②彼此的操作可能会影响彼此的程序或数据</p>
+<p>​		b. Can we ensure the same degree of security in a time-shared machine as in a dedicated machine? Explain your answer.</p>
+<p>​			不能，一个用户的数据可能被会受另一个用户的影响，而这种影响在根本上是无法解决的，所以安全性得不到像专用机一样的很好的保证。</p>
+<p><strong>1.13</strong> The issue of resource utilization shows up in different forms in different types of operating systems. List what resources must be managed carefully in the following settings:</p>
+<p>​		a. Mainframe or minicomputer systems</p>
+<p>​				CPU， 内存， 外存</p>
+<p>​		b. Workstations connected to servers</p>
+<p>​				网络， CPU， 内存</p>
+<p>​		c. Mobile computers</p>
+<pre><code>			功率，用户体验
+</code></pre>
+<p><strong>1.14</strong> Under what circumstances would a user be better off using a timesharing system than a PC or a single-user workstation?</p>
+<ul>
+<li>当其他用户很少时，任务大，硬件速度快，分时就有意义了</li>
+</ul>
+<p><strong>1.19</strong> What is the purpose of interrupts? How does an interrupt differ from a trap? Can traps be generated intentionally by a user program? If so, for what purpose?</p>
+<pre><code>	为了在现有任务可能没执行完时执行一个新的任务。陷阱是软件产生的，中断是由硬件产生的。用户可以有意地产生陷阱，用来调用操作系统的例程或者捕获算术错误。
+</code></pre>
+<p><strong>1.21</strong> Some computer systems do not provide a privileged mode of operation in hardware. Is it possible to construct a secure operating system for these computer systems? Give arguments both that it is and that it is not possible.</p>
+<p>可以：</p>
+<ul>
+<li>
+<p>一种方法是为双模处理器（一种具有特权模式的处理器）编写一个模拟器，并在这个模拟器上运行操作系统。</p>
+</li>
+<li>
+<p>执行用安全语言（如Java）编写的用户程序才能工作执行用安全语言（如Java）编写的用户程序才能工作</p>
+</li>
+</ul>
+<p>不可以：</p>
+<ul>
+<li>如果不牺牲功能性，任由用户程序调用特权指令，会对系统安全构成很大的威胁</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/22/DS/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E9%AB%98%E7%BA%A7%E6%90%9C%E7%B4%A2%E6%A0%91/" rel="next" title="第八章 高级搜索树">
+                  <i class="fa fa-chevron-left"></i> 第八章 高级搜索树
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/25/DS/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E8%AF%8D%E5%85%B8/" rel="prev" title="第九章 词典">
+                  第九章 词典 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第1章-导论"><span class="nav-text"> 第1章 导论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作系统"><span class="nav-text"> 操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是操作系统"><span class="nav-text"> 什么是操作系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多路批处理系统"><span class="nav-text"> 多路批处理系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分时系统"><span class="nav-text"> 分时系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#专用系统"><span class="nav-text"> 专用系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pc-系统"><span class="nav-text"> PC 系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#并行系统"><span class="nav-text"> 并行系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式系统"><span class="nav-text"> 分布式系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件功能"><span class="nav-text"> 硬件功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特权指令"><span class="nav-text"> 特权指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理器状态"><span class="nav-text"> 处理器状态</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#pswprogram-status-word"><span class="nav-text"> PSW(Program Status Word)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统调用"><span class="nav-text"> 系统调用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

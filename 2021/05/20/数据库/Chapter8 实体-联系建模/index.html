@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第八章 实体-联系建模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八章 实体-联系建模">
+<meta property="og:url" content="http://yoursite.com/2021/05/20/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter8%20%E5%AE%9E%E4%BD%93-%E8%81%94%E7%B3%BB%E5%BB%BA%E6%A8%A1/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第八章 实体-联系建模">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/yJxDh3CHKY8FArN.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/63HeyMZS1XQNOnl.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/859n4HZ1uoILKJd.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/wur4jWQ3LncDUJl.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/lAJCFO7e413kWoP.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/FvSiJA3bEYwcC4L.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/RzbhlNsSyEem6pT.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/z4vmxJHFteVqkAj.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/rdhzoSxgFEMl2fc.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/sGVOD2HTXeUycuW.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/bz4JD2LaHI53tfn.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/Kco8zY4pZh6f7Gn.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/PNXKHrkYZlGyF21.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/soMGDHW6yjAKXOP.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/iN9mpRXLIlHca4q.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/LhfMlC12yZ4sum5.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/BkyZ9azKPLY2onp.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/1mnO5SxZyJX3esc.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/jscHvZ25L7NUnF6.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/PvDw73jOpdlFSm9.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/22/KhPxSC9I6tTUQvr.png">
+<meta property="article:published_time" content="2021-05-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-02T05:28:47.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/22/yJxDh3CHKY8FArN.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/05/20/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter8%20%E5%AE%9E%E4%BD%93-%E8%81%94%E7%B3%BB%E5%BB%BA%E6%A8%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第八章 实体-联系建模 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/20/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter8%20%E5%AE%9E%E4%BD%93-%E8%81%94%E7%B3%BB%E5%BB%BA%E6%A8%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第八章 实体-联系建模
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-20 00:00:00" itemprop="dateCreated datePublished" datetime="2021-05-20T00:00:00+08:00">2021-05-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-02 13:28:47" itemprop="dateModified" datetime="2021-06-02T13:28:47+08:00">2021-06-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第八章-实体-联系建模"><a class="markdownIt-Anchor" href="#第八章-实体-联系建模"></a> 第八章 实体-联系建模</h2>
+<a id="more"></a>
+<p><strong>|ER建模|</strong>：ER建模是一种自上而下的数据库设计方法， 该方法首先确定那些被称为实体的重要数据和这些数据之间的联系，实体和联系是ER模型中必备的元素。然后再添加更多的细节信息，例如描述实体和联系的属性信息，以及施加在实体、联系和属性上的约束。</p>
+<p>我们采用的图形化符号集是一种日益流行的面向对象建模语言的符号集，称为<strong>统一建模语言(Unified Modeling Language, UML)</strong>。</p>
+<p><img src="https://i.loli.net/2021/05/22/yJxDh3CHKY8FArN.png" alt="1.png" /></p>
+<h3 id="81-实体类型"><a class="markdownIt-Anchor" href="#81-实体类型"></a> 8.1 实体类型</h3>
+<p><strong>|实体类型|</strong>：能够独立存在的具有相同属性的一组对象。</p>
+<p>例：Staff</p>
+<p><strong>|实体出现|</strong>：实体类型中可唯一标识的一个对象。（实例）</p>
+<p>例：S01</p>
+<p><strong>实体类型的图形化表示</strong></p>
+<p>实体类型用标有名字的矩形表示。</p>
+<h3 id="82-联系类型"><a class="markdownIt-Anchor" href="#82-联系类型"></a> 8.2 联系类型</h3>
+<p><strong>|联系类型|</strong>：实体类型间的一组有意义的关联。</p>
+<p>例：POwns</p>
+<p><strong>|联系出现|</strong>：由参与该联系的各个实体类型的一个出现组成的可被唯一标识的关联。</p>
+<p>例：B01	Has	S01</p>
+<p><strong>|语义网|</strong>：●表示实体，◈表示联系。</p>
+<p><strong>联系类型的图形化表示</strong></p>
+<p>用线将相关的实体类型联系起来，并在线上标上联系的名字，通常为一个动词，并标记有方向。</p>
+<p><img src="https://i.loli.net/2021/05/22/63HeyMZS1XQNOnl.png" alt="2.png" /></p>
+<h4 id="821-联系类型的度"><a class="markdownIt-Anchor" href="#821-联系类型的度"></a> 8.2.1 联系类型的度</h4>
+<p><strong>|联系类型的度|</strong>：参与联系的实体类型的个数。</p>
+<p><strong>复杂联系的图形化表示</strong></p>
+<p>UML用菱形符号表示大于2的联系，联系的名字放在菱形内部。</p>
+<p><img src="https://i.loli.net/2021/05/22/859n4HZ1uoILKJd.png" alt="3.png" /></p>
+<h4 id="822-递归联系"><a class="markdownIt-Anchor" href="#822-递归联系"></a> 8.2.2 递归联系</h4>
+<p><strong>|递归联系|</strong>：同一个实体类型以不同的角色多次参与了同一个联系类型。</p>
+<p>递归联系有时又叫一元联系。</p>
+<p><img src="https://i.loli.net/2021/05/22/wur4jWQ3LncDUJl.png" alt="4.png" /></p>
+<p>可以添加<strong>角色名称</strong>来表明每一个参与联系的实体类型在该联系中的意义，当两个实体之间存在多于一种联系时也可以使用角色名称。</p>
+<img src="https://i.loli.net/2021/05/22/lAJCFO7e413kWoP.png" alt="5.png" style="zoom:80%;" />
+<h3 id="83-属性"><a class="markdownIt-Anchor" href="#83-属性"></a> 8.3 属性</h3>
+<p><strong>|属性|</strong>：实体或联系类型所具有的某一特性。</p>
+<p><strong>|属性域|</strong>：单个属性或多个属性所允许的取值集合。</p>
+<h4 id="831-简单属性和组合属性"><a class="markdownIt-Anchor" href="#831-简单属性和组合属性"></a> 8.3.1 简单属性和组合属性</h4>
+<p><strong>|简单属性|</strong>：由独立存在的单个部分组成的属性。</p>
+<p>简单属性不能再被划分为更小的部分，有时又称为原子属性。</p>
+<p><strong>|组合属性|</strong>：由多个部分组成的属性，每个部分都可独立存在。</p>
+<p>例：address（163 Main St, Bei jing, 100083）</p>
+<p>可以拆分为street, city和postcode三个属性</p>
+<h4 id="832-单值属性和多值属性"><a class="markdownIt-Anchor" href="#832-单值属性和多值属性"></a> 8.3.2 单值属性和多值属性</h4>
+<p><strong>|单值属性|</strong>：在实体类型的每个实例出现都只取一个单值的属性。</p>
+<p><strong>|多值属性|</strong>：对于实体类型的某些实例出现可能取多个值的属性。</p>
+<p>例：电话号码可能有多个值</p>
+<h4 id="833-导出属性"><a class="markdownIt-Anchor" href="#833-导出属性"></a> 8.3.3 导出属性</h4>
+<p><strong>|导出属性|</strong>：属性的值是从相关的一个或一组属性（不一定来自同一个实体类型）的值导出来的属性。</p>
+<p>例：age从Date中导出</p>
+<h4 id="834-键"><a class="markdownIt-Anchor" href="#834-键"></a> 8.3.4 键</h4>
+<p><strong>|候选键|</strong>：能够唯一标识每个实体的实例出现的最小属性组。</p>
+<p><strong>|主键|</strong>：被指定用来唯一标识实体类型的每个实例出现的候选关键字。</p>
+<p>实体主键的选择要考虑属性的长度，以及该属性在以后是否仍具有唯一性。</p>
+<p><strong>|合成键|</strong>：包括两个或两个以上属性的候选键。</p>
+<p><strong>属性的图形化表示</strong></p>
+<p>如果要在一个实体类型中显示它的属性，可以将表示实体的矩形分成两部分。上面部分是实体的名字，下面部分列出属性的名字。</p>
+<p><img src="https://i.loli.net/2021/05/22/FvSiJA3bEYwcC4L.png" alt="6.png" /></p>
+<ul>
+<li>
+<p>在UML中，属性名字用小驼峰。</p>
+</li>
+<li>
+<p>在ER图中只显示主键属性（属性组）时，可以省略{PK}标记。</p>
+</li>
+<li>
+<p>对于组合属性，可以在紧跟组合属性名的下一行开始以右缩进格式列出子属性名。</p>
+</li>
+<li>
+<p>对于多值属性，要知名属性取值的个数范围。</p>
+</li>
+<li>
+<p>对于导出属性，在属性名前加上符号“/”。</p>
+</li>
+</ul>
+<h3 id="84-强实体类型与弱实体类型"><a class="markdownIt-Anchor" href="#84-强实体类型与弱实体类型"></a> 8.4 强实体类型与弱实体类型</h3>
+<p><strong>|强实体类型|</strong>：该实体类型的存在不依赖于其他的实体类型。</p>
+<p><strong>|弱实体类型|</strong>：该实体类型的存在依赖于其他实体类型的存在。</p>
+<p>强实体类型可以使用该实体类型的主键唯一标识每个实体的实例出现，弱实体类型没有主键，仅使用该实体类型的属性无法唯一标识每个实体的实例出现。</p>
+<p><img src="https://i.loli.net/2021/05/22/RzbhlNsSyEem6pT.png" alt="7.png" /></p>
+<h3 id="85-联系的属性"><a class="markdownIt-Anchor" href="#85-联系的属性"></a> 8.5 联系的属性</h3>
+<p><strong>联系的属性的图形化表示</strong></p>
+<p>采用与实体类型相同的符号，将表示属性的矩形和联系用虚线连接起来。</p>
+<p><img src="https://i.loli.net/2021/05/22/z4vmxJHFteVqkAj.png" alt="8.png" /></p>
+<h3 id="86-结构化约束"><a class="markdownIt-Anchor" href="#86-结构化约束"></a> 8.6 结构化约束</h3>
+<p>联系的主要约束称为多重性。</p>
+<p><strong>|多重性|</strong>：指一个参与实体类型通过某一联系与另一参与实体类型的某个出现发生关联的数目。</p>
+<p>多重性约束了实体间关联的方式，最常见的联系的度是二元的。</p>
+<h4 id="861-一对一11联系"><a class="markdownIt-Anchor" href="#861-一对一11联系"></a> 8.6.1 一对一(1:1)联系</h4>
+<p><img src="https://i.loli.net/2021/05/22/rdhzoSxgFEMl2fc.png" alt="9.png" /></p>
+<h4 id="862-一对多1联系"><a class="markdownIt-Anchor" href="#862-一对多1联系"></a> 8.6.2 一对多(1:*)联系</h4>
+<p><img src="https://i.loli.net/2021/05/22/sGVOD2HTXeUycuW.png" alt="10.png" /></p>
+<h4 id="863-多对多联系"><a class="markdownIt-Anchor" href="#863-多对多联系"></a> 8.6.3 多对多(*😗)联系</h4>
+<p><img src="https://i.loli.net/2021/05/22/bz4JD2LaHI53tfn.png" alt="11.png" /></p>
+<h4 id="864-复杂联系的多重性"><a class="markdownIt-Anchor" href="#864-复杂联系的多重性"></a> 8.6.4 复杂联系的多重性</h4>
+<p><strong>|多重性(复杂联系)|</strong>：在一个n元联系中，当其他(n - 1)个实体类型的值固定以后，另外一个实体类型可能参与联系的实例出现的个数。</p>
+<p><img src="https://i.loli.net/2021/05/22/Kco8zY4pZh6f7Gn.png" alt="13.png" /></p>
+<h4 id="865-基数约束和参与性约束"><a class="markdownIt-Anchor" href="#865-基数约束和参与性约束"></a> 8.6.5 基数约束和参与性约束</h4>
+<p><strong>|基数|</strong>：在指定的联系类型中，一个实体可能参与的联系出现的最大数目。</p>
+<ul>
+<li>多重性范围中的最大值</li>
+</ul>
+<p><strong>|参与性|</strong>：说明所有实体出现是否都参与了联系。</p>
+<ul>
+<li>多重性范围中的最小值</li>
+</ul>
+<p>参与性约束表示在一个联系中，时所有实体出现都参与了该联系（<strong>强制参与</strong>），还是只有一部分实体出现参与（<strong>可选参与</strong>）。</p>
+<p>要注意的是，某个实体的参与性是由在联系中另外一方实体的多重性的最小值决定的。</p>
+<p><img src="https://i.loli.net/2021/05/22/PNXKHrkYZlGyF21.png" alt="14.png" /></p>
+<p>例：Staff是可选的，Branch是强制的</p>
+<h3 id="87-将er转换关系"><a class="markdownIt-Anchor" href="#87-将er转换关系"></a> 8.7 将ER转换关系</h3>
+<p><strong>|将ER转换为关系数据模型|</strong>：为逻辑数据模型创建关系，用来表示已确定的实体、联系和属性。</p>
+<h4 id="871-强实体类型"><a class="markdownIt-Anchor" href="#871-强实体类型"></a> 8.7.1 强实体类型</h4>
+<p>创建一个包含这个实体所有简单属性的关系</p>
+<p>例：Staff(staffNo, sex, DOB)</p>
+<h4 id="872-弱实体类型"><a class="markdownIt-Anchor" href="#872-弱实体类型"></a> 8.7.2 弱实体类型</h4>
+<p>创建一个包含该实体所有简单属性的关系，其中部分主关键字甚至全部都是从所有者实体中获取的。（主键要等到该弱实体与每一个父实体的联系转化完成后才能确定）</p>
+<p>例：Preference(staffNo, prefType)</p>
+<h4 id="873-1二元联系模型"><a class="markdownIt-Anchor" href="#873-1二元联系模型"></a> 8.7.3 1:*二元联系模型</h4>
+<p>左边作为父实体，右边作为子实体。将父实体的主键属性副本放到对应于子实体的关系中，作为该关系的外键。</p>
+<p><img src="https://i.loli.net/2021/05/22/soMGDHW6yjAKXOP.png" alt="15.png" /></p>
+<h4 id="834-11-二元联系模型"><a class="markdownIt-Anchor" href="#834-11-二元联系模型"></a> 8.3.4 1:1 二元联系模型</h4>
+<p><strong>双方都强制参与的1:1联系</strong></p>
+<p>将联系中的两个实体合并到一个关系里，并选择原实体的一个主键作为新关系的主键。</p>
+<p>例：Client (clientNo, fName, lName, telNo, prefType, maxRent, staffNo)</p>
+<p>主键：clientNo</p>
+<p>外键：staffNo references Staff(staffNo)</p>
+<p><strong>一方强制参与的1:1联系</strong></p>
+<p>联系中可选参与的实体被指定为父实体，强制参与的实体被指定为子实体。将父实体的主键副本放到子实体的关系中。如果这个联系本身还有一个或多个属性，则这些属性也应该放到子实体中。</p>
+<p><img src="https://i.loli.net/2021/05/22/iN9mpRXLIlHca4q.png" alt="16.png" /></p>
+<p><strong>双方都可选参与的1:1联系</strong></p>
+<p>可以随意指定谁是父实体谁是子实体。</p>
+<h4 id="875-11递归联系类型"><a class="markdownIt-Anchor" href="#875-11递归联系类型"></a> 8.7.5 1:1递归联系类型</h4>
+<p>与上述方法一样，区别在于需要重命名</p>
+<h4 id="876-二元联系类型"><a class="markdownIt-Anchor" href="#876-二元联系类型"></a> 8.7.6 *:*二元联系类型</h4>
+<p>为每个*:*二元联系 创建一个关系，关系中包含了*:*二元联系的所有属性以及参与这个联系的实体的主键属性的副本，主键属性的副本作为外键。</p>
+<p><img src="https://i.loli.net/2021/05/22/LhfMlC12yZ4sum5.png" alt="17.png" /></p>
+<h4 id="877-复杂联系类型"><a class="markdownIt-Anchor" href="#877-复杂联系类型"></a> 8.7.7 复杂联系类型</h4>
+<p>为每一个复杂联系都创建一个关系，该关系包含了属于这个联系的所有属性，并将参与该联系的实体的主键属性也复制到这个关系中，作为关系的外键。</p>
+<p><img src="https://i.loli.net/2021/05/22/BkyZ9azKPLY2onp.png" alt="18.png" /></p>
+<h4 id="878-多值属性"><a class="markdownIt-Anchor" href="#878-多值属性"></a> 8.7.8 多值属性</h4>
+<p>对于实体中的每一个多值属性，都创建一个新的关系来表示这个多值属性，并且将实体的主键也复制到新建立的关系中，作为新关系的外键。除非多值属性本身是实体的可替换键，否则新关系的主键就是多值属性和实体的主键的组合。</p>
+<p><img src="https://i.loli.net/2021/05/22/1mnO5SxZyJX3esc.png" alt="19.png" /></p>
+<h4 id="879-将实体和联系转化为关系小结"><a class="markdownIt-Anchor" href="#879-将实体和联系转化为关系小结"></a> 8.7.9 将实体和联系转化为关系小结</h4>
+<p><img src="https://i.loli.net/2021/05/22/jscHvZ25L7NUnF6.png" alt="20.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>Describe what entity types represent in an ER model and provide examples of entities with a physical or conceptual existence.</p>
+<p>实体类型是能够独立存在的具有相同属性的一组对象。实体类型可以是物理存在的对象，也可以是概念存在的对象。物理存在的对象有学生、货物，概念存在的对象有工作经验、熟练程度。</p>
+</li>
+<li>
+<p>Describe what relationship types represent in an ER model and provide examples of unary, binary, ternary, and quaternary relationships.</p>
+<p>联系类型是实体类型间的一组有意义的关联。一元联系也被称为递归联系，只有一个实体类型参与。如员工（监管者）管理员工（被监管者）。二元联系如分公司雇有员工。三元联系如员工在某分公司登记了一名客户。四元联系如买主在法律顾问和金融机构的支持下进行投标。（画图）</p>
+</li>
+<li>
+<p>Describe what attributes represent in an ER model and provide examples of simple, composite, single-value, multi-value, and derived attributes.</p>
+<p>属性是实体或联系类型所具有的某一特性。简单属性是由独立存在的单个部分组成的属性，如staffNo是关系Staff的简单属性。复合属性是由多个部分组成的属性，每个部分都可独立存在。如name属性可以由fname和lname组成。单值属性是在实体类型的每个实例都只取一个单值的属性，如Staff关系的staffNo属性在每个实例中只有一个值。多值属性是在实体类型的某些实例可能取多个值的属性，如一个人员工可能有多个电话，telNo属性在每个实例中有可能有多于一个的值。导出属性是从相关的一个或一组属性的值导出来的属性，如age属性可以从birthDate属性中导出。</p>
+</li>
+<li>
+<p>Describe what the multiplicity constraint represents for a relationship type.</p>
+<p>多重性指一个参与实体类型通过某一联系与另一参与实体类型的某个出现发生关联的数目。多重性约束了实体间关联的方式。最常见的联系的度是二元的。二元联系通常又可以分为一对一、一对多或多对多的。</p>
+</li>
+<li>
+<p>What are enterprise constraints and how does multiplicity model these constraints?</p>
+<p>企业级约束是由数据库用户或数据库管理员所指定的附加规则，它约束企业的某些方面。多重性约束了实体间关联的方式，它是用户或企业建立的策略的一种表示。</p>
+</li>
+<li>
+<p>Describe the rules for deriving relations that represent:<br />
+strong entity types;</p>
+</li>
+</ol>
+<p>创建一个包含这个实体所有简单属性的关系</p>
+<p>weak entity types;</p>
+<p>创建包含所有简单属性的关系（主键要等到该弱实体与每一个父实体的联系转化完成后才能确定）</p>
+<p>one-to-many (1:*) binary relationship types;</p>
+<p>将“一方”作为父实体，将“多方”作为子实体，将父实体的主键属性副本放到对应子实体的关系中，作为该关系的外键，该联系的所有属性也放到子实体的关系中。</p>
+<p>one-to-one (1:1) binary relationship types;</p>
+<p>(a)双方都为强制参与</p>
+<p>​	将两个实体组合起来，用一个关系表示</p>
+<p>(b)一方强制参与</p>
+<p>​	将可选参与的实体作为父实体，将强制参与的实体作为子实体，将父实体的逐渐属性副本放到对应子实体的关系中，作为该关系的外键，该联系的所有属性也放到子实体的关系中。</p>
+<p>©双方都为可选参与</p>
+<p>​	可以随意选择父实体和子实体，并按照上述方法进行转换。</p>
+<p>one-to-one (1:1) recursive relationship types;</p>
+<p>​	与1:1二元关系转换一样，区别在于需要重命名</p>
+<p>many-to-many (*😗) binary relationship types;</p>
+<p>​	为每个*:*二元联系 创建一个关系，关系中包含了*:*二元联系的所有属性以及参与这个联系的实体的主键属性的副本，主键属性的副本作为外键。</p>
+<p>complex relationship types;</p>
+<p>​	为每一个复杂联系都创建一个关系，该关系包含了属于这个联系的所有属性，并将参与该联系的实体的主键属性也复制到这个关系中，作为关系的外键。</p>
+<p>multi-valued attributes.</p>
+<p>​	对于实体中的每一个多值属性，都创建一个新的关系来表示这个多值属性，并且将实体的主键也复制到新建立的关系中，作为新关系的外键。</p>
+<ol start="7">
+<li>Create an ER diagram for each of the following descriptions:<br />
+(a) Each company operates four departments, and each department belongs to one company.<br />
+(b) Each department in part (a) employs one or more employees, and each employee works for one department.<br />
+© Each of the employees in part (b) may or may not have one or more dependents, and each dependent belongs to one employee.<br />
+(d) Each employee in part © may or may not have an employment history.<br />
+(e) Represent all the ER diagrams described in (a), (b), ©, and (d) as a single ER diagram.</li>
+</ol>
+<p><img src="https://i.loli.net/2021/05/22/PvDw73jOpdlFSm9.png" alt="22.png" /></p>
+<p>​	注：Employment History是0…*不是1…*</p>
+<ol start="8">
+<li>
+<p>You are required to create a conceptual data model of the data requirements for a company that specializes in IT training. The Company has 30 instructors and can handle up to 100 trainees per training session. The Company offers five advanced technology courses, each of which is taught by a teaching team of two or more instructors. Each instructor is assigned to a maximum of two teaching teams or may be assigned to do research. Each trainee undertakes one advanced technology course per training session.<br />
+(a) Identify the main entity types for the company.<br />
+(b) Identify the main relationship types and specify the multiplicity for each relationship. State any assumptions you make about the data.<br />
+© Using your answers for (a) and (b), draw a single ER diagram to represent the data requirements for the company.</p>
+</li>
+<li>
+<p>Derive relations for the following conceptual data model:</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/05/22/KhPxSC9I6tTUQvr.png" alt="21.png" /></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter7%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="next" title="第七章 数据库系统开发生命周期">
+                  <i class="fa fa-chevron-left"></i> 第七章 数据库系统开发生命周期
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/06/02/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter9%20%E8%A7%84%E8%8C%83%E5%8C%96/" rel="prev" title="第九章 规范化">
+                  第九章 规范化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-实体-联系建模"><span class="nav-text"> 第八章 实体-联系建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#81-实体类型"><span class="nav-text"> 8.1 实体类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#82-联系类型"><span class="nav-text"> 8.2 联系类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#821-联系类型的度"><span class="nav-text"> 8.2.1 联系类型的度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#822-递归联系"><span class="nav-text"> 8.2.2 递归联系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#83-属性"><span class="nav-text"> 8.3 属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#831-简单属性和组合属性"><span class="nav-text"> 8.3.1 简单属性和组合属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#832-单值属性和多值属性"><span class="nav-text"> 8.3.2 单值属性和多值属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#833-导出属性"><span class="nav-text"> 8.3.3 导出属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#834-键"><span class="nav-text"> 8.3.4 键</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#84-强实体类型与弱实体类型"><span class="nav-text"> 8.4 强实体类型与弱实体类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#85-联系的属性"><span class="nav-text"> 8.5 联系的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#86-结构化约束"><span class="nav-text"> 8.6 结构化约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#861-一对一11联系"><span class="nav-text"> 8.6.1 一对一(1:1)联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#862-一对多1联系"><span class="nav-text"> 8.6.2 一对多(1:*)联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#863-多对多联系"><span class="nav-text"> 8.6.3 多对多(*😗)联系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#864-复杂联系的多重性"><span class="nav-text"> 8.6.4 复杂联系的多重性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#865-基数约束和参与性约束"><span class="nav-text"> 8.6.5 基数约束和参与性约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#87-将er转换关系"><span class="nav-text"> 8.7 将ER转换关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#871-强实体类型"><span class="nav-text"> 8.7.1 强实体类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#872-弱实体类型"><span class="nav-text"> 8.7.2 弱实体类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#873-1二元联系模型"><span class="nav-text"> 8.7.3 1:*二元联系模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#834-11-二元联系模型"><span class="nav-text"> 8.3.4 1:1 二元联系模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#875-11递归联系类型"><span class="nav-text"> 8.7.5 1:1递归联系类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#876-二元联系类型"><span class="nav-text"> 8.7.6 *:*二元联系类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#877-复杂联系类型"><span class="nav-text"> 8.7.7 复杂联系类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#878-多值属性"><span class="nav-text"> 8.7.8 多值属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#879-将实体和联系转化为关系小结"><span class="nav-text"> 8.7.9 将实体和联系转化为关系小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

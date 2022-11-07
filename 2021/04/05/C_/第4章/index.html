@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="C#语言高级特性  4.1 委托(delegate)  声明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第4章 C#语言高级特性">
+<meta property="og:url" content="http://yoursite.com/2021/04/05/C_/%E7%AC%AC4%E7%AB%A0/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="C#语言高级特性  4.1 委托(delegate)  声明">
+<meta property="og:image" content="https://i.loli.net/2021/04/20/nuyQB62FlgackiO.png">
+<meta property="article:published_time" content="2021-04-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-10-09T02:36:18.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/20/nuyQB62FlgackiO.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/05/C_/%E7%AC%AC4%E7%AB%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第4章 C#语言高级特性 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/05/C_/%E7%AC%AC4%E7%AB%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第4章 C#语言高级特性
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-05 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-05T00:00:00+08:00">2021-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-09 10:36:18" itemprop="dateModified" datetime="2021-10-09T10:36:18+08:00">2021-10-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-nbsp/" itemprop="url" rel="index">
+                    <span itemprop="name">C#&nbsp;</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="c语言高级特性"><a class="markdownIt-Anchor" href="#c语言高级特性"></a> C#语言高级特性</h2>
+<h3 id="41-委托delegate"><a class="markdownIt-Anchor" href="#41-委托delegate"></a> 4.1 委托(delegate)</h3>
+<h4 id="声明"><a class="markdownIt-Anchor" href="#声明"></a> 声明</h4>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public delegate double MyDelegate(double x);</span><br></pre></td></tr></table></figure>
+<h4 id="实例化"><a class="markdownIt-Anchor" href="#实例化"></a> 实例化</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyDeletated d2 &#x3D; new MyDelegate(obj.myMethod);</span><br></pre></td></tr></table></figure>
+<h4 id="调用"><a class="markdownIt-Anchor" href="#调用"></a> 调用</h4>
+<p>委托变量名（参数列表）</p>
+<h4 id="委托的合并多播multicasting"><a class="markdownIt-Anchor" href="#委托的合并多播multicasting"></a> 委托的合并/多播(Multicasting)</h4>
+<ul>
+<li>一个委托实例中可以“包含”多个函数</li>
+<li>调用委托，就是调用其中多个函数</li>
+</ul>
+<p><strong>运算符 +、 -、 +=、 -=</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">delegate int NumberChanger(int n);</span><br><span class="line">namespace DelegateAppl</span><br><span class="line">&#123;</span><br><span class="line">   class TestDelegate</span><br><span class="line">   &#123;</span><br><span class="line">      static int num &#x3D; 10;</span><br><span class="line">      public static int AddNum(int p)</span><br><span class="line">      &#123;</span><br><span class="line">         num +&#x3D; p;</span><br><span class="line">         return num;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      public static int MultNum(int q)</span><br><span class="line">      &#123;</span><br><span class="line">         num *&#x3D; q;</span><br><span class="line">         return num;</span><br><span class="line">      &#125;</span><br><span class="line">      public static int getNum()</span><br><span class="line">      &#123;</span><br><span class="line">         return num;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      static void Main(string[] args)</span><br><span class="line">      &#123;</span><br><span class="line">         &#x2F;&#x2F; 创建委托实例</span><br><span class="line">         NumberChanger nc;</span><br><span class="line">         NumberChanger nc1 &#x3D; new NumberChanger(AddNum);</span><br><span class="line">         NumberChanger nc2 &#x3D; new NumberChanger(MultNum);</span><br><span class="line">         nc &#x3D; nc1;</span><br><span class="line">         nc +&#x3D; nc2;</span><br><span class="line">         &#x2F;&#x2F; 调用多播</span><br><span class="line">         nc(5);</span><br><span class="line">         Console.WriteLine(&quot;Value of Num: &#123;0&#125;&quot;, getNum());</span><br><span class="line">         Console.ReadKey();</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="委托的转换与相等"><a class="markdownIt-Anchor" href="#委托的转换与相等"></a> 委托的转换与相等</h4>
+<ul>
+<li>委托的转换
+<ul>
+<li>按声明的名称判断</li>
+</ul>
+</li>
+<li>委托的相等
+<ul>
+<li>按内容（即“包含的函数”）来判断</li>
+<li>有点像两个字符串的“equals”判断</li>
+</ul>
+</li>
+</ul>
+<h3 id="42-事件"><a class="markdownIt-Anchor" href="#42-事件"></a> 4.2 事件</h3>
+<h4 id="按钮点击事件基本的写法"><a class="markdownIt-Anchor" href="#按钮点击事件基本的写法"></a> 按钮点击事件基本的写法</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">this.button1.Click +&#x3D; new System.EventHandler(this.button1_Click);</span><br><span class="line"></span><br><span class="line">private void button1_Click(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">    this.label1.Text &#x3D; DateTime.Now.ToString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="声明-2"><a class="markdownIt-Anchor" href="#声明-2"></a> 声明</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public event 委托名 事件名;</span><br></pre></td></tr></table></figure>
+<h4 id="事件的注册与移除"><a class="markdownIt-Anchor" href="#事件的注册与移除"></a> 事件的注册与移除</h4>
+<ul>
+<li>事件名+= 或 -=</li>
+<li>在事件所在类外面，只能用以上两个运算符</li>
+</ul>
+<h4 id="事件的发生激发"><a class="markdownIt-Anchor" href="#事件的发生激发"></a> 事件的发生（激发）</h4>
+<ul>
+<li>事件名（参数列表）</li>
+<li>相当于回调所注册的函数</li>
+</ul>
+<h4 id="定义及使用事件的6步曲"><a class="markdownIt-Anchor" href="#定义及使用事件的6步曲"></a> 定义及使用事件的6步曲</h4>
+<p><img src="https://i.loli.net/2021/04/20/nuyQB62FlgackiO.png" alt="1.png" /></p>
+<h4 id="事件与委托的关系"><a class="markdownIt-Anchor" href="#事件与委托的关系"></a> 事件与委托的关系</h4>
+<ul>
+<li>事件一定有相关的委托类型</li>
+<li>与委托实例一样，事件也“包含”多个函数</li>
+<li>事件的运算受更多限制（在类外只能用+=或-=）</li>
+</ul>
+<h4 id="特性"><a class="markdownIt-Anchor" href="#特性"></a> 特性</h4>
+<ul>
+<li>事件是一种消息机制</li>
+<li>事件源调用事件，别的类注册时间</li>
+<li>事件的类型是一个委托</li>
+</ul>
+<h3 id="43-lambda表达式"><a class="markdownIt-Anchor" href="#43-lambda表达式"></a> 4.3 Lambda表达式</h3>
+<h4 id="431-泛型"><a class="markdownIt-Anchor" href="#431-泛型"></a> 4.3.1 泛型</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T add&lt;T&gt; (T a, T b)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="432-匿名方法"><a class="markdownIt-Anchor" href="#432-匿名方法"></a> 4.3.2 匿名方法</h4>
+<p>不写名字，直接写方法体的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">delegate(参数)&#123;方法体&#125;</span><br><span class="line"></span><br><span class="line">new Thread(delegate()&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>可以省略参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Thread(delegate&#123;Console.Write(&quot;my function&quot;;)&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="433-lambda表达式"><a class="markdownIt-Anchor" href="#433-lambda表达式"></a> 4.3.3 Lambda表达式</h4>
+<ul>
+<li><strong>相当于匿名方法的简写</strong>
+<ul>
+<li>省略delegate，甚至<strong>省略参数类型</strong>，会<strong>自动推算参数类型</strong></li>
+<li>直接用（参数）=&gt;{语句或表达式}</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new Thread(()&#x3D;&gt;&#123;Console.Write(&quot;my function&quot;);&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="434-linq"><a class="markdownIt-Anchor" href="#434-linq"></a> 4.3.4 Linq</h4>
+<p>Language Integrated Query 集成查询语言</p>
+<h3 id="44-运算符重载"><a class="markdownIt-Anchor" href="#44-运算符重载"></a> 4.4 运算符重载</h3>
+<h4 id="441-一元运算符"><a class="markdownIt-Anchor" href="#441-一元运算符"></a> 4.4.1 一元运算符</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static 类型 operator 一元运算符(类型 参数名)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="442-类型转换运算符"><a class="markdownIt-Anchor" href="#442-类型转换运算符"></a> 4.4.2 类型转换运算符</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public static implicit operator 类型(类型 参数名)&#123;&#125;(隐式)</span><br><span class="line">public static explicit operator 类型(类型 参数名)&#123;&#125;(强制)</span><br></pre></td></tr></table></figure>
+<h3 id="45-异常处理"><a class="markdownIt-Anchor" href="#45-异常处理"></a> 4.5 异常处理</h3>
+<p>子类异常写前面、更一般的异常写后面</p>
+<ul>
+<li>catch{}表示捕获所有类型的异常</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">try&#123;...&#125;</span><br><span class="line">catch(Exception e)&#123;...&#125;</span><br><span class="line">finally&#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>抛出异常</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(xxx) throw new SomeException;</span><br></pre></td></tr></table></figure>
+<h4 id="451-内部异常"><a class="markdownIt-Anchor" href="#451-内部异常"></a> 4.5.1 内部异常</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.IO;</span><br><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">    public static void Main( )</span><br><span class="line">    &#123;</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                var num &#x3D; int.Parse(&quot;abc&quot;);                </span><br><span class="line">            &#125;</span><br><span class="line">            catch ( Exception inner )</span><br><span class="line">            &#123;</span><br><span class="line">                try</span><br><span class="line">                &#123;</span><br><span class="line">                    var openLog &#x3D; File.Open(&quot;DoesNotExist&quot;, FileMode.Open);</span><br><span class="line">                &#125;</span><br><span class="line">                catch</span><br><span class="line">                &#123;</span><br><span class="line">                    throw new FileNotFoundException(&quot;OutterException&quot;, inner);</span><br><span class="line">                &#125;                              </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        catch ( Exception e)</span><br><span class="line">        &#123;</span><br><span class="line">            string inMes, outMes;</span><br><span class="line">            if (e.InnerException !&#x3D; null)</span><br><span class="line">                inMes &#x3D; e.InnerException.Message;</span><br><span class="line">            outMes &#x3D; e.Message;</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，将abc转换为int会抛出FormatException异常；打开了一个不存在的文件，会抛出FileNotFoundException异常，<strong>由于我将捕获到的异常作为了FileNotFoundException的内部异常， 我在外部就可以通过内部异常（InnerException）来知道第一个FormatException异常</strong>。<br />
+此外，如果一个异常的内部异常为空，通常意味着它是造成当前异常状态的根源。</p>
+<h3 id="46-atrribute"><a class="markdownIt-Anchor" href="#46-atrribute"></a> 4.6 Atrribute</h3>
+<p>Attribute是与类、结构、方法等元素相关的额外信息，是对元信息的扩展</p>
+<h4 id="461-自定义attribute"><a class="markdownIt-Anchor" href="#461-自定义attribute"></a> 4.6.1 自定义Attribute</h4>
+<ul>
+<li>从System.Attribute继承而来</li>
+<li>名字要用xxxAttribute</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[AttributeUsage(AttributeTargets.Class | </span><br><span class="line">               AttributeTargets.Method, </span><br><span class="line">               AllowMultiple &#x3D; true)]</span><br><span class="line">public class HelpAttribute : System.Attribute</span><br><span class="line">&#123;</span><br><span class="line">    public readonly string Url;		&#x2F;&#x2F; 位置参数</span><br><span class="line">    private string topic;			&#x2F;&#x2F; 命名参数</span><br><span class="line">    public string Topic&#123;get; set;&#125;</span><br><span class="line">   	public HelpAttribute(string url)</span><br><span class="line">    &#123;</span><br><span class="line">        this.Url &#x3D; Url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="47-c语言中的其他成分"><a class="markdownIt-Anchor" href="#47-c语言中的其他成分"></a> 4.7 C#语言中的其他成分</h3>
+<h4 id="471-编译预处理"><a class="markdownIt-Anchor" href="#471-编译预处理"></a> 4.7.1 编译预处理</h4>
+<p><strong>标识符声明</strong></p>
+<ul>
+<li>
+<p>#define定义一个标识符</p>
+</li>
+<li>
+<p>#undef“取消定义”一个标识符</p>
+</li>
+</ul>
+<p><strong>条件处理</strong></p>
+<ul>
+<li>#if、#elif、#else、#endif</li>
+</ul>
+<p><strong>信息报告</strong></p>
+<ul>
+<li>#error、#warning</li>
+</ul>
+<p><strong>行号标记</strong></p>
+<ul>
+<li>#line行号</li>
+</ul>
+<h4 id="472-unsafe及指针"><a class="markdownIt-Anchor" href="#472-unsafe及指针"></a> 4.7.2 unsafe及指针</h4>
+<ol>
+<li>
+<p>用指针需要加上unsafe</p>
+</li>
+<li>
+<p>fixed及指针</p>
+<p>fixed(类型* 指针名 = 表达式) 语句</p>
+</li>
+<li>
+<p>sizeof运算符</p>
+<p>sizeof(简单或结构类型名)</p>
+</li>
+<li>
+<p>stackalloc</p>
+<p>在栈上分配的内存，而不是在堆上，因此不会担心内存被垃圾回收器自动回收。</p>
+</li>
+</ol>
+<h3 id="48-程序的组织"><a class="markdownIt-Anchor" href="#48-程序的组织"></a> 4.8 程序的组织</h3>
+<h4 id="481-名字空间"><a class="markdownIt-Anchor" href="#481-名字空间"></a> 4.8.1 名字空间</h4>
+<h4 id="482-嵌套类型"><a class="markdownIt-Anchor" href="#482-嵌套类型"></a> 4.8.2 嵌套类型</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class A&#123;public class B&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="483-程序集"><a class="markdownIt-Anchor" href="#483-程序集"></a> 4.8.3 程序集</h4>
+<h3 id="49-语法总结"><a class="markdownIt-Anchor" href="#49-语法总结"></a> 4.9 语法总结</h3>
+<h4 id="491-类的成员"><a class="markdownIt-Anchor" href="#491-类的成员"></a> 4.9.1 类的成员</h4>
+<p><strong>常数</strong></p>
+<p><strong>域</strong></p>
+<ul>
+<li>它是类中的变量</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li>它实现了可以被类实现的计算和行为</li>
+</ul>
+<p><strong>属性</strong></p>
+<ul>
+<li>它定义了命名的属性和与对这个属性进行读写的相关行为</li>
+</ul>
+<p><strong>事件</strong></p>
+<ul>
+<li>它定义了由类产生的通知</li>
+</ul>
+<p><strong>索引</strong></p>
+<ul>
+<li>它允许类的实例通过与数组相同的方法来索引</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/" rel="next" title="第3章 类">
+                  <i class="fa fa-chevron-left"></i> 第3章 类
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/04/06/Unity/%E7%AC%AC1%E7%AB%A0%20Unity%E4%BB%8B%E7%BB%8D/" rel="prev" title="第1章 Unity介绍">
+                  第1章 Unity介绍 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c语言高级特性"><span class="nav-text"> C#语言高级特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#41-委托delegate"><span class="nav-text"> 4.1 委托(delegate)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明"><span class="nav-text"> 声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实例化"><span class="nav-text"> 实例化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调用"><span class="nav-text"> 调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#委托的合并多播multicasting"><span class="nav-text"> 委托的合并&#x2F;多播(Multicasting)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#委托的转换与相等"><span class="nav-text"> 委托的转换与相等</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-事件"><span class="nav-text"> 4.2 事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按钮点击事件基本的写法"><span class="nav-text"> 按钮点击事件基本的写法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#声明-2"><span class="nav-text"> 声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件的注册与移除"><span class="nav-text"> 事件的注册与移除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件的发生激发"><span class="nav-text"> 事件的发生（激发）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定义及使用事件的6步曲"><span class="nav-text"> 定义及使用事件的6步曲</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件与委托的关系"><span class="nav-text"> 事件与委托的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特性"><span class="nav-text"> 特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#43-lambda表达式"><span class="nav-text"> 4.3 Lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#431-泛型"><span class="nav-text"> 4.3.1 泛型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#432-匿名方法"><span class="nav-text"> 4.3.2 匿名方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#433-lambda表达式"><span class="nav-text"> 4.3.3 Lambda表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#434-linq"><span class="nav-text"> 4.3.4 Linq</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#44-运算符重载"><span class="nav-text"> 4.4 运算符重载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#441-一元运算符"><span class="nav-text"> 4.4.1 一元运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#442-类型转换运算符"><span class="nav-text"> 4.4.2 类型转换运算符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#45-异常处理"><span class="nav-text"> 4.5 异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#451-内部异常"><span class="nav-text"> 4.5.1 内部异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#46-atrribute"><span class="nav-text"> 4.6 Atrribute</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#461-自定义attribute"><span class="nav-text"> 4.6.1 自定义Attribute</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#47-c语言中的其他成分"><span class="nav-text"> 4.7 C#语言中的其他成分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#471-编译预处理"><span class="nav-text"> 4.7.1 编译预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#472-unsafe及指针"><span class="nav-text"> 4.7.2 unsafe及指针</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#48-程序的组织"><span class="nav-text"> 4.8 程序的组织</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#481-名字空间"><span class="nav-text"> 4.8.1 名字空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#482-嵌套类型"><span class="nav-text"> 4.8.2 嵌套类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#483-程序集"><span class="nav-text"> 4.8.3 程序集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#49-语法总结"><span class="nav-text"> 4.9 语法总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#491-类的成员"><span class="nav-text"> 4.9.1 类的成员</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

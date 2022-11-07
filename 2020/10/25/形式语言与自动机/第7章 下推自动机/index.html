@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第七章 下推自动机  7.1 基本定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第七章 下推自动机">
+<meta property="og:url" content="http://yoursite.com/2020/10/25/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC7%E7%AB%A0%20%E4%B8%8B%E6%8E%A8%E8%87%AA%E5%8A%A8%E6%9C%BA/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第七章 下推自动机  7.1 基本定义">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/d3gLCHWQYUbN92E.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/GsIjKRnc8u4zByZ.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/ICRZxoK6g5OczVM.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/Xmr4aKlS8gtRPHw.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/rMqEP1poJlZ67c3.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/veG9KDJkQcogYyC.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/XFl7QPmiq8jDLcg.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/JHwCI7lz3ZxeuGQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/xw9d5MBYLAIKkzS.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/lIJ2ycuVXSAUpaH.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/6mTwtZCAGnFIQxX.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/McJplqw526mgVUB.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/KlVNFWn8wLfxbGt.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/p7mfxg4VFc2SAiD.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/oiV8RSIXrDAq7CY.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/XCjkvuqm5LlA9IP.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/FdTlzUJDY9pavHR.png">
+<meta property="og:image" content="https://i.loli.net/2021/10/09/I7FpuY2HUa81dTg.png">
+<meta property="article:published_time" content="2020-10-25T12:30:15.000Z">
+<meta property="article:modified_time" content="2021-10-09T03:36:30.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/10/09/d3gLCHWQYUbN92E.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/25/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC7%E7%AB%A0%20%E4%B8%8B%E6%8E%A8%E8%87%AA%E5%8A%A8%E6%9C%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第七章 下推自动机 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/25/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC7%E7%AB%A0%20%E4%B8%8B%E6%8E%A8%E8%87%AA%E5%8A%A8%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第七章 下推自动机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-25 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-25T20:30:15+08:00">2020-10-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-09 11:36:30" itemprop="dateModified" datetime="2021-10-09T11:36:30+08:00">2021-10-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">形式语言与自动机</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>444</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第七章-下推自动机"><a class="markdownIt-Anchor" href="#第七章-下推自动机"></a> 第七章 下推自动机</h2>
+<h3 id="71-基本定义"><a class="markdownIt-Anchor" href="#71-基本定义"></a> 7.1 基本定义</h3>
+<a id="more"></a>
+<p>每个CFG都可以化成与其等价的GNF文法。<br />
+GNF文法的产生式形如：A→aα ，其中，A∈V，a∈T，α∈V*</p>
+<p>​		考虑引入一个栈来存放这个变量后缀，最左边的变量最先分析，可以放在栈的最上面；最右边的变量最后分析，放在栈的最下面。<br />
+​		分析开始时，只有文法的开始符号在栈中，在分析过程中，一旦栈空，句子就被产生了。</p>
+<p><img src="https://i.loli.net/2021/10/09/d3gLCHWQYUbN92E.png" alt="85.png" /></p>
+<p>(1)根据有穷状态控制器的当前状态、栈顶符号以及当前的输入符号选择动作：将状态改变为新状态；修改栈顶，用新的语法符号串代替当前的栈顶符号；向右移动读头，使读头指向下一个输入符号；<br />
+(2)根据有穷状态控制器的当前状态、栈顶符号选择动作：将状态修改为新的状态；修改栈顶，用新的语法符号串代替当前的栈顶符号。不移动读头，是一次空移动。</p>
+<p><img src="https://i.loli.net/2021/10/09/GsIjKRnc8u4zByZ.png" alt="86.png" /><br />
+<img src="https://i.loli.net/2021/10/09/ICRZxoK6g5OczVM.png" alt="87.png" /></p>
+<h4 id="711-接受的语言"><a class="markdownIt-Anchor" href="#711-接受的语言"></a> 7.1.1 接受的语言</h4>
+<p><img src="https://i.loli.net/2021/10/09/Xmr4aKlS8gtRPHw.png" alt="89.png" /></p>
+<h5 id="例7-1"><a class="markdownIt-Anchor" href="#例7-1"></a> 例7-1：</h5>
+<p><img src="https://i.loli.net/2021/10/09/rMqEP1poJlZ67c3.png" alt="90.png" /></p>
+<p><strong>空栈接受</strong></p>
+<p><img src="https://i.loli.net/2021/10/09/veG9KDJkQcogYyC.png" alt="91.png" /></p>
+<p><strong>终态接受</strong></p>
+<p><img src="https://i.loli.net/2021/10/09/XFl7QPmiq8jDLcg.png" alt="92.png" /></p>
+<p><strong>开始——记录——匹配</strong></p>
+<p><img src="https://i.loli.net/2021/10/09/JHwCI7lz3ZxeuGQ.png" alt="93.png" /></p>
+<h3 id="72-pda与cfg等价"><a class="markdownIt-Anchor" href="#72-pda与cfg等价"></a> 7.2 PDA与CFG等价</h3>
+<h4 id="721-pda用空栈接受和用终止状态接受等价"><a class="markdownIt-Anchor" href="#721-pda用空栈接受和用终止状态接受等价"></a> 7.2.1 PDA用空栈接受和用终止状态接受等价</h4>
+<p><img src="https://i.loli.net/2021/10/09/xw9d5MBYLAIKkzS.png" alt="96.png" /><br />
+<img src="https://i.loli.net/2021/10/09/lIJ2ycuVXSAUpaH.png" alt="97.png" /></p>
+<h4 id="722-pda与cfg等价"><a class="markdownIt-Anchor" href="#722-pda与cfg等价"></a> 7.2.2 PDA与CFG等价</h4>
+<p><img src="https://i.loli.net/2021/10/09/6mTwtZCAGnFIQxX.png" alt="98.png" /></p>
+<h5 id="例7-3构造与gnf等价的pda"><a class="markdownIt-Anchor" href="#例7-3构造与gnf等价的pda"></a> 例7-3：构造与GNF等价的PDA</h5>
+<p><img src="https://i.loli.net/2021/10/09/McJplqw526mgVUB.png" alt="99.png" /><br />
+<img src="https://i.loli.net/2021/10/09/KlVNFWn8wLfxbGt.png" alt="100.png" /></p>
+<p><img src="https://i.loli.net/2021/10/09/p7mfxg4VFc2SAiD.png" alt="94.png" /><br />
+<img src="https://i.loli.net/2021/10/09/oiV8RSIXrDAq7CY.png" alt="95.png" /></p>
+<h5 id="例7-5-构造与pda等价的cfg"><a class="markdownIt-Anchor" href="#例7-5-构造与pda等价的cfg"></a> 例7-5 构造与PDA等价的CFG</h5>
+<p><img src="https://i.loli.net/2021/10/09/XCjkvuqm5LlA9IP.png" alt="101.png" /><br />
+<img src="https://i.loli.net/2021/10/09/FdTlzUJDY9pavHR.png" alt="102.png" /><br />
+<img src="https://i.loli.net/2021/10/09/I7FpuY2HUa81dTg.png" alt="103.png" /></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/24/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC6%E7%AB%A0%20%E4%B8%8A%E4%B8%8B%E6%96%87%E6%97%A0%E5%85%B3%E8%AF%AD%E8%A8%80/" rel="next" title="第六章 上下文无关语言">
+                  <i class="fa fa-chevron-left"></i> 第六章 上下文无关语言
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/27/OS/%E7%AC%AC6%E7%AB%A0%20CPU%E8%B0%83%E5%BA%A6/" rel="prev" title="第6章 CPU调度">
+                  第6章 CPU调度 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章-下推自动机"><span class="nav-text"> 第七章 下推自动机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#71-基本定义"><span class="nav-text"> 7.1 基本定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#711-接受的语言"><span class="nav-text"> 7.1.1 接受的语言</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#例7-1"><span class="nav-text"> 例7-1：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#72-pda与cfg等价"><span class="nav-text"> 7.2 PDA与CFG等价</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#721-pda用空栈接受和用终止状态接受等价"><span class="nav-text"> 7.2.1 PDA用空栈接受和用终止状态接受等价</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#722-pda与cfg等价"><span class="nav-text"> 7.2.2 PDA与CFG等价</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#例7-3构造与gnf等价的pda"><span class="nav-text"> 例7-3：构造与GNF等价的PDA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#例7-5-构造与pda等价的cfg"><span class="nav-text"> 例7-5 构造与PDA等价的CFG</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

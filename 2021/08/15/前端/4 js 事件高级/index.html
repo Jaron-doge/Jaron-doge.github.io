@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="js 事件高级  1. 注册事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4 js 事件高级">
+<meta property="og:url" content="http://yoursite.com/2021/08/15/%E5%89%8D%E7%AB%AF/4%20js%20%E4%BA%8B%E4%BB%B6%E9%AB%98%E7%BA%A7/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="js 事件高级  1. 注册事件">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/sY4qeXgctF2zxSP.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/pmYqvsZn71OkexM.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/wSmFjEDdh7otIOg.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/tDrvaywFBu2Vcb8.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/tsY8zfcICESnNBk.png">
+<meta property="og:image" content="https://i.loli.net/2021/08/29/mZIKtMUwDyQ9dsr.png">
+<meta property="article:published_time" content="2021-08-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-29T11:01:57.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/08/29/sY4qeXgctF2zxSP.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/08/15/%E5%89%8D%E7%AB%AF/4%20js%20%E4%BA%8B%E4%BB%B6%E9%AB%98%E7%BA%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>4 js 事件高级 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/15/%E5%89%8D%E7%AB%AF/4%20js%20%E4%BA%8B%E4%BB%B6%E9%AB%98%E7%BA%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          4 js 事件高级
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-08-15T00:00:00+08:00">2021-08-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-29 19:01:57" itemprop="dateModified" datetime="2021-08-29T19:01:57+08:00">2021-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="js-事件高级"><a class="markdownIt-Anchor" href="#js-事件高级"></a> js 事件高级</h2>
+<h3 id="1-注册事件"><a class="markdownIt-Anchor" href="#1-注册事件"></a> 1. 注册事件</h3>
+<a id="more"></a>
+<p>注册事件有两种方式：传统方式和方法监听注册方式</p>
+<h4 id="11-传统注册方式"><a class="markdownIt-Anchor" href="#11-传统注册方式"></a> 1.1 传统注册方式</h4>
+<ul>
+<li>
+<p>利用 on 开头的事件 onclick</p>
+</li>
+<li>
+<p>&lt;button onclick=“alert(‘hi~’)”&gt;&lt;/button&gt;</p>
+</li>
+<li>
+<p>btn.onclick = function() {}</p>
+</li>
+<li>
+<p>特点： 注册事件的<strong>唯一性</strong></p>
+</li>
+<li>
+<p>同一个元素同一个事件只能设置一个处理函数，<strong>最后注册的处理函数将会覆盖前面注册的处理函数</strong></p>
+</li>
+</ul>
+<h4 id="12-addeventlistener事件监听方式"><a class="markdownIt-Anchor" href="#12-addeventlistener事件监听方式"></a> 1.2 addEventListener事件监听方式</h4>
+<ul>
+<li>
+<p>addEventListener() 它是一个方法</p>
+</li>
+<li>
+<p>特点：<strong>同一个元素同一个事件可以注册多个监听器</strong>，按注册顺序依次执行</p>
+</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eventTarget.addEventListener(type, listener[, useCapture])</span><br></pre></td></tr></table></figure>
+<p>eventTarget.addEventListener()方法将指定的监听器注册到 eventTarget（目标对象）上，当该对象触发指定的事件时，就会执行事件处理函数。</p>
+<p>该方法接收三个参数：</p>
+<ul>
+<li>
+<p>type：事件类型是字符串，比如 click 、mouseover ，注意这里不要带 on</p>
+</li>
+<li>
+<p>listener：事件处理函数，事件发生时，会调用该监听函数</p>
+</li>
+<li>
+<p>useCapture：可选参数，是一个布尔值，默认是 false。学完 DOM 事件流后，我们再进一步学习</p>
+</li>
+</ul>
+<h4 id="13-attachevent事件监听方式"><a class="markdownIt-Anchor" href="#13-attachevent事件监听方式"></a> 1.3 attachEvent事件监听方式</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eventTarget.attachEvent(eventNameWithOn, callback)</span><br></pre></td></tr></table></figure>
+<p>eventTarget.attachEvent()方法将指定的监听器注册到 eventTarget（目标对象） 上，当该对象触发指定的事件时，指定的回调函数就会被执行。</p>
+<p>该方法接收两个参数：</p>
+<ul>
+<li>
+<p>eventNameWithOn：事件类型字符串，比如 onclick 、onmouseover ，这里要带 on</p>
+</li>
+<li>
+<p>callback： 事件处理函数，当目标触发事件时回调函数被调用</p>
+</li>
+</ul>
+<h3 id="2-删除事件"><a class="markdownIt-Anchor" href="#2-删除事件"></a> 2. 删除事件</h3>
+<h4 id="21-传统注册方式"><a class="markdownIt-Anchor" href="#21-传统注册方式"></a> 2.1 传统注册方式</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eventTarget.onclick = <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="22-方法监听注册方式"><a class="markdownIt-Anchor" href="#22-方法监听注册方式"></a> 2.2 方法监听注册方式</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eventTarget.removeEventListener(type, listener[, useCapture]);</span><br><span class="line">eventTarget.detachEvent(eventNameWithOn, callback);</span><br></pre></td></tr></table></figure>
+<h3 id="3-dom事件流"><a class="markdownIt-Anchor" href="#3-dom事件流"></a> 3. DOM事件流</h3>
+<p>事件流描述的是从页面中接收事件的顺序。</p>
+<p>事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即 DOM 事件流</p>
+<p>DOM 事件流分为3个阶段：</p>
+<ol>
+<li>
+<p>捕获阶段</p>
+</li>
+<li>
+<p>当前目标阶段</p>
+</li>
+<li>
+<p>冒泡阶段</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/08/29/sY4qeXgctF2zxSP.png" alt="1.png" /></p>
+<p><strong>注意</strong></p>
+<ol>
+<li>
+<p>JS 代码中只能执行捕获或者冒泡其中的一个阶段。</p>
+</li>
+<li>
+<p>onclick 和 attachEvent 只能得到冒泡阶段。</p>
+</li>
+<li>
+<p>addEventListener(type, listener[, useCapture])第三个参数如果是 true，表示在事件捕获阶段调用事件处理程序；如果是 false（不写默认就是false），表示在事件冒泡阶段调用事件处理程序。</p>
+</li>
+<li>
+<p>实际开发中我们很少使用事件捕获，我们更关注事件冒泡。</p>
+</li>
+<li>
+<p>有些事件是没有冒泡的，比如 onblur、onfocus、onmouseenter、onmouseleave</p>
+</li>
+</ol>
+<h3 id="4-事件对象"><a class="markdownIt-Anchor" href="#4-事件对象"></a> 4. 事件对象</h3>
+<h4 id="41-事件对象"><a class="markdownIt-Anchor" href="#41-事件对象"></a> 4.1 事件对象</h4>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eventTarget.onclick = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>这个 event 是个形参，系统帮我们设定为事件对象，不需要传递实参过去。</p>
+<p>当我们注册事件时， event 对象就会被系统自动创建，并依次传递给事件监听器（事件处理函数）。</p>
+<p>官方解释：event 对象代表事件的状态，比如键盘按键的状态、鼠标的位置、鼠标按钮的状态。</p>
+<p>简单理解：事件发生后，跟事件相关的一系列信息数据的集合都放到这个对象里面，这个对象就是事件对象 event，它有很多属性和方法。</p>
+<h4 id="42-事件对象的常见属性和方法"><a class="markdownIt-Anchor" href="#42-事件对象的常见属性和方法"></a> 4.2 事件对象的常见属性和方法</h4>
+<p><strong>e.target和this的区别</strong></p>
+<p>this 是事件绑定的元素， 这个函数的调用者（绑定这个事件的元素）</p>
+<p>e.target 是事件触发的元素。</p>
+<p>例：绑ul点li，this指向ul，target指向li</p>
+<p><img src="https://i.loli.net/2021/08/29/pmYqvsZn71OkexM.png" alt="2.png" /></p>
+<h3 id="5-阻止事件冒泡"><a class="markdownIt-Anchor" href="#5-阻止事件冒泡"></a> 5. 阻止事件冒泡</h3>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">e.stopPropagation()</span><br></pre></td></tr></table></figure>
+<h3 id="6-事件委托"><a class="markdownIt-Anchor" href="#6-事件委托"></a> 6. 事件委托</h3>
+<p><strong>事件委托的原理</strong></p>
+<p><strong><font color="red">不是每个子节点单独设置事件监听器，而是事件监听器设置在其父节点上，然后利用冒泡原理影响设置每个子节点。</font></strong></p>
+<p>例：给 ul 注册点击事件，然后利用事件对象的 target 来找到当前点击的 li，因为点击 li，事件会冒泡到 ul 上， ul 有注册事件，就会触发事件监听器。</p>
+<p><strong>事件委托的作用</strong></p>
+<p>我们只操作了一次 DOM ，提高了程序的性能。</p>
+<h3 id="7-常用的鼠标事件"><a class="markdownIt-Anchor" href="#7-常用的鼠标事件"></a> 7. 常用的鼠标事件</h3>
+<h4 id="71-常用的鼠标事件"><a class="markdownIt-Anchor" href="#71-常用的鼠标事件"></a> 7.1 常用的鼠标事件</h4>
+<p><img src="https://i.loli.net/2021/08/29/wSmFjEDdh7otIOg.png" alt="3.png" /></p>
+<p><strong>1. 禁止鼠标右键菜单</strong></p>
+<p>contextmenu主要控制应该何时显示上下文菜单，主要用于程序员取消默认的上下文菜单</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'contextmenu'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">	e.preventDefault();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>2. 禁止鼠标选中</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'selectstart'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">    e.preventDefault();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="72-鼠标事件对象"><a class="markdownIt-Anchor" href="#72-鼠标事件对象"></a> 7.2 鼠标事件对象</h4>
+<p><img src="https://i.loli.net/2021/08/29/tDrvaywFBu2Vcb8.png" alt="4.png" /></p>
+<p><strong>例：跟随鼠标移动</strong></p>
+<p>① 鼠标不断的移动，使用鼠标移动事件： mousemove</p>
+<p>② 在页面中移动，给document注册事件</p>
+<p>③ 图片要移动距离，而且不占位置，我们使用绝对定位即可</p>
+<p>④ 核心原理： 每次鼠标移动，我们都会获得最新的鼠标坐标， 把这个x和y坐标做为图片的top和left 值就可以移动图片</p>
+<h3 id="8-常用的键盘事件"><a class="markdownIt-Anchor" href="#8-常用的键盘事件"></a> 8. 常用的键盘事件</h3>
+<h4 id="81-常用键盘事件"><a class="markdownIt-Anchor" href="#81-常用键盘事件"></a> 8.1 常用键盘事件</h4>
+<p><img src="https://i.loli.net/2021/08/29/tsY8zfcICESnNBk.png" alt="5.png" /></p>
+<p>三个事件的执行顺序是： keydown → keypress → keyup</p>
+<h4 id="82-键盘事件对象"><a class="markdownIt-Anchor" href="#82-键盘事件对象"></a> 8.2 键盘事件对象</h4>
+<p><img src="https://i.loli.net/2021/08/29/mZIKtMUwDyQ9dsr.png" alt="6.png" /></p>
+<p>onkeydown 和 onkeyup 不区分字母大小写，onkeypress 区分字母大小写。</p>
+<p><strong>例</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    * &#123;</span><br><span class="line">        margin: 0;</span><br><span class="line">        padding: 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.search</span> &#123;</span></span><br><span class="line">        position: relative;</span><br><span class="line">        width: 178px;</span><br><span class="line">        margin: 100px;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.con</span> &#123;</span></span><br><span class="line">        display: none;</span><br><span class="line">        position: absolute;</span><br><span class="line">        top: -40px;</span><br><span class="line">        width: 171px;</span><br><span class="line"><span class="css">        <span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-tag">rgba</span>(0, 0, 0, <span class="selector-class">.2</span>);</span></span><br><span class="line"><span class="css">        <span class="selector-tag">box-shadow</span>: 0 2<span class="selector-tag">px</span> 4<span class="selector-tag">px</span> <span class="selector-tag">rgba</span>(0, 0, 0, <span class="selector-class">.2</span>);</span></span><br><span class="line">        padding: 5px 0;</span><br><span class="line">        font-size: 18px;</span><br><span class="line">        line-height: 20px;</span><br><span class="line"><span class="css">        <span class="selector-tag">color</span>: <span class="selector-id">#333</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="css">    <span class="selector-class">.con</span><span class="selector-pseudo">::before</span> &#123;</span></span><br><span class="line">        content: '';</span><br><span class="line">        width: 0;</span><br><span class="line">        height: 0;</span><br><span class="line">        position: absolute;</span><br><span class="line">        top: 28px;</span><br><span class="line">        left: 18px;</span><br><span class="line"><span class="css">        <span class="selector-tag">border</span>: 8<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#000</span>;</span></span><br><span class="line">        border-style: solid dashed dashed;</span><br><span class="line"><span class="css">        <span class="selector-tag">border-color</span>: <span class="selector-id">#fff</span> <span class="selector-tag">transparent</span> <span class="selector-tag">transparent</span>;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"search"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"con"</span>&gt;</span>123<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">placeholder</span>=<span class="string">"请输入您的快递单号"</span> <span class="attr">class</span>=<span class="string">"jd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 快递单号输入内容时， 上面的大号字体盒子（con）显示(这里面的字号更大）</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 表单检测用户输入： 给表单添加键盘事件</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 同时把快递单号里面的值（value）获取过来赋值给 con盒子（innerText）做为内容</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 如果快递单号里面内容为空，则隐藏大号字体盒子(con)盒子</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> con = <span class="built_in">document</span>.querySelector(<span class="string">'.con'</span>);</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> jd_input = <span class="built_in">document</span>.querySelector(<span class="string">'.jd'</span>);</span></span><br><span class="line"><span class="actionscript">        jd_input.addEventListener(<span class="string">'keyup'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">                <span class="comment">// console.log('输入内容啦');</span></span></span><br><span class="line"><span class="actionscript">                <span class="keyword">if</span> (<span class="keyword">this</span>.value == <span class="string">''</span>) &#123;</span></span><br><span class="line"><span class="actionscript">                    con.style.display = <span class="string">'none'</span>;</span></span><br><span class="line"><span class="actionscript">                &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="actionscript">                    con.style.display = <span class="string">'block'</span>;</span></span><br><span class="line"><span class="actionscript">                    con.innerText = <span class="keyword">this</span>.value;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line"><span class="actionscript">            <span class="comment">// 当我们失去焦点，就隐藏这个con盒子</span></span></span><br><span class="line"><span class="actionscript">        jd_input.addEventListener(<span class="string">'blur'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">                con.style.display = <span class="string">'none'</span>;</span></span><br><span class="line">            &#125;)</span><br><span class="line"><span class="actionscript">            <span class="comment">// 当我们获得焦点，就显示这个con盒子</span></span></span><br><span class="line"><span class="actionscript">        jd_input.addEventListener(<span class="string">'focus'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="keyword">if</span> (<span class="keyword">this</span>.value !== <span class="string">''</span>) &#123;</span></span><br><span class="line"><span class="actionscript">                con.style.display = <span class="string">'block'</span>;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/08/08/%E5%89%8D%E7%AB%AF/3%20js%20DOM%E6%93%8D%E4%BD%9C/" rel="next" title="3 js DOM操作">
+                  <i class="fa fa-chevron-left"></i> 3 js DOM操作
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/08/22/%E5%89%8D%E7%AB%AF/5%20js%20BOM/" rel="prev" title="5 js BOM">
+                  5 js BOM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#js-事件高级"><span class="nav-text"> js 事件高级</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-注册事件"><span class="nav-text"> 1. 注册事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-传统注册方式"><span class="nav-text"> 1.1 传统注册方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-addeventlistener事件监听方式"><span class="nav-text"> 1.2 addEventListener事件监听方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-attachevent事件监听方式"><span class="nav-text"> 1.3 attachEvent事件监听方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-删除事件"><span class="nav-text"> 2. 删除事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#21-传统注册方式"><span class="nav-text"> 2.1 传统注册方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-方法监听注册方式"><span class="nav-text"> 2.2 方法监听注册方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-dom事件流"><span class="nav-text"> 3. DOM事件流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-事件对象"><span class="nav-text"> 4. 事件对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#41-事件对象"><span class="nav-text"> 4.1 事件对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#42-事件对象的常见属性和方法"><span class="nav-text"> 4.2 事件对象的常见属性和方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-阻止事件冒泡"><span class="nav-text"> 5. 阻止事件冒泡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-事件委托"><span class="nav-text"> 6. 事件委托</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-常用的鼠标事件"><span class="nav-text"> 7. 常用的鼠标事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#71-常用的鼠标事件"><span class="nav-text"> 7.1 常用的鼠标事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#72-鼠标事件对象"><span class="nav-text"> 7.2 鼠标事件对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-常用的键盘事件"><span class="nav-text"> 8. 常用的键盘事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#81-常用键盘事件"><span class="nav-text"> 8.1 常用键盘事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#82-键盘事件对象"><span class="nav-text"> 8.2 键盘事件对象</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
