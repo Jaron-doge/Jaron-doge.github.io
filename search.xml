@@ -14904,4 +14904,276 @@ For each of the following queries, state whether the query is valid and for the 
         <category>软工导论</category>
       </categories>
   </entry>
+  <entry>
+    <title>python 语法</title>
+    <url>/2023/09/24/Python/python%20%E8%AF%AD%E6%B3%95/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="python-语法"><a class="markdownIt-Anchor" href="#python-语法"></a> python 语法</h2>
+<h3 id="循环"><a class="markdownIt-Anchor" href="#循环"></a> 循环</h3>
+<a id="more"></a>
+<ul>
+<li>
+<p>如果在循环体中不需要用到自定义变量，用_替代</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="io"><a class="markdownIt-Anchor" href="#io"></a> IO</h3>
+<ul>
+<li>
+<p>格式化输出</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="string">'My name is %s, my age is %d'</span> % (name, age))</span><br><span class="line">print(<span class="string">"hello,&#123;&#125;,you are &#123;&#125;"</span>.format(name,age))</span><br><span class="line">print(<span class="string">f"hello,<span class="subst">&#123;name&#125;</span>,you are <span class="subst">&#123;age:<span class="number">.2</span>f&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数组"><a class="markdownIt-Anchor" href="#数组"></a> 数组</h3>
+<ul>
+<li>
+<p>布尔数组可以作为索引</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pos = y_train == <span class="number">1</span></span><br><span class="line">print(x_train[pos])</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="内置函数"><a class="markdownIt-Anchor" href="#内置函数"></a> 内置函数</h3>
+<ul>
+<li>
+<p><code>bin</code>转二进制，bin[2:]是二进制字符串</p>
+</li>
+<li>
+<p><code>map(function, list)</code></p>
+<p>用于将函数function应用到每个list中的元素中</p>
+</li>
+<li>
+<p><code>Optional</code> 不是一个内置的关键字或数据类型，而是一个由第三方库提供的类型提示工具，用于表示一个值可以是某种类型的数据</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(name: Optional[str])</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">    <span class="keyword">if</span> name <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        print(<span class="string">"Hello!"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>set</code>用于将可迭代对象（如列表、元组、字符串等）转换为集合</p>
+</li>
+<li>
+<p><code>all</code>判断可迭代对象（如列表、元组、集合、字典等）中的所有元素是否为真</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">all(list1.count(i) &lt;= list2.count(i) <span class="keyword">for</span> i <span class="keyword">in</span> set(list2))</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>enumerate</code></p>
+<p>将一个可迭代对象组合为一个索引序列，同时返回索引和对应元素。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> i,ax <span class="keyword">in</span> enumerate(axes.flat):</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="新版本特性"><a class="markdownIt-Anchor" href="#新版本特性"></a> 新版本特性</h3>
+<ul>
+<li>
+<p>海象运算符(walrus operator)<code> :=</code></p>
+<p>允许在表达式中同时进行赋值操作</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(n := len(list)) &gt; <span class="number">10</span>:</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>python function</title>
+    <url>/2023/09/25/Python/python%20function/</url>
+    <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="\assets\js\Meting.min.js"></script><h2 id="python-function"><a class="markdownIt-Anchor" href="#python-function"></a> python function</h2>
+<h3 id="pyplot"><a class="markdownIt-Anchor" href="#pyplot"></a> pyplot</h3>
+<a id="more"></a>
+<ul>
+<li>
+<p>scatter用于绘制点</p>
+</li>
+<li>
+<p>legand用于是给图像加图例</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">loc = <span class="string">"best/upper right/lower right"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Plot the data points</span></span><br><span class="line">plt.scatter(x_train, y_train, marker=<span class="string">'x'</span>, c=<span class="string">'r'</span>)</span><br><span class="line"><span class="comment"># Set the title</span></span><br><span class="line">plt.title(<span class="string">"Housing Prices"</span>)</span><br><span class="line"><span class="comment"># Set the y-axis label</span></span><br><span class="line">plt.ylabel(<span class="string">'Price (in 1000s of dollars)'</span>)</span><br><span class="line"><span class="comment"># Set the x-axis label</span></span><br><span class="line">plt.xlabel(<span class="string">'Size (1000 sqft)'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p><code>set_xlim</code>、<code>set_ylim</code></p>
+<p>横纵坐标范围</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">set_ylim(<span class="number">-0.5</span>, <span class="number">0.5</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>set_axis_off</code></p>
+<p>隐藏坐标轴</p>
+</li>
+<li>
+<p><code>subplot</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot 1:</span></span><br><span class="line">xpoints = np.array([<span class="number">0</span>, <span class="number">6</span>])</span><br><span class="line">ypoints = np.array([<span class="number">0</span>, <span class="number">100</span>])</span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">plt.plot(xpoints,ypoints)</span><br><span class="line">plt.title(<span class="string">"plot 1"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#plot 2:</span></span><br><span class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>])</span><br><span class="line">y = np.array([<span class="number">1</span>, <span class="number">4</span>, <span class="number">9</span>, <span class="number">16</span>])</span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">plt.plot(x,y)</span><br><span class="line">plt.title(<span class="string">"plot 2"</span>)</span><br><span class="line"></span><br><span class="line">plt.suptitle(<span class="string">"RUNOOB subplot Test"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>close</p>
+<p>关闭窗口</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">plt.close(<span class="string">'all'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>tolist</code></p>
+<p>将数组转化为列表</p>
+</li>
+<li>
+<p><code>tight_layout</code></p>
+<p>自动调整子图的布局</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">fig, axes = plt.subplots(<span class="number">8</span>, <span class="number">8</span>)</span><br><span class="line">plt.tight_layout(pad=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="numpy"><a class="markdownIt-Anchor" href="#numpy"></a> numpy</h3>
+<ul>
+<li>
+<p>创建</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = np.zeros(<span class="number">4</span>);              </span><br><span class="line">a = np.zeros((<span class="number">4</span>,));             <span class="comment"># 多维数组</span></span><br><span class="line">a = np.random.random_sample(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>slice</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">c = a[<span class="number">2</span>:<span class="number">7</span>:<span class="number">1</span>];</span><br><span class="line">a[<span class="number">2</span>:<span class="number">7</span>:<span class="number">1</span>] =  [<span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>dot</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>x</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><msub><mi>a</mi><mi>i</mi></msub><msub><mi>b</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x = \sum_{i=0}^{n-1} a_i b_i 
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.0787820000000004em;vertical-align:-1.277669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8011130000000004em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">c = np.dot(a, b)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>reshape</p>
+<p>-1 参数告诉例程在给定数组大小和列数的情况下计算行数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = np.arange(<span class="number">6</span>).reshape(<span class="number">-1</span>, <span class="number">2</span>);  	<span class="comment"># (3, 2)</span></span><br><span class="line">a = np.arange(<span class="number">6</span>).reshape(<span class="number">3</span>, <span class="number">2</span>);		<span class="comment"># (3, 2)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>set_printoptions</p>
+<p>np.set_printoptions()用于控制Python中小数的显示精度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np.set_printoptions(precision=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>np.c_</p>
+<p>数组按列拼接</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np.c_[np.array[<span class="number">1</span>,<span class="number">2</span>], np.array[<span class="number">3</span>,<span class="number">4</span>]]</span><br><span class="line">print([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>np.tile</code></p>
+<p>在给定的维度上重复数组或重复矩阵。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">mat = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line">np.tile(mat, (<span class="number">2</span>, <span class="number">3</span>))	<span class="comment"># 行重复2次，列重复3次</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>np.zeros_like</code></p>
+<p>创建一个与给定数组的形状和数据类型相同的全零数组</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">yhat = np.zeros_like(predictions)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>np.matmul</code></p>
+<p>矩阵相乘</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a_out = g(np.matmul(a_in,W) + b)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>flat</code></p>
+<p>对多维数组进行展开，并以一维的形式返回其中的元素</p>
+</li>
+<li>
+<p><code>np.argmax</code></p>
+<p>用于在数组或张量中找到最大元素的索引</p>
+<ul>
+<li>通过指定 <code>axis</code> 参数来选择特定的维度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">arr = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line">max_index = np.argmax(arr)	<span class="comment"># [0, 0]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="scikit-learn"><a class="markdownIt-Anchor" href="#scikit-learn"></a> Scikit-Learn</h3>
+<ul>
+<li>
+<p>回归流程</p>
+<ul>
+<li>
+<p>加载数据集</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dlblue = <span class="string">'#0096ff'</span>; dlorange = <span class="string">'#FF9300'</span>; dldarkred=<span class="string">'#C00000'</span>; dlmagenta=<span class="string">'#FF40FF'</span>; dlpurple=<span class="string">'#7030A0'</span>;</span><br><span class="line">X_train, y_train = load_data()</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>标准化训练数据  StadardScaler()</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">scaler = StandardScaler()</span><br><span class="line">X_norm = scaler.fit_transform(X_train)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>创建并拟合回归模型    SGDRegressor</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sgdr = SGDRegressor(max_iter=<span class="number">1000</span>)</span><br><span class="line">sgdr.fit(X_norm, y_train)</span><br><span class="line">print(迭代次数：sgdr.n_iter_, 权重更新次数：sgdr.t_)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看参数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">b_norm = sgdr.intercept_</span><br><span class="line">w_norm = sgdr.coef_</span><br><span class="line">print(<span class="string">f"model parameters:                   w: <span class="subst">&#123;w_norm&#125;</span>, b:<span class="subst">&#123;b_norm&#125;</span>"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>进行预测</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">y_pred_sgd = sgdr.predict(X_norm)</span><br><span class="line">y_pred = np.dot(X_norm, w_norm) + b_norm  </span><br><span class="line"><span class="comment"># y_pred == y_pred_sgd.all()    True</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>绘制结果</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># plot predictions and targets vs original features    </span></span><br><span class="line">fig,ax=plt.subplots(<span class="number">1</span>,<span class="number">4</span>,figsize=(<span class="number">12</span>,<span class="number">3</span>),sharey=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(ax)):</span><br><span class="line">    ax[i].scatter(X_train[:,i],y_train, label = <span class="string">'target'</span>)</span><br><span class="line">    ax[i].set_xlabel(X_features[i])</span><br><span class="line">    ax[i].scatter(X_train[:,i],y_pred,color=dlorange, label = <span class="string">'predict'</span>)</span><br><span class="line">ax[<span class="number">0</span>].set_ylabel(<span class="string">"Price"</span>); ax[<span class="number">0</span>].legend();</span><br><span class="line">fig.suptitle(<span class="string">"target versus prediction using z-score normalized model"</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p><code>LogisticRegression()</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">lr_model = LogisticRegression()</span><br><span class="line">lr_model.fit(X, y)</span><br><span class="line">y_pred = lr_model.predict(X)</span><br><span class="line">y_socre = lr_model.score(X, y)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="tensorflow"><a class="markdownIt-Anchor" href="#tensorflow"></a> Tensorflow</h3>
+<ul>
+<li>
+<p><code>Dense</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">layer_1 = Dense(units=<span class="number">1</span>, activation = <span class="string">'linear'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>set_weights</code></p>
+<p>设置权重</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">linear_layer.set_weights([set_w, set_b])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>tf.random.set_seed</code></p>
+<p>设置随机数种子，确保实验的可重复性</p>
+</li>
+<li>
+<p><code>Sequential</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">model = Sequential([</span><br><span class="line">    tf.keras.Input(shape=(<span class="number">400</span>,)),</span><br><span class="line">    layer_1, </span><br><span class="line">    layer_2</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>model.compile</code></p>
+<p>编译模型</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">Dense(units=<span class="number">10</span>, activation=<span class="string">'linear'</span>)</span><br><span class="line">model.compile(loss = ParseCategoricalCrossentropy(from_logits = <span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>from_logits为了避免数值稳定性或优化问题。Logits 是模型在最后一层的线性输出，如果=True，则表示模型的输出是未经过 Softmax 函数的 logits。</li>
+<li>最后一层需要是linear</li>
+</ul>
+</li>
+<li>
+<p><code>model.summary()</code></p>
+<p>显示模型中的层数和参数数量。</p>
+</li>
+<li>
+<p><code>model.fit</code></p>
+<p>训练</p>
+</li>
+<li>
+<p><code>model.predict</code></p>
+<p>预测</p>
+</li>
+<li></li>
+</ul>
+<h3 id="sklearn"><a class="markdownIt-Anchor" href="#sklearn"></a> sklearn</h3>
+<ul>
+<li>
+<p><code>make_blobs</code></p>
+<p>生成多个高斯分布形状的聚类簇</p>
+<ul>
+<li><code>n_samples</code>：生成样本的总数。</li>
+<li><code>n_features</code>：生成样本的特征数。</li>
+<li><code>centers</code>：聚类簇的个数。</li>
+<li><code>cluster_std</code>：每个聚类簇中的样本的标准差。</li>
+<li><code>random_state</code>：随机数种子</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">X_train, y_train = make_blobs(n_samples=<span class="number">100</span>, centers=centers, cluster_std=<span class="number">1.0</span>,random_state=<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>train_test_split</code></p>
+<p>将数据集划分为训练集和测试集</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">42</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+  </entry>
 </search>
