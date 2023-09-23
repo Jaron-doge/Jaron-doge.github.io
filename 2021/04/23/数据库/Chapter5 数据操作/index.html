@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第五章 数据操作  5.1 简介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章 数据操作">
+<meta property="og:url" content="http://yoursite.com/2021/04/23/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter5%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第五章 数据操作  5.1 简介">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/lWcMUs5FXrZkLhS.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/DBQCkuFxegm6n94.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/1YTeauwd24ZVhFX.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/yFVXqPkOih9BjsN.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/GQ9SuXpVmKA5nYs.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png">
+<meta property="article:published_time" content="2021-04-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-23T10:40:33.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/05/lWcMUs5FXrZkLhS.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/23/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter5%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第五章 数据操作 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/23/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter5%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第五章 数据操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-23 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-23T00:00:00+08:00">2021-04-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-23 18:40:33" itemprop="dateModified" datetime="2021-05-23T18:40:33+08:00">2021-05-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第五章-数据操作"><a class="markdownIt-Anchor" href="#第五章-数据操作"></a> 第五章 数据操作</h2>
+<h3 id="51-简介"><a class="markdownIt-Anchor" href="#51-简介"></a> 5.1 简介</h3>
+<a id="more"></a>
+<p>SQL是一种<strong>面向转换语言</strong>，它由两个主要部分组成：</p>
+<p><strong>DDL</strong>：用于定义数据库结构和数据库的访问控制。</p>
+<p><strong>DML</strong>：用于检索和更新数据。</p>
+<h3 id="52-书写sql命令"><a class="markdownIt-Anchor" href="#52-书写sql命令"></a> 5.2 书写SQL命令</h3>
+<p><strong>扩展的巴克斯范式</strong></p>
+<ul>
+<li>
+<p>大写字母用于表示保留字。</p>
+</li>
+<li>
+<p>小写字母用于表示用户自定义字。</p>
+</li>
+<li>
+<p>竖线(|)表示从选项中进行<strong>选择</strong>，例如a|b|c。</p>
+</li>
+<li>
+<p>大括号表示<strong>所需元素</strong>，例如{ a }。</p>
+</li>
+<li>
+<p>中括号表示<strong>可选择元素</strong>，例如[a]。</p>
+</li>
+<li>
+<p>省略号(…)表示某一项<strong>可选择重复</strong>零到多次。</p>
+</li>
+</ul>
+<h3 id="53-数据操作"><a class="markdownIt-Anchor" href="#53-数据操作"></a> 5.3 数据操作</h3>
+<h4 id="531-简单查询"><a class="markdownIt-Anchor" href="#531-简单查询"></a> 5.3.1 简单查询</h4>
+<p><strong>SELECT</strong> 		   [<strong>DISTINCT</strong> | <strong>ALL</strong>]<br />
+{* | [columnExpression [<strong>AS</strong> newName]] [,…] }<br />
+<strong>FROM</strong> 		     TableName [alias] [, …]<br />
+[<strong>WHERE</strong> 		  condition]<br />
+[<strong>GROUP BY</strong> 	columnList] [<strong>HAVING</strong> condition]<br />
+[<strong>ORDER BY</strong> 	 columnList].</p>
+<p><strong>处理过程顺序</strong></p>
+<p><strong>FROM</strong>				给出将用到的表</p>
+<p><strong>WHERE</strong>			  过滤满足条件的行</p>
+<p><strong>GROUP BY</strong>        将具有相同属性值的行分成组</p>
+<p><strong>HAVING</strong>			 过滤满足条件的组</p>
+<p><strong>SELECT</strong>  			 指定查询结果中出现的列</p>
+<p><strong>ORDER BY</strong>		 指定查询结果的顺序</p>
+<hr />
+<p><strong>DISTINCT</strong></p>
+<p>去掉重复的元组</p>
+<p><strong>计算字段</strong></p>
+<p>SELECT staffNo, fName, lName, salary/12 AS monthlySalary</p>
+<p>FROM	Staff;</p>
+<p><strong>WHERE</strong></p>
+<ul>
+<li>
+<p>比较运算、复合比较运算(NOT/ADD/OR)</p>
+</li>
+<li>
+<p>范围(BETWEEN/NOT BETWEEN)</p>
+</li>
+<li>
+<p>成员关系(IN/NOT IN)</p>
+<img src="https://i.loli.net/2021/05/05/lWcMUs5FXrZkLhS.png" alt="1.png" style="zoom:80%;" />
+</li>
+<li>
+<p>模式匹配(LIKE/NOT LIKE)</p>
+<ul>
+<li><strong>%</strong>：百分号表示零或多个字符序列。</li>
+<li><strong>_</strong>：下划线表示任意单个字符。</li>
+</ul>
+<hr />
+<ul>
+<li>address LIKE ‘<strong>H%</strong>’ 意味着字符串第一个字符必须是H</li>
+<li>address LIKE '<strong>H_ _ _</strong>'意味着字符串正好有四个字符，第一个字符为H</li>
+<li>address LIKE '<strong>%e</strong>’意味着一个字符序列，长度最小为1，最后一个字符为e</li>
+<li>address LIKE '<strong>%H%</strong>'意味着一个包含字符串H的任意长度序列</li>
+<li>address NOT LIKE '<strong>H%</strong>'意味着字符串第一个字符不能为H</li>
+</ul>
+</li>
+<li>
+<p>空查找(IS NULL/IS NOT NULL)</p>
+<p>SELECT 	clientNo</p>
+<p>FROM 	   Viewing</p>
+<p>WHERE	  comment IS NULL</p>
+</li>
+</ul>
+<h4 id="532-查询结果排序order-by"><a class="markdownIt-Anchor" href="#532-查询结果排序order-by"></a> 5.3.2 查询结果排序(ORDER BY)</h4>
+<p><strong>单列排序</strong></p>
+<p>ORDER BY 子句包括所需排序的<strong>列标识符</strong>的列表。<strong>列标识符</strong>可能是列名字或列序号，如“1”标识列表中第一个元素。</p>
+<p>SELECT 	  staffNo, fName, IName, salary</p>
+<p>FROM	     Staff</p>
+<p>ORDER BY  salary|4 DESC;</p>
+<p><strong>多列排序</strong></p>
+<p>ORDER BY 子句可能包含多个元素，<strong>主排序键</strong>决定查询结果总体的排序。<strong>次排序键</strong>控制主排序键相同行的顺序。</p>
+<p>SELECT 		propertyNo, type, rooms, rent</p>
+<p>FROM		    PropertyForRent</p>
+<p>ORDER BY	 type, rent DESC;</p>
+<p>查询结果首先以房产类型升序排列（默认值为ASC），对于相同的房产类型，以rent降序排列。</p>
+<h4 id="533-sql聚集函数"><a class="markdownIt-Anchor" href="#533-sql聚集函数"></a> 5.3.3 SQL聚集函数</h4>
+<p>COUNT、SUM、AVG、MIN、MAX</p>
+<p>​		SUM和AVG只能用于数值字段，除了COUNT(*)外，每一个函数首先要去掉空值，然后计算其非空值。</p>
+<p>​		聚集函数只能用于SELECT列表和HAVING子句中，用在其他地方都是不正确的。如果SELECT列表包括聚集函数，却没有使用GROUP BY子句分组，那么SELECT列表的任何项都不能引用列，除了作为聚集函数的参数。</p>
+<p>​		例：SELECT staffNo, COUNT(salary)</p>
+<p>​				FROM Staff</p>
+<p>​		是非法的</p>
+<p><strong>COUNT、SUM</strong></p>
+<p>SELECT 				COUNT(DISTINCT propertyNo) AS myCount, 							  							  SUM(salary) AS mySalary</p>
+<p>FROM 				  Staff</p>
+<p>WHERE				 position = ‘Manager’;</p>
+<p><strong>MIN、MAX、AVG</strong></p>
+<p>SELECT				  MIN(salary), MAX(salary), AVG(salary)</p>
+<p>FROM					Staff;</p>
+<h4 id="534-查询结果分组group-by"><a class="markdownIt-Anchor" href="#534-查询结果分组group-by"></a> 5.3.4 查询结果分组(GROUP BY)</h4>
+<p>GROUP BY 按SELECT列表中的列进行分组，每一组产生一个综合查询结果。当使用GROUP BY时，SELECT列表中的项必须每组都有单一值。SELECT子句中的所有列除非用在聚集函数上，否则必须在GROUP BY子句中出现。当WHERE子句和GROUP BY子句同时使用时，必须首先使用WHERE子句。应用GROUP BY子句时，两个空值被认为是相等的。</p>
+<img src="https://i.loli.net/2021/05/05/DBQCkuFxegm6n94.png" alt="2.png" style="zoom:80%;" />
+<h5 id="分组约束having"><a class="markdownIt-Anchor" href="#分组约束having"></a> 分组约束（HAVING）</h5>
+<p>限定哪些<strong>分组</strong>将出现在最终查询结果中。</p>
+<img src="https://i.loli.net/2021/05/05/1YTeauwd24ZVhFX.png" alt="3.png" style="zoom:80%;" />
+<p><strong>HAVING和WHERE的差别</strong></p>
+<p>​		WHERE子句将单个行过滤到查询结果中，而HAVING子句则将分组过滤到查询结果表中。HAVING子句使用的列名必须出现在GROUP BY子句列表中，或包含在聚集函数中。</p>
+<h4 id="535-子查询"><a class="markdownIt-Anchor" href="#535-子查询"></a> 5.3.5 子查询</h4>
+<ul>
+<li>标量子查询</li>
+<li>行子查询</li>
+<li>表子查询</li>
+</ul>
+<p><strong>用于相等判断的子查询</strong></p>
+<p>列出在位于“163 Main St”的分公司中工作的员工的情况。</p>
+<p>SELECT 	staffNo, fName, lName, position<br />
+FROM 	  Staff<br />
+WHERE     branchNo = (SELECT    branchNo<br />
+FROM       Branch<br />
+WHERE     street = ‘163 Main St’);</p>
+<p><strong>用于聚集函数的子查询</strong></p>
+<p>列出个人工资高于平均工资的所有员工，并求出多于平均数的值。</p>
+<p>SELECT 		staffNo, fName, lName, position,<br />
+salary – (SELECT AVG(salary) FROM Staff) As SalDiff<br />
+FROM 		  Staff<br />
+WHERE         salary &gt;(SELECT AVG(salary)<br />
+FROM Staff);</p>
+<p><strong>子查询规则</strong></p>
+<ul>
+<li>
+<p>ORDER BY子句不能用于子查询。</p>
+</li>
+<li>
+<p>子查询SELECT列表必须由单个列名或表达式组成，除非子查询使用了关键词<strong>EXISTS</strong>。</p>
+</li>
+<li>
+<p>默认情况下，子查询中列名取自子查询的FROM子句中给出的表。</p>
+</li>
+<li>
+<p>当子查询是比较表达式中的一个操作数时，子查询必须出现在表达式的右边。</p>
+<ul>
+<li>
+<p>例：WHERE (SELECT AVG(salary) FROM Staff) &lt; salary</p>
+<p>是不正确的</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>嵌套子查询：IN</strong></p>
+<p>当子查询结果为行时，使用<strong>IN</strong>关键字</p>
+<img src="https://i.loli.net/2021/05/05/yFVXqPkOih9BjsN.png" alt="4.png" style="zoom:80%;" />
+<h4 id="536-any和all"><a class="markdownIt-Anchor" href="#536-any和all"></a> 5.3.6 ANY和ALL</h4>
+<p>用于产生单个列的子查询</p>
+<p><strong>ANY/SOME</strong></p>
+<p>列出工资高于分公司B003中至少一位员工的工资的所有员工</p>
+<p>SELECT 			staffNo, fName, lName, position, salary<br />
+FROM 			  Staff<br />
+WHERE 		    salary &gt; SOME (SELECT salary<br />
+FROM Staff<br />
+WHERE branchNo = ‘B003’);</p>
+<p><img src="https://i.loli.net/2021/05/05/GQ9SuXpVmKA5nYs.png" alt="5.png" style="zoom:80%;" /><img src="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png" alt="6.png" /></p>
+<p><strong>ALL</strong></p>
+<p>列出工资高于分公司B003中任何员工的工资的所有员工</p>
+<img src="https://i.loli.net/2021/05/05/1edubHYRnNExQq8.png" alt="6.png" style="zoom:80%;" />
+<h4 id="537-多表查询"><a class="markdownIt-Anchor" href="#537-多表查询"></a> 5.3.7 多表查询</h4>
+<p>如果最终结果表包括了多个表中的列，则必须用连接操作。</p>
+<h5 id="5371-简单连接"><a class="markdownIt-Anchor" href="#5371-简单连接"></a> 5.3.7.1 简单连接</h5>
+<ul>
+<li>
+<p>FROM	Client c	JOIN    Viewing v	ON	c.clientNo = v.clientNo</p>
+</li>
+<li>
+<p>FROM    Client c    JOIN    Viewing    Using    clientNo</p>
+</li>
+<li>
+<p>FROM    Client c NATURAL JOIN    Viewing</p>
+</li>
+</ul>
+<p>后两种是自然连接</p>
+<h5 id="5372-三表连接"><a class="markdownIt-Anchor" href="#5372-三表连接"></a> 5.3.7.2 三表连接</h5>
+<p>FROM    (Branch b     JOIN    Staff s    USING    branchNo)    AS  bs</p>
+<p>​				JOIN    PropertyForRent p    USING    staffNo</p>
+<h5 id="5373-外连接"><a class="markdownIt-Anchor" href="#5373-外连接"></a> 5.3.7.3 外连接</h5>
+<p>SELECT b.*, p.*</p>
+<p>FROM	Branch b    LEFT JOIN    PropertyForRent p    ON    b.city = p.city</p>
+<h5 id="5374-全外连接"><a class="markdownIt-Anchor" href="#5374-全外连接"></a> 5.3.7.4 全外连接</h5>
+<p>FULL JOIN</p>
+<h4 id="538-exists-和-not-exists"><a class="markdownIt-Anchor" href="#538-exists-和-not-exists"></a> 5.3.8 EXISTS 和 NOT EXISTS</h4>
+<p>仅用于子查询中，返回结果为真/假。</p>
+<p>仅检查子查询结果表中是否存在行。</p>
+<p>SELECT staffNo FROM Staff s</p>
+<p>WHERE EXISTS(SELECT * FROM Branch b</p>
+<p>​							WHERE s.branchNo = b.branchNo);</p>
+<h4 id="539-合并结果表"><a class="markdownIt-Anchor" href="#539-合并结果表"></a> 5.3.9 合并结果表</h4>
+<p><strong>UNION</strong>、<strong>INTERSECT</strong>、<strong>EXCEPT</strong></p>
+<p>operator [ALL] [CORRESPONDING [BY {col}]]</p>
+<p><strong>例：</strong></p>
+<ul>
+<li>
+<p>(SELECT city FROM Branch WHERE city IS NOT NULL)</p>
+<p>​	        UNION</p>
+<p>​				(SELECT city FROM PropertyForRent)</p>
+</li>
+<li>
+<p>(SELECT * FROM Branch WHERE city IS NOT NULL)</p>
+<p>​			UNION CORRESPONDING BY city</p>
+<p>​					(SELECT * FROM PropertyForRent)</p>
+</li>
+</ul>
+<h4 id="5310-数据库更新"><a class="markdownIt-Anchor" href="#5310-数据库更新"></a> 5.3.10 数据库更新</h4>
+<p><strong>INSERT</strong>、<strong>UPDATE</strong>、<strong>DELETE</strong></p>
+<h5 id="53101-insert"><a class="markdownIt-Anchor" href="#53101-insert"></a> 5.3.10.1 INSERT</h5>
+<p><strong>默认插入</strong></p>
+<p>INSERT INTO TableName[(col)]</p>
+<p>VALUES(dataValue)</p>
+<p><strong>批量插入</strong></p>
+<p>INSERT INTO TableName[{col}]</p>
+<p>​	SELECT …</p>
+<h5 id="53102-update"><a class="markdownIt-Anchor" href="#53102-update"></a> 5.3.10.2 UPDATE</h5>
+<p>UPDATE TableName</p>
+<p>SET [col = value], [col2 = value2]</p>
+<h5 id="53103-delete"><a class="markdownIt-Anchor" href="#53103-delete"></a> 5.3.10.3 DELETE</h5>
+<p><strong>删除指定行</strong></p>
+<p>DELETE FROM TableName WHERE</p>
+<p><strong>删除所有行</strong></p>
+<p>DELETE FROM Viewing</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>What are the advantages and disadvantages of SQL?</p>
+<p>优点：</p>
+<ol>
+<li>
+<p>安全性，只允许授权的用户进行访问</p>
+</li>
+<li>
+<p>唯一一个得到普遍认可的数据库标准语言</p>
+</li>
+<li>
+<p>可移植性高</p>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>sql查询语句需要知道有关数据库结构的详细信息</li>
+<li>处理聚合函数中的空值</li>
+</ol>
+</li>
+<li>
+<p>What restrictions apply to the use of the aggregate functions within the SELECT statement? How do nulls affect the aggregate functions?</p>
+<p>​		聚集函数只能用于SELECT列表和HAVING子句中，用在其他地方都是不正确的。如果SELECT列表包括聚集函数，却没有使用GROUP BY子句分组，那么SELECT列表的任何项都不能引用列，除了作为聚集函数的参数。除了COUNT(*)外，每一个函数首先要去掉空值，然后计算其非空值。</p>
+</li>
+<li>
+<p>Explain how the GROUP BY clause works. What is the difference between the WHERE and HAVING clauses?</p>
+<p>​		GROUP BY 按SELECT列表中的列进行分组，每一组产生一个综合查询结果。当使用GROUP BY时，SELECT列表中的项必须每组都有单一值。SELECT子句中的所有列除非用在聚集函数上，否则必须在GROUP BY子句中出现。当WHERE子句和GROUP BY子句同时使用时，必须首先使用WHERE子句。应用GROUP BY子句时，两个空值被认为是相等的。</p>
+<p>​		WHERE子句将单个行过滤到查询结果中，而HAVING子句则将分组过滤到查询结果表中。HAVING子句使用的列名必须出现在GROUP BY子句列表中，或包含在聚集函数中。</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<p>For the following exercises, use the Hotel schema defined at the start of the Exercises at the end of Chapter 3.</p>
+<p><strong>Simple Queries</strong></p>
+<ol start="4">
+<li>
+<p>List all double or family rooms with a price below £40.00 per night, in ascending order of price.</p>
+<p>SELECT * FROM Room</p>
+<p>WHERE price &lt; 40000 AND type in (‘double’, ‘family’)</p>
+<p>ORDER BY price;</p>
+</li>
+<li>
+<p>List the bookings for which no dateTo has been specified.</p>
+<p>SELECT * FROM Booking</p>
+<p>WHERE dateTo IS NULL;</p>
+</li>
+</ol>
+<p><strong>Aggregate Functions</strong></p>
+<ol start="6">
+<li>
+<p>How many different guests have made bookings for August?</p>
+<p>SELECT COUNT(DISTINCT guestNo) FROM Booking</p>
+<p>WHERE (dateFrom &gt;= ‘2021-08-01’ and dateTo &lt;= ‘2021-08-31’);</p>
+</li>
+</ol>
+<p><strong>Subqueries and Joins</strong></p>
+<ol start="7">
+<li>
+<p>List the details of all rooms at the Grosvenor Hotel, including the name of the guest staying in the room, if the room is occupied.</p>
+<p>SELECT * from Room r LEFT JOIN</p>
+<p>​		(SELECT b.hotelNo, g.guestNo FROM Hotel h,Booking b, Guest g</p>
+<p>​		 WHERE h.hotelNo = b.hotelNo and b.guestNo = g.guestNo</p>
+<p>​		 AND h.hotelName = ‘Grosvenor’</p>
+<p>​    	 AND dateFrom &lt;= currentDate AND dateTo &gt;= currentDate</p>
+<p>​		 ) AS t</p>
+<p>ON r.hotelNo = t.hotelNo AND r.roomNo = t.roomNo</p>
+</li>
+<li>
+<p>What is the total income from bookings for the Grosvenor Hotel today?</p>
+<p>SELECT SUM(price) From Room r, Booking b</p>
+<p>WHERE r.roomNo = b.roomNo</p>
+<p>AND dateFrom &lt;= currentDate AND dateTo  &gt;= currentDate</p>
+<p>AND r.hotelNo IN (SELECT h.hotelNo FROM Hotel h</p>
+<p>​								  WHERE h.hotelName = ‘Grosvenor’)</p>
+</li>
+<li>
+<p>What is the lost income from unoccupied rooms at the Grosvenor Hotel?</p>
+<p>SELECT SUM(price) From Room r</p>
+<p>WHERE r.roomNo NOT IN(SELECT b.roomNo</p>
+<p>​											   FROM Hotel h, Booking b</p>
+<p>​                                               WHERE h.hotelName = ‘Grosvenor’</p>
+<p>​											   AND dateFrom &lt;= currentDate</p>
+<p>​                                               AND dateTo  &gt;= currentDate</p>
+<p>​                                               AND h.hotelNo = b.hotelNo)</p>
+</li>
+</ol>
+<p><strong>Grouping</strong></p>
+<ol start="10">
+<li>
+<p>What is the average number of bookings for each hotel in August?</p>
+<p>SELECT hotelNo, COUNT(roomNo)/31 AS CNT</p>
+<p>FROM Booking b</p>
+<p>WHERE dateFrom &gt;= ‘2021-08-01’ AND dateTo  &lt;=‘2021-08-31’	GROUP BY hotelNo</p>
+</li>
+<li>
+<p>What is the most commonly booked room type for each hotel in London?</p>
+<p>SELECT t.hotelNo, MAX(CNT) FROM</p>
+<p>​	(SELECT hotelNo,type,COUNT(type) AS CNT</p>
+<p>​	FROM Hotel h, Room r, Booking b</p>
+<p>​	WHERE h.city = ‘London’</p>
+<p>​	AND h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​	GROUP BY hotelNo, type) AS t</p>
+<p>GROUP BY t.hotelNo</p>
+</li>
+</ol>
+<p><strong>Creating and Populating Tables</strong></p>
+<ol start="12">
+<li>
+<p>Insert records into each of these tables.</p>
+<p>INSERT INTO Hotel VALUES(‘H01’, ‘Grosvenor’, ‘London’);</p>
+<p>INSERT INTO Room VALUES(‘101’, ‘H01’, ‘small’, 100);</p>
+<p>INSERT INTO Booking VALUES(‘H01’, ‘G01’, ‘2021-4-14’, ‘2021-4-15’, ‘101’);</p>
+<p>INSERT INTO Guest VALUES(‘G01’, ‘ZHANG SAN’, ‘London’);</p>
+</li>
+<li>
+<p>Update the price of all rooms by 5%.</p>
+<p>UPDATE Room SET price = price * 1.05;</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/19/Unity/%E7%AC%AC3%E7%AB%A0%20Unity%E7%89%A9%E7%90%86%E5%BC%95%E6%93%8E/" rel="next" title="第3章 Unity物理引擎">
+                  <i class="fa fa-chevron-left"></i> 第3章 Unity物理引擎
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93/Chpater6%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/" rel="prev" title="第六章 数据定义">
+                  第六章 数据定义 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-数据操作"><span class="nav-text"> 第五章 数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#51-简介"><span class="nav-text"> 5.1 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#52-书写sql命令"><span class="nav-text"> 5.2 书写SQL命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#53-数据操作"><span class="nav-text"> 5.3 数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#531-简单查询"><span class="nav-text"> 5.3.1 简单查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#532-查询结果排序order-by"><span class="nav-text"> 5.3.2 查询结果排序(ORDER BY)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#533-sql聚集函数"><span class="nav-text"> 5.3.3 SQL聚集函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#534-查询结果分组group-by"><span class="nav-text"> 5.3.4 查询结果分组(GROUP BY)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分组约束having"><span class="nav-text"> 分组约束（HAVING）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#535-子查询"><span class="nav-text"> 5.3.5 子查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#536-any和all"><span class="nav-text"> 5.3.6 ANY和ALL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#537-多表查询"><span class="nav-text"> 5.3.7 多表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#5371-简单连接"><span class="nav-text"> 5.3.7.1 简单连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5372-三表连接"><span class="nav-text"> 5.3.7.2 三表连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5373-外连接"><span class="nav-text"> 5.3.7.3 外连接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5374-全外连接"><span class="nav-text"> 5.3.7.4 全外连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#538-exists-和-not-exists"><span class="nav-text"> 5.3.8 EXISTS 和 NOT EXISTS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#539-合并结果表"><span class="nav-text"> 5.3.9 合并结果表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5310-数据库更新"><span class="nav-text"> 5.3.10 数据库更新</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#53101-insert"><span class="nav-text"> 5.3.10.1 INSERT</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#53102-update"><span class="nav-text"> 5.3.10.2 UPDATE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#53103-delete"><span class="nav-text"> 5.3.10.3 DELETE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

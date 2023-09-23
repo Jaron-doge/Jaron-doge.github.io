@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CSS定位、元素显示与隐藏  1. 定位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3 CSS CSS定位、元素显示与隐藏">
+<meta property="og:url" content="http://yoursite.com/2021/07/18/%E5%89%8D%E7%AB%AF/3%20CSS%E5%AE%9A%E4%BD%8D/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="CSS定位、元素显示与隐藏  1. 定位">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/VGwRP8oi7qaLUdj.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/r4sbTPmLVjoUIK6.png">
+<meta property="article:published_time" content="2021-07-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-29T10:57:33.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/21/VGwRP8oi7qaLUdj.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/18/%E5%89%8D%E7%AB%AF/3%20CSS%E5%AE%9A%E4%BD%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>3 CSS CSS定位、元素显示与隐藏 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/18/%E5%89%8D%E7%AB%AF/3%20CSS%E5%AE%9A%E4%BD%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          3 CSS CSS定位、元素显示与隐藏
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-18 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-18T00:00:00+08:00">2021-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-29 18:57:33" itemprop="dateModified" datetime="2021-08-29T18:57:33+08:00">2021-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="css定位-元素显示与隐藏"><a class="markdownIt-Anchor" href="#css定位-元素显示与隐藏"></a> CSS定位、元素显示与隐藏</h2>
+<h3 id="1-定位"><a class="markdownIt-Anchor" href="#1-定位"></a> 1. 定位</h3>
+<a id="more"></a>
+<p>浮动可以让多个块级盒子一行没有缝隙排列显示，经常用于横向排列盒子</p>
+<p>定位则是可以让盒子自由的在某个盒子内移动位置或者固定屏幕中的某个位置，并且可以压住其他盒子</p>
+<p>定位 = 定位模式 + 边偏移</p>
+<h4 id="11-定位模式"><a class="markdownIt-Anchor" href="#11-定位模式"></a> 1.1 定位模式</h4>
+<p>定位模式决定元素的定位方式，它通过position的属性来设置</p>
+<p><img src="https://i.loli.net/2021/07/21/VGwRP8oi7qaLUdj.png" alt="image-20210715151138669.png" /></p>
+<h4 id="12-边偏移"><a class="markdownIt-Anchor" href="#12-边偏移"></a> 1.2 边偏移</h4>
+<p>边偏移就是定位的盒子移动到最终位置，有top、right、bottom和left四个属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">top</span>: 80<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="13-静态定位static"><a class="markdownIt-Anchor" href="#13-静态定位static"></a> 1.3 静态定位static</h4>
+<p>元素的默认定位方式，无定位</p>
+<ul>
+<li>按照标准流特性摆放位置，没有边偏移</li>
+</ul>
+<h4 id="14-相对定位"><a class="markdownIt-Anchor" href="#14-相对定位"></a> 1.4 相对定位</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">relative</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>它是相对于自己原来的位置来移动的。</p>
+</li>
+<li>
+<p>原来在标准流的位置继续占有，后面的盒子仍然以标准流的方式对待它。（停职留薪）</p>
+</li>
+<li>
+<p>相对定位并没有脱标，它最典型的应用是给绝对定位当爹。</p>
+</li>
+</ol>
+<h4 id="15-绝对定位"><a class="markdownIt-Anchor" href="#15-绝对定位"></a> 1.5 绝对定位</h4>
+<p>绝对定位是元素在移动位置的时候，相对于它祖先元素来说的。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">absolute</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果没有祖先元素或者祖先元素没有定位，则以浏览器为准定位。</li>
+<li>如果祖先元素有定位（相对、绝对、固定定位），则以最近一级的有定位祖先元素为参考点移动位置。</li>
+<li>绝对定位不再占有原先的位置。（脱标）</li>
+</ol>
+<h4 id="16-固定定位"><a class="markdownIt-Anchor" href="#16-固定定位"></a> 1.6 固定定位</h4>
+<p>固定定位是元素固定于浏览器可视区的位置。主要使用场景：可以在浏览器页面滚动时元素的位置不会改变。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">fixed</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>以浏览器的可视窗口为参照点移动元素。</p>
+<ul>
+<li>跟父元素没有任何关系</li>
+<li>不随滚动条滚动</li>
+</ul>
+</li>
+<li>
+<p>固定定位不再占有原先的位置</p>
+<p>固定定位也是脱标的，可以看作是一种特殊的绝对定位</p>
+</li>
+</ol>
+<p><strong>固定定位小技巧：固定在版心右侧</strong></p>
+<ol>
+<li>让固定定位的盒子 left: 50%. 走到浏览器可视区（也可以看做版心） 的一半位置。</li>
+<li>让固定定位的盒子 margin-left: 版心宽度的一半距离。 多走 版心宽度的一半位置。</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">fixed</span>;</span><br><span class="line"><span class="selector-tag">left</span>: 50%;</span><br><span class="line"><span class="selector-tag">margin-left</span>: 410<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">width</span>: 100<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">height</span>: 100<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="17-粘性定位"><a class="markdownIt-Anchor" href="#17-粘性定位"></a> 1.7 粘性定位</h4>
+<p>粘性定位可以被认为是相对定位和固定定位的混合。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">sticky</span>; <span class="selector-tag">top</span>: 10<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>以浏览器的可视窗口为参照点移动元素（固定定位特点）</li>
+<li>粘性定位占有原先的位置（相对定位特点）</li>
+<li>必须添加 top 、left、right、bottom 其中一个才有效</li>
+</ol>
+<p>IE不兼容</p>
+<h4 id="18-定位叠放次序"><a class="markdownIt-Anchor" href="#18-定位叠放次序"></a> 1.8 定位叠放次序</h4>
+<p>在使用定位布局时，可能会出现盒子重叠的情况，用z-index来控制盒子的</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">z-index</span>: 1;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>数值越大，盒子越靠上</p>
+</li>
+<li>
+<p>属性值相同，则按照书写顺序，后来居上</p>
+</li>
+<li>
+<p>只有定位的盒子才有z-index属性</p>
+</li>
+</ul>
+<h4 id="19-定位的拓展"><a class="markdownIt-Anchor" href="#19-定位的拓展"></a> 1.9 定位的拓展</h4>
+<h5 id="191-绝对定位的盒子居中"><a class="markdownIt-Anchor" href="#191-绝对定位的盒子居中"></a> 1.9.1 绝对定位的盒子居中</h5>
+<p>加了绝对定位的盒子不能通过<css>margin: 0 auto</css>水平居中</p>
+<ol>
+<li>让盒子的左侧移动到父级元素的水平中心位置。</li>
+<li>让盒子向左移动自身宽度的一半。</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">position</span>: <span class="selector-tag">absolute</span>;</span><br><span class="line"><span class="selector-tag">width</span>: 200<span class="selector-tag">px</span>;</span><br><span class="line"><span class="selector-tag">left</span>: 50%:</span><br><span class="line"><span class="selector-tag">margin-left</span>: <span class="selector-tag">-100px</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="192-定位特殊特性"><a class="markdownIt-Anchor" href="#192-定位特殊特性"></a> 1.9.2 定位特殊特性</h5>
+<p>绝对定位和固定定位也和浮动类似。</p>
+<ol>
+<li>行内元素添加绝对或者固定定位，可以直接设置高度和宽度。</li>
+<li>块级元素添加绝对或者固定定位，如果不给宽度或者高度，默认大小是内容的大小。</li>
+</ol>
+<h5 id="193-脱标的盒子不会触发外边距塌陷"><a class="markdownIt-Anchor" href="#193-脱标的盒子不会触发外边距塌陷"></a> 1.9.3 脱标的盒子不会触发外边距塌陷</h5>
+<p>浮动元素、绝对定位（固定定位）元素都不会触发外边距合并的问题。</p>
+<h5 id="194-绝对定位固定定位会完全压住盒子"><a class="markdownIt-Anchor" href="#194-绝对定位固定定位会完全压住盒子"></a> 1.9.4 绝对定位（固定定位）会完全压住盒子</h5>
+<p>浮动元素只会压住它下面标准流的盒子，但是不会压住下面标准流盒子里面的文字。</p>
+<p>绝对定位（固定定位） 会压住下面标准流所有的内容，包含文字。</p>
+<p>浮动之所以不会压住文字，因为浮动产生的目的最初是为了做文字环绕效果的。 文字会围绕浮动元素。</p>
+<h5 id="195-边偏移重叠"><a class="markdownIt-Anchor" href="#195-边偏移重叠"></a> 1.9.5 边偏移重叠</h5>
+<p>如果一个盒子既有left属性也有right属性，则默认会执行left属性，top、bottom同理</p>
+<h3 id="2-网页布局总结"><a class="markdownIt-Anchor" href="#2-网页布局总结"></a> 2. 网页布局总结</h3>
+<ol>
+<li>
+<p>标准流</p>
+<p>可以让盒子上下排列或者左右排列，垂直的块级盒子显示就用标准流布局。</p>
+</li>
+<li>
+<p>浮动</p>
+<p>可以让多个块级元素一行显示或者左右对齐盒子，多个块级盒子水平显示就用浮动布局。</p>
+</li>
+<li>
+<p>定位</p>
+<p>定位最大的特点是有层叠的概念，就是可以让多个盒子前后叠压来显示。如果元素自由在某个盒子内移动就 用定位布局。</p>
+</li>
+</ol>
+<h3 id="3-元素的显示与隐藏"><a class="markdownIt-Anchor" href="#3-元素的显示与隐藏"></a> 3. 元素的显示与隐藏</h3>
+<p>让一个元素在页面中隐藏或者显示出来</p>
+<h4 id="31-display属性"><a class="markdownIt-Anchor" href="#31-display属性"></a> 3.1 display属性</h4>
+<p>display属性用于设置一个元素应如何显示</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">box</span><span class="selector-pseudo">:hover</span> <span class="selector-class">.mask</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>display: none；	隐藏对象</li>
+<li>display: block;       显示元素</li>
+</ul>
+<p>display隐藏元素后，不再占有原来的位置。</p>
+<h4 id="32-visibility-可见性"><a class="markdownIt-Anchor" href="#32-visibility-可见性"></a> 3.2 visibility 可见性</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">visibiliity: visible || hidden;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>visibility: visible；	元素可视</li>
+<li>visibility: hidden;      元素隐藏</li>
+</ul>
+<p>visibility隐藏元素后，继续占有原来的位置。</p>
+<h4 id="33-overflow溢出"><a class="markdownIt-Anchor" href="#33-overflow溢出"></a> 3.3 overflow溢出</h4>
+<p>overflow 属性指定了如果内容溢出一个元素的框（超过其指定高度及宽度） 时，会发生什么。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">overflow</span>: <span class="selector-tag">hidden</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/r4sbTPmLVjoUIK6.png" alt="image-20210716103943915.png" /></p>
+<p>如果有定位的盒子，需要慎用overflow，因为它会隐藏多余的部分。</p>
+<h4 id="34-总结"><a class="markdownIt-Anchor" href="#34-总结"></a> 3.4 总结</h4>
+<ol>
+<li>display 显示隐藏元素 但是不保留位置</li>
+<li>visibility 显示隐藏元素 但是保留原来的位置</li>
+<li>overflow 溢出显示隐藏 但是只是对于溢出的部分处理</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css/" rel="tag"># css</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/17/%E5%89%8D%E7%AB%AF/2%20CSS%E7%89%B9%E6%80%A7%E3%80%81%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E3%80%81%E6%B5%AE%E5%8A%A8/" rel="next" title="2 CSS 特性、盒子模型、浮动">
+                  <i class="fa fa-chevron-left"></i> 2 CSS 特性、盒子模型、浮动
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/07/19/%E5%89%8D%E7%AB%AF/4%20CSS%E9%AB%98%E7%BA%A7%E6%8A%80%E5%B7%A7/" rel="prev" title="4 CSS高级技巧">
+                  4 CSS高级技巧 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css定位-元素显示与隐藏"><span class="nav-text"> CSS定位、元素显示与隐藏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-定位"><span class="nav-text"> 1. 定位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-定位模式"><span class="nav-text"> 1.1 定位模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-边偏移"><span class="nav-text"> 1.2 边偏移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-静态定位static"><span class="nav-text"> 1.3 静态定位static</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-相对定位"><span class="nav-text"> 1.4 相对定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15-绝对定位"><span class="nav-text"> 1.5 绝对定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16-固定定位"><span class="nav-text"> 1.6 固定定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17-粘性定位"><span class="nav-text"> 1.7 粘性定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18-定位叠放次序"><span class="nav-text"> 1.8 定位叠放次序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19-定位的拓展"><span class="nav-text"> 1.9 定位的拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#191-绝对定位的盒子居中"><span class="nav-text"> 1.9.1 绝对定位的盒子居中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#192-定位特殊特性"><span class="nav-text"> 1.9.2 定位特殊特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#193-脱标的盒子不会触发外边距塌陷"><span class="nav-text"> 1.9.3 脱标的盒子不会触发外边距塌陷</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#194-绝对定位固定定位会完全压住盒子"><span class="nav-text"> 1.9.4 绝对定位（固定定位）会完全压住盒子</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#195-边偏移重叠"><span class="nav-text"> 1.9.5 边偏移重叠</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-网页布局总结"><span class="nav-text"> 2. 网页布局总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-元素的显示与隐藏"><span class="nav-text"> 3. 元素的显示与隐藏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#31-display属性"><span class="nav-text"> 3.1 display属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-visibility-可见性"><span class="nav-text"> 3.2 visibility 可见性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#33-overflow溢出"><span class="nav-text"> 3.3 overflow溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#34-总结"><span class="nav-text"> 3.4 总结</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

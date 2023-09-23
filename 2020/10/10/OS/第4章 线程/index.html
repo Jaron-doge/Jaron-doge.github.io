@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="线程  线程是CPU利用的基本单位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第4章 线程">
+<meta property="og:url" content="http://yoursite.com/2020/10/10/OS/%E7%AC%AC4%E7%AB%A0%20%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="线程  线程是CPU利用的基本单位">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/A5bLvzJX6sPEdCO.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/Q5hWvgyc41rLVZU.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/sjuRIC3W8iVLYgO.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/QqAYf8TFyhl6c1K.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/T3qniP86VYKZGCe.png">
+<meta property="article:published_time" content="2020-10-10T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-23T08:32:02.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/23/A5bLvzJX6sPEdCO.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/10/OS/%E7%AC%AC4%E7%AB%A0%20%E7%BA%BF%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第4章 线程 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/10/OS/%E7%AC%AC4%E7%AB%A0%20%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第4章 线程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-10 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-10T20:30:15+08:00">2020-10-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-23 16:32:02" itemprop="dateModified" datetime="2020-10-23T16:32:02+08:00">2020-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="线程"><a class="markdownIt-Anchor" href="#线程"></a> 线程</h2>
+<ul>
+<li>线程是CPU利用的基本单位</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>它包含一个线程ID，一个程序计数器，一个寄存器集和一个堆栈<br />
+它与属于同一进程的其他线程，代码部分，数据部分和其他OS资源（例如打开的文件，信号等）共享</li>
+</ul>
+<img src="https://i.loli.net/2020/10/23/A5bLvzJX6sPEdCO.png" alt="image-20201011095455371.png" style="zoom:50%;" />
+<h4 id="进程与线程的比较"><a class="markdownIt-Anchor" href="#进程与线程的比较"></a> 进程与线程的比较</h4>
+<ul>
+<li>进程是资源分配单位，线程是CPU分配单位</li>
+<li>进程拥有一个完整的资源平台，而进程只独享必不可少的资源，如寄存器和栈</li>
+<li>线程同样具有就绪、阻塞和执行三种状态，同样具有状态之间的转换关系</li>
+<li>线程能减少并发执行的时间和空间开销</li>
+<li>线程 = 轻量级进程</li>
+</ul>
+<h4 id="优点"><a class="markdownIt-Anchor" href="#优点"></a> 优点</h4>
+<ul>
+<li>
+<p>响应度高</p>
+</li>
+<li>
+<p>资源共享</p>
+</li>
+<li>
+<p>经济</p>
+</li>
+<li>
+<p>MP结构的利用</p>
+<p>​	并发和并行</p>
+</li>
+</ul>
+<h3 id="多线程模型"><a class="markdownIt-Anchor" href="#多线程模型"></a> 多线程模型</h3>
+<h4 id="多对一模型"><a class="markdownIt-Anchor" href="#多对一模型"></a> 多对一模型</h4>
+<img src="https://i.loli.net/2020/10/23/Q5hWvgyc41rLVZU.png" alt="image-20201011095958114.png" style="zoom:50%;" />
+<h4 id="一对一模型"><a class="markdownIt-Anchor" href="#一对一模型"></a> 一对一模型</h4>
+<img src="https://i.loli.net/2020/10/23/sjuRIC3W8iVLYgO.png" alt="image-20201011100009095.png" style="zoom:50%;" />
+<h4 id="多对多模型"><a class="markdownIt-Anchor" href="#多对多模型"></a> 多对多模型</h4>
+<img src="https://i.loli.net/2020/10/23/QqAYf8TFyhl6c1K.png" alt="image-20201011100019172.png" style="zoom:50%;" />
+<h4 id="双层模型"><a class="markdownIt-Anchor" href="#双层模型"></a> 双层模型</h4>
+<img src="https://i.loli.net/2020/10/23/T3qniP86VYKZGCe.png" alt="image-20201011100025612.png" style="zoom:50%;" />
+<h3 id="线程问题"><a class="markdownIt-Anchor" href="#线程问题"></a> 线程问题</h3>
+<ul>
+<li>fork（）和exec（）系统调用的语义</li>
+<li>fork（）是否仅复制调用线程或所有线程？</li>
+</ul>
+<h5 id="两种通用解决方法"><a class="markdownIt-Anchor" href="#两种通用解决方法"></a> 两种通用解决方法</h5>
+<ul>
+<li>Asynchronous （异步）取消立即终止目标线程</li>
+<li>Deferred（延迟）取消允许目标线程定期检查是否应取消它</li>
+</ul>
+<h4 id="线程池"><a class="markdownIt-Anchor" href="#线程池"></a> 线程池</h4>
+<ul>
+<li>
+<p>在它们所在的池中创建许多线程并等待工作</p>
+</li>
+<li>
+<p>使用现有线程处理请求要比创建新线程快一些</p>
+</li>
+<li>
+<p>允许将应用程序中的线程数绑定到池的大小</p>
+</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>4.1 Provide two programming examples in which multithreading provides<br />
+better performance than a single-threaded solution.</p>
+<p>网页浏览和字处理，都需要并发处理多个事件</p>
+<p>4.2 What are two differences between user-level threads and kernel-level<br />
+threads? Under what circumstances is one type better than the other?</p>
+<p>​	kernel-level threads由kernel mode直接支持，而user-level threads不被kernel mode支持。但是kernel-level threads因为会需求更多资源，所以会比user-level threads更慢。一些不需要kernel mode来管理的低级任务，使用user-level threads能加快速度；kernel-level threads更适合需要系统资源的高级任务。</p>
+<p>4.3 Describe the actions taken by a kernel to context-switch between kernel-level threads.</p>
+<p>​	记录当前线程的CPU寄存器值并加载调度线程的CPU寄存器值</p>
+<p>4.4 What resources are used when a thread is created? How do they differ<br />
+from those used when a process is created?</p>
+<p>1）一组用来在上下文切换时记录状态的寄存器</p>
+<p>2)一个堆栈</p>
+<p>3)各种运行时库和动态链接库使用的线程专用存储</p>
+<p>当进程被创建时，内存分配用于程序指令和数据以及线程存储</p>
+<p>4.5 Assume that an operating system maps user-level threads to the kernel<br />
+using the many-to-many model and that the mapping is done through<br />
+LWPs. Furthermore, the system allows developers to create real-time<br />
+threads for use in real-time systems. Is it necessary to bind a real-time<br />
+thread to an LWP? Explain.</p>
+<p>​		是的，把实时线程绑定到LWP很有必要，这样可以确保线程在调度好之后就能以最小的延迟时间运行</p>
+<p>4.6 Provide two programming examples in which multithreading does not<br />
+provide better performance than a single-threaded solution.</p>
+<ul>
+<li>任何顺序执行的程序</li>
+<li>监控自己工作空间的程序如open files和C-shell</li>
+</ul>
+<p>4.7 Under what circumstances does a multithreaded solution using multiple<br />
+kernel threads provide better performance than a single-threaded<br />
+solution on a single-processor system?</p>
+<p>​		在程序经常发生页面错误、或需要经常等待其他系统事件时，用多kernel threads的多线程解决方案比用单处理器的单线程解决方案好</p>
+<p>4.8 Which of the following components of program state are shared across<br />
+threads in a multithreaded process?<br />
+a. Register values<br />
+b. Heap memory<br />
+c. Global variables<br />
+d. Stack memory</p>
+<p>b, c</p>
+<p>4.9 Can a multithreaded solution using multiple user-level threads achieve<br />
+better performance on a multiprocessor system than on a single processor<br />
+system? Explain.</p>
+<p>​		因为user-level threads没有kernel mode的支持，在多处理器系统上使用多 user-level threads没有收益，所以不能</p>
+<p>4.11 Is it possible to have concurrency but not parallelism? Explain.</p>
+<p>​	可以，进程的执行就可以只是并发，没有并行。</p>
+<p>4.15 Consider the following code segment:<br />
+pid t pid;<br />
+pid = fork();<br />
+if (pid == 0) { /* child process */<br />
+fork();<br />
+thread create( . . .);<br />
+}<br />
+fork();<br />
+a. How many unique processes are created?</p>
+<p>​	5</p>
+<p>b. How many unique threads are created?</p>
+<p>​	2</p>
+<p>4.16 As described in Section 4.7.2, Linux does not distinguish between<br />
+processes and threads. Instead, Linux treats both in the same way,<br />
+allowing a task to be more akin to a process or a thread depending on the<br />
+set of flags passed to the clone() system call. However, other operating<br />
+systems, such as Windows, treat processes and threads differently.<br />
+Typically, such systems use a notation in which the data structure for<br />
+a process contains pointers to the separate threads belonging to the<br />
+process. Contrast these two approaches for modeling processes and<br />
+threads within the kernel.</p>
+<p>Pros:</p>
+<ul>
+<li>Linux认为这很相似，因此可以很容易地减少属于操作系统的代码。</li>
+<li>Linux操作系统中存在的调度程序不需要特殊的代码即可测试与每个进程耦合的线程。</li>
+<li>在调度期间，它将不同的线程和进程视为单个任务。</li>
+</ul>
+<p>Cons:</p>
+<ul>
+<li>这种能力使Linux操作系统更难直接施加进程范围的资源限制。</li>
+<li>需要额外的步骤来识别每个进程属于适当的线程以及执行相关任务的复杂性。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/08/DS/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20%E4%B8%B2/" rel="next" title="第十一章 串">
+                  <i class="fa fa-chevron-left"></i> 第十一章 串
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/17/OS/%E7%AC%AC5%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5/" rel="prev" title="第5章 进程同步">
+                  第5章 进程同步 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程"><span class="nav-text"> 线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程与线程的比较"><span class="nav-text"> 进程与线程的比较</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点"><span class="nav-text"> 优点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程模型"><span class="nav-text"> 多线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多对一模型"><span class="nav-text"> 多对一模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一对一模型"><span class="nav-text"> 一对一模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多对多模型"><span class="nav-text"> 多对多模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双层模型"><span class="nav-text"> 双层模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程问题"><span class="nav-text"> 线程问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#两种通用解决方法"><span class="nav-text"> 两种通用解决方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线程池"><span class="nav-text"> 线程池</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

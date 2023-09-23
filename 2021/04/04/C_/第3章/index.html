@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="类  3.1 this">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第3章 类">
+<meta property="og:url" content="http://yoursite.com/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="类  3.1 this">
+<meta property="og:image" content="https://i.loli.net/2021/04/20/3hJB7SmdY8s6eMR.png">
+<meta property="og:image" content="http://yoursite.com/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/3%20%E7%B1%BB/2.png">
+<meta property="article:published_time" content="2021-04-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-10-09T02:36:17.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/20/3hJB7SmdY8s6eMR.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第3章 类 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/04/C_/%E7%AC%AC3%E7%AB%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第3章 类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-04 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-04T00:00:00+08:00">2021-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-09 10:36:17" itemprop="dateModified" datetime="2021-10-09T10:36:17+08:00">2021-10-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-nbsp/" itemprop="url" rel="index">
+                    <span itemprop="name">C#&nbsp;</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="类"><a class="markdownIt-Anchor" href="#类"></a> 类</h2>
+<h3 id="31-this"><a class="markdownIt-Anchor" href="#31-this"></a> 3.1 this</h3>
+<a id="more"></a>
+<ul>
+<li>访问这个对象的字段及方法</li>
+<li>区分字段与局部变量</li>
+<li>用于构造方法调用另一个构造方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public Person() : this(0, &quot;&quot;) &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="32-属性-索引"><a class="markdownIt-Anchor" href="#32-属性-索引"></a> 3.2 属性、索引</h3>
+<h4 id="属性的书写"><a class="markdownIt-Anchor" href="#属性的书写"></a> 属性的书写</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public string Name&#123;get; set;&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以只读或只写：只有get或set</li>
+<li>可以进行有效性检查：if</li>
+<li>可以是计算得到的数据</li>
+<li>可以定义抽象属性</li>
+</ul>
+<h4 id="索引器"><a class="markdownIt-Anchor" href="#索引器"></a> 索引器</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">修饰符	类型名	this[parameter]</span><br><span class="line">&#123;</span><br><span class="line">    set</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    get</span><br><span class="line">    &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="33-类的继承"><a class="markdownIt-Anchor" href="#33-类的继承"></a> 3.3 类的继承</h3>
+<ul>
+<li>
+<p>C#采用单继承（只能继承一个父类）</p>
+</li>
+<li>
+<p>所有类都是通过继承object得到</p>
+</li>
+</ul>
+<h4 id="字段的继承-添加与隐藏"><a class="markdownIt-Anchor" href="#字段的继承-添加与隐藏"></a> 字段的继承、添加与隐藏</h4>
+<ul>
+<li>继承：自动</li>
+<li>添加：定义新变量
+<ul>
+<li>重载(Overloading)</li>
+<li>覆盖(Overriding)</li>
+</ul>
+</li>
+<li>隐藏：同名关键字前面加一个new</li>
+</ul>
+<h4 id="使用base"><a class="markdownIt-Anchor" href="#使用base"></a> 使用base</h4>
+<p>调用父类的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Student(string name, int age, string school)</span><br><span class="line">    : base(name, age)</span><br><span class="line">    &#123; this.school &#x3D; school; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="转换"><a class="markdownIt-Anchor" href="#转换"></a> 转换</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Person p1 &#x3D; new Person();</span><br><span class="line">Person p2 &#x3D; new Student();</span><br><span class="line">Student s1 &#x3D; new Student();</span><br><span class="line">Student s2 &#x3D; new Student();</span><br><span class="line">p1 &#x3D; s1;	&#x2F;&#x2F; 可以</span><br><span class="line">s2 &#x3D; p1;	&#x2F;&#x2F; 不行</span><br><span class="line">s2 &#x3D; (Student)p1;	&#x2F;&#x2F; 可以</span><br><span class="line">s2 &#x3D; (Student)p2;	&#x2F;&#x2F;可以，因为p2引用的正好是Student实例</span><br></pre></td></tr></table></figure>
+<p><strong>as运算符</strong></p>
+<p>如果不能转换，则值为null，<strong>不会引起异常</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Student s3 &#x3D; p1 as Student;		&#x2F;&#x2F; 结果为null</span><br></pre></td></tr></table></figure>
+<p><strong>is运算符</strong></p>
+<p>判断一个对象是不是某个类(<strong>及其子类</strong>)的实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(p is Person)</span><br></pre></td></tr></table></figure>
+<h3 id="34-修饰符"><a class="markdownIt-Anchor" href="#34-修饰符"></a> 3.4 修饰符</h3>
+<h4 id="341-访问控制符"><a class="markdownIt-Anchor" href="#341-访问控制符"></a> 3.4.1 访问控制符</h4>
+<img src="https://i.loli.net/2021/04/20/3hJB7SmdY8s6eMR.png" alt="3.png" style="zoom:80%;" />
+<ul>
+<li>类中的字段、方法默认为private，包括构造函数</li>
+</ul>
+<h4 id="342-static"><a class="markdownIt-Anchor" href="#342-static"></a> 3.4.2 static</h4>
+<ul>
+<li>调用static方法时，直接用类名访问</li>
+</ul>
+<h4 id="343-const及readonly"><a class="markdownIt-Anchor" href="#343-const及readonly"></a> 3.4.3 const及readonly</h4>
+<ul>
+<li>
+<p>常量兼有只读和静态，所以常量一定是静态的，但只读字段不一定是。</p>
+</li>
+<li>
+<p>只读字段可以在运行时决定（例如在构造函数中赋值），而常量必须在定义时就赋值。</p>
+</li>
+<li>
+<p>只读字段可修饰任何类型。</p>
+</li>
+<li>
+<p>即使对于引用类型的只读字段，我们也可以更改引用类型引用对象的值，但是， 我们不能更改引用类型的引用本身。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">A a &#x3D; new A();</span><br><span class="line">a.print();                      &#x2F;&#x2F;0</span><br><span class="line">&#x2F;&#x2F;可以更改引用对象成员的值</span><br><span class="line">a.field.b &#x3D; 999;</span><br><span class="line">a.print();                      &#x2F;&#x2F;999</span><br><span class="line">&#x2F;&#x2F;但是不可以更改引用本身</span><br><span class="line">&#x2F;&#x2F;a.field &#x3D; new B();</span><br><span class="line">&#x2F;&#x2F;a.str &#x3D; &quot;hello&quot;;</span><br></pre></td></tr></table></figure>
+<h4 id="344-sealed及abstract"><a class="markdownIt-Anchor" href="#344-sealed及abstract"></a> 3.4.4 sealed及abstract</h4>
+<ul>
+<li>
+<p>sealed类——不可继承</p>
+</li>
+<li>
+<p>abstract类——不可实例化(new)</p>
+</li>
+<li>
+<p>abstract的方法体，不用{}，用;</p>
+<ul>
+<li>abstract	类型	方法名(参数列表);</li>
+</ul>
+</li>
+</ul>
+<h4 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h4>
+<img src="3 类/2.png" alt="2" style="zoom:80%;" />
+<h3 id="35-接口"><a class="markdownIt-Anchor" href="#35-接口"></a> 3.5 接口</h3>
+<ul>
+<li>接口是一个引用类型，比抽象类更抽象</li>
+<li>接口能实现多继承</li>
+</ul>
+<p>定义一个接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface IStringList</span><br><span class="line">&#123;</span><br><span class="line">    void Add(string s);</span><br><span class="line">    int Count&#123;get;&#125;</span><br><span class="line">	string this[int index] &#123;get; set;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>public、abstract这两个关键词不写出来</p>
+<h4 id="351-同名"><a class="markdownIt-Anchor" href="#351-同名"></a> 3.5.1 同名</h4>
+<ul>
+<li>方法名前写接口名</li>
+<li>调用前先强制转换((IWindow))f.Close()</li>
+</ul>
+<h3 id="36-结构及枚举"><a class="markdownIt-Anchor" href="#36-结构及枚举"></a> 3.6 结构及枚举</h3>
+<h4 id="361-struct"><a class="markdownIt-Anchor" href="#361-struct"></a> 3.6.1 struct</h4>
+<p>struct是值类型</p>
+<ul>
+<li>
+<p>结构不能包含无参数的构造方法</p>
+</li>
+<li>
+<p>每个字在定义时，不能给初始值</p>
+</li>
+<li>
+<p>构造方法中，必须对每个字段进行赋值</p>
+</li>
+<li>
+<p>struct是sealed的，不能被继承</p>
+</li>
+<li>
+<p>值类型变量在赋值时，实行的<strong>是字段的copy</strong></p>
+</li>
+</ul>
+<p><strong>结构 VS 类</strong></p>
+<p>​		类的对象是存储在堆空间中，结构存储在栈中。堆空间大，但访问速度较慢，栈空间小，访问速度相对更快。</p>
+<p>​		类是引用类型，结构是值类型。<strong>结构体中声明的字段无法赋予初值，类可以</strong>。</p>
+<h4 id="362-enum"><a class="markdownIt-Anchor" href="#362-enum"></a> 3.6.2 enum</h4>
+<p>枚举值要用来表示符号化的常量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c &#x3D; (MyColor)Enum.Parse(typeof(MyColor), &quot;Red&quot;);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/03/C_/%E7%AC%AC2%E7%AB%A0/" rel="next" title="第2章 C#语言基础">
+                  <i class="fa fa-chevron-left"></i> 第2章 C#语言基础
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/04/05/C_/%E7%AC%AC4%E7%AB%A0/" rel="prev" title="第4章 C#语言高级特性">
+                  第4章 C#语言高级特性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类"><span class="nav-text"> 类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#31-this"><span class="nav-text"> 3.1 this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-属性-索引"><span class="nav-text"> 3.2 属性、索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性的书写"><span class="nav-text"> 属性的书写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#索引器"><span class="nav-text"> 索引器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-类的继承"><span class="nav-text"> 3.3 类的继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字段的继承-添加与隐藏"><span class="nav-text"> 字段的继承、添加与隐藏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用base"><span class="nav-text"> 使用base</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换"><span class="nav-text"> 转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-修饰符"><span class="nav-text"> 3.4 修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#341-访问控制符"><span class="nav-text"> 3.4.1 访问控制符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#342-static"><span class="nav-text"> 3.4.2 static</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#343-const及readonly"><span class="nav-text"> 3.4.3 const及readonly</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#344-sealed及abstract"><span class="nav-text"> 3.4.4 sealed及abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-text"> 小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-接口"><span class="nav-text"> 3.5 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#351-同名"><span class="nav-text"> 3.5.1 同名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-结构及枚举"><span class="nav-text"> 3.6 结构及枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#361-struct"><span class="nav-text"> 3.6.1 struct</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#362-enum"><span class="nav-text"> 3.6.2 enum</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

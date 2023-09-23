@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第七章 类  7.1 定义抽象数据类型   this this是一个指向非常量的常量指针，不能被常量对象调用   const成员函数 const this是一个指向常量的常量指针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第七章 类">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chapter%207%20%E7%B1%BB/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第七章 类  7.1 定义抽象数据类型   this this是一个指向非常量的常量指针，不能被常量对象调用   const成员函数 const this是一个指向常量的常量指针">
+<meta property="article:published_time" content="2020-09-04T08:45:07.000Z">
+<meta property="article:modified_time" content="2020-09-04T09:02:19.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chapter%207%20%E7%B1%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第七章 类 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chapter%207%20%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第七章 类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:45:07 / 修改时间：17:02:19" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:07+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第七章-类"><a class="markdownIt-Anchor" href="#第七章-类"></a> 第七章 类</h2>
+<h3 id="71-定义抽象数据类型"><a class="markdownIt-Anchor" href="#71-定义抽象数据类型"></a> 7.1 定义抽象数据类型</h3>
+<ol>
+<li>
+<p>this</p>
+<p>this是一个指向非常量的常量指针，不能被常量对象调用</p>
+</li>
+<li>
+<p>const成员函数</p>
+<p>const this是一个指向常量的常量指针</p>
+</li>
+</ol>
+<a id="more"></a>
+<h4 id="714-构造函数"><a class="markdownIt-Anchor" href="#714-构造函数"></a> 7.1.4 构造函数</h4>
+<ol>
+<li>默认构造函数</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Sales_data() = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>构造函数初始值列表</li>
+</ol>
+<ul>
+<li>当某个数据成员被构造函数初始值列表忽略时，它将以与合成默认构造函数相同的方式隐式初始化。</li>
+</ul>
+<h3 id="72-访问控制与封装"><a class="markdownIt-Anchor" href="#72-访问控制与封装"></a> 7.2 访问控制与封装</h3>
+<ul>
+<li>struct的默认访问权限是public、class的默认访问权限是private</li>
+</ul>
+<ol>
+<li>封装</li>
+</ol>
+<ul>
+<li>确保用户代码不会无意间破坏封装对象的状态</li>
+<li>被封装的类的具体实现细节可以随时改变而无须调整用户级别的代码</li>
+</ul>
+<h4 id="721-友元"><a class="markdownIt-Anchor" href="#721-友元"></a> 7.2.1 友元</h4>
+<ul>
+<li>友元的声明之外还需要独立的函数声明</li>
+</ul>
+<h3 id="73-类的其他特性"><a class="markdownIt-Anchor" href="#73-类的其他特性"></a> 7.3 类的其他特性</h3>
+<ul>
+<li>一个const成员函数如果以引用的形式返回*this，那么它的返回类型将是常量引用</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Y</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span>&#123;</span></span><br><span class="line">    Y *y = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Y</span>&#123;</span></span><br><span class="line">    X x;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="74-类的作用域"><a class="markdownIt-Anchor" href="#74-类的作用域"></a> 7.4 类的作用域</h3>
+<h4 id="741类的作用域"><a class="markdownIt-Anchor" href="#741类的作用域"></a> 7.4.1类的作用域</h4>
+<ol>
+<li>在成员函数内查找该名字的声明。</li>
+<li>在类内查找。</li>
+<li>在成员函数定义之前的作用域内查找。</li>
+</ol>
+<h3 id="75-构造函数"><a class="markdownIt-Anchor" href="#75-构造函数"></a> 7.5 构造函数</h3>
+<h4 id="751-构造函数初始化列表"><a class="markdownIt-Anchor" href="#751-构造函数初始化列表"></a> 7.5.1 构造函数初始化列表</h4>
+<ul>
+<li>当成员是const或者是引用时，必须将其初始化</li>
+</ul>
+<h4 id="752-委托构造函数"><a class="markdownIt-Anchor" href="#752-委托构造函数"></a> 7.5.2 委托构造函数</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sales_data</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// 非委托构造函数</span></span><br><span class="line">	Sales_data(<span class="built_in">std</span>::<span class="built_in">string</span> s, <span class="keyword">unsigned</span> cnt, <span class="keyword">double</span> price)</span><br><span class="line">        :bookNo(s), units_sold(cnt), revenue(cnt * price)&#123;&#125;</span><br><span class="line">    <span class="comment">// 委托构造函数</span></span><br><span class="line">	Sales_data(): Sales_data(<span class="string">""</span>, <span class="number">0</span>, <span class="number">0</span>) &#123;&#125;</span><br><span class="line">    Sales_data(<span class="built_in">std</span>::<span class="built_in">string</span> s): Sales_data(s, <span class="number">0</span>, <span class="number">0</span>) &#123;&#125;</span><br><span class="line">    Sales_data(<span class="built_in">std</span>:;istream &amp;is): Slaes_data()</span><br><span class="line">    &#123;<span class="built_in">read</span>(is, *<span class="keyword">this</span>);&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="754-隐式的类类型转换"><a class="markdownIt-Anchor" href="#754-隐式的类类型转换"></a> 7.5.4 隐式的类类型转换</h4>
+<ul>
+<li>explicit抑制构造函数的隐式转换</li>
+<li>只能在类内声明构造函数时使用explicit</li>
+<li>explicit构造函数只能用于直接初始化不能用于赋值</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">explicit</span> <span class="title">Sales_data</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s)</span>: <span class="title">bookNo</span><span class="params">(s)</span> </span>&#123;&#125;</span><br><span class="line">item.combine(null_book);  <span class="comment">//错误，因为需要从string转换为Sales_data</span></span><br></pre></td></tr></table></figure>
+<h4 id="755-聚合类"><a class="markdownIt-Anchor" href="#755-聚合类"></a> 7.5.5 聚合类</h4>
+<ul>
+<li>所有成员都是public的</li>
+<li>没有定义任何构造函数</li>
+<li>没有类内初始值</li>
+<li>没有基类，也没有virtual函数</li>
+</ul>
+<h3 id="76-类的静态成员"><a class="markdownIt-Anchor" href="#76-类的静态成员"></a> 7.6 类的静态成员</h3>
+<ul>
+<li>
+<p>static静态成员被所有类对象共享</p>
+</li>
+<li>
+<p>静态成员函数不包含this指针，不能声明成const</p>
+</li>
+<li>
+<p>在类外定义时不能重复static关键字</p>
+</li>
+<li>
+<p>静态成员可以作为默认实参</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%206%20%E5%87%BD%E6%95%B0/" rel="next" title="第六章 函数">
+                  <i class="fa fa-chevron-left"></i> 第六章 函数
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%208%20IO%E5%BA%93/" rel="prev" title="第八章 IO库">
+                  第八章 IO库 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章-类"><span class="nav-text"> 第七章 类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#71-定义抽象数据类型"><span class="nav-text"> 7.1 定义抽象数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#714-构造函数"><span class="nav-text"> 7.1.4 构造函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#72-访问控制与封装"><span class="nav-text"> 7.2 访问控制与封装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#721-友元"><span class="nav-text"> 7.2.1 友元</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#73-类的其他特性"><span class="nav-text"> 7.3 类的其他特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#74-类的作用域"><span class="nav-text"> 7.4 类的作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#741类的作用域"><span class="nav-text"> 7.4.1类的作用域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#75-构造函数"><span class="nav-text"> 7.5 构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#751-构造函数初始化列表"><span class="nav-text"> 7.5.1 构造函数初始化列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#752-委托构造函数"><span class="nav-text"> 7.5.2 委托构造函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#754-隐式的类类型转换"><span class="nav-text"> 7.5.4 隐式的类类型转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#755-聚合类"><span class="nav-text"> 7.5.5 聚合类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#76-类的静态成员"><span class="nav-text"> 7.6 类的静态成员</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

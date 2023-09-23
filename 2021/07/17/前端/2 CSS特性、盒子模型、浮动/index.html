@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CSS 特性、盒子模型、浮动  1. CSS 特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2 CSS 特性、盒子模型、浮动">
+<meta property="og:url" content="http://yoursite.com/2021/07/17/%E5%89%8D%E7%AB%AF/2%20CSS%E7%89%B9%E6%80%A7%E3%80%81%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E3%80%81%E6%B5%AE%E5%8A%A8/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="CSS 特性、盒子模型、浮动  1. CSS 特性">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/t6ZYDoxUKdMFeqN.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/41uKBLPczAXhQqi.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/h23AvciRkGUtSlp.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/UYDV2jCgIKhpsNb.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/n4Mu8cLg61A7ZxE.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/1IkehlaAvNYcR3V.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/8vVUThxKawdGioW.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/QHBEfoTRlMA158d.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/5fPXmqvE8VHrRT2.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/HULhF9J4SqzoVQP.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/21/4wPetuXLW9gSpO7.png">
+<meta property="article:published_time" content="2021-07-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-29T10:57:29.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/21/t6ZYDoxUKdMFeqN.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/07/17/%E5%89%8D%E7%AB%AF/2%20CSS%E7%89%B9%E6%80%A7%E3%80%81%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E3%80%81%E6%B5%AE%E5%8A%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>2 CSS 特性、盒子模型、浮动 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/17/%E5%89%8D%E7%AB%AF/2%20CSS%E7%89%B9%E6%80%A7%E3%80%81%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E3%80%81%E6%B5%AE%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2 CSS 特性、盒子模型、浮动
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-17 00:00:00" itemprop="dateCreated datePublished" datetime="2021-07-17T00:00:00+08:00">2021-07-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-29 18:57:29" itemprop="dateModified" datetime="2021-08-29T18:57:29+08:00">2021-08-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="css-特性-盒子模型-浮动"><a class="markdownIt-Anchor" href="#css-特性-盒子模型-浮动"></a> CSS 特性、盒子模型、浮动</h2>
+<h3 id="1-css-特性"><a class="markdownIt-Anchor" href="#1-css-特性"></a> 1. CSS 特性</h3>
+<a id="more"></a>
+<p>CSS三大特性：层叠性、继承性、优先级</p>
+<h4 id="11-层叠性"><a class="markdownIt-Anchor" href="#11-层叠性"></a> 1.1 层叠性</h4>
+<p><strong>层叠性原则</strong></p>
+<ul>
+<li>样式冲突，遵循<font color="red">就近原则</font>，哪个样式离结构近，就执行哪个样式</li>
+<li>样式不冲突，不会层叠</li>
+</ul>
+<h4 id="12-继承性"><a class="markdownIt-Anchor" href="#12-继承性"></a> 1.2 继承性</h4>
+<p>子标签会继承父标签的某些样式，如文本颜色和字号。</p>
+<p><strong>行高的继承性</strong></p>
+<p>行高为当前子元素大小的1.5倍</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">font: 12px/1.5 'Microsoft YaHei';</span><br></pre></td></tr></table></figure>
+<h4 id="13-优先级"><a class="markdownIt-Anchor" href="#13-优先级"></a> 1.3 优先级</h4>
+<ul>
+<li>选择器相同，则执行层叠性</li>
+<li>选择器不同，则根据<font color="red">选择器权重执行</font></li>
+</ul>
+<p><img src="https://i.loli.net/2021/07/21/t6ZYDoxUKdMFeqN.png" alt="1571490129794.png" /></p>
+<p><strong>继承的权重是0</strong>，不管父元素权重多高，子元素的权重都是0</p>
+<h5 id="131-复合选择器的优先级"><a class="markdownIt-Anchor" href="#131-复合选择器的优先级"></a> 1.3.1 复合选择器的优先级</h5>
+<p>如果是复合选择器，则会有权重叠加，需要计算权重。</p>
+<ul>
+<li>div ul li → 0, 0, 3</li>
+<li>.nav ul li → 0, 1, 2</li>
+<li>a:hover → 0, 1, 1</li>
+<li>.nav a → 0, 1, 1</li>
+</ul>
+<h3 id="2-盒子模型"><a class="markdownIt-Anchor" href="#2-盒子模型"></a> 2. 盒子模型</h3>
+<p>边框border、外边距margin、内边距padding、实际内容content</p>
+<img src="https://i.loli.net/2021/07/21/41uKBLPczAXhQqi.png" alt="1571492529986.png" style="zoom:80%;" />
+<h4 id="21-border"><a class="markdownIt-Anchor" href="#21-border"></a> 2.1 border</h4>
+<p>边框由三部分组成：边框宽度、边框样式、边框颜色</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">border: border-width || border-style || border-color</span><br></pre></td></tr></table></figure>
+<ul>
+<li>无顺序</li>
+<li>边框宽度会影响盒子宽度</li>
+</ul>
+<h5 id="211-border-collapse"><a class="markdownIt-Anchor" href="#211-border-collapse"></a> 2.1.1 border-collapse</h5>
+<p>合并边框</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border-collapse</span>: <span class="selector-tag">collapse</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="22-内边距"><a class="markdownIt-Anchor" href="#22-内边距"></a> 2.2 内边距</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">padding</span>: 5<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/h23AvciRkGUtSlp.png" alt="1571493298248.png" /></p>
+<ul>
+<li>
+<p>padding会影响盒子大小</p>
+</li>
+<li>
+<p>用width和height减去padding的值</p>
+</li>
+<li>
+<p>不用width、height的话不会撑大盒子</p>
+</li>
+</ul>
+<h4 id="23-外边距"><a class="markdownIt-Anchor" href="#23-外边距"></a> 2.3 外边距</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">margin</span>: 0 <span class="selector-tag">auto</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="231-块级盒子水平居中"><a class="markdownIt-Anchor" href="#231-块级盒子水平居中"></a> 2.3.1 块级盒子水平居中</h5>
+<ul>
+<li>盒子必须指定宽度</li>
+<li>左右外边距设为auto</li>
+</ul>
+<h5 id="232-行内元素水平居中"><a class="markdownIt-Anchor" href="#232-行内元素水平居中"></a> 2.3.2 行内元素水平居中</h5>
+<ul>
+<li>给父元素添加text-align: center</li>
+</ul>
+<h5 id="233-垂直外边距合并"><a class="markdownIt-Anchor" href="#233-垂直外边距合并"></a> 2.3.3 垂直外边距合并</h5>
+<p><strong>相邻块元素垂直外边距的合并</strong></p>
+<p><img src="https://i.loli.net/2021/07/21/UYDV2jCgIKhpsNb.png" alt="1571494239103.png" /></p>
+<p><strong>嵌套块元素垂直外边距的塌陷</strong></p>
+<p><img src="https://i.loli.net/2021/07/21/n4Mu8cLg61A7ZxE.png" alt="1571494373778.png" /></p>
+<ul>
+<li>可以为父元素定义上边框</li>
+<li>可以为父元素定义上内边距</li>
+<li>可以为父元素添加overflow:hidden</li>
+</ul>
+<p><strong>清除内外边距</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>行内元素尽量只设置左右的内外边距</li>
+</ul>
+<h4 id="24-圆角边框"><a class="markdownIt-Anchor" href="#24-圆角边框"></a> 2.4 圆角边框</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">border-radius</span>: 10<span class="selector-tag">px</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="25-盒子阴影"><a class="markdownIt-Anchor" href="#25-盒子阴影"></a> 2.5 盒子阴影</h4>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">box-shadow</span>: <span class="selector-tag">h-shadow</span> <span class="selector-tag">v-shadow</span> <span class="selector-tag">blur</span> <span class="selector-tag">spread</span> <span class="selector-tag">color</span> <span class="selector-tag">inset</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/1IkehlaAvNYcR3V.png" alt="1571541874805.png" /></p>
+<ul>
+<li>
+<p>默认为outset，不用写</p>
+</li>
+<li>
+<p>阴影不占用空间</p>
+</li>
+</ul>
+<h4 id="26-文字阴影"><a class="markdownIt-Anchor" href="#26-文字阴影"></a> 2.6 文字阴影</h4>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">text-shadow: h-shadow v-shadow blur color;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2021/07/21/8vVUThxKawdGioW.png" alt="1571541954222.png" /></p>
+<h3 id="3-浮动"><a class="markdownIt-Anchor" href="#3-浮动"></a> 3. 浮动</h3>
+<p><strong>float</strong>属性用于创建浮动框，将其移动到一边，直到左边缘或右边缘触及包含块或另一个浮动框的边缘。</p>
+<p>多个块级元素纵向排列找标准流，多个块级元素横向排列找浮动。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float: none || left || right;</span><br></pre></td></tr></table></figure>
+<h4 id="31-浮动特性"><a class="markdownIt-Anchor" href="#31-浮动特性"></a> 3.1 浮动特性</h4>
+<ol>
+<li>
+<p>脱离标准流的控制移动到指定位置（<strong>脱标</strong>）</p>
+</li>
+<li>
+<p>浮动的盒子<strong>不再保留原先的位置</strong></p>
+</li>
+<li>
+<p>浮动元素具有行内块元素特性</p>
+<p>任何元素都可以浮动</p>
+<ul>
+<li>如果块级盒子没有设置宽度，默认宽度和父级一样宽，但是添加浮动后，它的大小根据内容来决定</li>
+<li>浮动的盒子中间是没有缝隙的，是紧挨在一起的</li>
+<li>行内元素同理</li>
+</ul>
+</li>
+</ol>
+<h4 id="32-浮动元素经常和标准流父级搭配使用"><a class="markdownIt-Anchor" href="#32-浮动元素经常和标准流父级搭配使用"></a> 3.2 浮动元素经常和标准流父级搭配使用</h4>
+<p>先用标准流的父元素排列上下位置，之后内部子元素采取浮动排列左右位置，符合网页布局第一准则</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-常见网页布局"><a class="markdownIt-Anchor" href="#4-常见网页布局"></a> 4. 常见网页布局</h3>
+<h4 id="41-常见网页布局"><a class="markdownIt-Anchor" href="#41-常见网页布局"></a> 4.1 常见网页布局</h4>
+<p><img src="https://i.loli.net/2021/07/21/QHBEfoTRlMA158d.png" alt="1571555421784.png" style="zoom:50%;" />  				<img src="https://i.loli.net/2021/07/21/5fPXmqvE8VHrRT2.png" alt="1571555492364.png" style="zoom:50%;" /></p>
+<img src="https://i.loli.net/2021/07/21/HULhF9J4SqzoVQP.png" alt="image-20210713172158796.png" style="zoom:80%;" />
+<h4 id="42-浮动布局注意点"><a class="markdownIt-Anchor" href="#42-浮动布局注意点"></a> 4.2 浮动布局注意点</h4>
+<ol>
+<li>先用标准流的父元素排列上下位置，之后内部子元素采取浮动排列左右位置</li>
+<li>浮动的盒子只会影响浮动盒子后面的标准流，不会影响前面的标准流</li>
+</ol>
+<h4 id="43-清除浮动"><a class="markdownIt-Anchor" href="#43-清除浮动"></a> 4.3 清除浮动</h4>
+<p><img src="https://i.loli.net/2021/07/21/4wPetuXLW9gSpO7.png" alt="1571555883628.png" /></p>
+<ul>
+<li>清除浮动的本质是清除浮动元素造成的影响</li>
+<li>如果父盒子本身有高度，则不需要清除浮动</li>
+<li>清除浮动之后，父级就会根据浮动的子盒子自动检测高度。父级有了高度，就不会影响下面的标准流了</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clear: left || right || both;</span><br></pre></td></tr></table></figure>
+<p><strong>清除浮动的策略</strong></p>
+<p>闭合浮动：只让浮动在父盒子内部影响，不影响父盒子外面的其他盒子</p>
+<h5 id="431-额外标签法隔墙法"><a class="markdownIt-Anchor" href="#431-额外标签法隔墙法"></a> 4.3.1 额外标签法（隔墙法）</h5>
+<p>在浮动元素末尾添加一个空的标签，必须是块级元素</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.clear</span> &#123;</span></span><br><span class="line">        clear: both;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="432-父级添加overflow属性"><a class="markdownIt-Anchor" href="#432-父级添加overflow属性"></a> 4.3.2 父级添加overflow属性</h5>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">	<span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优点：代码简洁</p>
+<p>缺点：无法显示溢出的部分</p>
+<h5 id="433-父级添加after伪元素"><a class="markdownIt-Anchor" href="#433-父级添加after伪元素"></a> 4.3.3 父级添加after伪元素</h5>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.clearfix</span> &#123;			<span class="comment">/* IE6、7专有 */</span></span><br><span class="line">    *zoom: 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优点：没有增加标签，结构更简单</p>
+<h5 id="434-父级添加双伪元素"><a class="markdownIt-Anchor" href="#434-父级添加双伪元素"></a> 4.3.4 父级添加双伪元素</h5>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::bofore</span>, </span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">clear</span>: both; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.clearfix</span> &#123;			<span class="comment">/* IE6、7专有 */</span></span><br><span class="line">    *zoom: 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>优点：代码更简洁</p>
+<h4 id="44-清除浮动总结"><a class="markdownIt-Anchor" href="#44-清除浮动总结"></a> 4.4 清除浮动总结</h4>
+<p><strong>为什么需要清除浮动</strong></p>
+<p>① 父级没高度</p>
+<p>② 子盒子浮动了</p>
+<p>③ 影响下面布局了</p>
+<h3 id="5-css属性书写顺序"><a class="markdownIt-Anchor" href="#5-css属性书写顺序"></a> 5. CSS属性书写顺序</h3>
+<ol>
+<li>布局定位属性：display / position / float / clear / visibility / overflow</li>
+<li>自身属性：width / height / margin / padding / border / background</li>
+<li>文本属性：color / font / text-decoration / text-align / vertical-align / white- space / break-word</li>
+<li>其他属性（CSS3）：content / cursor / border-radius / box-shadow / text-shadow / background:linear-gradient …</li>
+</ol>
+<h4 id="52-页面布局分析"><a class="markdownIt-Anchor" href="#52-页面布局分析"></a> 5.2 页面布局分析</h4>
+<p>为了提高网页制作的效率，布局时通常有以下的布局流程：</p>
+<ol>
+<li>
+<p>必须确定页面的版心（可视区），我们测量可得知。</p>
+</li>
+<li>
+<p>分析页面中的行模块，以及每个行模块中的列模块。其实页面布局，就是一行行罗列而成的。</p>
+</li>
+<li>
+<p>制作 HTML 结构。我们还是遵循，先有结构，后有样式的原则。结构永远最重要。</p>
+</li>
+<li>
+<p>开始运用盒子模型的原理，通过 DIV+CSS 布局来控制网页的各个模块。</p>
+</li>
+</ol>
+<h4 id="53-注意事项"><a class="markdownIt-Anchor" href="#53-注意事项"></a> 5.3 注意事项</h4>
+<h5 id="531-导航栏"><a class="markdownIt-Anchor" href="#531-导航栏"></a> 5.3.1 导航栏</h5>
+<p>实际开发中，我们不会直接用链接a而是用li包含链接a的做法</p>
+<ul>
+<li>li + a语义更清晰</li>
+<li>如果直接用a，搜索引擎容易辨别为有堆砌关键字嫌疑，从而影响网站排名</li>
+</ul>
+<p><strong>注意</strong></p>
+<p>1.让导航栏一行显示, 给 li 加浮动, 因为 li 是块级元素, 需要一行显示.</p>
+<p>2.这个nav导航栏可以不给宽度,将来可以继续添加其余文字</p>
+<p>3.因为导航栏里面文字不一样多,所以最好给链接 a 左右padding 撑开盒子,而不是指定宽度</p>
+<h5 id="532-浮动"><a class="markdownIt-Anchor" href="#532-浮动"></a> 5.3.2 浮动</h5>
+<p>浮动的盒子不会有外边距合并</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css/" rel="tag"># css</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/07/16/%E5%89%8D%E7%AB%AF/1%20CSS%20%E5%9F%BA%E7%A1%80%E3%80%81%E6%96%87%E6%9C%AC%E3%80%81%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%BC%8F%E3%80%81%E8%83%8C%E6%99%AF/" rel="next" title="1 CSS 基础、文本、显示模式、背景">
+                  <i class="fa fa-chevron-left"></i> 1 CSS 基础、文本、显示模式、背景
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/07/18/%E5%89%8D%E7%AB%AF/3%20CSS%E5%AE%9A%E4%BD%8D/" rel="prev" title="3 CSS CSS定位、元素显示与隐藏">
+                  3 CSS CSS定位、元素显示与隐藏 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#css-特性-盒子模型-浮动"><span class="nav-text"> CSS 特性、盒子模型、浮动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-css-特性"><span class="nav-text"> 1. CSS 特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-层叠性"><span class="nav-text"> 1.1 层叠性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-继承性"><span class="nav-text"> 1.2 继承性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-优先级"><span class="nav-text"> 1.3 优先级</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#131-复合选择器的优先级"><span class="nav-text"> 1.3.1 复合选择器的优先级</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-盒子模型"><span class="nav-text"> 2. 盒子模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#21-border"><span class="nav-text"> 2.1 border</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#211-border-collapse"><span class="nav-text"> 2.1.1 border-collapse</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#22-内边距"><span class="nav-text"> 2.2 内边距</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#23-外边距"><span class="nav-text"> 2.3 外边距</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#231-块级盒子水平居中"><span class="nav-text"> 2.3.1 块级盒子水平居中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#232-行内元素水平居中"><span class="nav-text"> 2.3.2 行内元素水平居中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#233-垂直外边距合并"><span class="nav-text"> 2.3.3 垂直外边距合并</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#24-圆角边框"><span class="nav-text"> 2.4 圆角边框</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#25-盒子阴影"><span class="nav-text"> 2.5 盒子阴影</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#26-文字阴影"><span class="nav-text"> 2.6 文字阴影</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-浮动"><span class="nav-text"> 3. 浮动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#31-浮动特性"><span class="nav-text"> 3.1 浮动特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#32-浮动元素经常和标准流父级搭配使用"><span class="nav-text"> 3.2 浮动元素经常和标准流父级搭配使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-常见网页布局"><span class="nav-text"> 4. 常见网页布局</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#41-常见网页布局"><span class="nav-text"> 4.1 常见网页布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#42-浮动布局注意点"><span class="nav-text"> 4.2 浮动布局注意点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#43-清除浮动"><span class="nav-text"> 4.3 清除浮动</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#431-额外标签法隔墙法"><span class="nav-text"> 4.3.1 额外标签法（隔墙法）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#432-父级添加overflow属性"><span class="nav-text"> 4.3.2 父级添加overflow属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#433-父级添加after伪元素"><span class="nav-text"> 4.3.3 父级添加after伪元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#434-父级添加双伪元素"><span class="nav-text"> 4.3.4 父级添加双伪元素</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#44-清除浮动总结"><span class="nav-text"> 4.4 清除浮动总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-css属性书写顺序"><span class="nav-text"> 5. CSS属性书写顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#52-页面布局分析"><span class="nav-text"> 5.2 页面布局分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#53-注意事项"><span class="nav-text"> 5.3 注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#531-导航栏"><span class="nav-text"> 5.3.1 导航栏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#532-浮动"><span class="nav-text"> 5.3.2 浮动</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

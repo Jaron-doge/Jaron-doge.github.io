@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第十五章 面向对象程序设计  15.1 OOP:概述   继承 ​	通过继承联系在一起的类构成一种层次关系。通常在层次关机的根部有一个基类，其他类直接或间接地从基类继承而来，成为派生类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十五章 面向对象程序设计">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chpater%2015%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第十五章 面向对象程序设计  15.1 OOP:概述   继承 ​	通过继承联系在一起的类构成一种层次关系。通常在层次关机的根部有一个基类，其他类直接或间接地从基类继承而来，成为派生类">
+<meta property="og:image" content="https://i.loli.net/2020/09/04/kliUGRSczaFJXVC.png">
+<meta property="og:image" content="https://i.loli.net/2020/09/04/ND2T4RpcMykmJbr.png">
+<meta property="article:published_time" content="2020-09-04T08:45:15.000Z">
+<meta property="article:modified_time" content="2020-09-04T09:02:00.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/09/04/kliUGRSczaFJXVC.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chpater%2015%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第十五章 面向对象程序设计 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chpater%2015%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十五章 面向对象程序设计
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:45:15 / 修改时间：17:02:00" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:15+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>12 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第十五章-面向对象程序设计"><a class="markdownIt-Anchor" href="#第十五章-面向对象程序设计"></a> 第十五章 面向对象程序设计</h2>
+<h3 id="151-oop概述"><a class="markdownIt-Anchor" href="#151-oop概述"></a> 15.1 OOP:概述</h3>
+<ul>
+<li>
+<p>继承</p>
+<p>​	通过继承联系在一起的类构成一种层次关系。通常在层次关机的根部有一个<strong>基类</strong>，其他类直接或间接地从基类继承而来，成为<strong>派生类</strong></p>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>
+<p>虚函数</p>
+<p>​	对于某些函数，基类希望它的派生类各自定义适合自身的版本，此时基类就将这些函数声明称虚函数</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>派生类通过使用<strong>类派生列表</strong>明确指出它是从哪些基类继承而来的</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="keyword">public</span>:	</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​		因为Bulk_quote在派生列表中使用了public关键字，因此我们完全可以把Bulk_quote的对象当成Quote的对象来使用</p>
+<ul>
+<li>
+<p>动态绑定</p>
+<p>通过使用动态绑定，我们能用同一段代码分别处理Quote和Bulk_quote对象</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">print_total</span><span class="params">(ostream&amp; os, <span class="keyword">const</span> Quote&amp; item, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ret = item.net_price(n);</span><br><span class="line">    os &lt;&lt; <span class="string">"ISBN: "</span> &lt;&lt; item.isbn()</span><br><span class="line">        &lt;&lt; <span class="string">" # sold: "</span> &lt;&lt; n &lt;&lt; <span class="string">" total due: "</span> &lt;&lt; ret &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>在C++中，当我们使用基类的引用（或指针）调用一个虚函数时将发生动态绑定</strong></li>
+</ul>
+<h3 id="152-定义基类和派生类"><a class="markdownIt-Anchor" href="#152-定义基类和派生类"></a> 15.2 定义基类和派生类</h3>
+<h4 id="1521-定义基类"><a class="markdownIt-Anchor" href="#1521-定义基类"></a> 15.2.1 定义基类</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Quote() = <span class="keyword">default</span>;</span><br><span class="line">    Quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp;book, <span class="keyword">double</span> sales_price) :</span><br><span class="line">    	bookNo(book), price(sales_price) &#123; &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> bookNo; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 派生类负责改写并使用不同的折扣计算算法</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> n * price; &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;		<span class="comment">// 对析构函数进行动态绑定</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">string</span> bookNo;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">double</span> price = <span class="number">0.0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>成员函数与继承</p>
+<ul>
+<li>当我们使用指针或引用调用虚函数时，该调用将被动态绑定</li>
+<li>关键字virtual只能出现在类内部的声明语句之前而不能用于类外部的函数定义</li>
+</ul>
+</li>
+<li>
+<p>protected</p>
+<ul>
+<li>基类有权访问该成员，同时禁止其他用户访问</li>
+</ul>
+</li>
+</ul>
+<h4 id="1522-定义派生类"><a class="markdownIt-Anchor" href="#1522-定义派生类"></a> 15.2.2 定义派生类</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">    Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp;, <span class="keyword">double</span>, <span class="keyword">size_t</span>, <span class="keyword">double</span>);</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">size_t</span> min_qty = <span class="number">0</span>;			<span class="comment">// 适用折扣政策的最低购买量</span></span><br><span class="line">    <span class="keyword">double</span> discount = <span class="number">0.0</span>;		<span class="comment">// 以小数表示的折扣额</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>派生类中的虚函数</p>
+<p>​	派生类可以显式地著名它使用某个成员函数覆盖了它继承的虚函数，在const、引用限定符后添加一个关键字override</p>
+</li>
+<li>
+<p>派生类到基类的类型转换</p>
+<p>​	因为在派生类对象中含有与其基类对应的组成部分，所以我们能把派生类的对象当成基类对象来使用，<strong>也能将基类的指针或引用绑定到派生类对象中的基类部分上</strong></p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Quote item;</span><br><span class="line">Bulk_quote bulk;</span><br><span class="line">Quote *p = &amp;item;		</span><br><span class="line">p = &amp;bulk;				<span class="comment">// p指向bulk的Quote部分</span></span><br><span class="line">Quote &amp;r = bulk;		<span class="comment">// r绑定到bulk的Quote部分</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>派生类构造函数</p>
+<p>​	<strong>派生类不能直接初始化从基类继承而来的成员，派生类必须使用基类的构造函数来初始化它的基类部分</strong></p>
+<p>​	首先初始化基类部分，然后按照声明的顺序依次初始化派生类的成员</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp; book, <span class="keyword">double</span> p, <span class="keyword">size_t</span> qty, <span class="keyword">double</span> disc) :</span><br><span class="line">	Quote(book, p), min_qty(qty), discount(disc) &#123; &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>派生类使用基类的成员</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Bulk_quote::newt_price</span><span class="params">(<span class="keyword">size_t</span> cnt)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cnt &gt;= min_qty)</span><br><span class="line">        <span class="keyword">return</span> cnt * ( <span class="number">1</span> - discount ) * price;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> cnt * price;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>继承与静态成员</p>
+<p>​	如果基类定义了一个静态成员，则在整个继承体系中只存在该成员的唯一定义</p>
+</li>
+<li>
+<p>被用作基类的类</p>
+<p>​	如果我们想将某个类用作基类，则该类必须已经定义而非仅仅声明</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>;</span>							<span class="comment">// 声明但未定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote&#123; ... &#125;;	<span class="comment">// 错误：Quote未定义</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>防止继承的发生——final</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoDerived</span> <span class="title">final</span> &#123;</span> <span class="comment">/*  */</span> &#125;;	<span class="comment">// NoDerived不能作为基类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span> &#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Last</span> <span class="title">final</span> :</span> Base&#123; &#125;;			<span class="comment">// Last不能作为基类</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">    Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp;, <span class="keyword">double</span>, <span class="keyword">size_t</span>, <span class="keyword">double</span>);</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">size_t</span> min_qty = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">double</span> discount = <span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1523-类型转换与继承"><a class="markdownIt-Anchor" href="#1523-类型转换与继承"></a> 15.2.3 类型转换与继承</h4>
+<ul>
+<li>
+<p>智能指针类也支持派生类向基类的类型转换</p>
+</li>
+<li>
+<p>静态类型与动态类型</p>
+<p>​	表达式的静态类型在编译时总是已知的，它是变量声明时的类型或表达式生成的类型；动态类型则是变量或表达式表示的内存中的对象的类型。动态类型直到运行时才可知</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> ret = item.net_price(n);</span><br></pre></td></tr></table></figure>
+<p>​		item的静态类型是Quote&amp;，它的动态类型则依赖于item绑定的实参</p>
+<ul>
+<li>
+<p>如果表达式既不是引用也不是指针，则它的动态类型永远与静态类型一致</p>
+</li>
+<li>
+<p>不存在从基类向派生类的隐式类型转换</p>
+</li>
+<li>
+<p>当用派生类对象为一个基类对象赋值时，只有该派生类对象中的基类部分会被拷贝、移动或赋值，它的派生类部分将被忽略掉</p>
+</li>
+</ul>
+<h3 id="153-虚函数"><a class="markdownIt-Anchor" href="#153-虚函数"></a> 15.3 虚函数</h3>
+<ul>
+<li>
+<p>对虚函数的调用可能在运行时才被解析</p>
+</li>
+<li>
+<p>动态绑定只有当我们通过指针或引用调用虚函数时才会发生</p>
+</li>
+<li>
+<p>一个派生类的函数如果覆盖了某个继承而来的虚函数，则它的形参类型必须与它覆盖的基类函数完全一致</p>
+</li>
+<li>
+<p>派生类虚函数的返回类型也必须与基类一致，当返回类型是类本身的指针或引用时例外</p>
+</li>
+<li>
+<p><strong>final</strong>和<strong>override</strong>说明符</p>
+<ul>
+<li><strong>如果我们使用override标记了某个函数，但该函数并没有覆盖已存在的虚函数，此时编译器将报错</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span> &#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D</span> :</span> B &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">override</span></span>; <span class="comment">// 错误：B没有形如f2(int)的函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>我们能把某个函数指定为final，之后任何尝试覆盖该函数的操作都将引发错误</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D2</span> :</span> B &#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span> <span class="keyword">final</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D3</span> :</span> D2 &#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">const</span></span>;		<span class="comment">// 错误：D2已经将f2声明称final</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>final和override说明符出现在形参列表以及尾置返回类型之后</li>
+</ul>
+</li>
+<li>
+<p>虚函数与默认实参</p>
+<p>​		如果某次函数调用使用了默认实参，则该实参值由本次调用的静态类型决定</p>
+<ul>
+<li>如果虚函数使用默认实参，则基类和派生类中定义的默认实参最好一致</li>
+</ul>
+</li>
+<li>
+<p>回避虚函数的机制</p>
+<p>​	可以使用作用域运算符强迫其执行虚函数的某个特定版本</p>
+<ul>
+<li>如果一个派生类虚函数需要调用它的基类版本，但是没有使用作用域运算符，则在运行时该调用将被解析为对派生类版本自身的调用，从而导致无限递归</li>
+</ul>
+</li>
+</ul>
+<h3 id="154-抽象基类"><a class="markdownIt-Anchor" href="#154-抽象基类"></a> 15.4 抽象基类</h3>
+<ul>
+<li>
+<p>纯虚函数</p>
+<p>​		我们通过在函数体的位置书学=0将一个虚函数说明为纯虚函数，=0只能出现在类内部的虚函数声明语句处</p>
+<ul>
+<li>不能在类的内部为一个=0的函数提供函数体</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Disc_quote</span> :</span> <span class="keyword">public</span> Quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">pritected:</span><br><span class="line">    <span class="keyword">size_t</span> quantity = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">double</span> discount = <span class="number">0.0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>含有纯虚函数的类是抽象基类，<strong>我们不能（直接）创建一个抽象基类的对象</strong></p>
+</li>
+<li>
+<p>派生类构造函数只初始化它的直接基类</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> : Disc_quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">    Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp; book, <span class="keyword">double</span> price, size_ qty, <span class="keyword">double</span> disc) :</span><br><span class="line">    Disc_quote(book, price, qty, disc) &#123; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="155-访问控制与继承"><a class="markdownIt-Anchor" href="#155-访问控制与继承"></a> 15.5 访问控制与继承</h3>
+<ul>
+<li>
+<p>protected</p>
+<p>派生类的成员和友元只能访问派生类对象中的基类部分的受保护成员，对于普通的基类对象中的成员不具有特殊的访问权限</p>
+</li>
+<li>
+<p>公有、私有和受保护继承</p>
+<ul>
+<li>派生访问说明符的目的是控制派生类用户对于基类成员的访问权限</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pub_mem</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">int</span> prot_mem;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> priv_mem;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Pub_Derv</span> :</span> <span class="keyword">public</span> Base &#123; &#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Priv_Derv</span> :</span> <span class="keyword">private</span> Base &#123; &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Pub_Derv d1;</span><br><span class="line">Priv_Derv d2;</span><br><span class="line">d1.pub_mem();</span><br><span class="line">d2.pub_mem();		<span class="comment">// 错误：pub_mem在派生类中是private的</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>派生访问说明符还可以控制继承自派生类的新类的访问权限</strong></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived_from_Public</span> :</span> <span class="keyword">public</span> Pub_Derv &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">use_base</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> prot_mem; &#125;</span><br><span class="line">&#125;;					<span class="comment">// 正确:Base::prot_mem仍是protected的</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Derived_from_Private</span> :</span> <span class="keyword">public</span> Priv_Derv &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">use_base</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> prot_mem; &#125;</span><br><span class="line">&#125;;					<span class="comment">// 错误：Base::prot_mem是private的</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>基类应该将其接口成员声明为共有的，同时将属于其实现的部分分成两组：一组可供派生类访问，声明为受保护的；另一组只能由基类及基类的友元访问，声明为私有的</strong></li>
+</ul>
+</li>
+<li>
+<p>派生类向基类转换的可访问性</p>
+<ul>
+<li>只有当D公有地继承B时，<strong>用户代码</strong>才能使用派生类向基类的转换</li>
+<li>不论D以什么方式继承B，D的成员函数和友元都能转换</li>
+<li>如果D继承B的方式是公有的或者受保护的，则D的派生类的成员和友元可以使用D向B的类型转换</li>
+</ul>
+</li>
+<li>
+<p>友元与继承</p>
+<ul>
+<li>
+<p><strong>友元关系不能继承</strong>，基类的友元在访问派生类成员时不具有特殊性</p>
+</li>
+<li>
+<p>基类的访问权限由基类本身控制，即使对于派生类的基类部分也是如此</p>
+</li>
+</ul>
+</li>
+<li>
+<p>改变个别成员的可访问性</p>
+<ul>
+<li>
+<p>using</p>
+<p>​	派生类只能为它能访问的名字提供using声明</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">size_t</span> <span class="title">size</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> n; &#125;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">size_t</span> n;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">private</span> Base &#123;		<span class="comment">// 注意：private继承</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Base::<span class="built_in">size</span>;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">using</span> Base::n;</span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>默认的继承保护级别</p>
+<p>​	默认情况下，使用class关键字定义的派生类是私有继承的；使用struct关键字定义的派生类是公有继承的</p>
+</li>
+</ul>
+<h3 id="156-继承中的类作用域"><a class="markdownIt-Anchor" href="#156-继承中的类作用域"></a> 15.6 继承中的类作用域</h3>
+<ul>
+<li>一个对象、引用或指针的<strong>静态类型</strong>决定了该对象哪些成员是可见的</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">clalss Disc_quote : <span class="keyword">public</span> Quote &#123;</span><br><span class="line">public: pair&lt;size_t, double&gt; discount_policy() const&#123; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Bulk_quote bulk;</span><br><span class="line">Bulk_quote *bulkP = &amp;bulk;</span><br><span class="line">Quote *itemP = &amp;bulk;</span><br><span class="line">bulkP-&gt;discount_policy();	<span class="comment">// 正确：bulkP的类型是Bulk_quote*</span></span><br><span class="line">itemP-&gt;discount_policy();	<span class="comment">// 错误：itemP的类型是Quote*</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>名字冲突与继承</p>
+<p>​	派生类能重用定义在其直接基类或间接基类中的名字</p>
+<ul>
+<li>除了覆盖继承而来的虚函数之外，派生类最好不要重用定义在基类中的名字</li>
+</ul>
+</li>
+<li>
+<p>覆盖重载的函数</p>
+<p>​	为重载的成员提供一条using声明语句，可以把该函数的所有重载实例添加到派生类作用域中，对派生类没有重新定义的重载版本的访问实际上是对using声明点的访问</p>
+</li>
+</ul>
+<h3 id="157-构造函数与拷贝控制"><a class="markdownIt-Anchor" href="#157-构造函数与拷贝控制"></a> 15.7 构造函数与拷贝控制</h3>
+<h4 id="1571-虚析构函数"><a class="markdownIt-Anchor" href="#1571-虚析构函数"></a> 15.7.1 虚析构函数</h4>
+<ul>
+<li>我们通过在基类中将析构函数定义成虚函数确保执行正确的析构函数版本</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 如果我们删除的是一个指向派生类对象的基类指针，则需要虚析构函数</span></span><br><span class="line">    <span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Quote *itempP = <span class="keyword">new</span> Quote;		<span class="comment">// 静态类型与动态类型一致</span></span><br><span class="line"><span class="keyword">delete</span> itemP;					<span class="comment">// 调用Quote的析构函数</span></span><br><span class="line">itemP = <span class="keyword">new</span> Bulk_quote;			<span class="comment">// 静态类型与动态类型不一致</span></span><br><span class="line"><span class="keyword">delete</span> itemP;					<span class="comment">// 调用Bulk_quote的析构函数</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>虚析构函数将阻止合成移动操作
+<ul>
+<li>基类没有移动操作意味着它的派生类也没有</li>
+</ul>
+</li>
+</ul>
+<h4 id="1572-合成拷贝控制与继承"><a class="markdownIt-Anchor" href="#1572-合成拷贝控制与继承"></a> 15.7.2 合成拷贝控制与继承</h4>
+<ul>
+<li>
+<p>派生类中删除的拷贝控制与基类的关系</p>
+</li>
+<li>
+<p>如果基类中的默认构造函数、拷贝构造函数、拷贝赋值运算符或析构函数是被删除的函数或者不可访问，则派生类中对应的成员将是被删除的</p>
+</li>
+<li>
+<p>移动操作与继承</p>
+<p>​	当派生类需要执行移动操作，可以在基类中定义合成的版本</p>
+<ul>
+<li>一旦基类定义了移动操作，那么必须同时显式地定义拷贝操作</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Quote() = <span class="keyword">default</span>;						<span class="comment">// 默认初始化</span></span><br><span class="line">    Quote(<span class="keyword">const</span> Quote&amp;) = <span class="keyword">default</span>;			<span class="comment">// 拷贝构造函数</span></span><br><span class="line">    Quote(Qutoe&amp;&amp;) = <span class="keyword">default</span>;				<span class="comment">// 移动构造</span></span><br><span class="line">    <span class="function">Quote&amp; <span class="title">oeprator</span><span class="params">(<span class="keyword">const</span> Quote&amp;)</span> </span>= <span class="keyword">default</span>;<span class="comment">// 拷贝赋值</span></span><br><span class="line">    Quote&amp; <span class="keyword">operator</span>=(Qutoe&amp;&amp;) = <span class="keyword">default</span>;	<span class="comment">// 移动赋值</span></span><br><span class="line">    <span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;</span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+<h4 id="1573-派生类的拷贝控制成员"><a class="markdownIt-Anchor" href="#1573-派生类的拷贝控制成员"></a> 15.7.3 派生类的拷贝控制成员</h4>
+<ul>
+<li>
+<p>当派生类定义了拷贝或移动操作时，该操作负责拷贝或移动包括基类部分成员在内的整个对象</p>
+</li>
+<li>
+<p>定义派生类的拷贝或移动构造函数</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> :</span> <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    D(<span class="keyword">const</span> D&amp; d) : Base(d) ... &#123; &#125;</span><br><span class="line">    D(D&amp;&amp; d) : Base(<span class="built_in">std</span>::<span class="built_in">move</span>(d)) ... &#123; &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>派生类赋值运算符</p>
+<p>​		显式调用基类赋值运算符</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Base::<span class="keyword">operator</span>=(<span class="keyword">const</span> Base&amp;);</span><br><span class="line">D&amp; D::<span class="keyword">operator</span>=(<span class="keyword">const</span> D&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">    Base::<span class="keyword">operator</span>=(rhs);</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>在构造函数和析构函数中调用虚函数</p>
+<p>​		如果构造函数或析构函数调用了某个虚函数，则我们应该执行与构造函数或析构函数所属类型相对应的虚函数版本</p>
+</li>
+</ul>
+<h4 id="1574-继承的构造函数"><a class="markdownIt-Anchor" href="#1574-继承的构造函数"></a> 15.7.4 继承的构造函数</h4>
+<ul>
+<li>通过using继承构造函数
+<ul>
+<li>派生类自己的数据成员将被默认初始化</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Disc_quote &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">using</span> Disc_quote::Disc_quote;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>using的构造函数不会改变访问级别</li>
+</ul>
+<h3 id="158-容器与继承"><a class="markdownIt-Anchor" href="#158-容器与继承"></a> 15.8 容器与继承</h3>
+<ul>
+<li>
+<p>当派生类对象被赋值给基类对象时，其派生类部分将被“切掉”</p>
+</li>
+<li>
+<p>在容器中放置（智能）指针而非对象</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Quote&gt;&gt; basket;</span><br><span class="line">basket.push_back(make_shared&lt;Bulk_quote&gt;(<span class="string">"0-201-54848-8"</span>, <span class="number">50</span>, <span class="number">10</span>, <span class="number">0.25</span>));</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; basket.back()-&gt;net_price(<span class="number">15</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1581-编写basket类"><a class="markdownIt-Anchor" href="#1581-编写basket类"></a> 15.8.1 编写Basket类</h4>
+<ul>
+<li>我们无法直接使用对象进行编程，必须使用指针和引用。为了减少复杂性，我们经常定义一些辅助类来帮助处理</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Basket</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Basket使用合成的默认构造函数和拷贝控制成员</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">add_item</span><span class="params">(<span class="keyword">const</span> <span class="built_in">shared_ptr</span>&lt;Quote&gt;&amp; sale)</span></span></span><br><span class="line"><span class="function">    </span>&#123; item.insert(sale); &#125;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">total_receipt</span><span class="params">(ostream&amp;)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">compare</span><span class="params">(<span class="keyword">const</span> <span class="built_in">shared_ptr</span>&lt;Quote&gt;&amp; lhs, </span></span></span><br><span class="line"><span class="function"><span class="params">                       <span class="built_in">shared_ptr</span>&lt;Quote&gt;&amp; rhs)</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> lhs-&gt;isbn() &lt; rhs-&gt;isbn(); &#125;</span><br><span class="line">    <span class="comment">// multiset保存多个报价，按照compare成员排序</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">multiset</span>&lt;<span class="built_in">shared_ptr</span>&lt;Quote&gt;, <span class="keyword">decltype</span>(compare)*&gt;</span><br><span class="line">        items&#123;compare&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Basket::total_receipt</span><span class="params">(ostream&amp; os)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> sum = <span class="number">0.0</span>;</span><br><span class="line">    <span class="comment">// upper_bound令我们跳过与当前关键字相同的所有元素</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> iter = items.cbegin(); iter != item.cend();</span><br><span class="line">       		iter = items.upper_bound(*iter)) &#123;</span><br><span class="line">       sum += print_total(os, **iter, items.count(*iter));</span><br><span class="line">    &#125;</span><br><span class="line">    os &lt;&lt; <span class="string">"Total Sale: "</span> &lt;&lt; sum &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>模拟虚拷贝</p>
+<p>​		new Quote(sale)不确定分配的类型，因此给Quote类添加一个虚函数，该函数将申请一份当前对象的拷贝</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// 该虚函数返回当前对象的一份动态分配的拷贝</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> Quote* <span class="title">clone</span><span class="params">()</span> <span class="keyword">const</span> &amp; 		</span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> Quote(*<span class="keyword">this</span>); &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> Quote* <span class="title">clone</span><span class="params">()</span> &amp;&amp;</span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> Quote(<span class="built_in">std</span>::<span class="built_in">move</span>(*<span class="keyword">this</span>)); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote &#123;</span><br><span class="line">    <span class="function">Bulk_quote* <span class="title">clone</span><span class="params">()</span> <span class="keyword">const</span> &amp; 		</span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> Bulk_quote(*<span class="keyword">this</span>); &#125;</span><br><span class="line">    <span class="function">Bulk_quote* <span class="title">clone</span><span class="params">()</span> &amp;&amp; 		</span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> <span class="keyword">new</span> Bulk_quote(<span class="built_in">std</span>::<span class="built_in">move</span>(*<span class="keyword">this</span>)); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Basket</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add_item</span><span class="params">(<span class="keyword">const</span> Quote&amp; sale)</span></span></span><br><span class="line"><span class="function">    </span>&#123;items.insert(<span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Quote&gt;(sale.clone()));&#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add_item</span><span class="params">(Quote&amp;&amp; sale)</span></span></span><br><span class="line"><span class="function">    </span>&#123; items.insert(</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;Quote&gt;(<span class="built_in">std</span>::<span class="built_in">move</span>(sale).clone()));&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>sale的动态类型决定了到底运行Quote的函数还是Bulk_quote的函数</li>
+</ul>
+<h3 id="159-文本查询程序再探"><a class="markdownIt-Anchor" href="#159-文本查询程序再探"></a> 15.9 文本查询程序再探</h3>
+<ul>
+<li>
+<p>单词查询</p>
+<p>​		得到匹配的行</p>
+</li>
+<li>
+<p>逻辑非查询</p>
+<p>​		得到不匹配的行</p>
+</li>
+<li>
+<p>逻辑或查询</p>
+<p>​		返回匹配两个条件中的一个的行</p>
+</li>
+<li>
+<p>逻辑与查询</p>
+<p>​		返回匹配全部两个条件的行</p>
+</li>
+</ul>
+<h4 id="1591-面向对象的解决方案"><a class="markdownIt-Anchor" href="#1591-面向对象的解决方案"></a> 15.9.1 面向对象的解决方案</h4>
+<ul>
+<li>
+<p>我们应该将几种不同的查询建模成互相独立的类，这些类共享一个公共基类</p>
+</li>
+<li>
+<p>抽象基类</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/09/04/kliUGRSczaFJXVC.png" alt="image-20200902165615876.png" /></p>
+<p><img src="https://i.loli.net/2020/09/04/ND2T4RpcMykmJbr.png" alt="image-20200902170106157.png" /></p>
+<h4 id="1592-query_base类和query类"><a class="markdownIt-Anchor" href="#1592-query_base类和query类"></a> 15.9.2 Query_base类和Query类</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Query_base</span> &#123;</span></span><br><span class="line">	<span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Query</span>;</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">using</span> line_no = TextQuery::line_no;</span><br><span class="line">    <span class="keyword">virtual</span> ~Query_base() = <span class="keyword">default</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="comment">// eval返回与当前Query匹配的QueryResult</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp;)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// rep是表示查询的一个string</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="built_in">string</span> <span class="title">rep</span><span class="params">()</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Query</span> &#123;</span></span><br><span class="line">	<span class="keyword">friend</span> Query <span class="keyword">operator</span>~(<span class="keyword">const</span> Query&amp;);</span><br><span class="line">    <span class="keyword">friend</span> Query <span class="keyword">operator</span>|(<span class="keyword">const</span> Query&amp;, <span class="keyword">const</span> Query&amp;);</span><br><span class="line">    <span class="keyword">friend</span> Query <span class="keyword">operator</span>&amp;(<span class="keyword">const</span> Query&amp;, <span class="keyword">const</span> Query&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Query(<span class="keyword">const</span> <span class="built_in">string</span>&amp;);</span><br><span class="line">    <span class="function">QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp; t)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> q-&gt;eval(t); &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">rep</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> q-&gt;rep(); &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    Query(<span class="built_in">shared_ptr</span>&lt;Query_base&gt; query) : q(query) &#123; &#125;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;Query_base&gt; q;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ostream&amp; <span class="keyword">operator</span>&lt;&lt;(ostream&amp; os, <span class="keyword">const</span> Query&amp; query)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> os &lt;&lt; query.rep();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="title">Query::Query</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s)</span> : <span class="title">q</span><span class="params">(<span class="keyword">new</span> WordQuery(s))</span></span>&#123; &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1593-派生类"><a class="markdownIt-Anchor" href="#1593-派生类"></a> 15.9.3 派生类</h4>
+<ul>
+<li>WordQuery类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WordQuery</span> :</span> <span class="keyword">public</span> Query_base &#123;</span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Query</span>;</span>			<span class="comment">// Query使用WordQuery构造函数</span></span><br><span class="line">    WordQuery(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s) : query_word(s) &#123; &#125;</span><br><span class="line">	<span class="function">QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp; t)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function">    </span>&#123; <span class="keyword">return</span> t.query(query_word); &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">rep</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> query_word; &#125;</span><br><span class="line">    <span class="built_in">string</span> query_word;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>NotQuery类及~运算符</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NotQuery</span> :</span> <span class="keyword">public</span> Query_base &#123;</span><br><span class="line">    <span class="keyword">friend</span> Query <span class="keyword">operator</span>~(<span class="keyword">const</span> Query &amp;);</span><br><span class="line">    NotQuery(<span class="keyword">const</span> Query&amp; q) : query(q) &#123; &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">rep</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="string">"~("</span> + query.rep() + <span class="string">")"</span>; &#125;</span><br><span class="line">    <span class="function">QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp;)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    Query query;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">inline</span> Query <span class="keyword">operator</span>~(<span class="keyword">const</span> Query&amp; operand)</span><br><span class="line">&#123; <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;Query_base&gt;(<span class="keyword">new</span> NotQuery(operand)); &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>BinaryQuery类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BinaryQuery</span> :</span> <span class="keyword">public</span> Query_base &#123;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    BinaryQuery(<span class="keyword">const</span> Query&amp; l, <span class="keyword">const</span> Query&amp; r, <span class="built_in">string</span> s) :</span><br><span class="line">    	lhs(l), rhs(r), opSym(s) &#123; &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">rep</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> <span class="string">"("</span> + lhs.rep() + <span class="string">" "</span> </span><br><span class="line">        				+ opSym + <span class="string">" "</span> + rhs.rep() + <span class="string">")"</span>; &#125;</span><br><span class="line">    Query lhs, rhs;</span><br><span class="line">    <span class="built_in">string</span> opSym;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>AndQuery类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AndQuery</span> :</span> <span class="keyword">public</span> BinaryQuery &#123;</span><br><span class="line">    <span class="keyword">friend</span> Query <span class="keyword">operator</span>&amp;(<span class="keyword">const</span> Query&amp;, <span class="keyword">const</span> Query&amp;);</span><br><span class="line">        AndQuery(<span class="keyword">const</span> Query&amp; left, <span class="keyword">const</span> Query&amp; right) :</span><br><span class="line">    		BinaryQuery(left, right, <span class="string">"&amp;"</span>) &#123; &#125;</span><br><span class="line">    <span class="comment">// 具体的类：AndQuery继承了rep并且定义了其他纯虚函数</span></span><br><span class="line">    <span class="function">QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp;)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">inline</span> Query <span class="keyword">operator</span>&amp;(<span class="keyword">const</span> Query&amp; lhs, <span class="keyword">const</span> Query&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;Query_base&gt;(<span class="keyword">new</span> AndQuery(lhs, rhs));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>OrQuery类</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">OrQuery</span> :</span> <span class="keyword">public</span> BinaryQuery &#123;</span><br><span class="line">     <span class="keyword">friend</span> Query <span class="keyword">operator</span>|(<span class="keyword">const</span> Query&amp;, <span class="keyword">const</span> Query&amp;);</span><br><span class="line">     OrQuery(<span class="keyword">const</span> Query&amp; left, <span class="keyword">const</span> Query&amp; right) :</span><br><span class="line">     		BinaryQuery(left, right, <span class="string">"|"</span>) &#123; &#125;</span><br><span class="line">     <span class="function">QueryResult <span class="title">eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp;)</span> <span class="keyword">const</span></span>;</span><br><span class="line"> &#125;;</span><br><span class="line"><span class="keyword">inline</span> Query oeprator|(<span class="keyword">const</span> Query&amp; lhs, <span class="keyword">const</span> Query&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;Query_base&gt;(<span class="keyword">new</span> OrQuery(lhs, rhs));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1594-eval函数"><a class="markdownIt-Anchor" href="#1594-eval函数"></a> 15.9.4 eval函数</h4>
+<ul>
+<li>OrQuery::eval</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QueryResult <span class="title">OrQuery::eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp; <span class="built_in">text</span>)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> right = rhs.eval(<span class="built_in">text</span>), left = lhs.eval(<span class="built_in">text</span>);</span><br><span class="line">    <span class="keyword">auto</span> ret_lines = make_shared&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt;(left.<span class="built_in">begin</span>(), 												left.<span class="built_in">end</span>());</span><br><span class="line">    ret_lines-&gt;insert(right.<span class="built_in">begin</span>(), right.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> QueryResult(rep(), ret_lines, left.get_file());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>AndQuery::eval</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QueryResult <span class="title">AndQuery::eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp; <span class="built_in">text</span>)</span> <span class="keyword">const</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> right = rhs.eval(<span class="built_in">text</span>), left = lhs.eval(<span class="built_in">text</span>);    </span><br><span class="line">	<span class="keyword">auto</span> ret_lines = make_shared&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt;();</span><br><span class="line">    set_intersection(left.<span class="built_in">begin</span>(), left.<span class="built_in">end</span>(), </span><br><span class="line">            right.<span class="built_in">begin</span>(), right.<span class="built_in">end</span>(), </span><br><span class="line">            inserter(*ret_lines, ret_lines-&gt;<span class="built_in">begin</span>()));</span><br><span class="line">    <span class="keyword">return</span> QueryResult(rep(), ret_lines, left.get_file());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>NotQuery::eval</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">QueryResult <span class="title">NotQuery::eval</span><span class="params">(<span class="keyword">const</span> TextQuery&amp; <span class="built_in">text</span>)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> result = query.eval(<span class="built_in">text</span>);</span><br><span class="line">	<span class="keyword">auto</span> ret_lines = make_shared&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt;();</span><br><span class="line">    <span class="keyword">auto</span> beg = result.<span class="built_in">begin</span>(), <span class="built_in">end</span> = result.<span class="built_in">end</span>();</span><br><span class="line">    <span class="keyword">auto</span> sz = result.get_file()-&gt;<span class="built_in">size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">size_t</span> n = <span class="number">0</span>; n != sz; ++n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(beg == <span class="built_in">end</span> || *beg != n)</span><br><span class="line">            ret_lines-&gt;insert(n);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(beg != <span class="built_in">end</span>)</span><br><span class="line">            ++beg;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> QueryResult(rep(), ret_lines, result.get_file());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2014%20%E9%87%8D%E8%BD%BD%E8%BF%90%E7%AE%97%E4%B8%8E%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2/" rel="next" title="第十四章 重载运算与类型转换">
+                  <i class="fa fa-chevron-left"></i> 第十四章 重载运算与类型转换
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2016%20%E6%A8%A1%E6%9D%BF%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" rel="prev" title="第十六章 模板与泛型编程">
+                  第十六章 模板与泛型编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十五章-面向对象程序设计"><span class="nav-text"> 第十五章 面向对象程序设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#151-oop概述"><span class="nav-text"> 15.1 OOP:概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#152-定义基类和派生类"><span class="nav-text"> 15.2 定义基类和派生类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1521-定义基类"><span class="nav-text"> 15.2.1 定义基类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1522-定义派生类"><span class="nav-text"> 15.2.2 定义派生类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1523-类型转换与继承"><span class="nav-text"> 15.2.3 类型转换与继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#153-虚函数"><span class="nav-text"> 15.3 虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#154-抽象基类"><span class="nav-text"> 15.4 抽象基类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#155-访问控制与继承"><span class="nav-text"> 15.5 访问控制与继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#156-继承中的类作用域"><span class="nav-text"> 15.6 继承中的类作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#157-构造函数与拷贝控制"><span class="nav-text"> 15.7 构造函数与拷贝控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1571-虚析构函数"><span class="nav-text"> 15.7.1 虚析构函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1572-合成拷贝控制与继承"><span class="nav-text"> 15.7.2 合成拷贝控制与继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1573-派生类的拷贝控制成员"><span class="nav-text"> 15.7.3 派生类的拷贝控制成员</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1574-继承的构造函数"><span class="nav-text"> 15.7.4 继承的构造函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#158-容器与继承"><span class="nav-text"> 15.8 容器与继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1581-编写basket类"><span class="nav-text"> 15.8.1 编写Basket类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#159-文本查询程序再探"><span class="nav-text"> 15.9 文本查询程序再探</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1591-面向对象的解决方案"><span class="nav-text"> 15.9.1 面向对象的解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1592-query_base类和query类"><span class="nav-text"> 15.9.2 Query_base类和Query类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1593-派生类"><span class="nav-text"> 15.9.3 派生类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1594-eval函数"><span class="nav-text"> 15.9.4 eval函数</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

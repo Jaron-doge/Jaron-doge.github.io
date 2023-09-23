@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第五章 面向对象编程风格  5.1 面向对象编程 继承(inheritance)和多态(polymorphism)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章 面向对象编程风格">
+<meta property="og:url" content="http://yoursite.com/2020/01/03/C++/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第五章 面向对象编程风格  5.1 面向对象编程 继承(inheritance)和多态(polymorphism)">
+<meta property="og:image" content="https://i.loli.net/2019/12/28/R7Eocdzm8PVCbIY.png">
+<meta property="article:published_time" content="2020-01-03T13:16:25.000Z">
+<meta property="article:modified_time" content="2021-10-09T02:22:43.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="Essential C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/28/R7Eocdzm8PVCbIY.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/03/C++/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第五章 面向对象编程风格 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/03/C++/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第五章 面向对象编程风格
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-03 21:16:25" itemprop="dateCreated datePublished" datetime="2020-01-03T21:16:25+08:00">2020-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-09 10:22:43" itemprop="dateModified" datetime="2021-10-09T10:22:43+08:00">2021-10-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第五章-面向对象编程风格"><a class="markdownIt-Anchor" href="#第五章-面向对象编程风格"></a> 第五章 面向对象编程风格</h2>
+<h3 id="51-面向对象编程"><a class="markdownIt-Anchor" href="#51-面向对象编程"></a> 5.1 面向对象编程</h3>
+<p>继承(inheritance)和多态(polymorphism)</p>
+<a id="more"></a>
+<h4 id="511-继承"><a class="markdownIt-Anchor" href="#511-继承"></a> 5.1.1 继承</h4>
+<ol>
+<li>将一群相关的类组织起来，并得以分享其间的共同数据和操作行为</li>
+<li>继承机制定义了父子(parent/child)关系。父类定义了所有子类共通的共有接口(public interface)和私有实现(private implementation)。每个子类都可以增加或覆盖(override)继承而来的东西，以实现其自身独特的行为。</li>
+<li>父类被称为基类(base class)，子类被称为派生类（derived class)。父类和子类之间的关系称为继承体系(inheritance hierarchy)。</li>
+<li>抽象基类(abstract base class)</li>
+</ol>
+<p><img src="https://i.loli.net/2019/12/28/R7Eocdzm8PVCbIY.png" alt="image-20191228203438372.png" /></p>
+<h4 id="512-多态"><a class="markdownIt-Anchor" href="#512-多态"></a> 5.1.2 多态</h4>
+<p>在这些类上进行编程时，可以如同操控单一个体，而非相互独立的类、并赋予我们更多弹性来加入或移除任何特定类。</p>
+<h4 id="513-动态绑定dynamic-binding"><a class="markdownIt-Anchor" href="#513-动态绑定dynamic-binding"></a> 5.1.3 动态绑定(dynamic binding)</h4>
+<p>实际执行起来的操作要等到运行时，根据pointer或reference所指的实际对象的类型才能决定。</p>
+<h3 id="52-面向对象编程思维"><a class="markdownIt-Anchor" href="#52-面向对象编程思维"></a> 5.2 面向对象编程思维</h3>
+<h4 id="521-virtual"><a class="markdownIt-Anchor" href="#521-virtual"></a> 5.2.1 virtual</h4>
+<p>默认情形下，member function的解析(resolution)皆在编译时静态地进行。若要令其在运动时动态进行，我们就得在他的声明前加上关键字virtual。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LibMat</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    LibMat() &#123;<span class="built_in">cout</span> &lt;&lt; <span class="string">"LibMat::LibMat() default constructor!\n"</span>;&#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~LibMat() &#123;<span class="built_in">cout</span> &lt;&lt; <span class="string">"LibMat::~LibMat() destructor!\n"</span>;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;<span class="built_in">cout</span> &lt;&lt; <span class="string">"LibMat::print() -- I am a LibMat object!\n"</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在定义一个non-member function print()</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> LibMat &amp;mat)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"in global print(): about to print mat.print()\n"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 下一行会根据mat实际指向的对象。</span></span><br><span class="line">    <span class="comment">// 解析该执行哪一个print()member function。</span></span><br><span class="line">	mat.<span class="built_in">print</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="522-派生类"><a class="markdownIt-Anchor" href="#522-派生类"></a> 5.2.2 派生类</h4>
+<p>名称之后必须接一个冒号(😃，然后紧跟着关键字public和基类的名称</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span> :</span> <span class="keyword">public</span> LibMat &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Book(<span class="keyword">const</span> <span class="built_in">string</span> &amp;title, <span class="keyword">const</span> <span class="built_in">string</span> &amp;author)</span><br><span class="line">        : _title(title), _author(author) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"BookLLBook( "</span> &lt;&lt; _title</span><br><span class="line">                 &lt;&lt; <span class="string">", "</span> &lt;&lt; )author &lt;&lt; <span class="string">") consturctor\n"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">virtual</span> ~Book() &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Book::~Book() destructor!\n"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> voud <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"Book::print() -- I am a Book object!\n"</span></span><br><span class="line">             &lt;&lt; <span class="string">"My title is: "</span> &lt;&lt; _title &lt;&lt; <span class="string">'\n'</span></span><br><span class="line">             &lt;&lt; <span class="string">"My author is: "</span> &lt;&lt; _author &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="title">title</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _title;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="title">author</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _author;&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="built_in">string</span> _title;</span><br><span class="line">    <span class="built_in">string</span> _author;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>Book中的print()覆盖(override)了LibMat的print()。</p>
+</li>
+<li>
+<p>声明为protected的所有成员都可以被派生类直接访问，除此之外，都不得直接访问protected成员。</p>
+</li>
+<li>
+<p>使用派生类时不必刻意区分&quot;继承而来的成员&quot;和&quot;自身定义的成员&quot;。两者的使用完全透明</p>
+</li>
+</ol>
+<h3 id="53-不带继承的多态"><a class="markdownIt-Anchor" href="#53-不带继承的多态"></a> 5.3 不带继承的多态</h3>
+<h3 id="54-抽象基类"><a class="markdownIt-Anchor" href="#54-抽象基类"></a> 5.4 抽象基类</h3>
+<ol>
+<li>定义抽象类的第一个步骤是找出所有子类共通的操作行为。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// elem(pos): 返回pos位置上的元素</span></span><br><span class="line">    <span class="comment">// gen_elems(pos): 产生直到pos位置的所有元素</span></span><br><span class="line">    <span class="comment">// what_am_i(): 返回确切的数列类型</span></span><br><span class="line">	<span class="comment">// print(os): 将所有元素写入os</span></span><br><span class="line">    <span class="comment">// check_integrity(pos): 检查pos是否为有效位置</span></span><br><span class="line">    <span class="comment">// max_elems(): 返回所支持的最大位置值</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">elem</span><span class="params">(<span class="keyword">int</span> pos)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">gen_elems</span><span class="params">(<span class="keyword">int</span> pos)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">what_am_i</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function">ostream&amp; <span class="title">print</span><span class="params">(ostream &amp;os = <span class="built_in">cout</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">check_integrity</span><span class="params">(<span class="keyword">int</span> pos)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">max_elems</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>设计抽象基类的下一步，是设法找出哪些操作行为与类型相关(type-dependent)——也就是说，有哪些操作行为必须根据不同的派生类而有不同的实现方式。这些操作行为应该成为整个类继承体系中的virtual function。</p>
+<ul>
+<li>如gen_elems()</li>
+<li>static member function无法被声明为虚函数。</li>
+</ul>
+</li>
+<li>
+<p>设计抽象基类的第三步，是试着找出每个操作行为的访问层级(access level)。</p>
+<ul>
+<li>
+<p>即使是该基类的派生类，亦无法访问基类中的private member。</p>
+</li>
+<li>
+<p>protected访问层级可以让派生类访问</p>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~num_sequence() &#123;&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">elem</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">what_am_i</span><span class="params">()</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">max_elems</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _max_elems;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> ostream&amp; <span class="title">print</span><span class="params">(ostream &amp;os = <span class="built_in">cout</span>)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">gen_elems</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> check <span class="title">integrity</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">static</span> <span class="keyword">int</span> _max_elems = <span class="number">1024</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​		如果对于该类而言，这个虚函数并无实质意义的话，可设为纯虚函数，即赋值为0。</p>
+<p>​		任何类如果声明有纯虚函数，那么由于其接口的不完整性，程序无法为它产生任何对象。这种类只能作为派生类的子对象使用，而且前提是这些派生类必须为所有虚函数提供确切的定义。</p>
+<p>​		凡基类定义有虚函数，应该要将其destructor声明为virtual。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">num_sequence *ps = <span class="keyword">new</span> Fibonacci(<span class="number">12</span>);</span><br><span class="line"><span class="comment">// ...使用数列</span></span><br><span class="line"><span class="keyword">delete</span> ps;</span><br></pre></td></tr></table></figure>
+<p>​		ps是基类num_sequence的指针，但它实际上指向派生类Fibonacci的对象。当delete表达式被应用于该指针，destructor会先应用与指针所指的对象身上，所以通过ps调用的destructor一定是Fibonacci的destructor，不是num_sequence的destructor。</p>
+<h3 id="55-定义一个派生类"><a class="markdownIt-Anchor" href="#55-定义一个派生类"></a> 5.5 定义一个派生类</h3>
+<ol>
+<li>派生类由两部分组成：以是基类构成的子对象，二是派生类的部分。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 头文件"num_sequence.h"含有基类的定义</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"num_sequence.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fibonacci</span> :</span> <span class="keyword">public</span> num_sequence &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>派生类必须为从基类继承而来的每个纯虚函数提供对应的实现。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fibonacci</span> :</span> <span class="keyword">public</span> num_sequence &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Fibonacci(<span class="keyword">int</span> len = <span class="number">1</span>, <span class="keyword">int</span> leg_pos = <span class="number">1</span>)</span><br><span class="line">        : _length(len), _beg_pos(beg_pos)&#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">elem</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">what_am_i</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> <span class="string">"Fibonacci"</span>;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> ostream&amp; <span class="title">print</span><span class="params">(ostream &amp;os = <span class="built_in">cout</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _length;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">beg_pos</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> _beg_pos;&#125;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">gen_elems</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="keyword">int</span> _length;</span><br><span class="line">    <span class="keyword">int</span> _beg_pos;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; _elems;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在类之外对虚函数进行定义时，不必指明关键字virtual</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Fibonacci::elem</span><span class="params">(<span class="keyword">int</span> pos)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!check_integrity(pos))</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(pos &gt; _elems.<span class="built_in">size</span>())</span><br><span class="line">        <span class="comment">// 需求明确，不必等到运行时才解析</span></span><br><span class="line">        Fibonacci::gen_elems(pos);</span><br><span class="line">    <span class="keyword">return</span> _elems[pos - <span class="number">1</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="56-运用继承体系"><a class="markdownIt-Anchor" href="#56-运用继承体系"></a> 5.6 运用继承体系</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(ostream &amp;os, <span class="keyword">const</span> num_sequence &amp;ns, <span class="keyword">int</span> pos)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    os &lt;&lt; <span class="string">"The element at position "</span></span><br><span class="line">        &lt;&lt; pos	&lt;&lt; <span class="string">" for the "</span></span><br><span class="line">        &lt;&lt; ns.what_am_i() &lt;&lt; <span class="string">" sequence is "</span></span><br><span class="line">        &lt;&lt; ns.elem(pos) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="57-基类该多抽象"><a class="markdownIt-Anchor" href="#57-基类该多抽象"></a> 5.7 基类该多抽象</h3>
+<p>可以将所有派生类共有的实现内容剥离出来，移至基类内。</p>
+<h3 id="58-初始化-析构-复制"><a class="markdownIt-Anchor" href="#58-初始化-析构-复制"></a> 5.8 初始化、析构、复制</h3>
+<h4 id="581-初始化"><a class="markdownIt-Anchor" href="#581-初始化"></a> 5.8.1 初始化</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> Fibonacci:;</span><br><span class="line">Fibonacci(<span class="keyword">int</span> len, <span class="keyword">int</span> beg_pos)</span><br><span class="line">    : num_sequence(len, beg_pos, elems)</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line">num_sequence::</span><br><span class="line">num_sequence(<span class="keyword">int</span> len=<span class="number">1</span>, <span class="keyword">int</span> bp=<span class="number">1</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *pe=<span class="number">0</span>)</span><br><span class="line">    : _length(len), _beg_pos(bp), _pelems(pe)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>如果派生类的constructor未能明确指出调用基类的哪一个constructor，编译器便会自动调用基类的default constructor.</p>
+<h4 id="582-copy"><a class="markdownIt-Anchor" href="#582-copy"></a> 5.8.2 copy</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="function">Fibonacci <span class="title">fib</span><span class="params">(<span class="number">12</span>)</span></span>;</span><br><span class="line">    Fibonacci::Fibonacci(<span class="keyword">const</span> Fibonacci &amp;rhs)</span><br><span class="line">        :num_sequence(rhs)</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2.F</span>ibonacci fib2 = fib1;</span><br><span class="line">    Finobacci&amp; Fibonacci::</span><br><span class="line">    <span class="keyword">operator</span>=(<span class="keyword">const</span> Fibonacci &amp;rhs)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;rhs)</span><br><span class="line">            num_sequence::<span class="keyword">operator</span> = (rhs);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="583-destructor"><a class="markdownIt-Anchor" href="#583-destructor"></a> 5.8.3 destructor</h4>
+<h4 id="基类的destructor会在派生类的destructor结束之后被自动调用"><a class="markdownIt-Anchor" href="#基类的destructor会在派生类的destructor结束之后被自动调用"></a> 基类的destructor会在派生类的destructor结束之后被自动调用。</h4>
+<h3 id="59-在派生类中定义虚函数"><a class="markdownIt-Anchor" href="#59-在派生类中定义虚函数"></a> 5.9 在派生类中定义虚函数</h3>
+<ol>
+<li>
+<p>如果覆盖基类所提供的虚函数，那么派生类提供的新定义，其函数原型必须完全符合基类所声明的函数原型，包括：参数列表、返回类型、常量性。</p>
+</li>
+<li>
+<p>exception</p>
+<p>​	当基类的虚函数返回某个基类形式（通常是pointer或reference)时，派生类的同名函数便可以返回该基类所派生出来的类型。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">num_sequence</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 派生类的clone()函数可返回一个指针，</span></span><br><span class="line">    <span class="comment">// 指向num_sequence 的任何一个派生类</span></span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> num_sequence *<span class="title">clone</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Fibonacci</span> :</span> <span class="keyword">public</span> num_sequence &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="comment">// 在派生类中，关键字virtual并非必要</span></span><br><span class="line">        <span class="function">Fibonacci *<span class="title">clone</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> Fibonacci(*<span class="keyword">this</span>);&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="592-虚函数的静态解析"><a class="markdownIt-Anchor" href="#592-虚函数的静态解析"></a> 5.9.2 虚函数的静态解析</h4>
+<ol>
+<li>
+<p>基类的constructor和destructor</p>
+<p>当我们构造派生类对象时，基类的constructor会被先调用。此刻派生类中的data member 尚未初始化。如果调用派生类的那一份虚函数，它便有可能访问未经初始化的data member。</p>
+</li>
+<li>
+<p>基类对象的pointer和reference</p>
+<p>当我们为基类声明一个实际对象，同时也就分配出了足以容纳该实际对象的内存空间。如果稍后传入的却是个派生类对象，那就没有足够的内存放置派生类中的各个 data member。</p>
+</li>
+</ol>
+<h3 id="510-类型鉴定机制"><a class="markdownIt-Anchor" href="#510-类型鉴定机制"></a> 5.10 类型鉴定机制</h3>
+<h4 id="5101-rtti运算符"><a class="markdownIt-Anchor" href="#5101-rtti运算符"></a> 5.10.1 RTTI运算符</h4>
+<p>运行时类型鉴定机制(Run-Time Type Identification)</p>
+<ol>
+<li>
+<p>typeid运算符</p>
+<p>它让我们得以查询多态化的 class pointer 或 class reference，获得其所指对象的实际类型。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;typeinfo&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">const</span> <span class="keyword">char</span>* num_sequence::</span><br><span class="line">what_am_i() <span class="keyword">const</span> </span><br><span class="line">	&#123; <span class="keyword">return</span> <span class="keyword">typeid</span>(*<span class="keyword">this</span>).name();&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//等价判断</span></span><br><span class="line">num_sequence *ps = &amp;fib;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeid</span>(*ps) == <span class="keyword">typeid</span>(Fibonacci))</span><br></pre></td></tr></table></figure>
+<p>使用typeid运算符之前，必须先包含头文件typeinfo。typeid运算符会返回一个type_info对象，储存着与类型相关的种种信息。</p>
+<ol start="2">
+<li>static_cast</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">num_sequence *ps = &amp;fib;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 错误，虽然ps指向Fibonacci对象，</span></span><br><span class="line"><span class="comment">// 但ps并非一个Fibonacci指针</span></span><br><span class="line">ps-&gt;gen_elems(<span class="number">64</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 应为</span></span><br><span class="line">ps-&gt;Fibonacci::gen_elems(<span class="number">64</span>);</span><br></pre></td></tr></table></figure>
+<p>static_cast可以进行指针类型转换</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">typeid</span>(*ps) == <span class="keyword">typeid</span>(Fibonacci))</span><br><span class="line">&#123;	</span><br><span class="line">    <span class="comment">// 无条件转化</span></span><br><span class="line">    Fibonacci *pf = <span class="keyword">static_cast</span>&lt;Fibonacci*&gt;(ps); </span><br><span class="line">    ps-&gt;gen_elems(<span class="number">64</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>dynamic_cast</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有条件转化</span></span><br><span class="line"><span class="keyword">if</span>(Fibonacci *pf = <span class="keyword">dynamic_cast</span>&lt;Fibonacci*&gt;(ps))</span><br><span class="line">    pf-&gt;gen_elems(<span class="number">64</span>);</span><br></pre></td></tr></table></figure>
+<p>会进行运行时检验，检验ps所指对象是否属于Fibonacci类，如果不是则返回0。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Essential-C/" rel="tag"># Essential C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/28/C++/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BC%96%E7%A8%8B/" rel="next" title="第四章 基于对象的编程">
+                  <i class="fa fa-chevron-left"></i> 第四章 基于对象的编程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/01/04/C++/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%A5template%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A8%8B/" rel="prev" title="第六章 以template进行编程">
+                  第六章 以template进行编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-面向对象编程风格"><span class="nav-text"> 第五章 面向对象编程风格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#51-面向对象编程"><span class="nav-text"> 5.1 面向对象编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#511-继承"><span class="nav-text"> 5.1.1 继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#512-多态"><span class="nav-text"> 5.1.2 多态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#513-动态绑定dynamic-binding"><span class="nav-text"> 5.1.3 动态绑定(dynamic binding)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#52-面向对象编程思维"><span class="nav-text"> 5.2 面向对象编程思维</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#521-virtual"><span class="nav-text"> 5.2.1 virtual</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#522-派生类"><span class="nav-text"> 5.2.2 派生类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#53-不带继承的多态"><span class="nav-text"> 5.3 不带继承的多态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#54-抽象基类"><span class="nav-text"> 5.4 抽象基类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#55-定义一个派生类"><span class="nav-text"> 5.5 定义一个派生类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#56-运用继承体系"><span class="nav-text"> 5.6 运用继承体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#57-基类该多抽象"><span class="nav-text"> 5.7 基类该多抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#58-初始化-析构-复制"><span class="nav-text"> 5.8 初始化、析构、复制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#581-初始化"><span class="nav-text"> 5.8.1 初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#582-copy"><span class="nav-text"> 5.8.2 copy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#583-destructor"><span class="nav-text"> 5.8.3 destructor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基类的destructor会在派生类的destructor结束之后被自动调用"><span class="nav-text"> 基类的destructor会在派生类的destructor结束之后被自动调用。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#59-在派生类中定义虚函数"><span class="nav-text"> 5.9 在派生类中定义虚函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#592-虚函数的静态解析"><span class="nav-text"> 5.9.2 虚函数的静态解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#510-类型鉴定机制"><span class="nav-text"> 5.10 类型鉴定机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5101-rtti运算符"><span class="nav-text"> 5.10.1 RTTI运算符</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

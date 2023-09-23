@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第二章 数据库环境  2.1 ANSI-SPARC三层体系结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二章 数据库环境">
+<meta property="og:url" content="http://yoursite.com/2021/04/02/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第二章 数据库环境  2.1 ANSI-SPARC三层体系结构">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/tiply8ef9kZP4SJ.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/vNy5OaECrMeZHhD.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/GHo8bUM2xgZEqsT.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/xrIlnRZdUN5QfaK.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/391HQhwDjlytOvx.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/exN5bjSI8uVgqvK.png">
+<meta property="article:published_time" content="2021-04-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-05T11:21:53.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/05/tiply8ef9kZP4SJ.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/04/02/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第二章 数据库环境 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/02/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter2%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%8E%AF%E5%A2%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第二章 数据库环境
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-02 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-02T00:00:00+08:00">2021-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-05 19:21:53" itemprop="dateModified" datetime="2021-05-05T19:21:53+08:00">2021-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>3.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第二章-数据库环境"><a class="markdownIt-Anchor" href="#第二章-数据库环境"></a> 第二章 数据库环境</h2>
+<h3 id="21-ansi-sparc三层体系结构"><a class="markdownIt-Anchor" href="#21-ansi-sparc三层体系结构"></a> 2.1 ANSI-SPARC三层体系结构</h3>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2021/05/05/tiply8ef9kZP4SJ.png" alt="3.png" /></p>
+<p>用户从外部层观察数据，DBMS和OS从内部层观察数据。概念层提供内、外部层的映射和必要的独立性。</p>
+<ul>
+<li>每个用户都能访问相同数据，但可用各自定制的数据视图。</li>
+<li>用户与数据库的交互应该独立与存储细节</li>
+<li>DBA能在不影响用户视图的情况下修改数据库存储结构</li>
+<li>数据库的内部结构不受存储的物理变化影响，例如转移数据</li>
+<li>DBA能在不影响所有用户的情况下修改数据库的概念结构</li>
+</ul>
+<h4 id="211-外部层"><a class="markdownIt-Anchor" href="#211-外部层"></a> 2.1.1 外部层</h4>
+<p><strong>|外部层|</strong>：数据库的用户视图。这一层描述与每一个用户相关的数据库部分。</p>
+<ul>
+<li>外部层由数据库的若干不同视图组成。</li>
+<li>描述数据库中与特定用户相关的部分。</li>
+</ul>
+<h4 id="212-概念层"><a class="markdownIt-Anchor" href="#212-概念层"></a> 2.1.2 概念层</h4>
+<p><strong>|概念层|</strong>：数据库的整体视图。这一层描述了哪些数据被存储在数据库中，以及这些数据之间的联系。</p>
+<p>这一层包含DBA看到的整个数据库的逻辑结构。概念层描述:</p>
+<ul>
+<li>所有实体、实体的属性和实体间的联系;</li>
+<li>数据的约束;</li>
+<li>数据的语义信息;</li>
+<li>安全性和完整性信息。</li>
+</ul>
+<p>例：对于实体的描述只包含属性的数据类型，以及它们的长度，但是不包括实际所占用的字节数。</p>
+<h4 id="213-内部层"><a class="markdownIt-Anchor" href="#213-内部层"></a> 2.1.3 内部层</h4>
+<p><strong>|内部层|</strong>：数据库在计算机上的物理表示。这一层描述数据是如何存储在数据库中的。</p>
+<ul>
+<li>内部层包括为了得到数据库运行时的最佳性能而采用的物理实现方法。它通过与OS的访问方法交互，完成在存储设备上存放数据等操作：
+<ul>
+<li>数据和索引的存储空间分配;</li>
+<li>记录存储的描述(带有数据项的存储大小);</li>
+<li>记录位置;</li>
+<li>数据压缩与加密技术。</li>
+</ul>
+</li>
+<li>在内部层之下有一个物理层，可以在DBMS的指导下由操作系统控制。</li>
+</ul>
+<h4 id="214-模式-映射和实例"><a class="markdownIt-Anchor" href="#214-模式-映射和实例"></a> 2.1.4 模式、映射和实例</h4>
+<p>对数据库的整体描述成为数据库模式，在任一时间点上，数据库中的数据构成一个数据库实例。</p>
+<p>外部模式：与不同的数据视图相对应。</p>
+<p>概念模式：描述所有的实体、属性和联系及其上的完整性约束。</p>
+<p>内部模式：内部模型的完整描述。</p>
+<h4 id="215-数据独立性"><a class="markdownIt-Anchor" href="#215-数据独立性"></a> 2.1.5 数据独立性</h4>
+<p><strong>|逻辑数据独立性|</strong>：逻辑数据独立性指的是外部模式不受概念模式变化的影响。</p>
+<p><strong>|物理数据独立性|</strong>：物理数据独立性指的是概念模式不受内部模式变化的影响</p>
+<h3 id="22-数据库语言"><a class="markdownIt-Anchor" href="#22-数据库语言"></a> 2.2 数据库语言</h3>
+<p>数据库语言包括两个部分：Data Definition Language(DDL)和Data Manipulation Language(DML)，DDL用来说明数据库模式，DML用来读取和更新数据库。</p>
+<h4 id="221-ddl"><a class="markdownIt-Anchor" href="#221-ddl"></a> 2.2.1 DDL</h4>
+<p><strong>|DDL|</strong>：一种供DBA或用户描述和命名应用所需实体、属性和联系及其相关的完整性约束和安全约束的语言。</p>
+<ul>
+<li>DDL可用于定义模式或修改已存在的模式，但不能用来操作数据。</li>
+</ul>
+<h4 id="222-dml"><a class="markdownIt-Anchor" href="#222-dml"></a> 2.2.2 DML</h4>
+<p><strong>|DML|</strong>：提供了一组基本操作，支持对数据库中存储数据进行各种处理操作的语言。</p>
+<ul>
+<li>增、删、改、查</li>
+</ul>
+<h5 id="过程化dml"><a class="markdownIt-Anchor" href="#过程化dml"></a> 过程化DML</h5>
+<p><strong>|过程化DML|</strong>：要求用户既告诉系统需要什么数据又说明如何检索这些数据的语言。</p>
+<h5 id="非过程化dml"><a class="markdownIt-Anchor" href="#非过程化dml"></a> 非过程化DML</h5>
+<p><strong>|非过程化DML|</strong>：只要求用户告诉系统需要哪些数据而不需说明如何检索它们的语言。也成为说明性语言。</p>
+<h3 id="23-数据模型和概念建模"><a class="markdownIt-Anchor" href="#23-数据模型和概念建模"></a> 2.3 数据模型和概念建模</h3>
+<p><strong>|数据模型|</strong>：一组集成的概念，用于描述和操纵组织机构内的数据、数据间联系以及对数据的约束。</p>
+<p>数据模型含下列三个组件：</p>
+<ul>
+<li>结构部分，由一组创建数据库的规则构成。</li>
+<li>操纵部分，定义允许对数据进行的操作的种类。</li>
+<li>一组完整性约束，确保数据的准确性。</li>
+</ul>
+<h4 id="231-基于对象的数据模型"><a class="markdownIt-Anchor" href="#231-基于对象的数据模型"></a> 2.3.1 基于对象的数据模型</h4>
+<p>基于对象的数据模型用到实体、属性和联系等概念。</p>
+<ul>
+<li>ER模型</li>
+<li>语义模型</li>
+</ul>
+<h4 id="232-基于记录的数据模型"><a class="markdownIt-Anchor" href="#232-基于记录的数据模型"></a> 2.3.2 基于记录的数据模型</h4>
+<p>在基于记录的数据模型中，数据库由若干不同类型的固定格式记录组成。</p>
+<p>关系系统对数据库处理采用说明性的方法，而网状和层次系统采用导航的方法。</p>
+<h5 id="关系数据模型"><a class="markdownIt-Anchor" href="#关系数据模型"></a> 关系数据模型</h5>
+<p>在关系模型中，数据和联系均以表格的形式表示，每个表格有若干具有唯一名称的列。</p>
+<h5 id="网状数据模型"><a class="markdownIt-Anchor" href="#网状数据模型"></a> 网状数据模型</h5>
+<p>在网络数据模型中，数据被表示成一组记录，联系被表示成络(set)，具体实现时一般使用指针。</p>
+<ul>
+<li>记录是节点而洛是边</li>
+</ul>
+<h5 id="层次数据模型"><a class="markdownIt-Anchor" href="#层次数据模型"></a> 层次数据模型</h5>
+<p>层次数据模型是一种受限的网状模型，层次数据模型规定一个节点只能有一个父节点。</p>
+<h4 id="233-物理数据模型"><a class="markdownIt-Anchor" href="#233-物理数据模型"></a> 2.3.3 物理数据模型</h4>
+<p>物理数据模型描述数据是如何存储在计算机中的，涉及记录结构、记录顺序及访问路径等信息。</p>
+<h3 id="24-dbms的功能"><a class="markdownIt-Anchor" href="#24-dbms的功能"></a> 2.4 DBMS的功能</h3>
+<p><strong>数据存储、检索和更新</strong></p>
+<p>DBMS必须为用户提供在数据库中存储、检索和更新数据的能力。</p>
+<p><strong>用户可访问的目录</strong></p>
+<p>DBMS必须提供一个目录，内存各类数据项的描述并允许用户访问。</p>
+<p><strong>事务支持</strong></p>
+<p>DBMS必须提供一个机制，确保给定事务的所有更新操作或者完全做完或者一个都不做。</p>
+<p><strong>并发控制服务</strong></p>
+<p>DBMS必须提供一个机制，确保当多个用户并行地更新数据库时，数据库被正确更新。</p>
+<p><strong>恢复服务</strong></p>
+<p>DBMS必须提供一个机制，无论数据库因何种原因受到破坏时，都能恢复数据库。</p>
+<p><strong>授权服务</strong></p>
+<p>DBMS必须提供一个机制，确保只有经过授权的用户才可以访问数据库。</p>
+<p><strong>支持数据通信</strong></p>
+<p>DBMS必须能够与通信软件集成。</p>
+<p><strong>完整性服务</strong></p>
+<p>DBMS必须提供一种方法， 确保数据库中的数据和对数据的修改遵循一定的规则。</p>
+<p><strong>提高数据独立性的服务</strong></p>
+<p>DBMS必须提供机制，使程序独立于数据库的实际结构。</p>
+<p><strong>实用服务程序</strong></p>
+<p>DBMS应该提供一组实用服务程序</p>
+<h3 id="25-dbms的组件"><a class="markdownIt-Anchor" href="#25-dbms的组件"></a> 2.5 DBMS的组件</h3>
+<img src="https://i.loli.net/2021/05/05/vNy5OaECrMeZHhD.png" alt="4.png" style="zoom:80%;" />
+<ul>
+<li>查询处理器：将所有的查询转换成一系列指导数据库管理器运行的低层指令</li>
+<li>DML预处理器：将嵌入应用程序中的DML语句转换成宿主语言中标准的函数调用</li>
+<li>DDL编译器：将DDL语句转换成一组包含元数据的表格</li>
+<li>目录管理器：控制对系统目录的访问</li>
+<li>DM: DM与用户提交的应用程序和查询处理器接口</li>
+</ul>
+<img src="https://i.loli.net/2021/05/05/GHo8bUM2xgZEqsT.png" alt="5.png" style="zoom:80%;"  />
+<ul>
+<li>授权控制：这个模块检查用户是否具有必要的操作权限。</li>
+<li>命令处理器：若有权限，则控制权交给命令管理器。</li>
+<li>完整性检查其：兑与每个修改数据库的操作，检查请求的操作是否满足所有必要的完整性约束。</li>
+<li>查询优化器：确定执行查询的最优策略。</li>
+<li>事务管理器：执行从事务接收到的操作序列。</li>
+<li>调度程序：确保当前数据库中并发运行的操作不相互冲突。</li>
+</ul>
+<h3 id="26-多用户dbms结构"><a class="markdownIt-Anchor" href="#26-多用户dbms结构"></a> 2.6 多用户DBMS结构</h3>
+<h4 id="261-远程处理"><a class="markdownIt-Anchor" href="#261-远程处理"></a> 2.6.1 远程处理</h4>
+<p>一台计算机和若干终端</p>
+<h4 id="262-文件服务器结构"><a class="markdownIt-Anchor" href="#262-文件服务器结构"></a> 2.6.2 文件服务器结构</h4>
+<p><strong>|文件服务器|</strong>：在网络上的一台计算机，其主要用途是为文档、电子表格、图像和数据库之类的计算机文件提供共享存储。</p>
+<img src="https://i.loli.net/2021/05/05/xrIlnRZdUN5QfaK.png" alt="6.png" style="zoom:80%;" />
+<ul>
+<li>数据库在文件服务器上</li>
+<li>应用程序和DBMS运行在各个工作站点上</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>
+<p>网络拥塞</p>
+</li>
+<li>
+<p>每台工作站上都要求有一个DBMS的完整副本</p>
+</li>
+<li>
+<p>并发、恢复和完整性控制变得相当复杂，因为可能有多个DBMS访问同一个文件</p>
+</li>
+</ul>
+<h4 id="263-传统的两层客户-服务器结构"><a class="markdownIt-Anchor" href="#263-传统的两层客户-服务器结构"></a> 2.6.3 传统的两层客户-服务器结构</h4>
+<img src="https://i.loli.net/2021/05/05/391HQhwDjlytOvx.png" alt="7.png" style="zoom:80%;" />
+<ul>
+<li>客户端管理用户界面和处理应用逻辑</li>
+<li>数据库和DBMS在服务器上</li>
+</ul>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>广泛支持对现存数据库的访问</li>
+<li>增强性能</li>
+<li>降低硬件费用</li>
+<li>降低通信费用</li>
+<li>增强一致性</li>
+</ul>
+<h4 id="264-事务处理监视器tpm"><a class="markdownIt-Anchor" href="#264-事务处理监视器tpm"></a> 2.6.4 事务处理监视器(TPM)</h4>
+<p><strong>|事务处理监视器|</strong>：控制客户端和服务器之间数据传输的程序，旨在为应用提供一致的环境，尤其是为联机事务处理(OLTP)一类的应用。</p>
+<p>复杂的应用程序经常建立在多个资源管理器之上。TP监视器是一个中间件，能访问各种资源管理器提供的服务，同时为事务型软件的开发者提供一个统一的接口。TP监视器作为三层结构中的中间层。</p>
+<img src="https://i.loli.net/2021/05/05/exN5bjSI8uVgqvK.png" alt="8.png" style="zoom:80%;" />
+<h3 id="27-系统目录"><a class="markdownIt-Anchor" href="#27-系统目录"></a> 2.7 系统目录</h3>
+<p><strong>|系统目录|</strong>：描述数据库中数据的信息存储库，即元数据</p>
+<p>目录必须是用户可访问的</p>
+<ul>
+<li>授权控制模块</li>
+<li>完整性检查器模块</li>
+<li>存放授权用户</li>
+<li>每个数据项的约束</li>
+</ul>
+<p>信息资源字典系统是一个ISO标准，定义了一组访问数据字典的方法。这样就允许共享字典，并且可以从一个系统转换到另一个系统。</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>To address the issue of data independence, the ANSI-SPARC three-level architecture was proposed. Compare and contrast the three levels of this model.怎么解决数据独立性的问题</p>
+<p>外部层由若干不同的用户视图组成，概念层是数据库的整体视图，描述了哪些数据被存储在数据库中，以及这些数据之间的联系。内部层是数据库在计算机上的物理表示。描述数据是如何存储在数据库中的。三层体系结构通过两段映射，外部层到概念层的映射和概念层到内部层的映射，保证对低层次的修改不会影响到高层次，提供了更强的数据独立性。</p>
+</li>
+<li>
+<p>What is a data model? Discuss three components of data model and the main types of data model.</p>
+<p>数据模型是一组集成的概念，用于描述和操纵组织机构内的数据、数据间联系以及对数据的约束。数据模型的三个组成部分有结构部分，由一组创建数据库的规则构成；操纵部分，定义允许对数据进行的操作的种类；一组完整性约束，确保数据的准确性。主要的数据模型有关系数据模型、网状数据模型、层次数据模型、实体-联系模型等等。</p>
+</li>
+<li>
+<p>What is meant by the term ‘client-server architecture’ and what are the advantages of this approach? Compare the client-server architecture with other architecture.</p>
+<p>客户-服务器指的是软组件相互作用形成系统的一个方式。这种方法中存在一个请求资源的客户进程和一个提供资源的服务器。优点有广泛支持对现存数据库的访问、增强性能、降低硬件费用、降低通信费用和增强一致性。与远程处理和文件服务器结构相比，客户-服务器与文件-服务器的客户端与服务器都通过LAN进行通信，但文件-服务器的应用程序和DBMS都在客户端而客户-服务器的应用程序在客户端，数据库和DBMS在服务器。远程处理结构中终端没有处理能力，要交由中央计算机处理，中心计算机要运行应用程序和DBMS。</p>
+</li>
+<li>
+<p>Discuss the function and importance of the system catalog.</p>
+<p>系统目录存放元数据，存放授权用户，存放每个数据项的约束，用户可以查询系统目录。设立系统目录，数据的信息可以被集中保存。由于数据被集中保存，冗余和一致性的问题可以被识别和控制。增强了安全性和完整性。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/03/26/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter1%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AE%80%E4%BB%8B/" rel="next" title="第一章 数据库简介">
+                  <i class="fa fa-chevron-left"></i> 第一章 数据库简介
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/04/02/C_/%E7%AC%AC1%E7%AB%A0/" rel="prev" title="第1章 C#介绍">
+                  第1章 C#介绍 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-数据库环境"><span class="nav-text"> 第二章 数据库环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#21-ansi-sparc三层体系结构"><span class="nav-text"> 2.1 ANSI-SPARC三层体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#211-外部层"><span class="nav-text"> 2.1.1 外部层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#212-概念层"><span class="nav-text"> 2.1.2 概念层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#213-内部层"><span class="nav-text"> 2.1.3 内部层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#214-模式-映射和实例"><span class="nav-text"> 2.1.4 模式、映射和实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#215-数据独立性"><span class="nav-text"> 2.1.5 数据独立性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-数据库语言"><span class="nav-text"> 2.2 数据库语言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#221-ddl"><span class="nav-text"> 2.2.1 DDL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#222-dml"><span class="nav-text"> 2.2.2 DML</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#过程化dml"><span class="nav-text"> 过程化DML</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#非过程化dml"><span class="nav-text"> 非过程化DML</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-数据模型和概念建模"><span class="nav-text"> 2.3 数据模型和概念建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#231-基于对象的数据模型"><span class="nav-text"> 2.3.1 基于对象的数据模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#232-基于记录的数据模型"><span class="nav-text"> 2.3.2 基于记录的数据模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关系数据模型"><span class="nav-text"> 关系数据模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#网状数据模型"><span class="nav-text"> 网状数据模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#层次数据模型"><span class="nav-text"> 层次数据模型</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#233-物理数据模型"><span class="nav-text"> 2.3.3 物理数据模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-dbms的功能"><span class="nav-text"> 2.4 DBMS的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-dbms的组件"><span class="nav-text"> 2.5 DBMS的组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-多用户dbms结构"><span class="nav-text"> 2.6 多用户DBMS结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#261-远程处理"><span class="nav-text"> 2.6.1 远程处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#262-文件服务器结构"><span class="nav-text"> 2.6.2 文件服务器结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#263-传统的两层客户-服务器结构"><span class="nav-text"> 2.6.3 传统的两层客户-服务器结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#264-事务处理监视器tpm"><span class="nav-text"> 2.6.4 事务处理监视器(TPM)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-系统目录"><span class="nav-text"> 2.7 系统目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

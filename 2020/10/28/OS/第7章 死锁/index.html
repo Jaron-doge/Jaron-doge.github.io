@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="死锁  7.1 死锁特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第7章 死锁">
+<meta property="og:url" content="http://yoursite.com/2020/10/28/OS/%E7%AC%AC7%E7%AB%A0%20%E6%AD%BB%E9%94%81/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="死锁  7.1 死锁特性">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/PcMDzK3UERHY4v6.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/MQLqlfzcsx756Fr.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/dyCJ9xOQK6ke3Bc.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/1fvWgDVsTjUr9aC.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/tNGFWoT8PyiO4kC.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/pmA7rF9loONXk2H.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/qEJPmWyaANTzn54.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/sKboN2awOEIUeXl.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/hXAgjS4rQqbF32E.png">
+<meta property="article:published_time" content="2020-10-28T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-29T06:32:10.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/23/PcMDzK3UERHY4v6.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/28/OS/%E7%AC%AC7%E7%AB%A0%20%E6%AD%BB%E9%94%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第7章 死锁 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/28/OS/%E7%AC%AC7%E7%AB%A0%20%E6%AD%BB%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第7章 死锁
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-28 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-28T20:30:15+08:00">2020-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-29 14:32:10" itemprop="dateModified" datetime="2020-10-29T14:32:10+08:00">2020-10-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="死锁"><a class="markdownIt-Anchor" href="#死锁"></a> 死锁</h2>
+<h3 id="71-死锁特性"><a class="markdownIt-Anchor" href="#71-死锁特性"></a> 7.1 死锁特性</h3>
+<a id="more"></a>
+<ul>
+<li>
+<p>互斥(mutual exclusion)</p>
+</li>
+<li>
+<p>占有并等待(hold and wait)</p>
+<p>拥有至少一个资源的进程正在等待获取其他进程所拥有的其他资源</p>
+</li>
+<li>
+<p>非抢占(no preemption)</p>
+<p>资源只能由拥有该资源的进程在该进程完成其任务后自动释放</p>
+</li>
+<li>
+<p>循环等待(circular wait)</p>
+</li>
+</ul>
+<h4 id="资源分配图"><a class="markdownIt-Anchor" href="#资源分配图"></a> 资源分配图</h4>
+<p>圆：进程、块：资源、点：资源个数</p>
+<ul>
+<li>无环无死锁</li>
+<li>有环
+<ul>
+<li>每个资源资源单实例，死锁</li>
+<li>资源多实例，不一定死锁</li>
+</ul>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/10/23/PcMDzK3UERHY4v6.png" alt="image-20201023185203185.png" style="zoom: 50%;" />
+<img src="https://i.loli.net/2020/10/23/MQLqlfzcsx756Fr.png" alt="image-20201023185400598.png" style="zoom:50%;" />
+<h3 id="72-死锁处理方法"><a class="markdownIt-Anchor" href="#72-死锁处理方法"></a> 7.2 死锁处理方法</h3>
+<ul>
+<li>采用某个协议来预防或避免死锁，确保系统将永远不会进入死锁状态
+<ul>
+<li>死锁预防</li>
+<li>死锁避免</li>
+</ul>
+</li>
+<li>允许系统进入死锁状态，检测它，然后恢复
+<ul>
+<li>死锁检测和死锁恢复</li>
+</ul>
+</li>
+<li>完全忽略这个问题，并假设系统永远都不会出现死锁</li>
+</ul>
+<img src="https://i.loli.net/2020/10/23/dyCJ9xOQK6ke3Bc.png" alt="image-20201023185736801.png" style="zoom:80%;" />
+<h3 id="73-死锁预防"><a class="markdownIt-Anchor" href="#73-死锁预防"></a> 7.3 死锁预防</h3>
+<p>​	破坏死锁特性</p>
+<h4 id="互斥"><a class="markdownIt-Anchor" href="#互斥"></a> 互斥</h4>
+<p>​	基本不可行</p>
+<h4 id="占有并等待"><a class="markdownIt-Anchor" href="#占有并等待"></a> 占有并等待</h4>
+<p>​	保证当进程申请一个资源时，不能占有其他资源</p>
+<ul>
+<li>在进程开始执行前申请获得所有资源</li>
+<li>进程在结束时申请资源</li>
+</ul>
+<h5 id="缺点"><a class="markdownIt-Anchor" href="#缺点"></a> 缺点：</h5>
+<ul>
+<li>资源利用率低</li>
+<li>可能发生饥饿</li>
+</ul>
+<h4 id="非抢占"><a class="markdownIt-Anchor" href="#非抢占"></a> 非抢占</h4>
+<p>​	当一个进程处于等待时，如果其他进程申请其拥有资源，那么该进程的部分资源可以被抢占</p>
+<h4 id="循环等待"><a class="markdownIt-Anchor" href="#循环等待"></a> 循环等待</h4>
+<p>对所有的资源进行完全排序，而且要求每个进程按递增顺序来申请资源</p>
+<h3 id="74-死锁避免"><a class="markdownIt-Anchor" href="#74-死锁避免"></a> 7.4 死锁避免</h3>
+<h4 id="安全状态"><a class="markdownIt-Anchor" href="#安全状态"></a> 安全状态</h4>
+<p>如果系统能按一定顺序为每个进程分配资源，仍然避免死锁，那么系统就是安全的。只有存在一个安全序列，系统才处于安全状态</p>
+<h4 id="资源分配图算法"><a class="markdownIt-Anchor" href="#资源分配图算法"></a> 资源分配图算法</h4>
+<p>如果每种资源类型只有一个实例，那么可以用资源分配图算法来避免死锁</p>
+<ul>
+<li>
+<p>需求边</p>
+<p>进程Pi可能在将来某个时候申请资源Pj，用虚线表示</p>
+</li>
+<li>
+<p>申请边</p>
+</li>
+<li>
+<p>分配边</p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/10/23/1fvWgDVsTjUr9aC.png" alt="image-20201023194122927.png" style="zoom:50%;" />
+<h4 id="银行家算法"><a class="markdownIt-Anchor" href="#银行家算法"></a> 银行家算法</h4>
+<p>对于每种资源有多个实例</p>
+<ul>
+<li>
+<p>每个进程必须提前声明每种类型资源实例的最大数量</p>
+</li>
+<li>
+<p>当用户申请资源时，系统应确定这些资源的分配是否会使系统处于安全状态，如果会，就分配资源；否则，进程应等待其他进程释放资源</p>
+</li>
+<li>
+<p>当进程获取所有资源时，必须在有限时间内返回它们</p>
+</li>
+</ul>
+<h5 id="数据结构"><a class="markdownIt-Anchor" href="#数据结构"></a> 数据结构</h5>
+<ul>
+<li>Available: 长度为m的向量，表示每种资源的可用实例数量</li>
+<li>Max: n × m矩阵，定义每个进程的最大需求</li>
+<li>Allocation: n × m矩阵，定义每个进程现在分配的每种资源类型的实例数量</li>
+<li>Need: n × m矩阵，表示每个进程还需要的剩余资源， Need = Max - Allocation</li>
+</ul>
+<h5 id="安全算法"><a class="markdownIt-Anchor" href="#安全算法"></a> 安全算法</h5>
+<ol>
+<li>
+<p>令Work和Finish分别为长度m和n的向量，初始化Work = Available、Finish[i] = false</p>
+</li>
+<li>
+<p>Finish[i] == false</p>
+<p>Need_i ≤ Work</p>
+<p>如果没有这样的i，跳转到第4步</p>
+</li>
+<li>
+<p>Work = Work + Allocation_i</p>
+<p>Finish[i] = true</p>
+<p>返回第2步</p>
+</li>
+<li>
+<p>如果对所有i, Finish[i] == true，系统处于安全状态</p>
+</li>
+</ol>
+<h5 id="资源请求算法"><a class="markdownIt-Anchor" href="#资源请求算法"></a> 资源请求算法</h5>
+<ol>
+<li>
+<p>Request_i ≤ Need_i</p>
+</li>
+<li>
+<p>Request_i ≤ Available</p>
+</li>
+<li>
+<p>Available -= Request_i</p>
+<p>Allocation += Request_i</p>
+<p>Need_i -= Request_i</p>
+<p>如果新的资源分配状态是安全的，那么交易完成且进程Pi可分配到需要的资源；如果新状态不安全，则Pi应等待并恢复到原来的资源分配状态</p>
+</li>
+</ol>
+<img src="https://i.loli.net/2020/10/23/tNGFWoT8PyiO4kC.png" alt="image-20201023195806388.png" style="zoom:80%;" />
+<p><img src="https://i.loli.net/2020/10/23/pmA7rF9loONXk2H.png" alt="image-20201023195541997.png" /></p>
+<h3 id="75-死锁检测"><a class="markdownIt-Anchor" href="#75-死锁检测"></a> 7.5 死锁检测</h3>
+<h4 id="单个实例"><a class="markdownIt-Anchor" href="#单个实例"></a> 单个实例</h4>
+<p>将资源分配图中的资源类型节点去除，合并适当边，得到等待(wait-for)图</p>
+<h4 id="多个实例"><a class="markdownIt-Anchor" href="#多个实例"></a> 多个实例</h4>
+<p>银行家算法</p>
+<h3 id="76-死锁恢复"><a class="markdownIt-Anchor" href="#76-死锁恢复"></a> 7.6 死锁恢复</h3>
+<h4 id="进程终止"><a class="markdownIt-Anchor" href="#进程终止"></a> 进程终止</h4>
+<ul>
+<li>终止所有死锁进程</li>
+<li>一次终止一个进程，直到消除死循环为止</li>
+<li>最小代价(minimum cost): 按最小代价终止进程
+<ul>
+<li>优先级</li>
+<li>计算时间</li>
+<li>使用资源数量</li>
+</ul>
+</li>
+</ul>
+<h4 id="资源抢占"><a class="markdownIt-Anchor" href="#资源抢占"></a> 资源抢占</h4>
+<ul>
+<li>
+<p>选择牺牲进程</p>
+<p>最小代价</p>
+</li>
+<li>
+<p>回滚</p>
+<p>被抢占资源的进程回滚到安全状态，通常为重新执行该进程</p>
+</li>
+<li>
+<p>饥饿</p>
+<p>确保一个进程只能有限次数被选为牺牲进程，在代价因素中加上回滚次数</p>
+</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>7.3 Consider the following snapshot of a system:<br />
+Allocation Max Available<br />
+<img src="https://i.loli.net/2020/10/23/qEJPmWyaANTzn54.png" alt="image-20201023200753433.png" style="zoom:80%;" /><br />
+Answer the following questions using the banker’s algorithm:<br />
+a. What is the content of the matrix Need?</p>
+<p>P0: (0, 0, 0, 0), P1:(0, 7, 5, 0), P2:(1, 0, 0, 2), P3:(0, 0, 2, 0), P4:(0, 6, 4, 2)</p>
+<p>b. Is the system in a safe state?</p>
+<p>处于安全状态，P1或P3申请资源后会满足需求，然后释放资源，P3释放后的可用资源能满足剩下任意进程的资源需求</p>
+<p>c. If a request from process P1 arrives for (0,4,2,0), can the request be<br />
+granted immediately?</p>
+<p>可以，P1申请资源后可用资源为(1, 1, 0, 0)，序列&lt;P0, P2, P3, P1, P4&gt;满足安全要求</p>
+<p>7.6 Consider a computer system that runs 5,000 jobs per month and has no<br />
+deadlock-prevention or deadlock-avoidance scheme. Deadlocks occur about twice per month, and the operator must terminate and rerun about ten jobs per deadlock. Each job is worth about two dollars (in CPU time), and the jobs terminated tend to be about half done when they are aborted.<br />
+A systems programmer has estimated that a deadlock-avoidance<br />
+algorithm (like the banker’s algorithm) could be installed in the system<br />
+with an increase of about 10 percent in the average execution time per<br />
+job. Since the machine currently has 30 percent idle time, all 5,000 jobs<br />
+per month could still be run, although turnaround time would increase<br />
+by about 20 percent on average.<br />
+a. What are the arguments for installing the deadlock-avoidance<br />
+algorithm?<br />
+b. What are the arguments against installing the deadlock-avoidance<br />
+algorithm?</p>
+<p>同意：可以避免死锁的发生，并且由于有空闲时间，5000个作业仍能每月完成，没有太大影响</p>
+<p>不同意：每月死锁发生次数不多，仅为2次，增加死锁避免方法产生的开销不如每月处理死锁产生的开销少</p>
+<p>7.7 Can a system detect that some of its processes are starving? If you answer<br />
+“yes,” explain how it can. If you answer “no,” explain how the system<br />
+can deal with the starvation problem.</p>
+<p>可以检测饥饿，先设置一个时间T用来判断进程是否为饥饿状态，当进程申请资源时，设置一个计时器开始计时，当时间超过T时，进程就被认为处于饥饿状态。</p>
+<p>7.8 Consider the following resource-allocation policy. Requests for and<br />
+releases of resources are allowed at any time. If a request for resources<br />
+cannot be satisfied because the resources are not available, thenwe check<br />
+any processes that are blocked waiting for resources. If a blocked process<br />
+has the desired resources, then these resources are taken away from it<br />
+and are given to the requesting process. The vector of resources for which<br />
+the blocked process is waiting is increased to include the resources that<br />
+were taken away.<br />
+For example, a system has three resource types, and the vector<br />
+Available is initialized to (4,2,2). If process P0 asks for (2,2,1), it gets<br />
+them. If P1 asks for (1,0,1), it gets them. Then, if P0 asks for (0,0,1), it<br />
+is blocked (resource not available). If P2 now asks for (2,0,0), it gets the<br />
+available one (1,0,0), as well as one that was allocated to P0 (since P0 is<br />
+blocked). P0’s Allocation vector goes down to (1,2,1), and its Need vector<br />
+goes up to (1,0,1).<br />
+a. Can deadlock occur? If you answer “yes,” give an example. If you<br />
+answer “no,” specify which necessary condition cannot occur.<br />
+b. Can indefinite blocking occur? Explain your answer.</p>
+<p>a. 死锁不会发生，因为非抢占的特性被打破了，进程间可以抢占资源</p>
+<p>b. 是的，如果一个进程需要多个常用资源，会经常被抢占资源，可能必须永久等待，即发生饥饿</p>
+<p>7.10 Is it possible to have a deadlock involving only one single-threaded<br />
+process? Explain your answer.</p>
+<p>不可能，单线程进程中的线程顺序执行，不会发生死锁</p>
+<p>7.17 Consider a system consisting of four resources of the same type that are<br />
+shared by three processes, each of which needs at most two resources.<br />
+Show that the system is deadlock free.</p>
+<p>因为一个进程最多需要2个资源，让每个进程都处于占有并等待的状态，也就是每个进程都占有1个资源，请求1个资源。此时剩余1个资源，无论分配给哪个进程，都能满足需求，然后释放资源，满足另外的进程的请求。所以死锁不会发生。</p>
+<p>7.19 Consider the version of the dining-philosophers problem in which the<br />
+chopsticks are placed at the center of the table and any two of them<br />
+can be used by a philosopher. Assume that requests for chopsticks are<br />
+made one at a time. Describe a simple rule for determining whether a<br />
+particular request can be satisfied without causing deadlock given the<br />
+current allocation of chopsticks to philosophers.</p>
+<p>当左边或右边的哲学家有筷子时，不能拿起筷子</p>
+<p>7.21 We can obtain the banker’s algorithm for a single resource type from<br />
+the general banker’s algorithm simply by reducing the dimensionality<br />
+of the various arrays by 1. Show through an example that we cannot<br />
+implement the multiple-resource-type banker’s scheme by applying the<br />
+single-resource-type scheme to each resource type individually.</p>
+<p>​	3 3</p>
+<p>​		Allocation	Max	Availiable</p>
+<p>​		A, B			 A, B	 A, B</p>
+<p>p1    0, 0    		2, 2	 3, 3</p>
+<p>p2    0, 0			1, 2</p>
+<p>p3    0, 0     		2, 1</p>
+<p>单资源分配时对于A、B来说&lt;p1, p2, p3&gt;都是安全序列，单双资源分配时&lt;P1, P2, P3&gt;不是安全序列，所以多资源分配时不能分别使单资源分配策略</p>
+<p>7.22 Consider the following snapshot of a system:</p>
+<img src="https://i.loli.net/2020/10/23/sKboN2awOEIUeXl.png" alt="image-20201023201000292.png" style="zoom:80%;" />
+<p>Using the banker’s algorithm, determine whether or not each of the<br />
+following states is unsafe. If the state is safe, illustrate the order in which<br />
+the processes may complete. Otherwise, illustrate why the state is unsafe.<br />
+a. Available = (0, 3, 0, 1)<br />
+b. Available = (1, 0, 0, 2)</p>
+<p>P0、P1、P2、P3、P4的需求矩阵为:</p>
+<p>​		A B C D</p>
+<p>P0	2 1 0 3</p>
+<p>P1	1 0 0 1</p>
+<p>P2	0 2 0 0</p>
+<p>P3	4 1 0 2</p>
+<p>P5	2 1 1 3</p>
+<p>a. 不安全，进程P2, P1, P3可以完成，但剩余资源满足不了其他进程的请求</p>
+<p>b. 安全，&lt;P1, P2, P0, P3, P4&gt;是一个安全序列，因此状态是安全的</p>
+<p>7.23 Consider the following snapshot of a system:</p>
+<img src="https://i.loli.net/2020/10/23/hXAgjS4rQqbF32E.png" alt="image-20201023201019048.png" style="zoom:80%;" />
+<p>Answer the following questions using the banker’s algorithm:<br />
+a. Illustrate that the system is in a safe state by demonstrating an<br />
+order in which the processes may complete.<br />
+b. If a request from process P1 arrives for (1, 1, 0, 0), can the request<br />
+be granted immediately?<br />
+c. If a request from process P4 arrives for (0, 0, 2, 0), can the request<br />
+be granted immediately?</p>
+<p>Need	A B C D 	Available</p>
+<p>P0		2 2 1 1		3 3 2 1</p>
+<p>P1		2 1 3 1</p>
+<p>P2		0 2 1 3</p>
+<p>P3		0 1 1 2		5 3 2 2</p>
+<p>P4		2 2 3 2</p>
+<p>a. &lt;P0, P3, P1, P2, P4&gt; 安全序列前两个为P0、P3,后面的P1、P2、P4可以随机排序</p>
+<p>b. 可以，P1请求i(1, 1, 0, 0)后仍存在安全序列&lt;P0, P3, P1, P2, P4&gt;</p>
+<p>C. 不行，P4请求(0, 0, 2, 0)后不存在安全序列</p>
+<p>7.25 A single-lane bridge connects the two Vermont villages of North<br />
+Tunbridge and South Tunbridge. Farmers in the two villages use this<br />
+bridge to deliver their produce to the neighboring town. The bridge<br />
+can become deadlocked if a northbound and a southbound farmer get<br />
+on the bridge at the same time. (Vermont farmers are stubborn and are<br />
+unable to back up.) Using semaphores and/or mutex locks, design an<br />
+algorithm in pseudocode that prevents deadlock. Initially, do not be<br />
+concerned about starvation (the situation in which northbound farmers<br />
+prevent southbound farmers from using the bridge, or vice versa).</p>
+<p>使用互斥信号量mutex，当有农夫上桥时将信号量mutex设为0, 下桥时设为1，当农夫想要上桥时需要等待信号量mutex = 1。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/27/OS/%E7%AC%AC6%E7%AB%A0%20CPU%E8%B0%83%E5%BA%A6/" rel="next" title="第6章 CPU调度">
+                  <i class="fa fa-chevron-left"></i> 第6章 CPU调度
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/11/15/OS/%E7%AC%AC8%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="prev" title="第8章 内存管理">
+                  第8章 内存管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁"><span class="nav-text"> 死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#71-死锁特性"><span class="nav-text"> 7.1 死锁特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#资源分配图"><span class="nav-text"> 资源分配图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#72-死锁处理方法"><span class="nav-text"> 7.2 死锁处理方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#73-死锁预防"><span class="nav-text"> 7.3 死锁预防</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#互斥"><span class="nav-text"> 互斥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#占有并等待"><span class="nav-text"> 占有并等待</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点"><span class="nav-text"> 缺点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非抢占"><span class="nav-text"> 非抢占</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#循环等待"><span class="nav-text"> 循环等待</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#74-死锁避免"><span class="nav-text"> 7.4 死锁避免</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安全状态"><span class="nav-text"> 安全状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#资源分配图算法"><span class="nav-text"> 资源分配图算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#银行家算法"><span class="nav-text"> 银行家算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据结构"><span class="nav-text"> 数据结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安全算法"><span class="nav-text"> 安全算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#资源请求算法"><span class="nav-text"> 资源请求算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#75-死锁检测"><span class="nav-text"> 7.5 死锁检测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单个实例"><span class="nav-text"> 单个实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多个实例"><span class="nav-text"> 多个实例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#76-死锁恢复"><span class="nav-text"> 7.6 死锁恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程终止"><span class="nav-text"> 进程终止</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#资源抢占"><span class="nav-text"> 资源抢占</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

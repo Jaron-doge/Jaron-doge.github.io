@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第六章 数据定义  6.1 ISO数据类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 数据定义">
+<meta property="og:url" content="http://yoursite.com/2021/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93/Chpater6%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第六章 数据定义  6.1 ISO数据类型">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/l8u6EwZv4BzpS9d.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/heclxiAfvDZE1OK.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png">
+<meta property="article:published_time" content="2021-05-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-22T05:15:54.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/05/l8u6EwZv4BzpS9d.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93/Chpater6%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第六章 数据定义 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/06/%E6%95%B0%E6%8D%AE%E5%BA%93/Chpater6%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第六章 数据定义
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-06 00:00:00" itemprop="dateCreated datePublished" datetime="2021-05-06T00:00:00+08:00">2021-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-22 13:15:54" itemprop="dateModified" datetime="2021-05-22T13:15:54+08:00">2021-05-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>8.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第六章-数据定义"><a class="markdownIt-Anchor" href="#第六章-数据定义"></a> 第六章 数据定义</h2>
+<h3 id="61-iso数据类型"><a class="markdownIt-Anchor" href="#61-iso数据类型"></a> 6.1 ISO数据类型</h3>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2021/05/05/l8u6EwZv4BzpS9d.png" alt="1.png" /></p>
+<ul>
+<li>
+<p>CHAR: CHAR [VARYING] [length]</p>
+</li>
+<li>
+<p>定点数：DEC(5, 3)</p>
+</li>
+</ul>
+<h3 id="62-完整性增强特性"><a class="markdownIt-Anchor" href="#62-完整性增强特性"></a> 6.2 完整性增强特性</h3>
+<ul>
+<li>必须有值的数据</li>
+<li>域约束</li>
+<li>实体完整性</li>
+<li>引用完整性</li>
+<li>企业级约束</li>
+</ul>
+<h4 id="621-必须有值的数据"><a class="markdownIt-Anchor" href="#621-必须有值的数据"></a> 6.2.1 必须有值的数据</h4>
+<p>某些列的值必须为有效值，不允许为空</p>
+<h4 id="622-域约束"><a class="markdownIt-Anchor" href="#622-域约束"></a> 6.2.2 域约束</h4>
+<h5 id="check"><a class="markdownIt-Anchor" href="#check"></a> CHECK</h5>
+<p>CHECK子句只能引用已定义列。</p>
+<p>CHECK(searchCondition)</p>
+<p>例：</p>
+<p>​	sex CHAR NOT NULL CHECK(sex IN(‘M’, ‘F’));</p>
+<h5 id="create-domain"><a class="markdownIt-Anchor" href="#create-domain"></a> CREATE DOMAIN</h5>
+<p>可以创造值域</p>
+<p>CREATE DOMAIN DomainName [AS] dataType</p>
+<p>[DEFAULT defaultOption]</p>
+<p>[CHECK(searchCondition)];</p>
+<p>sex sexType NOT NULL;</p>
+<h5 id="drop-domain"><a class="markdownIt-Anchor" href="#drop-domain"></a> DROP DOMAIN</h5>
+<p>撤销域约束</p>
+<p>DROP DOMAIN DomainName[RESTRICT | CASCADE]</p>
+<p>如果指定为RESTRICT，而该域正在被用于某个现存的表、视图或断言的定义，那么撤销失败。若指定为CASCADE，则任一表中基于该域的列都会自动地变为用该域的基类型定义。</p>
+<h4 id="623-实体完整性"><a class="markdownIt-Anchor" href="#623-实体完整性"></a> 6.2.3 实体完整性</h4>
+<p>PRIMARY KEY(clientNo, propertyNo);</p>
+<p><strong>UNIQUE</strong></p>
+<p>每个表中只能使用一个PRIMARY KEY子句。但是，可用关键字UNIQUE保证列的唯一性。UNIQUE子句中出现的每个列必须被声明为NOT NULL。</p>
+<p>UNIQUE(clientNo, propertyNo);</p>
+<h4 id="624-引用完整性"><a class="markdownIt-Anchor" href="#624-引用完整性"></a> 6.2.4 引用完整性</h4>
+<p>FOREIGN KEY(branchNo) REFERENCES Branch[(branchNo)]</p>
+<p><strong>UPDATE / DELETE</strong></p>
+<ul>
+<li>CASCADE: 删除父表中的行并且自动删除子表中匹配的行。</li>
+<li>SET NULL: 删除父表中的元组且设置子表中的外键为NULL。</li>
+<li>SET DEFAULT: 删除父表中的元组且设子表中的外键为默认值。</li>
+<li>NO ACTION: 拒绝对父表进行删除操作。ON DELETE规则的默认设置为ON ACTION。</li>
+</ul>
+<p>FOREIGN KEY(branchNo) REFERENCES Branch[(branchNo)] ON UPDATE CASCADE；</p>
+<h4 id="625-企业级约束"><a class="markdownIt-Anchor" href="#625-企业级约束"></a> 6.2.5 企业级约束</h4>
+<p><strong>|断言|</strong>：跨表约束</p>
+<p>CREATE ASSERTION AssertionName</p>
+<p>CHECK(searchCondition)</p>
+<h3 id="63-数据定义"><a class="markdownIt-Anchor" href="#63-数据定义"></a> 6.3 数据定义</h3>
+<ul>
+<li>
+<p>CREATE SCHEMA / DOMAIN / TABLE / VIEW / INDEX</p>
+</li>
+<li>
+<p>DROP SCHEMA / DOMAIN / TABLE / VIEW / INDEX</p>
+</li>
+<li>
+<p>ALTER DOMAIN / TABLE</p>
+</li>
+</ul>
+<h4 id="631-创建数据库"><a class="markdownIt-Anchor" href="#631-创建数据库"></a> 6.3.1 创建数据库</h4>
+<p>CREATE SCHEMA[Name | AUTHORIZATION Creatorldentifier]</p>
+<p>DROP SCHEMA Name[RESTRICT | CASCADE]</p>
+<p>如果指定了RESTRICT，则模式必须为空才能删除。</p>
+<h4 id="632-创建表"><a class="markdownIt-Anchor" href="#632-创建表"></a> 6.3.2 创建表</h4>
+<p>CREATE TABLE TableName<br />
+({colName dataType [NOT NULL] [UNIQUE] [PRIMARY KEY]<br />
+[DEFAULT defaultOption]<br />
+[CHECK searchCondition] [,…]}<br />
+[PRIMARY KEY (listOfColumns),]<br />
+{[UNIQUE (listOfColumns),] […,]}<br />
+{[FOREIGN KEY (listOfFKColumns)<br />
+REFERENCES ParentTableName<br />
+[(listOfCKColumns)],<br />
+[ON UPDATE referentialAction]<br />
+[ON DELETE referentialAction ]] [,…]}<br />
+{[CHECK (searchCondition)] [,…] })</p>
+<p><strong>表约束可以用CONSTRAINT ConstraintName作为前缀</strong></p>
+<h4 id="633-修改表定义"><a class="markdownIt-Anchor" href="#633-修改表定义"></a> 6.3.3 修改表定义</h4>
+<ul>
+<li>添加/删除列</li>
+<li>添加/删除表约束</li>
+<li>设置/删除列默认值</li>
+</ul>
+<p>ALTER TABLE TabName<br />
+[ADD [COLUMN] columnName dataType<br />
+[NOT NULL][UNIQUE]<br />
+[DEFAULT defaultOption][CHECK (searchCondition)]]<br />
+[DROP [COLUMN] columnName [RESTRICT | CASCADE ]]<br />
+[ADD [CONSTRAINT [constraintName]] tableConstraintDefinition]<br />
+[DROP CONSTRAINT constraintName [RESTRICT | CASCADE ]]<br />
+[ALTER [COLUMN] SET DEFAULT defaultOption]<br />
+[ALTER [COLUMN] DROP DEFAULT]</p>
+<h4 id="634-删除表"><a class="markdownIt-Anchor" href="#634-删除表"></a> 6.3.4 删除表</h4>
+<p>DROP TABLE TableName [RESTRICT | CASCADE];</p>
+<h4 id="635-创建索引"><a class="markdownIt-Anchor" href="#635-创建索引"></a> 6.3.5 创建索引</h4>
+<p><strong>|索引|</strong>：索引是一种结构，它提供了基于一个或多个列值快速访问表中元组的方法。</p>
+<p>CREATE [UNIQUE] INDEX IndexName ON TableName (columnName [ASC |DESC][,…])</p>
+<p>索引只能基于基表建立，而不能基于视图。对于每个列，可以指定升序或降序排列。</p>
+<h4 id="636-删除索引"><a class="markdownIt-Anchor" href="#636-删除索引"></a> 6.3.6 删除索引</h4>
+<p>DROP INDEX IndexName;</p>
+<h3 id="64-视图"><a class="markdownIt-Anchor" href="#64-视图"></a> 6.4 视图</h3>
+<p><strong>|视图|</strong>：为了得到另一个关系而对际关系进行一次或多次关系操作所得到的动态结果。视图是虚关系，即在数据库中不存在，需要时根据特定用户的要求临时生成。</p>
+<p>​		当DBMS遇到视图引用时，一种方法是查找视图定义，并且将请求转换为对于视图源表的等价请求，然后完成等价的请求操作。这个转换的过程称为<strong>试图分解</strong>。</p>
+<p>​		另一种可供选择的方法称为<strong>视图物化</strong>，即把视图存储在数据库的临时表中，并在基表变化时更新临时表以及时维护试图。</p>
+<h4 id="641-创建视图"><a class="markdownIt-Anchor" href="#641-创建视图"></a> 6.4.1 创建视图</h4>
+<p>CREATE VIEW ViewName [ (newColumnName [,…]) ]<br />
+AS subselect [WITH [CASCADED | LOCAL] CHECK OPTION]</p>
+<ul>
+<li>subselect称为定义查询。如果说明WITH CHECK POTION， SQL将确保那些不满足定义查询中WHERE子句的行不会被添加到视图的基表中。</li>
+</ul>
+<p>例：</p>
+<p>CREATE VIEW StaffPropCnt (branchNo, staffNo, cnt)<br />
+AS SELECT s.branchNo, s.staffNo, COUNT(*)<br />
+FROM Staff s, PropertyForRent p<br />
+WHERE s.staffNo = p.staffNo<br />
+GROUP BY s.branchNo, s.staffNo;</p>
+<h4 id="642-删除视图"><a class="markdownIt-Anchor" href="#642-删除视图"></a> 6.4.2 删除视图</h4>
+<p>DROP VIEW ViewName [RESTRICT| CASCADE]</p>
+<h4 id="643-视图分解"><a class="markdownIt-Anchor" href="#643-视图分解"></a> 6.4.3 视图分解</h4>
+<p>例：</p>
+<p>SELECT staffNo, cnt<br />
+FROM StaffPropCnt<br />
+WHERE branchNo = ‘B003’<br />
+ORDER BY staffNo;</p>
+<p>​			↓</p>
+<p>SELECT s.staffNo, COUNT(*)<br />
+FROM staff s, PropertyForRent p<br />
+WHERE s.staffNo = p.staffNo AND branchNo = ‘B003’<br />
+GROUP BY s.branchNo, s.staffNo<br />
+ORDER BY s.staffNo;</p>
+<h4 id="644-视图的局限性"><a class="markdownIt-Anchor" href="#644-视图的局限性"></a> 6.4.4 视图的局限性</h4>
+<p>如果视图中某个列是基于聚集函数的，那么在访问该视图的查询语句中，该列只能出现在SELECT和ORDER BY子句里。具体地说，在基于该视图的查询语句中，该列不能出现在WHERE子句中，也不能作为任何聚集函数的参数。</p>
+<h4 id="645-视图的可更新性"><a class="markdownIt-Anchor" href="#645-视图的可更新性"></a> 6.4.5 视图的可更新性</h4>
+<p><strong>|可更新视图|</strong>：为了使视图可更新，对于任何一个行或列，DBMS必须都能追溯到其源表中相应的行或列。</p>
+<h4 id="646-with-check-option"><a class="markdownIt-Anchor" href="#646-with-check-option"></a> 6.4.6 WITH CHECK OPTION</h4>
+<p><strong>|行迁移|</strong>：视图中的行均满足定义查询中的WHERE条件。如果某行被修改后不再满足这种条件，那么它应当从视图中取出。进入或离开视图的行称为迁移行。通常来说，CREATE VIEW语句中的WITH CHECK POTION子句用于禁止行迁移出视图。</p>
+<p>例：</p>
+<p>CREATE VIEW LowSalary<br />
+AS SELECT * FROM Staff WHERE salary &gt; 9000;</p>
+<p>CREATE VIEW HighSalary<br />
+AS SELECT * FROM LowSalary<br />
+WHERE salary &gt; 10000<br />
+WITH LOCAL CHECK OPTION;</p>
+<p>CREATE VIEW Manager3Staff<br />
+AS SELECT * FROM HighSalary<br />
+WHERE branchNo = ‘B003’;</p>
+<p>失败</p>
+<p>UPDATE Manager3Staff SET salary = 9500<br />
+WHERE staffNo = ‘SG37’;</p>
+<p>成功</p>
+<p>UPDATE Manager3Staff SET salary = 8000<br />
+WHERE staffNo = ‘SG37’;</p>
+<p>因为该行也会从LowSalary中去除。</p>
+<h4 id="647-视图的优缺点"><a class="markdownIt-Anchor" href="#647-视图的优缺点"></a> 6.4.7 视图的优缺点</h4>
+<p>优点：</p>
+<ul>
+<li>数据独立性</li>
+<li>实时性</li>
+<li>提高了安全性</li>
+<li>降低了复杂性</li>
+<li>方便</li>
+<li>用户化</li>
+<li>数据完整性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>更新局限性</li>
+<li>结构局限性</li>
+<li>性能开销</li>
+</ul>
+<h4 id="648-视图物化"><a class="markdownIt-Anchor" href="#648-视图物化"></a> 6.4.8 视图物化</h4>
+<p><strong>|视图物化|</strong>：把第一次访问视图的结果存储为数据库的临时表。</p>
+<h3 id="65-事务"><a class="markdownIt-Anchor" href="#65-事务"></a> 6.5 事务</h3>
+<h4 id="651-结束事务四种方式"><a class="markdownIt-Anchor" href="#651-结束事务四种方式"></a> 6.5.1 结束事务四种方式</h4>
+<ul>
+<li>COMMIT语句成功提交事务</li>
+<li>ROLLBACK语句撤销事务</li>
+<li>程序成功终止</li>
+<li>不正常的程序终止撤销事务</li>
+</ul>
+<h4 id="652-格式"><a class="markdownIt-Anchor" href="#652-格式"></a> 6.5.2 格式</h4>
+<p>SET TRANSACTION<br />
+[READ ONLY | READ WRITE] |<br />
+[ISOLATION LEVEL READ UNCOMMITTED<br />
+|READ COMMITTED|REPEATABLE READ<br />
+|SERIALIZABLE ]</p>
+<p>隔离级表明事务执行过程中允许其他事务交互的程度。只有SERIALIZABLE隔离级是安全的。</p>
+<h3 id="66-自主访问控制"><a class="markdownIt-Anchor" href="#66-自主访问控制"></a> 6.6 自主访问控制</h3>
+<p><strong>授权标识符和所有权</strong></p>
+<p>​		授权标识符是SQL用于辨别用户的一般标识符。每个数据库用户都由数据库管理员分配一个授权标识符。为了安全起见，授权标识符都和一个密码相关联。可用授权标识符来确定用户可访问哪些数据库对象，以及对哪些对象进行什么操作。</p>
+<p>​		SQL中创建的每个对象都有一个所有者。所有者就是创建该对象所属的模式时AUTHORIZATION子句定义的授权标识符。最初只有所有者知道对象存在，并能对其进行任何操作。</p>
+<p><strong>权限</strong></p>
+<p>允许用户对指定基表或视图进行的操作。</p>
+<ul>
+<li>
+<p>SELECT</p>
+</li>
+<li>
+<p>INSERT</p>
+</li>
+<li>
+<p>UPDATE</p>
+</li>
+<li>
+<p>DELETE</p>
+</li>
+<li>
+<p>REFERENCES</p>
+</li>
+<li>
+<p>USAGE</p>
+</li>
+</ul>
+<p>​        INSERT和UPDATE权限可以限制表中指定的列，允许改变这些列但不允许改变其他列。相似地，REFERENCES权限可以限制表中指定的列。</p>
+<p>​		当用户用CREATE VIEW创建视图时，他自动成为视图的所有者但并不一定具有视图的所有权限。创建视图时，用户必须具有对组成视图的所有表的SELECT权限，以及视图中列的REFERENCES权限等。</p>
+<h4 id="661-授予其他用户权限grant"><a class="markdownIt-Anchor" href="#661-授予其他用户权限grant"></a> 6.6.1 授予其他用户权限(GRANT)</h4>
+<p>GRANT {PrivilegeList | ALL PRIVILEGES}<br />
+ON ObjectName<br />
+TO {AuthorizationIdList | PUBLIC}<br />
+[WITH GRANT OPTION]</p>
+<p>PrivilegeList由下列用逗号分开的一个或多个权限组成：<br />
+SELECT</p>
+<p>DELETE</p>
+<p>INSERT		[{cloName{…}}]</p>
+<p>UPDATE		[{cloName{…}}]</p>
+<p>REFERENCES	[{cloName{…}}]</p>
+<p>USAGE</p>
+<p>PUBLIC允许所有现在或未来授权用户访问数据，而不局限于DBMS系统当前已有的用户。</p>
+<p>WITH GRANT OPTION子句允许AuthorizationIdList中的用户讲他们拥有的对指定对象的权限传递给其他用户。</p>
+<h4 id="662-撤销用户权限revoke"><a class="markdownIt-Anchor" href="#662-撤销用户权限revoke"></a> 6.6.2 撤销用户权限(REVOKE)</h4>
+<p>REVOKE takes away privileges granted with GRANT.<br />
+REVOKE [GRANT OPTION FOR]<br />
+{PrivilegeList | ALL PRIVILEGES}<br />
+ON ObjectName<br />
+FROM {AuthorizationIdList | PUBLIC}<br />
+[RESTRICT | CASCADE]</p>
+<p>​		可选的子句GRANT OPTION FOR允许通过GRANT语句中的WITH GRANT OPTION传递的那些权限被独立地撤销。</p>
+<p>​		用户从其他用户那里获得的权限不受这个REVOKE语句的影响。</p>
+<p>例：</p>
+<p>A→B→C→D			E→D</p>
+<p>A撤销给B的权限后C、D不受影响</p>
+<p><img src="https://i.loli.net/2021/05/05/heclxiAfvDZE1OK.png" alt="2.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<ol>
+<li>
+<p>Discuss the functionality and importance of the Integrity Enhancement Feature (IEF).</p>
+<p>完整性约束共有五种类型：必须有值的数据、域约束、实体完整性、引用完整性和企业级约束。必须有值的数据让某些列的值必须为有效值，不允许为空。域约束限制每列合法值的集合。实体完整性让表中每一行的主关键字必须是唯一的非空值。引用完整性让外键必须是父表中已存在的有效的元组。企业级约束用来约束表的更新。</p>
+</li>
+<li>
+<p>Discuss the advantages and disadvantages of views.</p>
+<p>优点：</p>
+<ul>
+<li>数据独立性</li>
+<li>实时性</li>
+<li>提高了安全性</li>
+<li>降低了复杂性</li>
+<li>方便</li>
+<li>用户化</li>
+<li>数据完整性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>更新局限性</li>
+<li>结构局限性</li>
+<li>性能开销</li>
+</ul>
+</li>
+<li>
+<p>What restrictions are necessary to ensure that a view is updatable?</p>
+<ul>
+<li>没有指定DISTINCT，即重复元组未从查询结果中消除。</li>
+<li>定义查询的SELECT列表中的每个元素均为列名，且列名出现的次数不多于一次。</li>
+<li>FROM子句只指定一个表，即视图只有一个源表且用户对该表有要求的权限。</li>
+<li>WHERE子句不能包括任何引用了FROM子句中的表的嵌套SELECT操作。</li>
+<li>定义查询中不能有GROUP BY或HAVING子句。</li>
+</ul>
+</li>
+<li>
+<p>Discuss how the Access Control mechanism of SQL works.</p>
+<p>SQL通过GRANT和REVOKE语句来支持自主访问控制。该机制基于授权标识符、所有权和权限的概念。</p>
+<p>授权标识符：授权标识符是SQL用于辨别用户的一般标识符。每个数据库用户都由数据库管理员分配一个授权标识符。为了安全起见，授权标识符都和一个密码相关联。可用授权标识符来确定用户可访问哪些数据库对象，以及对哪些对象进行什么操作。</p>
+<p>所有权：SQL中创建的每个对象都有一个所有者。所有者就是创建该对象所属的模式时AUTHORIZATION子句定义的授权标识符。最初只有所有者知道对象存在，并能对其进行任何操作。</p>
+<p>权限：允许用户对指定基表或视图进行的操作。有SELECT、INSERT、UPDATE、DELETE、REFERENCES和USAGE。其中，INSERT和UPDATE权限可以限制表中指定的列，允许改变这些列但不允许改变其他列。相似地，REFERENCES权限可以限制表中指定的列。</p>
+</li>
+</ol>
+<p>Answer the following questions using the relational schema from the Exercises at the end of Chapter 3.</p>
+<p><img src="https://i.loli.net/2021/05/05/f1wbWg5rZ3l9RFX.png" alt="4.png" /></p>
+<ol start="5">
+<li>
+<p>Create the Hotel table using the integrity enhancement features of SQL.</p>
+<p>CREATE DOMAIN HotelNoType AS CHAR(4);</p>
+<p>CREATE TABLE Hotel(</p>
+<p>hotelNo HotelNoType NOT NULL PRIMARY KEY,</p>
+<p>hotelName VARCHAR(15) NOT NULL,</p>
+<p>city VARCHAR(30) NOT NULL</p>
+<p>);</p>
+</li>
+<li>
+<p>Now create the Room, Booking, and Guest tables using the integrity enhancement features of SQL with the following constraints:<br />
+(a) Type must be one of Single, Double, or Family.<br />
+(b) Price must be between £10 and £100.<br />
+© roomNo must be between 1 and 100.<br />
+(d) dateFrom and dateTo must be greater than today’s date.<br />
+(e) The same room cannot be double booked.<br />
+(f) The same guest cannot have overlapping bookings.</p>
+<p>CREATE TABLE Guest(</p>
+<p>guestNo INTEGER(10) NOT NULL PRIMARY KEY,</p>
+<p>guestName VARCHAR(20) NOT NULL,</p>
+<p>guestAddress VARCHAR(30) NOT NULL</p>
+<p>)</p>
+<p>CREATE TABLE Room(</p>
+<p>roomNo INTEGER(4) NOT NULL CHECK(roomNo BETWEEN 1 AND 100),</p>
+<p>hotelNo INTEGER(5) NOT NULL,</p>
+<p>type VARCHAR(10) CHECK(type IN(‘Single’, ‘Double’, ‘Family’)),</p>
+<p>price DECIMAL(8, 2) CHECK(price BETWEEN 10 AND 100),</p>
+<p>PRIMARYR KEY(roomNo, hotelNo),</p>
+<p>FOREIGN KEY(hotelNo) REFERENCES Hotel(hotelNo)</p>
+<p>ON DELETE CASCADE ON UPDATE CASCADE</p>
+<p>);</p>
+<p>CREATE TABLE Booking(</p>
+<p>hotelNo INTEGER(5) NOT NULL,</p>
+<p>guestNo INTEGER(10) NOT NULL,</p>
+<p>dateFrom DATE NOT NULL CHECK(VALUE &gt; currentDate),</p>
+<p>dateTo DATE NOT NULL CHECK(VALUE &gt; currentDate),</p>
+<p>roomNo INTEGER(4) NOT NULL,</p>
+<p>PRIMARY KEY(hotelNo, guestNo, dateFrom),</p>
+<p>FOREIGN KEY(hotelNo) REFERENCES Hotel(hotelNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>FOREIGN KEY(roomNo, hotelNo) REFERENCES Room(roomNo, hotelNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>FOREIGN KEY(guestNo) REFERENCES Guest(guestNo) ON DELETE CASCADE ON UPDATE CASCADE,</p>
+<p>CHECK(NOT EXISTS(SELECT * FROM Booking b WHERE b.dateTo &gt; Booking.dateFrom AND b.dateFrom &lt; Booking.dateTo AND</p>
+<p>b.roomNo = Booking.roomNo AND b.hotelNo = Booking.hotelNo)),</p>
+<p>CHECK(NOT EXISTS(SELECT * FROM Booking b WHERE b.dateTo &gt; Booking.dateFrom AND b.dateFrom &lt; Booking.dateTo AND b.guestNo = Booking.guestNo))</p>
+<p>) ;</p>
+</li>
+<li>
+<p>Consider the following view defined on the Hotel schema:<br />
+CREATE VIEW HotelBookingCount (hotelNo, bookingCount)<br />
+AS SELECT h.hotelNo, COUNT(*)<br />
+FROM Hotel h, Room r, Booking b<br />
+WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo<br />
+GROUP BY h.hotelNo;<br />
+For each of the following queries, state whether the query is valid and for the valid ones should how each of the queries would be mapped onto a query on the underling base tables.<br />
+(a) SELECT * FROM HotelBookingCount;</p>
+</li>
+</ol>
+<p>​	有效，视图分解为</p>
+<p>​	SELECT h.hotelNo, COUNT(*)</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​		GROUP BY h.hotelNo;</p>
+<p>(b) SELECT hotelNo FROM HotelBookingCount WHERE hotelNo = ‘H001’;</p>
+<p>​	有效，视图分解为</p>
+<p>​	SELECT h.hotelNo</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = b.roomNo</p>
+<p>​		AND hotelNo = ‘H001’</p>
+<p>​		GROUP BY h.hotelNo;</p>
+<p>© SELECT MIN(bookingCount) FROM HotelBookingCount;</p>
+<p>​	无效，bookingCount是基于聚集函数的，所以不能作为聚集函数的参数</p>
+<p>(d) SELECT COUNT(*) FROM HotelBookingCount;</p>
+<p>​	无效，视图中的bookingCount是基于聚集函数的，不能作为聚集函数的参数</p>
+<p>(e) SELECT hotelNo FROM HotelBookingCount WHERE bookingCount &gt; 1000;</p>
+<p>​	无效，bookingCount是基于聚集函数的，不能出现在WHERE子句中</p>
+<p>(f) SELECT hotelNo FROM HotelBookingCount ORDER BY bookingCount;</p>
+<p>​	有效，视图分解为</p>
+<p>​		SELECT h.hotelNo,</p>
+<p>​		FROM Hotel h, Room r, Booking b</p>
+<p>​		WHERE h.hotelNo = r.hotelNo AND r.roomNo = 	b.roomNo</p>
+<p>​		GROUP BY h.hotelNo</p>
+<p>​		ORDER BY COUNT(*);</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/04/23/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter5%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/" rel="next" title="第五章 数据操作">
+                  <i class="fa fa-chevron-left"></i> 第五章 数据操作
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/05/13/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter7%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%8F%91%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="prev" title="第七章 数据库系统开发生命周期">
+                  第七章 数据库系统开发生命周期 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-数据定义"><span class="nav-text"> 第六章 数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#61-iso数据类型"><span class="nav-text"> 6.1 ISO数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-完整性增强特性"><span class="nav-text"> 6.2 完整性增强特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#621-必须有值的数据"><span class="nav-text"> 6.2.1 必须有值的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#622-域约束"><span class="nav-text"> 6.2.2 域约束</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#check"><span class="nav-text"> CHECK</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#create-domain"><span class="nav-text"> CREATE DOMAIN</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#drop-domain"><span class="nav-text"> DROP DOMAIN</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#623-实体完整性"><span class="nav-text"> 6.2.3 实体完整性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#624-引用完整性"><span class="nav-text"> 6.2.4 引用完整性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#625-企业级约束"><span class="nav-text"> 6.2.5 企业级约束</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-数据定义"><span class="nav-text"> 6.3 数据定义</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#631-创建数据库"><span class="nav-text"> 6.3.1 创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#632-创建表"><span class="nav-text"> 6.3.2 创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#633-修改表定义"><span class="nav-text"> 6.3.3 修改表定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#634-删除表"><span class="nav-text"> 6.3.4 删除表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#635-创建索引"><span class="nav-text"> 6.3.5 创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#636-删除索引"><span class="nav-text"> 6.3.6 删除索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-视图"><span class="nav-text"> 6.4 视图</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#641-创建视图"><span class="nav-text"> 6.4.1 创建视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#642-删除视图"><span class="nav-text"> 6.4.2 删除视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#643-视图分解"><span class="nav-text"> 6.4.3 视图分解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#644-视图的局限性"><span class="nav-text"> 6.4.4 视图的局限性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#645-视图的可更新性"><span class="nav-text"> 6.4.5 视图的可更新性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#646-with-check-option"><span class="nav-text"> 6.4.6 WITH CHECK OPTION</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#647-视图的优缺点"><span class="nav-text"> 6.4.7 视图的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#648-视图物化"><span class="nav-text"> 6.4.8 视图物化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-事务"><span class="nav-text"> 6.5 事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#651-结束事务四种方式"><span class="nav-text"> 6.5.1 结束事务四种方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#652-格式"><span class="nav-text"> 6.5.2 格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-自主访问控制"><span class="nav-text"> 6.6 自主访问控制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#661-授予其他用户权限grant"><span class="nav-text"> 6.6.1 授予其他用户权限(GRANT)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#662-撤销用户权限revoke"><span class="nav-text"> 6.6.2 撤销用户权限(REVOKE)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

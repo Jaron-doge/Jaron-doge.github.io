@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第七章 异常处理  7.1 抛出异常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第七章 异常处理">
+<meta property="og:url" content="http://yoursite.com/2020/01/11/C++/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第七章 异常处理  7.1 抛出异常">
+<meta property="article:published_time" content="2020-01-11T10:31:21.000Z">
+<meta property="article:modified_time" content="2020-01-11T10:35:33.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="Essential C++">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/01/11/C++/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第七章 异常处理 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/11/C++/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第七章 异常处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-11 18:31:21 / 修改时间：18:35:33" itemprop="dateCreated datePublished" datetime="2020-01-11T18:31:21+08:00">2020-01-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第七章-异常处理"><a class="markdownIt-Anchor" href="#第七章-异常处理"></a> 第七章 异常处理</h2>
+<h3 id="71-抛出异常"><a class="markdownIt-Anchor" href="#71-抛出异常"></a> 7.1 抛出异常</h3>
+<a id="more"></a>
+<ol>
+<li>两个成分
+<ul>
+<li>异常的鉴定与发出</li>
+<li>异常的处理方式</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">iterator_overflow</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	iterator_overflow(<span class="keyword">int</span> index, <span class="keyword">int</span> <span class="built_in">max</span>)</span><br><span class="line">    : _index(index), _max(<span class="built_in">max</span>) &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _index;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> _max;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">what_happened</span><span class="params">(ostream &amp;os = <span class="built_in">cerr</span>)</span> </span>&#123;</span><br><span class="line">        os &lt;&lt; <span class="string">"Internal error : current index "</span></span><br><span class="line">            &lt;&lt; _index &lt;&lt; <span class="string">" exceds maximun bound: "</span></span><br><span class="line">            &lt;&lt; _max;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> _index;</span><br><span class="line">    <span class="keyword">int</span> _max;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="keyword">if</span>(_index &gt; Triangular::max_elems) &#123;</span><br><span class="line">    <span class="function">iterator_overflow <span class="title">ex</span><span class="params">(_index, Triangular::_max_elems)</span></span>;</span><br><span class="line">    <span class="keyword">throw</span> ex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="72-捕获异常"><a class="markdownIt-Anchor" href="#72-捕获异常"></a> 7.2 捕获异常</h3>
+<h4 id="721-catch"><a class="markdownIt-Anchor" href="#721-catch"></a> 7.2.1 catch</h4>
+<p>​	1. catch由3个部分组成，关键字catch、小括号内的一个类型或对象、大括号内的一组语句。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">log_message</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*)</span></span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="built_in">string</span> err_messages[];</span><br><span class="line"><span class="keyword">extern</span> ostream log_file;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">some_function</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> status = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">catch</span>(<span class="keyword">int</span> errno) &#123;</span><br><span class="line">        log_message(err_messages[errno]);</span><br><span class="line">        status = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">        log_message(str);</span><br><span class="line">        status = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(iterator_overflow &amp;iof) &#123;</span><br><span class="line">		iof.what_happened(log_file);	</span><br><span class="line">        status = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>异常对象的类型会被拿来逐一地和每个catch子句比对。如果类型符合，那么该catch子句的内容便会被执行。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> <span class="number">42</span>;</span><br><span class="line"><span class="keyword">throw</span> <span class="string">"panic: no buffer!"</span>;</span><br><span class="line"><span class="keyword">throw</span> iterator_overflow(_index, Triangularr::_max_elems);</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>无法完成异常的完整处理时，或许需要重新抛出异常</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">catch</span>(iterator_overflow &amp;iof) &#123;</span><br><span class="line">	log_message(iof.what_happened());</span><br><span class="line">    <span class="comment">// 重新抛出异常</span></span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​		**重新抛出时，只需写下关键字throw即可。**它只能出现于catch子句中。</p>
+<ol start="4">
+<li>
+<p>catch-all</p>
+<p>异常声明部分指定省略号</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 捕获任何类型的异常</span></span><br><span class="line"><span class="keyword">catch</span>(…) &#123;</span><br><span class="line">    log_message(<span class="string">"exception of unknown type"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="73-提炼异常"><a class="markdownIt-Anchor" href="#73-提炼异常"></a> 7.3 提炼异常</h3>
+<h4 id="731-try"><a class="markdownIt-Anchor" href="#731-try"></a> 7.3.1 try</h4>
+<p>​		catch子句放在try块的末尾，表示如果try块内由任何异常发生，便由接下来的catch子句加以处理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">has_elem</span><span class="params">(Triangular_iterator first, </span></span></span><br><span class="line"><span class="function"><span class="params">             Triangular_iterator last, <span class="keyword">int</span> elem)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> status = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (first != last) &#123;</span><br><span class="line">            <span class="keyword">if</span>(*first == elem)</span><br><span class="line">                <span class="keyword">return</span> status;</span><br><span class="line">            ++first;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 只捕获其中类型为iterator_overflow的异常。</span></span><br><span class="line">    <span class="keyword">catch</span>(iterator_overflow &amp;iof) </span><br><span class="line">    &#123;</span><br><span class="line">        log_message(iof.what_happened());</span><br><span class="line">        log_message(<span class="string">"check if iterators address same container"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    status = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> status;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>first的提领操作和递增操作属于has_elem()的实现细节，而iterator_overflow是该实现内容的一个方面。把异常限定在has_elem()内部，因为has_elem()对于这一异常在程序执行过程中的重要性是最清楚的。</p>
+</li>
+<li>
+<p>其中的表达式 *first 会调用被重载的dereference运算符</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="keyword">int</span> Triangular_iterator::<span class="keyword">operator</span>*() </span><br><span class="line">&#123;</span><br><span class="line">	check_integrity();</span><br><span class="line">    <span class="keyword">return</span> Triangular::_elems[_index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继续内调check_integrity();</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">Triangular_iterator::check_integrity</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(_index &gt;= Triangular::_max_elems)</span><br><span class="line">        <span class="keyword">throw</span> iterator_overflow(_index, Triangular::_max_elems);</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>throw表达式并非位于try块内，check_integrity()的剩余内容不会被执行，异常处理机制终结了check_integrity()的执行权。</p>
+</li>
+<li>
+<p>异常处理会沿着“函数调用链”找合适的catch子句，如果在main()内还是找不到合适的处理程序，就调用标准库提供的terminate()，中断整个程序的执行。</p>
+</li>
+</ol>
+<h3 id="74-局部资源管理"><a class="markdownIt-Anchor" href="#74-局部资源管理"></a> 7.4 局部资源管理</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> Mutex m;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> *p = <span class="keyword">new</span> <span class="keyword">int</span>;</span><br><span class="line">    m.acquire();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">process</span>(p);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 释放资源</span></span><br><span class="line">	m.<span class="built_in">release</span>();</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​		如果process()内抛出异常，那么process()调用操作之后的两条用以释放资源的语句便不会被执行。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一种效率较低的解决方法</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 和先前一样</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(...) &#123;</span><br><span class="line">        m.<span class="built_in">release</span>();</span><br><span class="line">        <span class="keyword">delete</span> p;</span><br><span class="line">        <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="741-资源管理"><a class="markdownIt-Anchor" href="#741-资源管理"></a> 7.4.1 资源管理</h4>
+<ol>
+<li>
+<p>resource acquisition in initialization</p>
+<p>在初始化阶段即进行资源请求</p>
+<p>对对象而言，初始化操作、资源的请求发生于constructor内，资源的释放在destructor内完成。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记得加头文件memory</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">auto_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function">MutexLock <span class="title">m1</span><span class="params">(m)</span></span>;</span><br><span class="line">    <span class="built_in">process</span>(p);</span><br><span class="line">    <span class="comment">// p和m1的destructor会在此处被悄悄调用……</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>在异常处理机制终结某个函数之前，函数中的所有局部对象的destructor都会被调用。</p>
+</li>
+<li>
+<p>auto_ptr是标准库提供的class template，它会自动删除通过new表达式分配的对象。</p>
+</li>
+<li>
+<p>auto_ptr将dereference运算符和arrow运算符予以重载，可以像使用一般指针一样使用auto_ptr对象。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="function"><span class="built_in">auto_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">aps</span><span class="params">(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"vermeer"</span>))</span></span>;</span><br><span class="line"><span class="built_in">string</span> *ps = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"vermeer"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>((aps-&gt;<span class="built_in">size</span>() == ps-&gt;<span class="built_in">size</span>()) &amp;&amp; (*aps == *ps))</span><br><span class="line">    <span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<h3 id="75-标准异常"><a class="markdownIt-Anchor" href="#75-标准异常"></a> 7.5 标准异常</h3>
+<h4 id="751-bad_alloc"><a class="markdownIt-Anchor" href="#751-bad_alloc"></a> 7.5.1 bad_alloc</h4>
+<p>​		如果new表达式无法从程序的空闲空间分配到足够的内存，它会抛出 bad_alloc 异常对象</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;*</span><br><span class="line">init_text_vector(ifstream &amp;infile)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; *ptext = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ptext = <span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;;</span><br><span class="line">        <span class="comment">// 打开file和file vector</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// bad_alloc是个class，不是一个object。</span></span><br><span class="line">    <span class="keyword">catch</span>(bad_alloc) &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">"ouch. heap memory exhausted\n"</span>;</span><br><span class="line">        <span class="comment">// ……清理并退出</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ptext;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​		也可以抑制不让bad_alloc异常被抛出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ptext = <span class="keyword">new</span> (nothrow) <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;;</span><br></pre></td></tr></table></figure>
+<p>​		如果new操作失败，会返回0。</p>
+<h4 id="752-exception-class-hierarchy"><a class="markdownIt-Anchor" href="#752-exception-class-hierarchy"></a> 7.5.2 exception class hierarchy</h4>
+<ol>
+<li>
+<p>exception声明有一个what()虚函数，会返回一个const char*，用以表示被抛出异常的文字描述。</p>
+</li>
+<li>
+<p>bad_alloc派生自exception基类，它有自己的what()。</p>
+</li>
+<li>
+<p>将自己编写的iterator_overflow继承于exception基类之下。</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 头文件exception</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;exception&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">iterator_overflow</span> :</span> <span class="keyword">public</span> exception &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	iterator_overflow(<span class="keyword">int</span> index, <span class="keyword">int</span> <span class="built_in">max</span>)</span><br><span class="line">        : _index(index), _max(<span class="built_in">max</span>)</span><br><span class="line">    &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">index</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _index; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">max</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> _max; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// overrides exception::what()</span></span><br><span class="line">    <span class="function"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">what</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    </span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> _index;</span><br><span class="line">    <span class="keyword">int</span> _max;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>​		catch子句会捕捉exception的所有派生类。当bad_alloc异常被抛出，它会打印出“bad allocation”信息。当iterator_overflow异常被抛出，它会打印出“Internal error: current index exceeds maximum bound: 64”信息。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">catch</span>(<span class="keyword">const</span> excption &amp;ex)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cerr</span> &lt;&lt; ex.what() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​		iterator_overflow的what()，其中运用ostringstream对象对输出信息进行了格式化:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sstream&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line"></span><br><span class="line">const char* </span><br><span class="line">iterator_overflow::</span><br><span class="line">what() const </span><br><span class="line">&#123;</span><br><span class="line">	ostringstream ex_msg;</span><br><span class="line">	static string msg;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 将输出信息写到内存内的ostringstream对象之中。</span><br><span class="line">	&#x2F;&#x2F; 将整数值转为字符串表示……</span><br><span class="line">	</span><br><span class="line">	ex_msg &lt;&lt; &quot;Internal error: current index &quot;</span><br><span class="line">    	   &lt;&lt; _index &lt;&lt; &quot; exceeds maximum bound: &quot;</span><br><span class="line">    	   &lt;&lt; _max;</span><br><span class="line">    	   </span><br><span class="line">   	&#x2F;&#x2F; 萃取出string对象</span><br><span class="line">   	msg &#x3D; ex_msg.str();</span><br><span class="line">   	</span><br><span class="line">   	&#x2F;&#x2F; 萃取出const char*表达式</span><br><span class="line">   	return msg.c_str();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>
+<p>ostringstream class 提供“内存内的输出操作”，输出到一个string对象上。可以将多笔不同类型的数据格式化为字符串。str()会将“与ostringstream对象相呼应”的那个string对象返回。</p>
+</li>
+<li>
+<p>转换函数c_str()会返回一个const char*。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Essential-C/" rel="tag"># Essential C++</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/04/C++/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%A5template%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A8%8B/" rel="next" title="第六章 以template进行编程">
+                  <i class="fa fa-chevron-left"></i> 第六章 以template进行编程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%201%20%E5%BC%80%E5%A7%8B/" rel="prev" title="第一章 开始">
+                  第一章 开始 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第七章-异常处理"><span class="nav-text"> 第七章 异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#71-抛出异常"><span class="nav-text"> 7.1 抛出异常</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#72-捕获异常"><span class="nav-text"> 7.2 捕获异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#721-catch"><span class="nav-text"> 7.2.1 catch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#73-提炼异常"><span class="nav-text"> 7.3 提炼异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#731-try"><span class="nav-text"> 7.3.1 try</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#74-局部资源管理"><span class="nav-text"> 7.4 局部资源管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#741-资源管理"><span class="nav-text"> 7.4.1 资源管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#75-标准异常"><span class="nav-text"> 7.5 标准异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#751-bad_alloc"><span class="nav-text"> 7.5.1 bad_alloc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#752-exception-class-hierarchy"><span class="nav-text"> 7.5.2 exception class hierarchy</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第六章 从数据管理到Web和信息通信  6.1 数据结构化数据库  6.1.1 数据存储的结构化  节约空间 便于计算机查询 便于删除、修改、增添信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 从数据管理到Web和信息通信">
+<meta property="og:url" content="http://yoursite.com/2019/12/19/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第六章 从数据管理到Web和信息通信  6.1 数据结构化数据库  6.1.1 数据存储的结构化  节约空间 便于计算机查询 便于删除、修改、增添信息">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/fNpisxe1TDQMojK.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/9ZxSsmOnLVdi6aR.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/SJp1Gj9Fx3IqVlZ.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/78vEgrWAwXDJIHo.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/9fPLp5WcYuGtQlx.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/Dcmph3MWtTRlwNX.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/7Kgx6vTSjpAoCVM.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/HST8qdGWryzaip4.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/cfymA9UhQ6ranli.png">
+<meta property="og:image" content="https://i.loli.net/2019/12/05/4UcSNAypYEW2r83.png">
+<meta property="article:published_time" content="2019-12-19T07:06:10.000Z">
+<meta property="article:modified_time" content="2019-12-19T07:17:46.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/05/fNpisxe1TDQMojK.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/12/19/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第六章 从数据管理到Web和信息通信 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E4%BB%8E%E6%95%B0%E6%8D%AE%E7%AE%A1%E7%90%86%E5%88%B0Web%E5%92%8C%E4%BF%A1%E6%81%AF%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第六章 从数据管理到Web和信息通信
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-19 15:06:10 / 修改时间：15:17:46" itemprop="dateCreated datePublished" datetime="2019-12-19T15:06:10+08:00">2019-12-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/" itemprop="url" rel="index">
+                    <span itemprop="name">软工导论</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第六章-从数据管理到web和信息通信"><a class="markdownIt-Anchor" href="#第六章-从数据管理到web和信息通信"></a> 第六章 从数据管理到Web和信息通信</h2>
+<h3 id="61-数据结构化数据库"><a class="markdownIt-Anchor" href="#61-数据结构化数据库"></a> 6.1 数据结构化数据库</h3>
+<h4 id="611-数据存储的结构化"><a class="markdownIt-Anchor" href="#611-数据存储的结构化"></a> 6.1.1 数据存储的结构化</h4>
+<ul>
+<li>节约空间</li>
+<li>便于计算机查询</li>
+<li>便于删除、修改、增添信息</li>
+</ul>
+<a id="more"></a>
+<h4 id="612-消除数据冗余"><a class="markdownIt-Anchor" href="#612-消除数据冗余"></a> 6.1.2 消除数据冗余</h4>
+<h4 id="613-建立实体关联"><a class="markdownIt-Anchor" href="#613-建立实体关联"></a> 6.1.3 建立实体关联</h4>
+<h3 id="62-关系代数"><a class="markdownIt-Anchor" href="#62-关系代数"></a> 6.2 关系代数</h3>
+<h4 id="621-关系代数定义"><a class="markdownIt-Anchor" href="#621-关系代数定义"></a> 6.2.1 关系代数定义</h4>
+<p>​		给定集合D<sub>1</sub>，D<sub>2</sub>，……D<sub>n</sub>，关系r是D<sub>1</sub>×D<sub>2</sub>×…×D<sub>n</sub>，这样，关系r是n元组(a<sub>1</sub>,a<sub>2</sub>,…,a<sub>n</sub>)的集合，这里的每个a<sub>i</sub> ∈ D<sub>i</sub></p>
+<ul>
+<li>
+<p>5种基本运算：选择、投影、笛卡尔积、并、差</p>
+</li>
+<li>
+<p>其他扩展运算：交、连接、除</p>
+</li>
+</ul>
+<h4 id="622-选择运算"><a class="markdownIt-Anchor" href="#622-选择运算"></a> 6.2.2 '选择’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/fNpisxe1TDQMojK.png" alt="6.2.2.png" /></p>
+<h4 id="623-投影运算"><a class="markdownIt-Anchor" href="#623-投影运算"></a> 6.2.3 ‘投影’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/9ZxSsmOnLVdi6aR.png" alt="6.2.3.png" /></p>
+<h4 id="624-笛卡尔积运算"><a class="markdownIt-Anchor" href="#624-笛卡尔积运算"></a> 6.2.4 ‘笛卡尔积’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/SJp1Gj9Fx3IqVlZ.png" alt="6.2.4.png" /></p>
+<h4 id="625-并运算"><a class="markdownIt-Anchor" href="#625-并运算"></a> 6.2.5 '并运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/78vEgrWAwXDJIHo.png" alt="6.2.5.png" /></p>
+<h4 id="626-差运算"><a class="markdownIt-Anchor" href="#626-差运算"></a> 6.2.6 '差’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/9fPLp5WcYuGtQlx.png" alt="6.2.6.png" /></p>
+<h4 id="627-交运算"><a class="markdownIt-Anchor" href="#627-交运算"></a> 6.2.7 '交’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/Dcmph3MWtTRlwNX.png" alt="6.2.7.png" /></p>
+<h4 id="628-连接运算"><a class="markdownIt-Anchor" href="#628-连接运算"></a> 6.2.8 '连接’运算</h4>
+<p><img src="https://i.loli.net/2019/12/05/7Kgx6vTSjpAoCVM.png" alt="6.2.8.png" /></p>
+<h3 id="63-关系数据库"><a class="markdownIt-Anchor" href="#63-关系数据库"></a> 6.3 关系数据库</h3>
+<h4 id="631-关系数据库管理系统"><a class="markdownIt-Anchor" href="#631-关系数据库管理系统"></a> 6.3.1 关系数据库管理系统</h4>
+<ul>
+<li>
+<p>表的运算（表的模式、表的增删等等）</p>
+</li>
+<li>
+<p>表的内容运算（查询、内容的增删）</p>
+</li>
+<li>
+<p>用户和数据表的管理</p>
+</li>
+</ul>
+<p>数据库管理系统(DBMS)：增、删、改、查</p>
+<h4 id="632-sql-结构化查询语言"><a class="markdownIt-Anchor" href="#632-sql-结构化查询语言"></a> 6.3.2 SQL: 结构化查询语言</h4>
+<h3 id="64-万维网"><a class="markdownIt-Anchor" href="#64-万维网"></a> 6.4 万维网</h3>
+<h4 id="641-www的初衷"><a class="markdownIt-Anchor" href="#641-www的初衷"></a> 6.4.1 WWW的初衷</h4>
+<h4 id="642-web基本原理"><a class="markdownIt-Anchor" href="#642-web基本原理"></a> 6.4.2 Web基本原理</h4>
+<p>协议和语言：HTML + HTTP</p>
+<p align='right'>
+    <font size=5>
+    Web网的组成结构
+    </font>
+</p>
+<p><img src="https://i.loli.net/2019/12/05/HST8qdGWryzaip4.png" alt="6.4.2.png" /></p>
+<h4 id="643-www函数库"><a class="markdownIt-Anchor" href="#643-www函数库"></a> 6.4.3 WWW函数库</h4>
+<h4 id="644-早期美国网站的迅速发展"><a class="markdownIt-Anchor" href="#644-早期美国网站的迅速发展"></a> 6.4.4 早期美国网站的迅速发展</h4>
+<h4 id="645-web服务器产品"><a class="markdownIt-Anchor" href="#645-web服务器产品"></a> 6.4.5 Web服务器产品</h4>
+<h4 id="646-web浏览器产品"><a class="markdownIt-Anchor" href="#646-web浏览器产品"></a> 6.4.6 Web浏览器产品</h4>
+<h4 id="647-早期中国www的发展"><a class="markdownIt-Anchor" href="#647-早期中国www的发展"></a> 6.4.7 早期中国WWW的发展</h4>
+<h3 id="65-web搜索"><a class="markdownIt-Anchor" href="#65-web搜索"></a> 6.5 Web搜索</h3>
+<h4 id="651-爬虫"><a class="markdownIt-Anchor" href="#651-爬虫"></a> 6.5.1 爬虫</h4>
+<p>​		爬虫基本功能是从一个或若干初始网页的URL开始，获得初始网页上的URL，在抓取网页的过程中，不断从当前页面上抽取新的URL放入队列,直到满足系统的一定停止条件。</p>
+<p>​		并行爬行的缺点：</p>
+<ul>
+<li>重复</li>
+<li>质量低——每个爬虫只能获取部分页面</li>
+<li>通信带宽代价——爬虫之间进行通信</li>
+</ul>
+<h4 id="652-内容分类和标引"><a class="markdownIt-Anchor" href="#652-内容分类和标引"></a> 6.5.2 内容分类和标引</h4>
+<ol>
+<li>提取文字</li>
+</ol>
+<p>(2. 对于中文要进行中文分词，)</p>
+<ol start="3">
+<li>去停止词；</li>
+<li>消除噪音（版权声明、导航条、广告）</li>
+<li>正向索引</li>
+<li>倒排索引</li>
+<li>链接关系计算</li>
+<li>特殊文件处理</li>
+</ol>
+<h4 id="653-搜索策略"><a class="markdownIt-Anchor" href="#653-搜索策略"></a> 6.5.3 搜索策略</h4>
+<ul>
+<li>全文搜索引擎
+<ul>
+<li>定期搜索</li>
+<li>提交网站搜索</li>
+</ul>
+</li>
+<li>目录内容搜索（全手工）</li>
+</ul>
+<h3 id="66-web变迁与nosql数据库"><a class="markdownIt-Anchor" href="#66-web变迁与nosql数据库"></a> 6.6 Web变迁与NoSQL数据库</h3>
+<h4 id="661-web应用方式的变迁"><a class="markdownIt-Anchor" href="#661-web应用方式的变迁"></a> 6.6.1 Web应用方式的变迁</h4>
+<p>Web2.0: 增强交互性</p>
+<h4 id="662-web对信息管理系统的改变"><a class="markdownIt-Anchor" href="#662-web对信息管理系统的改变"></a> 6.6.2 Web对信息管理系统的改变</h4>
+<p><img src="https://i.loli.net/2019/12/05/cfymA9UhQ6ranli.png" alt="6.6.2.png" /></p>
+<h4 id="663-nosql对数据处理系统的影响"><a class="markdownIt-Anchor" href="#663-nosql对数据处理系统的影响"></a> 6.6.3 NoSQL对数据处理系统的影响</h4>
+<ul>
+<li>键值存储数据库（使用哈希表）</li>
+<li>列存储数据库（分布式存储的海量数据）</li>
+<li>文档型数据库</li>
+<li>图形数据库</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/05/4UcSNAypYEW2r83.png" alt="6.6.3.png" /></p>
+<h4 id="664-大数据时代"><a class="markdownIt-Anchor" href="#664-大数据时代"></a> 6.6.4 大数据时代</h4>
+<h3 id="67-信息量"><a class="markdownIt-Anchor" href="#67-信息量"></a> 6.7 信息量</h3>
+<h4 id="671-单变量的熵定义"><a class="markdownIt-Anchor" href="#671-单变量的熵定义"></a> 6.7.1 单变量的熵定义</h4>
+<h4 id="672-关联信息的熵定义"><a class="markdownIt-Anchor" href="#672-关联信息的熵定义"></a> 6.7.2 关联信息的熵定义</h4>
+<h4 id="673-数据-信息与知识时代"><a class="markdownIt-Anchor" href="#673-数据-信息与知识时代"></a> 6.7.3 数据、信息与知识时代</h4>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<ul>
+<li>
+<p>结构化数据管理：数据（增、删、改、查）</p>
+</li>
+<li>
+<p>Web（非结构化）的信息表达、传输和交流</p>
+</li>
+<li>
+<p>Web信息的自动搜索、分类、信息提取</p>
+</li>
+<li>
+<p>信息量</p>
+</li>
+<li>
+<p>大数据：</p>
+<ul>
+<li>结构化数据迅速增加</li>
+<li>非结构数据迅速增加
+<ul>
+<li>流式数据(音频、视频)、文档数据</li>
+</ul>
+</li>
+<li>Web数据的迅速增加</li>
+<li>从这些大数据中，如何提取到期望的信息(和知识)</li>
+</ul>
+</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<h4 id="1-关系代数是如何定义的有哪些基本运算"><a class="markdownIt-Anchor" href="#1-关系代数是如何定义的有哪些基本运算"></a> 1. 关系代数是如何定义的？有哪些基本运算？</h4>
+<h5 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义：</h5>
+<p>​		给定集合D<sub>1</sub>，D<sub>2</sub>，……D<sub>n</sub>，关系r是D<sub>1</sub>×D<sub>2</sub>×…×D<sub>n</sub>，这样，关系r是n元组(a<sub>1</sub>,a<sub>2</sub>,…,a<sub>n</sub>)的集合，这里的每个a<sub>i</sub> ∈ D<sub>i</sub></p>
+<h5 id="五种基本运算"><a class="markdownIt-Anchor" href="#五种基本运算"></a> 五种基本运算：</h5>
+<ul>
+<li>
+<p>'选择’运算：从关系 R 中选择满足给定条件的元组</p>
+</li>
+<li>
+<p>'投影’运算：从一张表中，选取某一列或多列(属性)的运算</p>
+</li>
+<li>
+<p>'笛卡尔积’运算：</p>
+</li>
+<li>
+<p>'并’运算：把两个相同模式的表中的数据聚在一起，同时消除重复的数据。</p>
+</li>
+<li>
+<p>'差’运算：从被减表中消除减表中数据。</p>
+</li>
+</ul>
+<h5 id="扩展运算"><a class="markdownIt-Anchor" href="#扩展运算"></a> 扩展运算：</h5>
+<ul>
+<li>
+<p>'交’运算：取两个相同模式表中都具有的数据。</p>
+</li>
+<li>
+<p>'连接’运算：笛卡尔积 + 选择  R ⋈<sub>F</sub> S = σ<sub>F</sub> (R×S)   F为连接条件</p>
+</li>
+</ul>
+<h4 id="2-web网与实体关联图的区别在哪里"><a class="markdownIt-Anchor" href="#2-web网与实体关联图的区别在哪里"></a> 2. Web网与实体关联图的区别在哪里？</h4>
+<p>​		实体与实体之间的关联比较简单,Web网则有更丰富的关联或链接关系。实体关系图需要顺序链接阅读，Web网可以通过超文本链接进行位置的跳转。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/16/C++/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B%E9%A3%8E%E6%A0%BC/" rel="next" title="第三章 泛型编程风格">
+                  <i class="fa fa-chevron-left"></i> 第三章 泛型编程风格
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/12/19/%E8%BD%AF%E5%B7%A5%E5%AF%BC%E8%AE%BA/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%95%B0%E5%AD%97%E9%9F%B3%E8%A7%86%E9%A2%91%E4%B8%8E%E5%9B%BE%E5%BD%A2/" rel="prev" title="第七章 数字音视频与图形">
+                  第七章 数字音视频与图形 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-从数据管理到web和信息通信"><span class="nav-text"> 第六章 从数据管理到Web和信息通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#61-数据结构化数据库"><span class="nav-text"> 6.1 数据结构化数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#611-数据存储的结构化"><span class="nav-text"> 6.1.1 数据存储的结构化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#612-消除数据冗余"><span class="nav-text"> 6.1.2 消除数据冗余</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#613-建立实体关联"><span class="nav-text"> 6.1.3 建立实体关联</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-关系代数"><span class="nav-text"> 6.2 关系代数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#621-关系代数定义"><span class="nav-text"> 6.2.1 关系代数定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#622-选择运算"><span class="nav-text"> 6.2.2 &#39;选择’运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#623-投影运算"><span class="nav-text"> 6.2.3 ‘投影’运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#624-笛卡尔积运算"><span class="nav-text"> 6.2.4 ‘笛卡尔积’运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#625-并运算"><span class="nav-text"> 6.2.5 &#39;并运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#626-差运算"><span class="nav-text"> 6.2.6 &#39;差’运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#627-交运算"><span class="nav-text"> 6.2.7 &#39;交’运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#628-连接运算"><span class="nav-text"> 6.2.8 &#39;连接’运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-关系数据库"><span class="nav-text"> 6.3 关系数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#631-关系数据库管理系统"><span class="nav-text"> 6.3.1 关系数据库管理系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#632-sql-结构化查询语言"><span class="nav-text"> 6.3.2 SQL: 结构化查询语言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-万维网"><span class="nav-text"> 6.4 万维网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#641-www的初衷"><span class="nav-text"> 6.4.1 WWW的初衷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#642-web基本原理"><span class="nav-text"> 6.4.2 Web基本原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#643-www函数库"><span class="nav-text"> 6.4.3 WWW函数库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#644-早期美国网站的迅速发展"><span class="nav-text"> 6.4.4 早期美国网站的迅速发展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#645-web服务器产品"><span class="nav-text"> 6.4.5 Web服务器产品</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#646-web浏览器产品"><span class="nav-text"> 6.4.6 Web浏览器产品</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#647-早期中国www的发展"><span class="nav-text"> 6.4.7 早期中国WWW的发展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-web搜索"><span class="nav-text"> 6.5 Web搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#651-爬虫"><span class="nav-text"> 6.5.1 爬虫</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#652-内容分类和标引"><span class="nav-text"> 6.5.2 内容分类和标引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#653-搜索策略"><span class="nav-text"> 6.5.3 搜索策略</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-web变迁与nosql数据库"><span class="nav-text"> 6.6 Web变迁与NoSQL数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#661-web应用方式的变迁"><span class="nav-text"> 6.6.1 Web应用方式的变迁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#662-web对信息管理系统的改变"><span class="nav-text"> 6.6.2 Web对信息管理系统的改变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#663-nosql对数据处理系统的影响"><span class="nav-text"> 6.6.3 NoSQL对数据处理系统的影响</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#664-大数据时代"><span class="nav-text"> 6.6.4 大数据时代</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#67-信息量"><span class="nav-text"> 6.7 信息量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#671-单变量的熵定义"><span class="nav-text"> 6.7.1 单变量的熵定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#672-关联信息的熵定义"><span class="nav-text"> 6.7.2 关联信息的熵定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#673-数据-信息与知识时代"><span class="nav-text"> 6.7.3 数据、信息与知识时代</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text"> 总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关系代数是如何定义的有哪些基本运算"><span class="nav-text"> 1. 关系代数是如何定义的？有哪些基本运算？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#定义"><span class="nav-text"> 定义：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#五种基本运算"><span class="nav-text"> 五种基本运算：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#扩展运算"><span class="nav-text"> 扩展运算：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-web网与实体关联图的区别在哪里"><span class="nav-text"> 2. Web网与实体关联图的区别在哪里？</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

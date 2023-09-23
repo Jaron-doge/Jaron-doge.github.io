@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="CPU调度  6.1 CPU调度  CPU调度程序(Short-term Scheduler)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第6章 CPU调度">
+<meta property="og:url" content="http://yoursite.com/2020/10/27/OS/%E7%AC%AC6%E7%AB%A0%20CPU%E8%B0%83%E5%BA%A6/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="CPU调度  6.1 CPU调度  CPU调度程序(Short-term Scheduler)">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/wsDmx8lp2aCIghL.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/jmMDxZ6p2KiXRTJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/pGkBhc5VAQg8bSN.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/GyR62QmFh4xs3C7.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/u6eKBLXo3rQbGfg.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/01/I3JahXlD2usxM6S.png">
+<meta property="article:published_time" content="2020-10-27T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-11-05T15:51:08.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/11/01/wsDmx8lp2aCIghL.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/27/OS/%E7%AC%AC6%E7%AB%A0%20CPU%E8%B0%83%E5%BA%A6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第6章 CPU调度 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/27/OS/%E7%AC%AC6%E7%AB%A0%20CPU%E8%B0%83%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第6章 CPU调度
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-27 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-27T20:30:15+08:00">2020-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-05 23:51:08" itemprop="dateModified" datetime="2020-11-05T23:51:08+08:00">2020-11-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>9.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>9 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="cpu调度"><a class="markdownIt-Anchor" href="#cpu调度"></a> CPU调度</h2>
+<h3 id="61-cpu调度"><a class="markdownIt-Anchor" href="#61-cpu调度"></a> 6.1 CPU调度</h3>
+<h4 id="cpu调度程序short-term-scheduler"><a class="markdownIt-Anchor" href="#cpu调度程序short-term-scheduler"></a> CPU调度程序(Short-term Scheduler)</h4>
+<a id="more"></a>
+<p>从内存中选择一个能够执行的进程，并为其分配CPU</p>
+<h4 id="调度程序"><a class="markdownIt-Anchor" href="#调度程序"></a> 调度程序</h4>
+<p>将CPU控制交给由短期调度程序选择的进程</p>
+<ul>
+<li>切换上下文</li>
+<li>切换用户模式</li>
+<li>跳转到用户程序的合适位置，以便重新启动程序</li>
+</ul>
+<p>调度延迟：调度程序停止一个进程而启动另一个所需的时间</p>
+<h3 id="62-调度准则"><a class="markdownIt-Anchor" href="#62-调度准则"></a> 6.2 调度准则</h3>
+<ul>
+<li>CPU利用率</li>
+<li>吞吐率：在时间单元内进程完成的数量</li>
+<li>周转时间：从进程提交到进程完成的时间段，包括等待进入内存、在就绪队列中等待、在CPU上执行和I/O执行</li>
+<li>等待时间：在就绪队列中等待所花时间之和</li>
+<li>响应时间：从提交请求到产生第一响应的时间</li>
+</ul>
+<h3 id="63-调度算法"><a class="markdownIt-Anchor" href="#63-调度算法"></a> 6.3 调度算法</h3>
+<h4 id="先到先服务调度fcfs"><a class="markdownIt-Anchor" href="#先到先服务调度fcfs"></a> 先到先服务调度(FCFS)</h4>
+<p>Example:</p>
+<ul>
+<li>one CPU-bound process</li>
+<li>many I/O-bound process</li>
+</ul>
+<h4 id="最短作业优先调度sjf"><a class="markdownIt-Anchor" href="#最短作业优先调度sjf"></a> 最短作业优先调度(SJF)</h4>
+<h5 id="非抢占"><a class="markdownIt-Anchor" href="#非抢占"></a> 非抢占</h5>
+<p>一旦CPU被分配给进程，则在CPU执行完前不能抢占</p>
+<h5 id="抢占"><a class="markdownIt-Anchor" href="#抢占"></a> 抢占</h5>
+<h4 id="最短剩余时间有限srtf"><a class="markdownIt-Anchor" href="#最短剩余时间有限srtf"></a> 最短剩余时间有限(SRTF)</h4>
+<p><img src="https://i.loli.net/2020/11/01/wsDmx8lp2aCIghL.png" alt="image-20201101135007962.png" /></p>
+<p>Average waiting time: ((16 - 7) + (7 - 4 - 2) + (5 - 1 - 4) + (11 - 4 - 5)) / 4 = 3</p>
+<h4 id="优先级调度"><a class="markdownIt-Anchor" href="#优先级调度"></a> 优先级调度</h4>
+<p>问题：饥饿</p>
+<p>策略：老化增加优先级</p>
+<h4 id="时间片轮转rr"><a class="markdownIt-Anchor" href="#时间片轮转rr"></a> 时间片轮转(RR)</h4>
+<h4 id="多级队列调度"><a class="markdownIt-Anchor" href="#多级队列调度"></a> 多级队列调度</h4>
+<p>将就绪队列分成多个单独队列，每个队列有自己的调度算法</p>
+<ul>
+<li>固定优先级</li>
+<li>划分时间片</li>
+</ul>
+<h4 id="多级反馈队列调度"><a class="markdownIt-Anchor" href="#多级反馈队列调度"></a> 多级反馈队列调度</h4>
+<p>Three queues:</p>
+<ul>
+<li>Q0 –RR with time quantum 8 milliseconds</li>
+<li>Q1 –RR time quantum 16 milliseconds</li>
+<li>Q2 –FCFS</li>
+</ul>
+<img src="https://i.loli.net/2020/11/01/jmMDxZ6p2KiXRTJ.png" alt="image-20201101143850159.png" style="zoom: 67%;" />
+<h3 id="64-线程调度"><a class="markdownIt-Anchor" href="#64-线程调度"></a> 6.4 线程调度</h3>
+<h4 id="进程竞争范围pcs"><a class="markdownIt-Anchor" href="#进程竞争范围pcs"></a> 进程竞争范围(PCS)</h4>
+<p>PCS发生在同一进程的线程之间，实现多对一和多对多模型的系统线程库会将线程调度到可用LWP上</p>
+<h4 id="系统竞争范围scs"><a class="markdownIt-Anchor" href="#系统竞争范围scs"></a> 系统竞争范围(SCS)</h4>
+<p>SCS用来决定哪个内核级线程调度到处理器上，发生在系统内的所有线程之间，采用一对一模型的系统，只采用SCS调度</p>
+<h3 id="65-多处理器调度"><a class="markdownIt-Anchor" href="#65-多处理器调度"></a> 6.5 多处理器调度</h3>
+<h4 id="对称多处理器调度smp"><a class="markdownIt-Anchor" href="#对称多处理器调度smp"></a> 对称多处理器调度(SMP)</h4>
+<ul>
+<li>每个处理器自我调度</li>
+</ul>
+<h4 id="静态进程分配"><a class="markdownIt-Anchor" href="#静态进程分配"></a> 静态进程分配</h4>
+<ul>
+<li>每个处理器有自己的就绪队列</li>
+<li>处理器可能负载不均</li>
+</ul>
+<h4 id="动态进程分配"><a class="markdownIt-Anchor" href="#动态进程分配"></a> 动态进程分配</h4>
+<ul>
+<li>进程可被分配到任何空闲的处理器上执行</li>
+<li>所有处理器共享一个就绪队列</li>
+<li>高调度开销</li>
+<li>负载均衡</li>
+</ul>
+<h3 id="66-实时cpu调度"><a class="markdownIt-Anchor" href="#66-实时cpu调度"></a> 6.6 实时CPU调度</h3>
+<p>正确性取决于操作系统的时间和功能</p>
+<h4 id="单调速率调度rate-monotonic"><a class="markdownIt-Anchor" href="#单调速率调度rate-monotonic"></a> 单调速率调度（rate-monotonic）</h4>
+<ul>
+<li>优先级与周期成反比</li>
+</ul>
+<h4 id="最早截至期限优先edf"><a class="markdownIt-Anchor" href="#最早截至期限优先edf"></a> 最早截至期限优先(EDF)</h4>
+<ul>
+<li>优先级与deadline成正比</li>
+</ul>
+<h3 id="67-算法评估"><a class="markdownIt-Anchor" href="#67-算法评估"></a> 6.7 算法评估</h3>
+<h4 id="确定性模型"><a class="markdownIt-Anchor" href="#确定性模型"></a> 确定性模型</h4>
+<p>采用特定的预先确定的符合，计算在给定负荷下每个算法的性能</p>
+<h4 id="排队模型"><a class="markdownIt-Anchor" href="#排队模型"></a> 排队模型</h4>
+<p>根据CPU和I/O的执行分布和进程到达系统的时间分布简单估计，得到数学公式</p>
+<h5 id="排队网络分析"><a class="markdownIt-Anchor" href="#排队网络分析"></a> 排队网络分析</h5>
+<p>计算机系统：一个服务器网络，每个服务器都有一个等待进程队列</p>
+<p>CPU: 就绪队列</p>
+<p>I/O:设备队列(等价于等待队列)</p>
+<h4 id="仿真模拟"><a class="markdownIt-Anchor" href="#仿真模拟"></a> 仿真/模拟</h4>
+<p>通过随机数生成器，根据概率分布生成进程、CPU执行、到达时间、离开时间等</p>
+<h5 id="跟踪磁带trace-tape"><a class="markdownIt-Anchor" href="#跟踪磁带trace-tape"></a> 跟踪磁带(trace tape)</h5>
+<p>通过监视真实系统并记录事件发生顺序，使用这个顺序以便驱动仿真，在针对完全相同的实际输入的情况下，比较两种算法</p>
+<img src="https://i.loli.net/2020/11/01/pGkBhc5VAQg8bSN.png" alt="image-20201101150423518.png" style="zoom:80%;" />
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>6.1 A CPU-scheduling algorithm determines an order for the execution<br />
+of its scheduled processes. Given n processes to be scheduled on one<br />
+processor, how many different schedules are possible? Give a formula<br />
+in terms of n.</p>
+<p>n!</p>
+<p>6.2 Explain the difference between preemptive and nonpreemptive scheduling.</p>
+<p>非抢占调度在一个进程CPU执行完之前不能分配CPU给另一个进程，抢占调度可以在一个进程CPU执行时中断其执行，并将CPU分配给其他进程。抢占调度因为要频繁切换上下文，相对于非抢占调度来说会产生额外开销。</p>
+<p>6.3 Suppose that the following processes arrive for execution at the times<br />
+indicated. Each process will run for the amount of time listed. In<br />
+answering the questions, use nonpreemptive scheduling, and base all<br />
+decisions on the information you have at the time the decision must be<br />
+made.</p>
+<img src="https://i.loli.net/2020/11/01/GyR62QmFh4xs3C7.png" alt="image-20201101150923649.png" style="zoom:80%;" />
+<p>a. What is the average turnaround time for these processes with the<br />
+FCFS scheduling algorithm?</p>
+<p>执行顺序为P1、P2、P3</p>
+<p>(8 + 12 - 0.4 + 13 - 1) / 3 = 10.53</p>
+<p>b. What is the average turnaround time for these processes with the<br />
+SJF scheduling algorithm?</p>
+<p>因为调度为非抢占的，所以执行顺序为P1、P3、P2</p>
+<p>(8 + 9 - 1 + 13 - 0.4) / 3 = 9.53</p>
+<p>c. The SJF algorithm is supposed to improve performance, but notice<br />
+that we chose to run process P1 at time 0 because we did not know<br />
+that two shorter processes would arrive soon. Compute what the<br />
+average turnaround time will be if the CPU is left idle for the first<br />
+1 unit and then SJF scheduling is used. Remember that processes<br />
+P1 and P2 are waiting during this idle time, so their waiting time<br />
+may increase. This algorithm could be called future-knowledge<br />
+scheduling.</p>
+<p>执行顺序为P3、P2、P1</p>
+<p>(2 - 1 + 6 - 0.4 + 14 ) / 3 = 6.87</p>
+<p>6.4 What advantage is there in having different time-quantum sizes at<br />
+different levels of a multilevel queueing system?</p>
+<p>设定合适的时间片长度，可以减少上下文切换，从而减少额外开销。如I/O密集型程序可以设置较小的时间片长度，CPU密集型程序可以设置较长的时间片长度</p>
+<p>6.5 Many CPU-scheduling algorithms are parameterized. For example, the<br />
+RR algorithm requires a parameter to indicate the time slice. Multilevel<br />
+feedback queues require parameters to define the number of queues, the<br />
+scheduling algorithm for each queue, the criteria used to move processes<br />
+between queues, and so on.<br />
+These algorithms are thus really sets of algorithms (for example, the<br />
+set of RR algorithms for all time slices, and so on). One set of algorithms<br />
+may include another (for example, the FCFS algorithm is the RR algorithm<br />
+with an infinite time quantum). What (if any) relation holds between the<br />
+following pairs of algorithm sets?<br />
+a. Priority and SJF</p>
+<p>最短执行时间的进程拥有最高优先级</p>
+<p>b. Multilevel feedback queues and FCFS</p>
+<p>最低层次的多级反馈队列使用的是FCFS调度</p>
+<p>c. Priority and FCFS</p>
+<p>最先到达的进程拥有最高优先级</p>
+<p>d. RR and SJF</p>
+<p>没有关系</p>
+<p>6.6 Suppose that a scheduling algorithm (at the level of short-term CPU<br />
+scheduling) favors those processes that have used the least processor<br />
+time in the recent past. Why will this algorithm favor I/O-bound<br />
+programs and yet not permanently starve CPU-bound programs?</p>
+<p>I/O密集型程序具有大量短CPU执行，使用更少的处理器时间，所以这个调度算法支持I/O密集型程序。因为I/O密集型程序CPU执行时间较短，需要等待I/O操作，CPU密集型程序有机会执行，所以不会被饿死。</p>
+<p>6.7 Distinguish between PCS and SCS scheduling.</p>
+<p>PCS调度发生在同一进程的线程间，实现多对一和多对多模型的系统线程库会调度线程到可用LWP上。SCS调度会决定决定哪个内核级线程调度到处理器上，发生在系统的所有线程之间，采用一对一模型的系统只采用SCS调度。</p>
+<p>6.9 The traditional UNIX scheduler enforces an inverse relationship between priority numbers and priorities: the higher the number, the lower the priority. The scheduler recalculates process priorities once per second<br />
+using the following function:<br />
+Priority = (recent CPU usage / 2) + base<br />
+where base = 60 and recent CPU usage refers to a value indicating how<br />
+often a process has used the CPU since priorities were last recalculated.<br />
+Assume that recent CPU usage is 40 for process P1, 18 for process P2,<br />
+and 10 for process P3. What will be the new priorities for these three<br />
+processes when priorities are recalculated? Based on this information,<br />
+does the traditional UNIX scheduler raise or lower the relative priority<br />
+of a CPU-bound process?</p>
+<p>三个进程重新计算后的优先级分别为80、69、65，三个进程的优先级数都增加，即优先级均下降，所以传统的UNIX调度会降低CPU密集型进程的优先级</p>
+<p>6.10 Why is it important for the scheduler to distinguish I/O-bound programs from CPU-bound programs?</p>
+<p>I/O密集型程序具有大量短CPU执行，而CPU密集型程序具有少量长CPU执行，如果所有进程都是I/O密集型程序，那么就绪队列几乎为空，如果所有进程都是CPU密集型的，那么I/O等待队列几乎为空，设备没有得到使用。为了保持系统的平衡，因此需要区分I/O密集型程序和CPU密集型程序，并合理组合两种程序。</p>
+<p>I/O密集型程序具有大量短CPU执行，而CPU密集型程序具有少量长CPU执行，如果所有进程都是I/O密集型程序，那么就绪队列几乎为空，如果所有进程都是CPU密集型的，那么I/O等待队列几乎为空，设备没有得到使用。为了保持系统的平衡，调度器应该给予I/O密集型程序更高优先级，可以更好的利用电脑资源。</p>
+<p>6.11 Discuss how the following pairs of scheduling criteria conflict in certain settings.<br />
+a. CPU utilization and response time</p>
+<p>需要最大化CPU使用率和最小化响应时间。为了最大化CPU使用率需要减少上下文切换以减少CPU的空转，而为了最小化响应时间，需要更频繁的进行上下文切换来输出结果给用户。</p>
+<p>b. Average turnaround time and maximum waiting time</p>
+<p>需要减少平均周转时间和最大等待时间。为了最小化平均周转时间如采用SJF调度算法，会使得最长执行时间的进程的拥有最大等待时间，并且该时间会很大,甚至造成饥饿。为了最小化最大等待时间，如采用FCFS确保每个进程都能在有限时间内完成，这样的话平均周转时间又会上升。</p>
+<p>c. I/O device utilization and CPU utilization</p>
+<p>需要最大化I/O设备利用率和最大化CPU利用率。多执行CPU密集型进程可以最大化CPU利用率，多执行I/O密集型进程可以最大化I/O设备利用率。但是如果都执行I/O密集型进程，就绪队列几乎为空，造成CPU调度程序没有什么事可做。如果都执行CPU密集型进程，I/O等待队列几乎为空，造成设备浪费，系统会不平衡。因此需要合理组合I/O密集型进程和CPU密集型进程，也就不能同时最大化I/O设备利用率和CPU利用率。</p>
+<p>6.14 Consider the exponential average formula used to predict the length of the next CPU burst. What are the implications of assigning the following<br />
+values to the parameters used by the algorithm?<br />
+a. α = 0 and τ<sub>0</sub>= 100 milliseconds</p>
+<p>T<sub>n+1</sub> = T<sub>0</sub> = 100 ms</p>
+<p>最近历史没有影响，过去历史为全部影响因素</p>
+<p>b. α = 0.99 and τ<sub>0</sub> = 10 milliseconds</p>
+<p>最近历史为主要影响因素，过去历史几乎没有影响</p>
+<p>6.15 A variation of the round-robin scheduler is the regressive round-robin<br />
+scheduler. This scheduler assigns each process a time quantum and a<br />
+priority. The initial value of a time quantum is 50 milliseconds. However,<br />
+every time a process has been allocated the CPU and uses its entire time<br />
+quantum (does not block for I/O), 10 milliseconds is added to its time<br />
+quantum, and its priority level is boosted. (The time quantum for a<br />
+process can be increased to a maximum of 100 milliseconds.) When a<br />
+process blocks before using its entire time quantum, its time quantum is<br />
+reduced by 5 milliseconds, but its priority remains the same. What type<br />
+of process (CPU-bound or I/O-bound) does the regressive round-robin<br />
+scheduler favor? Explain.</p>
+<p>支持CPU密集型进程。I/O密集型进程会因等待I/O阻塞而减少时间片时间，而CPU密集型只有较少的I/O操作，并且在一个时间片执行完后，当前进程会增加时间片长度和优先级。在所有进程都执行完一个时间片长度后，CPU密集型的进程会拥有更高的优先级以及更多的时间片长度，因此该调度支持CPU密集型进程。</p>
+<p>6.16 Consider the following set of processes, with the length of the CPU burst given in milliseconds:</p>
+<img src="https://i.loli.net/2020/11/01/u6eKBLXo3rQbGfg.png" alt="image-20201101151326074.png" style="zoom:80%;" />
+<p>The processes are assumed to have arrived in the order P1, P2, P3, P4, P5,<br />
+all at time 0.<br />
+a. Draw four Gantt charts that illustrate the execution of these<br />
+processes using the following scheduling algorithms: FCFS, SJF,<br />
+nonpreemptive priority (a larger priority number implies a higher<br />
+priority), and RR (quantum = 2).</p>
+<p>FCFS:</p>
+<table>
+<thead>
+<tr>
+<th>P1</th>
+<th>P2</th>
+<th>P3</th>
+<th>P4</th>
+<th>P5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>3</td>
+<td>11</td>
+<td>15     20</td>
+</tr>
+</tbody>
+</table>
+<p>SJF:</p>
+<table>
+<thead>
+<tr>
+<th>P2</th>
+<th>P1</th>
+<th>P4</th>
+<th>P5</th>
+<th>P3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>3</td>
+<td>7</td>
+<td>12    20</td>
+</tr>
+</tbody>
+</table>
+<p>priority:</p>
+<table>
+<thead>
+<tr>
+<th>P3</th>
+<th>P5</th>
+<th>P1</th>
+<th>P4</th>
+<th>P2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>8</td>
+<td>13</td>
+<td>15</td>
+<td>19    20</td>
+</tr>
+</tbody>
+</table>
+<p>RR:</p>
+<table>
+<thead>
+<tr>
+<th>P1</th>
+<th>P2</th>
+<th>P3</th>
+<th>P4</th>
+<th>P5</th>
+<th>P3</th>
+<th>P4</th>
+<th>P5</th>
+<th>P3</th>
+<th>P5</th>
+<th>P3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>2</td>
+<td>3</td>
+<td>5</td>
+<td>7</td>
+<td>9</td>
+<td>11</td>
+<td>13</td>
+<td>15</td>
+<td>17</td>
+<td>18 20</td>
+</tr>
+</tbody>
+</table>
+<p>b. What is the turnaround time of each process for each of the<br />
+scheduling algorithms in part a?</p>
+<p>FCFS:	P1: 2	P2: 3	P3: 11	P4: 15	P5: 20</p>
+<p>SJF:	P1:3	P2:1	P3:20	P4:7	P5:12</p>
+<p>prority:	P1:15	P2:20	P3:8	P4:19	P5:13</p>
+<p>RR:	P1:2	P2:3	P3:20	P4:13	P5:18</p>
+<p>c. What is the waiting time of each process for each of these scheduling<br />
+algorithms?</p>
+<p>FCFS:	P1: 0	P2: 2	P3: 3	P4: 11	P5: 15</p>
+<p>SJF:	P1:1	P2:0	P3:12	P4:3	P5:7</p>
+<p>prority:	P1:13	P2:19	P3:0	P4:15	P5:8</p>
+<p>RR:	P1:0	P2:2	P3:12	P4:9	P5:13</p>
+<p>d. Which of the algorithms results in the minimum average waiting<br />
+time (over all processes)?</p>
+<p>FCFS:	(0 + 2 + 3 + 11 + 15) / 5 = 6.2</p>
+<p>SJF:	(1 + 0 + 12 + 3 + 7) / 5 = 4.6</p>
+<p>proirity:	(13 + 19 + 0 + 15 + 8) / 5 = 11</p>
+<p>RR:	(0 + 2 + 12 + 9 + 13) / 5 = 7.2</p>
+<p>SJF平均等待时间最短</p>
+<p>6.17 The following processes are being scheduled using a preemptive, roundrobin scheduling algorithm. Each process is assigned a numerical<br />
+priority, with a higher number indicating a higher relative priority.<br />
+In addition to the processes listed below, the system also has an idle<br />
+task (which consumes no CPU resources and is identified as Pidle ). This<br />
+task has priority 0 and is scheduled whenever the system has no other<br />
+available processes to run. The length of a time quantum is 10 units.<br />
+If a process is preempted by a higher-priority process, the preempted<br />
+process is placed at the end of the queue.</p>
+<img src="https://i.loli.net/2020/11/01/I3JahXlD2usxM6S.png" alt="image-20201101151404994.png" style="zoom:80%;" />
+<p>a. Show the scheduling order of the processes using a Gantt chart.</p>
+<table>
+<thead>
+<tr>
+<th>P1</th>
+<th>P1</th>
+<th>Pidle</th>
+<th>P2</th>
+<th>P3</th>
+<th>P2</th>
+<th>P3</th>
+<th>P4</th>
+<th>P4</th>
+<th>P2</th>
+<th>P3</th>
+<th>Pidle</th>
+<th>P5</th>
+<th>P6</th>
+<th>P5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>20</td>
+<td>25</td>
+<td>35</td>
+<td>45</td>
+<td>55</td>
+<td>60</td>
+<td>70</td>
+<td>75</td>
+<td>80</td>
+<td>90</td>
+<td>100</td>
+<td>105</td>
+<td>115   120</td>
+</tr>
+</tbody>
+</table>
+<p>b. What is the turnaround time for each process?</p>
+<p>P1: 20	P2: 80 - 25 = 55	P3: 90 - 30 = 60	P4: 75 - 60 = 15	P5: 120 - 100 = 20	P6: 115 - 105 = 10</p>
+<p>c. What is the waiting time for each process?</p>
+<p>P1: 0	P2: 55 - 25 = 30	P3: 60 - 25 = 35	P4: 15 - 15 = 0	P5: 20 - 10 = 10	P6: 10 - 10 = 0</p>
+<p>d. What is the CPU utilization rate?</p>
+<p>Pidle = 15</p>
+<p>(120 - 15) / 120 = 87.5%</p>
+<p>6.19 Which of the following scheduling algorithms could result in starvation?<br />
+a. First-come, first-served<br />
+b. Shortest job first<br />
+c. Round robin<br />
+d. Priority</p>
+<p>b、d</p>
+<p>6.20 Consider a variant of the RR scheduling algorithm in which the entries<br />
+in the ready queue are pointers to the PCBs.<br />
+a. What would be the effect of putting two pointers to the same<br />
+process in the ready queue?</p>
+<p>这个进程在一轮中会执行两个时间片长度</p>
+<p>b. What would be two major advantages and two disadvantages of<br />
+this scheme?</p>
+<p>优点：可以提高某个进程的优先级，将多个指针指向它让它来执行多次。不用改变原有调度算法，还是基于RR算法的应用。</p>
+<p>缺点：优先级较低的进程可能会长时间得不到执行，因为这种策略在极端的情况下效果等同于优先级队列。需要在进程到达前提前知道进程的优先级，会有额外的系统开销。</p>
+<p>c. How would you modify the basic RR algorithm to achieve the same<br />
+effect without the duplicate pointers?</p>
+<p>给更高优先级的进程划分更大的时间片，或者给更高优先级的进程划分多个时间片</p>
+<p>6.21 Consider a system running ten I/O-bound tasks and one CPU-bound<br />
+task. Assume that the I/O-bound tasks issue an I/O operation once for<br />
+every millisecond of CPU computing and that each I/O operation takes<br />
+10 milliseconds to complete. Also assume that the context-switching<br />
+overhead is 0.1 millisecond and that all processes are long-running tasks.<br />
+Describe the CPU utilization for a round-robin scheduler when:<br />
+a. The time quantum is 1 millisecond</p>
+<p>当时间片为1时，无论哪个进程都会执行1s然后上下文切换，CPU利用率为 1 / (1 + 0.1) ≈ 91%</p>
+<p>b. The time quantum is 10 milliseconds</p>
+<p>当时间片为10时，I/O密集型任务会在执行1毫秒CPU计算后进行一次上下文切换，一共10个I/O任务，共10*(1 + 0.1) = 11 ms, CPU密集型任务会在执行完10ms后进行一次上下文切换，共10 + 0.1 = 10.1ms，所以CPU利用率为 20 / (11 + 10.1) ≈ 94.8%</p>
+<p>6.24 Explain the differences in how much the following scheduling algorithms discriminate in favor of short processes:<br />
+a. FCFS</p>
+<p>在长进程到达后的短进程会有较长的等待时间，依据这个特性来区别短进程</p>
+<p>b. RR</p>
+<p>所有的进程都有相同的时间片，短进程因为执行时间较短会先执行完毕离开队列，依据这个特性来区别短进程</p>
+<p>c. Multilevel feedback queues</p>
+<p>短进程执行时间较短，在第一级队列大多就执行完毕离开队列，依据这个特性来区别短进程</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/25/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC7%E7%AB%A0%20%E4%B8%8B%E6%8E%A8%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="next" title="第七章 下推自动机">
+                  <i class="fa fa-chevron-left"></i> 第七章 下推自动机
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/28/OS/%E7%AC%AC7%E7%AB%A0%20%E6%AD%BB%E9%94%81/" rel="prev" title="第7章 死锁">
+                  第7章 死锁 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#cpu调度"><span class="nav-text"> CPU调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#61-cpu调度"><span class="nav-text"> 6.1 CPU调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cpu调度程序short-term-scheduler"><span class="nav-text"> CPU调度程序(Short-term Scheduler)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调度程序"><span class="nav-text"> 调度程序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-调度准则"><span class="nav-text"> 6.2 调度准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-调度算法"><span class="nav-text"> 6.3 调度算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先到先服务调度fcfs"><span class="nav-text"> 先到先服务调度(FCFS)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最短作业优先调度sjf"><span class="nav-text"> 最短作业优先调度(SJF)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#非抢占"><span class="nav-text"> 非抢占</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#抢占"><span class="nav-text"> 抢占</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最短剩余时间有限srtf"><span class="nav-text"> 最短剩余时间有限(SRTF)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优先级调度"><span class="nav-text"> 优先级调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时间片轮转rr"><span class="nav-text"> 时间片轮转(RR)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多级队列调度"><span class="nav-text"> 多级队列调度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多级反馈队列调度"><span class="nav-text"> 多级反馈队列调度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-线程调度"><span class="nav-text"> 6.4 线程调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程竞争范围pcs"><span class="nav-text"> 进程竞争范围(PCS)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统竞争范围scs"><span class="nav-text"> 系统竞争范围(SCS)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-多处理器调度"><span class="nav-text"> 6.5 多处理器调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对称多处理器调度smp"><span class="nav-text"> 对称多处理器调度(SMP)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态进程分配"><span class="nav-text"> 静态进程分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态进程分配"><span class="nav-text"> 动态进程分配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-实时cpu调度"><span class="nav-text"> 6.6 实时CPU调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单调速率调度rate-monotonic"><span class="nav-text"> 单调速率调度（rate-monotonic）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最早截至期限优先edf"><span class="nav-text"> 最早截至期限优先(EDF)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#67-算法评估"><span class="nav-text"> 6.7 算法评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#确定性模型"><span class="nav-text"> 确定性模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#排队模型"><span class="nav-text"> 排队模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#排队网络分析"><span class="nav-text"> 排队网络分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仿真模拟"><span class="nav-text"> 仿真&#x2F;模拟</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#跟踪磁带trace-tape"><span class="nav-text"> 跟踪磁带(trace tape)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

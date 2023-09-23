@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第六章 函数  6.1 函数基础  6.1.1 局部对象  名字的作用域是程序文本的一部分，名字在其中可见。 对象的生命周期是程序执行过程中该对象存在的一段时间。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 函数">
+<meta property="og:url" content="http://yoursite.com/2020/09/04/C++/Chapter%206%20%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第六章 函数  6.1 函数基础  6.1.1 局部对象  名字的作用域是程序文本的一部分，名字在其中可见。 对象的生命周期是程序执行过程中该对象存在的一段时间。">
+<meta property="article:published_time" content="2020-09-04T08:45:06.000Z">
+<meta property="article:modified_time" content="2020-09-04T08:56:53.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="C++ Primer">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/04/C++/Chapter%206%20%E5%87%BD%E6%95%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第六章 函数 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/04/C++/Chapter%206%20%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第六章 函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-04 16:45:06 / 修改时间：16:56:53" itemprop="dateCreated datePublished" datetime="2020-09-04T16:45:06+08:00">2020-09-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第六章-函数"><a class="markdownIt-Anchor" href="#第六章-函数"></a> 第六章 函数</h2>
+<h3 id="61-函数基础"><a class="markdownIt-Anchor" href="#61-函数基础"></a> 6.1 函数基础</h3>
+<h4 id="611-局部对象"><a class="markdownIt-Anchor" href="#611-局部对象"></a> 6.1.1 局部对象</h4>
+<ul>
+<li>名字的作用域是程序文本的一部分，名字在其中可见。</li>
+<li>对象的生命周期是程序执行过程中该对象存在的一段时间。</li>
+</ul>
+<a id="more"></a>
+<ol>
+<li>
+<p>自动对象</p>
+<p>变量定义本身含有初始值，就用初始值进行初始化</p>
+</li>
+<li>
+<p>局部静态对象</p>
+<p>局部作用域全局生命周期</p>
+</li>
+</ol>
+<h3 id="62-参数传递"><a class="markdownIt-Anchor" href="#62-参数传递"></a> 6.2 参数传递</h3>
+<ul>
+<li>
+<p>尽量声明常量引用</p>
+</li>
+<li>
+<p>当使用argv中的实参时，可选的实参从argv[1]开始;argv[0]保存程序的名字</p>
+</li>
+</ul>
+<h4 id="626-含有可变形参的函数"><a class="markdownIt-Anchor" href="#626-含有可变形参的函数"></a> 6.2.6 含有可变形参的函数</h4>
+<ol>
+<li>initializer_list形参</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error_msg(<span class="built_in">initializer_list</span>&lt;<span class="built_in">string</span>&gt; ls);</span><br><span class="line">error_msg(&#123;<span class="string">"functionX"</span>, <span class="string">"okay"</span>&#125;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>initializer_list对象中的元素永远是常量值</p>
+</li>
+<li>
+<p>序列放在花括号内</p>
+</li>
+</ul>
+<ol start="2">
+<li>省略符形参</li>
+</ol>
+<h3 id="63-返回类型和return语句"><a class="markdownIt-Anchor" href="#63-返回类型和return语句"></a> 6.3 返回类型和return语句</h3>
+<ul>
+<li>函数可以返回花括号包围的值的列表</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">process</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">"functionX"</span>, s&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="633-返回数组指针"><a class="markdownIt-Anchor" href="#633-返回数组指针"></a> 6.3.3 返回数组指针</h4>
+<ol>
+<li>类型别名</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> arrT[<span class="number">10</span>];</span><br><span class="line"><span class="keyword">using</span> arrT = <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line"><span class="function">arrT* <span class="title">func</span><span class="params">(<span class="keyword">int</span> i)</span></span>;		<span class="comment">// func返回一个指向含有10个整数的数组的指针</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>形参列表在数组维度之前</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*func(<span class="keyword">int</span> i))[<span class="number">10</span>];</span><br></pre></td></tr></table></figure>
+<p>​	可以按照以下的顺序来逐层理解该声明的含义：</p>
+<ul>
+<li>func(int i)表示调用func函数时需要一个int类型的实参。</li>
+<li>(*func(int i))意味着对我们可以对函数调用的结果执行解引用操作。</li>
+<li>(*func(int i))[10]表示解引用func的调用将得到一个大小是10的数组。</li>
+<li>int (*func(int i))[10]表示数组中的元素是int类型。</li>
+</ul>
+<ol start="3">
+<li>尾置返回类型</li>
+</ol>
+<p>在本应该出现返回类型的地方放置一个auto</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto func(int i)-&gt;int(*)[10];</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>decltype</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">decltype</span>(odd) *arrPtr(<span class="keyword">int</span> i);</span><br></pre></td></tr></table></figure>
+<h3 id="64-函数重载"><a class="markdownIt-Anchor" href="#64-函数重载"></a> 6.4 函数重载</h3>
+<ul>
+<li>
+<p>不允许两个函数形参列表相同返回类型不同</p>
+</li>
+<li>
+<p>顶层const不能重载，底层const可以</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Record <span class="title">lookup</span><span class="params">(Account*)</span></span>;		<span class="comment">// 作用于指向Account的指针</span></span><br><span class="line"><span class="function">Record <span class="title">lookup</span><span class="params">(<span class="keyword">const</span> Account*)</span></span>;	<span class="comment">// 作用于指向常量的指针</span></span><br></pre></td></tr></table></figure>
+<h3 id="65-特殊用途语言特性"><a class="markdownIt-Anchor" href="#65-特殊用途语言特性"></a> 6.5 特殊用途语言特性</h3>
+<h4 id="651-默认实参"><a class="markdownIt-Anchor" href="#651-默认实参"></a> 6.5.1 默认实参</h4>
+<ul>
+<li>一旦某个形参被赋予了默认值，它后面的所有形参都必须有默认值</li>
+</ul>
+<h4 id="652-内联函数"><a class="markdownIt-Anchor" href="#652-内联函数"></a> 6.5.2 内联函数</h4>
+<ul>
+<li>调用时展开</li>
+</ul>
+<h4 id="653-constexpr函数"><a class="markdownIt-Anchor" href="#653-constexpr函数"></a> 6.5.3 constexpr函数</h4>
+<ul>
+<li>函数的返回类型及所有形参的类型都得是字面值类型</li>
+<li>必须有且只有一条return语句</li>
+</ul>
+<p><strong>内联函数和constexpr函数定义在头文件中</strong></p>
+<h4 id="654-调试帮助"><a class="markdownIt-Anchor" href="#654-调试帮助"></a> 6.5.4 调试帮助</h4>
+<ol>
+<li>assert</li>
+</ol>
+<ul>
+<li>包含于cassert头文件中，用于检查“不能发生”的条件，为假终止程序的执行</li>
+</ul>
+<ol start="2">
+<li>NDEBUG</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NDEBUG</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> NEDBUG</span></span><br><span class="line"><span class="built_in">cerr</span> &lt;&lt; _ _func_ _  &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>内置变量</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_ _func_ _	<span class="comment">// 当前函数名字</span></span><br><span class="line">_ _FILE_ _	<span class="comment">// 文件名 </span></span><br><span class="line">_ _LINE_ _	<span class="comment">// 当前行号</span></span><br><span class="line">_ _TIME_ _	<span class="comment">// 编译时间</span></span><br><span class="line">_ _DATE_ _	<span class="comment">// 编译日期</span></span><br></pre></td></tr></table></figure>
+<h3 id="66-函数匹配"><a class="markdownIt-Anchor" href="#66-函数匹配"></a> 6.6 函数匹配</h3>
+<ul>
+<li>调用重载函数应避免强制类型转换</li>
+</ul>
+<h3 id="67-函数指针"><a class="markdownIt-Anchor" href="#67-函数指针"></a> 6.7 函数指针</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> (*pf)(<span class="keyword">const</span> <span class="built_in">string</span>&amp;, <span class="keyword">const</span> <span class="built_in">string</span>&amp;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>函数名作为一个值时，该函数自动地转换成指针</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pf = length;	<span class="comment">// pf指向函数length</span></span><br><span class="line">pf = &amp;length;	<span class="comment">// 等价: 取地址符是可选的</span></span><br></pre></td></tr></table></figure>
+<p>​		即使用时无须解引用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> b1 = pf(<span class="string">"hello"</span>, <span class="string">"goodbye"</span>);</span><br><span class="line"><span class="keyword">bool</span> b2 = (*pf)(<span class="string">"hello"</span>, <span class="string">"goodbye"</span>);</span><br><span class="line"><span class="keyword">bool</span> b3 = length(<span class="string">"hello"</span>, <span class="string">"goodbye"</span>);	<span class="comment">// 全部等价</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用重载函数时</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*pf)(<span class="keyword">int</span>) = ff;</span><br></pre></td></tr></table></figure>
+<h4 id="671-函数指针形参"><a class="markdownIt-Anchor" href="#671-函数指针形参"></a> 6.7.1 函数指针形参</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Func 和 Func2是指向函数的指针</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">bool</span> <span class="params">(*FuncP)</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">decltype</span><span class="params">(length)</span> *FuncP2</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="672-返回指向函数的指针"><a class="markdownIt-Anchor" href="#672-返回指向函数的指针"></a> 6.7.2 返回指向函数的指针</h4>
+<ul>
+<li>编译器不会将函数返回类型转化为指针类型</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> PF = <span class="keyword">int</span>(*)(<span class="keyword">int</span>, <span class="keyword">int</span>);	<span class="comment">// PF是指针类型</span></span><br><span class="line"><span class="function">PF <span class="title">f1</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> (*f1(<span class="keyword">int</span>))(<span class="keyword">int</span>, <span class="keyword">int</span>);		<span class="comment">// 等价类型</span></span><br></pre></td></tr></table></figure>
+<p>​		f1是个函数，返回一个指针；指针指向函数，返回类型是int。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/C-Primer/" rel="tag"># C++ Primer</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%205%20%E8%AF%AD%E5%8F%A5/" rel="next" title="第五章 语句">
+                  <i class="fa fa-chevron-left"></i> 第五章 语句
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%207%20%E7%B1%BB/" rel="prev" title="第七章 类">
+                  第七章 类 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-函数"><span class="nav-text"> 第六章 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#61-函数基础"><span class="nav-text"> 6.1 函数基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#611-局部对象"><span class="nav-text"> 6.1.1 局部对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-参数传递"><span class="nav-text"> 6.2 参数传递</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#626-含有可变形参的函数"><span class="nav-text"> 6.2.6 含有可变形参的函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-返回类型和return语句"><span class="nav-text"> 6.3 返回类型和return语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#633-返回数组指针"><span class="nav-text"> 6.3.3 返回数组指针</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-函数重载"><span class="nav-text"> 6.4 函数重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-特殊用途语言特性"><span class="nav-text"> 6.5 特殊用途语言特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#651-默认实参"><span class="nav-text"> 6.5.1 默认实参</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#652-内联函数"><span class="nav-text"> 6.5.2 内联函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#653-constexpr函数"><span class="nav-text"> 6.5.3 constexpr函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#654-调试帮助"><span class="nav-text"> 6.5.4 调试帮助</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-函数匹配"><span class="nav-text"> 6.6 函数匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#67-函数指针"><span class="nav-text"> 6.7 函数指针</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#671-函数指针形参"><span class="nav-text"> 6.7.1 函数指针形参</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#672-返回指向函数的指针"><span class="nav-text"> 6.7.2 返回指向函数的指针</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

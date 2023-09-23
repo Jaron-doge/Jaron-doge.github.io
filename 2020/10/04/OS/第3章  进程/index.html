@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第3章 进程  多道程序技术  程序顺序执行时的特征">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第3章 进程">
+<meta property="og:url" content="http://yoursite.com/2020/10/04/OS/%E7%AC%AC3%E7%AB%A0%20%20%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第3章 进程  多道程序技术  程序顺序执行时的特征">
+<meta property="og:image" content="https://i.loli.net/2020/10/03/gEfw2RQKFs3qyx6.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/03/v1OCF5mylPsGShQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/03/3dhoUWXRJGe1fBm.png">
+<meta property="og:image" content="d:%5Cstudy%5C%E5%A4%A7%E4%BA%8C%5C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%5CNotes%5Cimages%5Cimage-20201003200657117.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/03/6P7caQsfzDOUySh.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/04/zX2KsqfngIwNPaO.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/04/POQlMDoAxaBeCiS.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/04/DWY3XBUQ2jLNzoq.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/04/1Q2XhVRf86jxYOe.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/04/h1afI3uKD5dpNA9.png">
+<meta property="article:published_time" content="2020-10-04T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-24T15:27:27.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/03/gEfw2RQKFs3qyx6.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/04/OS/%E7%AC%AC3%E7%AB%A0%20%20%E8%BF%9B%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第3章 进程 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/04/OS/%E7%AC%AC3%E7%AB%A0%20%20%E8%BF%9B%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第3章 进程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-04 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-04T20:30:15+08:00">2020-10-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-24 23:27:27" itemprop="dateModified" datetime="2020-10-24T23:27:27+08:00">2020-10-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第3章-进程"><a class="markdownIt-Anchor" href="#第3章-进程"></a> 第3章 进程</h2>
+<h3 id="多道程序技术"><a class="markdownIt-Anchor" href="#多道程序技术"></a> 多道程序技术</h3>
+<h4 id="程序顺序执行时的特征"><a class="markdownIt-Anchor" href="#程序顺序执行时的特征"></a> 程序顺序执行时的特征</h4>
+<a id="more"></a>
+<ul>
+<li>顺序性</li>
+<li>封闭性</li>
+<li>可再现性</li>
+</ul>
+<h3 id="进程概念"><a class="markdownIt-Anchor" href="#进程概念"></a> 进程概念</h3>
+<ul>
+<li>进程 = 程序段 + 数据段 + 进程控制块(PCB)</li>
+</ul>
+<h4 id="进程状态"><a class="markdownIt-Anchor" href="#进程状态"></a> 进程状态</h4>
+<ul>
+<li>new</li>
+<li>running</li>
+<li>waiting/blocked</li>
+<li>ready</li>
+<li>terminated</li>
+</ul>
+<h4 id="进程挂起"><a class="markdownIt-Anchor" href="#进程挂起"></a> 进程挂起</h4>
+<p><img src="https://i.loli.net/2020/10/03/gEfw2RQKFs3qyx6.png" alt="image-20201003195825977.png" /></p>
+<h4 id="进程控制块pcb"><a class="markdownIt-Anchor" href="#进程控制块pcb"></a> 进程控制块(PCB)</h4>
+<ul>
+<li>是操作系统中的一种关键数据结构</li>
+<li>由操作系统进程管理模块维护</li>
+<li>常驻内存</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/03/v1OCF5mylPsGShQ.png" alt="image-20201003200305684.png" /></p>
+<p><img src="https://i.loli.net/2020/10/03/3dhoUWXRJGe1fBm.png" alt="image-20201003200325408.png" /></p>
+<h3 id="进程调度"><a class="markdownIt-Anchor" href="#进程调度"></a> 进程调度</h3>
+<ul>
+<li>ready queue——内存中准备和等待执行</li>
+<li>device queue——等待I / O设备的进程集</li>
+</ul>
+<p><img src="D:%5Cstudy%5C%E5%A4%A7%E4%BA%8C%5C%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86%5CNotes%5Cimages%5Cimage-20201003200657117.png" alt="image-20201003200657117" /></p>
+<h4 id="调度器"><a class="markdownIt-Anchor" href="#调度器"></a> 调度器</h4>
+<ul>
+<li>Long-term scheduler选择应将哪些进程带入ready queue</li>
+<li>Short-term scheduler选择CPU执行哪个进程
+<ul>
+<li>从ready queue</li>
+<li>频度高</li>
+</ul>
+</li>
+<li>Medium-term scheduler
+<ul>
+<li>可以降低多道程序运行的度（与Long-term scheduler相反）</li>
+</ul>
+</li>
+</ul>
+<h4 id="上下文切换"><a class="markdownIt-Anchor" href="#上下文切换"></a> 上下文切换</h4>
+<ul>
+<li>当进行上下文切换时，内核会将旧进程状态保存在其PCB中，然后加载经调度而要执行的新进程的上下文</li>
+</ul>
+<h3 id="进程操作"><a class="markdownIt-Anchor" href="#进程操作"></a> 进程操作</h3>
+<h4 id="进程创建"><a class="markdownIt-Anchor" href="#进程创建"></a> 进程创建</h4>
+<ul>
+<li>通常，进程是通过进程标识符(pid)标志和管理的</li>
+</ul>
+<h5 id="资源共享"><a class="markdownIt-Anchor" href="#资源共享"></a> 资源共享</h5>
+<p>当一个进程创建子进程时，有三种共享方式:</p>
+<ul>
+<li>父子共享全部资源</li>
+<li>孩子享有部分资源</li>
+<li>父子不共享资源</li>
+</ul>
+<h5 id="运行"><a class="markdownIt-Anchor" href="#运行"></a> 运行</h5>
+<ul>
+<li>
+<p>父子并发执行</p>
+</li>
+<li>
+<p>父进程必须等子进程结束</p>
+</li>
+<li>
+<p>子进程复制父进程的空间</p>
+</li>
+</ul>
+<h3 id="进程间通信ipc"><a class="markdownIt-Anchor" href="#进程间通信ipc"></a> 进程间通信（IPC）</h3>
+<p>优点：</p>
+<ul>
+<li>信息共享：共享文件  VS 几个用户</li>
+<li>计算速度提高：1任务  VS 与多个处理元素（例如CPU或I / O通道）并行的几个子任务</li>
+<li>模块化</li>
+<li>便利：1个用户  VS 几个任务</li>
+</ul>
+<h4 id="ipc的两个基础模式"><a class="markdownIt-Anchor" href="#ipc的两个基础模式"></a> IPC的两个基础模式</h4>
+<h5 id="消息传递模式"><a class="markdownIt-Anchor" href="#消息传递模式"></a> 消息传递模式</h5>
+<ul>
+<li>可用于交换少量数据，因为无需避免冲突</li>
+<li>更容易实施</li>
+<li>通过系统调用（例如send（），receive（））交换信息</li>
+</ul>
+<h5 id="共享内存模式"><a class="markdownIt-Anchor" href="#共享内存模式"></a> 共享内存模式</h5>
+<ul>
+<li>通过内存访问有更快的内存速度</li>
+<li>系统调用仅用于建立共享内存区域</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/03/6P7caQsfzDOUySh.png" alt="image-20201003202940281.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>3.1 Using the program shown in Figure 3.30, explain what the output will<br />
+be at LINE A.</p>
+<p><img src="https://i.loli.net/2020/10/04/zX2KsqfngIwNPaO.png" alt="image-20201004120745412.png" /></p>
+<p>PARENT: value = 5</p>
+<p>因为fork()会创建一个子进程，子进程会复制父进程的代码、全局变量、堆栈等，所以在子进程中对变量的修改影响不到父进程。</p>
+<p>3.2 Including the initial parent process, how many processes are created by the program shown in Figure 3.31?</p>
+<p><img src="https://i.loli.net/2020/10/04/POQlMDoAxaBeCiS.png" alt="image-20201004114833943.png" /></p>
+<p>一共8个，第一个fork()后复制父进程，共有2个进程；第二个fork()后复制前两个进程，共四个进程；依次类推，一共8个。</p>
+<p>3.5 When a process creates a new process using the fork() operation, which of the following states is shared between the parent process and the child<br />
+process?<br />
+a. Stack<br />
+b. Heap<br />
+c. Shared memory segments</p>
+<p>c</p>
+<p>3.8 Describe the differences among short-term, medium-term, and long-term scheduling.</p>
+<p>短期调度器：从准备队列中选择进程分配到CPU中执行，运行频率高</p>
+<p>中期调度器：将部分进程从内存中移出，降低多道程序程度</p>
+<p>长期调度器：选择将哪些进程带入准备队列，运行频率低</p>
+<p>3.9 Describe the actions taken by a kernel to context-switch between<br />
+processes.</p>
+<p>kernel保存正在运行的进程的状态到它的PCB中，并加载经调度而要执行的新进程的上下文。</p>
+<p>3.11 Explain the role of the init process on UNIX and Linux systems in regard to process termination.</p>
+<p>UNIX和Linux将init进程作为孤儿进程的父进程。进程init定期调用wait()，以便收集任何孤儿进程的退出状态，并释放孤儿进程标识符和进程表条目</p>
+<p>3.12 Including the initial parent process, how many processes are created by the program shown in Figure 3.32?</p>
+<p><img src="https://i.loli.net/2020/10/04/DWY3XBUQ2jLNzoq.png" alt="image-20201004114857480.png" /></p>
+<p>一共16个，第一次fork()后复制父进程，共有2个进程；第二次fork()后复制前两个进程，共四个进程；依次类推，共fork()四次，一共16个。</p>
+<p>3.13 Explain the circumstances under which which the line of code marked<br />
+printf(“LINE J”) in Figure 3.33 will be reached.</p>
+<p><img src="https://i.loli.net/2020/10/04/1Q2XhVRf86jxYOe.png" alt="image-20201004195716479.png" /></p>
+<p>当execlp()的调用发生错误时</p>
+<p>3.14 Using the program in Figure 3.34, identify the values of pid at lines A, B, C, and D. (Assume that the actual pids of the parent and child are 2600<br />
+and 2603, respectively.)</p>
+<p><img src="https://i.loli.net/2020/10/04/h1afI3uKD5dpNA9.png" alt="image-20201004114933324.png" /></p>
+<p>A = 0, B = 2603, C = 2603, D = 2600</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/01/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC1%E7%AB%A0%20%E7%BB%AA%E8%AE%BA/" rel="next" title="第一章 绪论">
+                  <i class="fa fa-chevron-left"></i> 第一章 绪论
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/05/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC2%E7%AB%A0%20%E6%96%87%E6%B3%95/" rel="prev" title="第二章 文法">
+                  第二章 文法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第3章-进程"><span class="nav-text"> 第3章 进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多道程序技术"><span class="nav-text"> 多道程序技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#程序顺序执行时的特征"><span class="nav-text"> 程序顺序执行时的特征</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程概念"><span class="nav-text"> 进程概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程状态"><span class="nav-text"> 进程状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程挂起"><span class="nav-text"> 进程挂起</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进程控制块pcb"><span class="nav-text"> 进程控制块(PCB)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程调度"><span class="nav-text"> 进程调度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#调度器"><span class="nav-text"> 调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上下文切换"><span class="nav-text"> 上下文切换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程操作"><span class="nav-text"> 进程操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程创建"><span class="nav-text"> 进程创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#资源共享"><span class="nav-text"> 资源共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行"><span class="nav-text"> 运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程间通信ipc"><span class="nav-text"> 进程间通信（IPC）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ipc的两个基础模式"><span class="nav-text"> IPC的两个基础模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#消息传递模式"><span class="nav-text"> 消息传递模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#共享内存模式"><span class="nav-text"> 共享内存模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="内存管理  8.1 背景  CPU可以直接访问的通用存储只有内存和处理器内置的寄存器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第8章 内存管理">
+<meta property="og:url" content="http://yoursite.com/2020/11/15/OS/%E7%AC%AC8%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="内存管理  8.1 背景  CPU可以直接访问的通用存储只有内存和处理器内置的寄存器">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/cQfmXAuEvWOD6Ir.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/CMwhnZslgrbp2S3.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/tSg9znxZ4shLUEf.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/CMwhnZslgrbp2S3.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/UFlkGqPcpMDLsAz.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/cHzwNihYZmtkI1s.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/AHrROUKzdGZXlax.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/D6ZKAXI73eMCkrw.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/mhqbwU7ivBYASes.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/urOWgJ79HkL1Bab.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/nXDgjBMcYWLew67.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/GWvS6yKgdrMkO5Z.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/YbXlUROckj9Bv4q.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/B3962dygNMVTEhJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/11/15/qOJ7iy2cUBjpkV1.png">
+<meta property="article:published_time" content="2020-11-15T05:30:15.000Z">
+<meta property="article:modified_time" content="2020-11-15T08:55:11.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/11/15/cQfmXAuEvWOD6Ir.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/15/OS/%E7%AC%AC8%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第8章 内存管理 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/15/OS/%E7%AC%AC8%E7%AB%A0%20%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第8章 内存管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-15 13:30:15 / 修改时间：16:55:11" itemprop="dateCreated datePublished" datetime="2020-11-15T13:30:15+08:00">2020-11-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="内存管理"><a class="markdownIt-Anchor" href="#内存管理"></a> 内存管理</h2>
+<h3 id="81-背景"><a class="markdownIt-Anchor" href="#81-背景"></a> 8.1 背景</h3>
+<ul>
+<li>CPU可以直接访问的通用存储只有内存和处理器内置的寄存器</li>
+</ul>
+<a id="more"></a>
+<h4 id="811-内存保护"><a class="markdownIt-Anchor" href="#811-内存保护"></a> 8.1.1 内存保护</h4>
+<ul>
+<li><strong>Base register</strong> + <strong>Limit register</strong></li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/cQfmXAuEvWOD6Ir.png" alt="image-20201112195903075.png" style="zoom:80%;" />
+<img src="https://i.loli.net/2020/11/15/CMwhnZslgrbp2S3.png" alt="image-20201114163901044.png" style="zoom:80%;" />
+<h4 id="812-地址绑定"><a class="markdownIt-Anchor" href="#812-地址绑定"></a> 8.1.2 地址绑定</h4>
+<ul>
+<li>将符号地址(<strong>Symbolic address</strong>)绑定到可重定位的地址(<strong>relocatable address</strong>)</li>
+<li>将可重定位的地址(<strong>Relocatable address</strong>)绑定到绝对地址(<strong>absolute address</strong>)</li>
+</ul>
+<h5 id="编译时"><a class="markdownIt-Anchor" href="#编译时"></a> 编译时</h5>
+<ul>
+<li>如果在编译时可知，那么就生成绝对代码</li>
+<li>地址发生变化需要重编译</li>
+</ul>
+<h5 id="加载时"><a class="markdownIt-Anchor" href="#加载时"></a> 加载时</h5>
+<ul>
+<li>生成可重定位代码</li>
+</ul>
+<h5 id="执行时"><a class="markdownIt-Anchor" href="#执行时"></a> 执行时</h5>
+<ul>
+<li>绑定延迟到执行时，需要硬件支持</li>
+</ul>
+<h4 id="813-逻辑地址空间与物理地址空间"><a class="markdownIt-Anchor" href="#813-逻辑地址空间与物理地址空间"></a> 8.1.3 逻辑地址空间与物理地址空间</h4>
+<ul>
+<li>
+<p>CPU生成的地址通常称为逻辑地址，而内存单元看到的地址通常称为物理地址</p>
+</li>
+<li>
+<p>编译时和加载时的地址绑定方法生成相同的逻辑地址和物理地址。执行时的地址绑定方案生成不同的逻辑地址和物理地址</p>
+</li>
+</ul>
+<h5 id="内存管理单元mmu"><a class="markdownIt-Anchor" href="#内存管理单元mmu"></a> 内存管理单元(MMU)</h5>
+<ul>
+<li>从虚拟地址到物理地址的运行时映射的硬件设备</li>
+<li>用户进程所生成的地址在送交内存之前，需要加上重定位寄存器(<strong>relocation register</strong>)的值</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/tSg9znxZ4shLUEf.png" alt="image-20201112201932270.png" style="zoom:80%;" />
+<h4 id="814-动态加载"><a class="markdownIt-Anchor" href="#814-动态加载"></a> 8.1.4 动态加载</h4>
+<ul>
+<li>
+<p>依据局部性原理(principle of locality of reference)</p>
+</li>
+<li>
+<p>加载之前：可重定位代码</p>
+</li>
+<li>
+<p>检查程序是否加载，如果没有，可重定位链接程序(<strong>dynamic linking loader</strong>)会加载所需的程序到内存，并更新程序的地址表以反映这一变化，然后控制传递给新加载的程序</p>
+</li>
+</ul>
+<h4 id="815-动态链接"><a class="markdownIt-Anchor" href="#815-动态链接"></a> 8.1.5 动态链接</h4>
+<h5 id="装入时动态链接load-time-dynamic-linking"><a class="markdownIt-Anchor" href="#装入时动态链接load-time-dynamic-linking"></a> 装入时动态链接(Load-time dynamic linking)</h5>
+<p>根据外部调用和引用，加载程序找到所需的对象模块和库，并将它们加载到内存中</p>
+<h5 id="运行时动态链接dynamic-linking"><a class="markdownIt-Anchor" href="#运行时动态链接dynamic-linking"></a> 运行时动态链接(Dynamic Linking)</h5>
+<ul>
+<li>每个库程序的引用都有一个存根</li>
+<li>存根是一小段代码，用来指出如何定位适当的内存驻留库程序</li>
+<li>存根先检查所需程序是否在内存中，并将其加入</li>
+<li>存根用程序地址替换自身，并执行程序</li>
+</ul>
+<p>Advantage: 加载时间短、存储空间少</p>
+<h3 id="82-交换"><a class="markdownIt-Anchor" href="#82-交换"></a> 8.2 交换</h3>
+<ul>
+<li>备份存储大部分是快速磁盘，提供对这些存储器映像的直接访问</li>
+</ul>
+<h3 id="83-连续内存分配contiguous-memory-allocation"><a class="markdownIt-Anchor" href="#83-连续内存分配contiguous-memory-allocation"></a> 8.3 连续内存分配(Contiguous Memory Allocation)</h3>
+<h4 id="831-单一连续"><a class="markdownIt-Anchor" href="#831-单一连续"></a> 8.3.1 单一连续</h4>
+<ul>
+<li>内存分为两个区域：一个用于驻留OS，一个用于用户进程</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/CMwhnZslgrbp2S3.png" alt="image-20201114163901044.png" style="zoom:80%;" />
+<h4 id="832-多分区分配"><a class="markdownIt-Anchor" href="#832-多分区分配"></a> 8.3.2 多分区分配</h4>
+<p>多个用户进程同时驻留在内存中</p>
+<ul>
+<li>用户分区分为n个</li>
+<li>每个分区可能只包含一个进程
+<ol>
+<li>当分区空闲时，选择输入队列中的进程并将其加载到空闲分区</li>
+<li>进程终止时，释放内存</li>
+</ol>
+</li>
+<li>分区数量决定<strong>多道程序度</strong></li>
+</ul>
+<h5 id="固定分区"><a class="markdownIt-Anchor" href="#固定分区"></a> 固定分区</h5>
+<ul>
+<li>将内存分为多个固定大小的分区</li>
+</ul>
+<p>缺点：内存利用率低，内部碎片大</p>
+<h5 id="动态分区"><a class="markdownIt-Anchor" href="#动态分区"></a> 动态分区</h5>
+<ul>
+<li>起初，所有的内存为一个大洞</li>
+<li>根据需求分配内存给进程</li>
+<li>释放内存时合并孔</li>
+</ul>
+<p>OS管理：</p>
+<ol>
+<li>分区分配</li>
+<li>可用分区
+<ul>
+<li>分区表</li>
+<li>分区list</li>
+</ul>
+</li>
+</ol>
+<h5 id="动态分配问题"><a class="markdownIt-Anchor" href="#动态分配问题"></a> 动态分配问题</h5>
+<p>First-fit:第一个足够大的孔</p>
+<p>Next-fit:第二个足够大的孔</p>
+<p>Best-fit:最小的足够大的孔</p>
+<p>Worst-fit:最大的足够大的孔</p>
+<p>优点：随着进程的换入换出，分区的数量，大小和位置都会动态变化；它十分灵活，可以提高内存利用率，避免由固定分区的不适当分区大小引起的内部碎片</p>
+<p>缺点：随着分配的进行，可用分区分散在内存中；尽管进行了回收，内存仍被分成越来越多的碎片，形成大量的外部碎片(存储被分成了大量的小孔)</p>
+<h4 id="833-碎片fragmentation"><a class="markdownIt-Anchor" href="#833-碎片fragmentation"></a> 8.3.3 碎片(Fragmentation)</h4>
+<p><strong>内部碎片</strong></p>
+<p>进程所分配的内存比所需的大，这两个数字之差为内部碎片，这部分内存在分区内部，但不能用</p>
+<p><strong>外部碎片</strong></p>
+<p>总的可用内存之和可以满足请求但并不连续(存储被分成了大量的小孔)</p>
+<h5 id="紧缩"><a class="markdownIt-Anchor" href="#紧缩"></a> 紧缩</h5>
+<ul>
+<li>移动内存内容，将所有空闲空间合并成一整块</li>
+<li>只有重定位是动态的，并在运行时进行，才可采用紧缩</li>
+</ul>
+<h3 id="84-分段segmentation"><a class="markdownIt-Anchor" href="#84-分段segmentation"></a> 8.4 分段(Segmentation)</h3>
+<h4 id="841-分段策略"><a class="markdownIt-Anchor" href="#841-分段策略"></a> 8.4.1 分段策略</h4>
+<ul>
+<li>
+<p>支持用户视图的内存管理方案</p>
+</li>
+<li>
+<p>逻辑地址空间由一组段构成</p>
+</li>
+<li>
+<p>每个段有名称和长度</p>
+<p>​	&lt;段号，偏移&gt;</p>
+</li>
+</ul>
+<h4 id="842-分段硬件"><a class="markdownIt-Anchor" href="#842-分段硬件"></a> 8.4.2 分段硬件</h4>
+<h5 id="段表"><a class="markdownIt-Anchor" href="#段表"></a> 段表</h5>
+<ul>
+<li>映射用户定义的二维地址到一维物理地址</li>
+<li><strong>段基地址</strong>：段在内存中的开始物理地址</li>
+<li><strong>段界限</strong>：该段的长度</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/UFlkGqPcpMDLsAz.png" alt="image-20201115124939794.png" style="zoom:80%;" />
+<h5 id="基本段表硬件"><a class="markdownIt-Anchor" href="#基本段表硬件"></a> 基本段表硬件</h5>
+<ul>
+<li>
+<p><strong>段表基址寄存器(STBR)</strong></p>
+</li>
+<li>
+<p><strong>段表长度寄存器(STLR)</strong></p>
+<p><strong>s</strong> is legal if <strong>s &lt; STLR</strong></p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/cHzwNihYZmtkI1s.png" alt="image-20201115125245923.png" style="zoom:80%;" />
+<h3 id="85-分页"><a class="markdownIt-Anchor" href="#85-分页"></a> 8.5 分页</h3>
+<ul>
+<li><strong>帧/物理页框</strong>：将物理内存分为固定大小的块</li>
+<li><strong>页</strong>：将逻辑内存分为同样大小的块</li>
+</ul>
+<h4 id="851-分页策略"><a class="markdownIt-Anchor" href="#851-分页策略"></a> 8.5.1 分页策略</h4>
+<ul>
+<li><strong>页码(p)</strong>：页表的索引</li>
+<li><strong>页偏移(d)</strong>：与基地址相加得到物理地址</li>
+</ul>
+<h5 id="页表"><a class="markdownIt-Anchor" href="#页表"></a> 页表</h5>
+<p>页码作为页表的索引，页表包含每页所在物理内存的基地址</p>
+<h5 id="页"><a class="markdownIt-Anchor" href="#页"></a> 页</h5>
+<img src="https://i.loli.net/2020/11/15/AHrROUKzdGZXlax.png" alt="image-20201114202647441.png" style="zoom:80%;" />
+<h5 id="帧表"><a class="markdownIt-Anchor" href="#帧表"></a> 帧表</h5>
+<p>由于操作系统管理物理内存，它需要知道物理内存的分配细节：哪些帧已分配、哪些帧可用、总共有多少帧……</p>
+<h4 id="852-硬件支持"><a class="markdownIt-Anchor" href="#852-硬件支持"></a> 8.5.2 硬件支持</h4>
+<h5 id="基本页表硬件"><a class="markdownIt-Anchor" href="#基本页表硬件"></a> 基本页表硬件</h5>
+<ul>
+<li>
+<p>页表存放在主存中</p>
+</li>
+<li>
+<p><strong>页表基址寄存器(PTBR)</strong></p>
+</li>
+<li>
+<p><strong>页表长度寄存器(PTLR)</strong></p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/D6ZKAXI73eMCkrw.png" alt="image-20201115103614025.png" style="zoom:80%;" />
+<p><strong>Effective memory-Access (EAT, 有效访问时间)</strong></p>
+<ul>
+<li>访问一个字节需要两次内存访问(一次用于页表，一次用于字节)</li>
+</ul>
+<h5 id="转换表缓冲区translation-look-aside-buffer-tlb"><a class="markdownIt-Anchor" href="#转换表缓冲区translation-look-aside-buffer-tlb"></a> 转换表缓冲区(Translation Look-aside Buffer, TLB)</h5>
+<p>关联的高速内存</p>
+<ul>
+<li>
+<p>每个条目由键和值组成</p>
+</li>
+<li>
+<p>同时与所有的键进行比较(高速)</p>
+</li>
+<li>
+<p>代价昂贵，通常存储8~2048条目</p>
+</li>
+</ul>
+<p><strong>TLB miss</strong></p>
+<p>如果页码在TLB中，则取得帧码；如果页码不在TLB中，则需访问页表，并将页码和帧码添加到TLB</p>
+<img src="https://i.loli.net/2020/11/15/mhqbwU7ivBYASes.png" alt="image-20201115101834743.png" style="zoom:80%;" />
+<p><strong>命中率</strong></p>
+<p>TLB中找到页码的次数的百分比</p>
+<img src="https://i.loli.net/2020/11/15/urOWgJ79HkL1Bab.png" alt="image-20201115102615443.png" style="zoom:80%;" />
+<h4 id="853-保护"><a class="markdownIt-Anchor" href="#853-保护"></a> 8.5.3 保护</h4>
+<ul>
+<li>通过检查保护位来验证有没有进行正确操作</li>
+</ul>
+<p><strong>有效-无效位</strong></p>
+<p>有效表示相关页在进程的逻辑地址空间内，无效表示相关页不在进程的逻辑地址空间内</p>
+<h4 id="854-共享页"><a class="markdownIt-Anchor" href="#854-共享页"></a> 8.5.4 共享页</h4>
+<ul>
+<li>
+<p><strong>可重入代码</strong>是不能自我修改的代码，它在执行期间不会改变，所有进程中的共享代码逻辑地址必须相同</p>
+</li>
+<li>
+<p>每个进程都有自己的寄存器副本和数据</p>
+</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/nXDgjBMcYWLew67.png" alt="image-20201115121128880.png" style="zoom:80%;" />
+<h3 id="86-页表结构"><a class="markdownIt-Anchor" href="#86-页表结构"></a> 8.6 页表结构</h3>
+<h4 id="861-分层页表"><a class="markdownIt-Anchor" href="#861-分层页表"></a> 8.6.1 分层页表</h4>
+<img src="https://i.loli.net/2020/11/15/GWvS6yKgdrMkO5Z.png" alt="image-20201115121813907.png" style="zoom:80%;" />
+<h4 id="862-哈希页表"><a class="markdownIt-Anchor" href="#862-哈希页表"></a> 8.6.2 哈希页表</h4>
+<p>处理大于32位地址空间的常用方法是使用哈希页表</p>
+<ul>
+<li>哈希页表的每一个条目都包含一个链表</li>
+<li>每个元素由三个字段组成：
+<ul>
+<li>虚拟页码</li>
+<li>映射的帧码</li>
+<li>指向链表内下一元素的指针</li>
+</ul>
+</li>
+</ul>
+<p><strong>Algorithm</strong></p>
+<p>虚拟地址的虚拟页码哈希到哈希表，用虚拟页码与链表内的元素的字段逐一比较。如果匹配，则相应帧码形成物理地址</p>
+<img src="https://i.loli.net/2020/11/15/YbXlUROckj9Bv4q.png" alt="image-20201115122659927.png" style="zoom:80%;" />
+<h4 id="863-倒置页表inverted-page-tables"><a class="markdownIt-Anchor" href="#863-倒置页表inverted-page-tables"></a> 8.6.3 倒置页表(Inverted Page Tables)</h4>
+<ul>
+<li>对于每个真正的内存页或帧，倒置页表才有一个条目</li>
+<li>每个条目包含保存在真正内存位置上的页的虚拟地址，以及拥有该页进程的信息</li>
+</ul>
+<p><strong>Advantage</strong></p>
+<ul>
+<li>整个系统只有一个页表</li>
+<li>减少存储页表所需的内存</li>
+</ul>
+<p><strong>Disadvantage</strong></p>
+<ul>
+<li>发生页面引用时增加了搜索表所需的时间</li>
+<li>可以使用哈希表将搜索限制为一个或最多几个页表条目</li>
+</ul>
+<img src="https://i.loli.net/2020/11/15/B3962dygNMVTEhJ.png" alt="image-20201115123142089.png" style="zoom:80%;" />
+<h3 id="87-分页与分段的区别"><a class="markdownIt-Anchor" href="#87-分页与分段的区别"></a> 8.7 分页与分段的区别</h3>
+<h4 id="动机和目的"><a class="markdownIt-Anchor" href="#动机和目的"></a> 动机和目的</h4>
+<ul>
+<li>分页：<strong>面向系统、物理上离散、减少外部和内部碎片、提高内存利用率</strong>；页是信息的物理单元</li>
+<li>分段：<strong>面向用户，逻辑上离散，满足用户需求</strong>；段是具有相对完整含义的信息的逻辑单元</li>
+</ul>
+<h4 id="大小"><a class="markdownIt-Anchor" href="#大小"></a> 大小</h4>
+<ul>
+<li>分页：大小固定，由硬件决定</li>
+<li>分段：大小不固定，由程序和编译时决定</li>
+</ul>
+<h4 id="维度"><a class="markdownIt-Anchor" href="#维度"></a> 维度</h4>
+<ul>
+<li>分页：一维</li>
+<li>分段：二维</li>
+</ul>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>8.1 Name two differences between logical and physical addresses.</p>
+<p>逻辑地址由CPU生成，物理地址由MMU生成。逻辑地址对用户是可视的，物理地址对用户是不可视的。逻辑地址通过MMU转化成物理地址。</p>
+<p>8.2 Consider a system in which a program can be separated into two<br />
+parts: code and data. The CPU knows whether it wants an instruction<br />
+(instruction fetch) or data (data fetch or store). Therefore, two base–<br />
+limit register pairs are provided: one for instructions and one for data.<br />
+The instruction base–limit register pair is automatically read-only, so<br />
+programs can be shared among different users. Discuss the advantages<br />
+and disadvantages of this scheme.</p>
+<p>可以共享公共代码。因为指令的寄存器对只读，所以代码为可重入代码，可以保存一个编辑器的副本，每个用户的页表映射到编辑器的同一物理副本，减少内存使用。同时由于只读，可以保证代码不会被修改。缺点是代码和数据需要分开，每个进程需要有自己的私有数据，并存储到不同的物理地址。</p>
+<p>8.3 Why are page sizes always powers of 2?</p>
+<p>对于m位的CPU来说，分页将地址分为页码m-n位和页偏移n位，每一位都代表着2个幂，其中页大小为2^n ，页的逻辑地址空间为2^(m-n)，所以页大小总为2的幂</p>
+<p>8.4 Consider a logical address space of 64 pages of 1,024 words each, mapped<br />
+onto a physical memory of 32 frames.<br />
+a. How many bits are there in the logical address?</p>
+<p>2^6 * 2^10 = 2^16</p>
+<p>b. How many bits are there in the physical address?</p>
+<p>2^5 * 2^10 = 2^15</p>
+<p>8.5 What is the effect of allowing two entries in a page table to point to the<br />
+same page frame in memory? Explain how this effect could be used to<br />
+decrease the amount of time needed to copy a large amount of memory<br />
+from one place to another. What effect would updating some byte on the<br />
+one page have on the other page?</p>
+<p>可以共享代码和数据。当需要重复多次执行代码时，每个进程使用相同的公共代码，页表映射到同一物理地址，不需要每次都复制内存，减少内存的使用。但如果对一个页中的代码进行修改，其余使用这份共享代码的页也会受到影响。</p>
+<p>8.6 Describe a mechanism by which one segment could belong to the address<br />
+space of two different processes.</p>
+<p>两个进程的段表中的条目指向同一物理地址。两个进程中的共享段的段号要相同。</p>
+<p>8.7 Sharing segments among processes without requiring that they have the<br />
+same segment number is possible in a dynamically linked segmentation<br />
+system.<br />
+a. Define a system that allows static linking and sharing of segments<br />
+without requiring that the segment numbers be the same.<br />
+b. Describe a paging scheme that allows pages to be shared without<br />
+requiring that the page numbers be the same.</p>
+<p>这两个问题都简化为一个程序可以引用自己的代码和数据，却不知道该段或页面<br />
+与地址关联的数字。 MULTICS通过以下方式解决了这个问题：每个进程将四个寄存器关联起来。一个寄存器具有当前程序段的地址，另一个寄存器具有堆栈的基地址，另一个寄存器具有全局数据的基地址，依此类推。这个想法是所有引用都必须通过映射到当前段或页码的寄存器进行间接访问。通过更改这些寄存器，可以在没有相同页码或段号的情况下针对不同的进程执行相同的代码。</p>
+<p>8.9 Explain the difference between internal and external fragmentation.</p>
+<p>进程所分配的内存比所需的大，这两个数字之差为内部碎片，这部分内存在分区内部，但不能用。外部碎片是存储被分成了大量的小孔，总的总的可用内存之和可以满足请求但并不连续。</p>
+<p>8.12 Most systems allow a program to allocate more memory to its address<br />
+space during execution. Allocation of data in the heap segments of<br />
+programs is an example of such allocated memory. What is required<br />
+to support dynamic memory allocation in the following schemes?<br />
+a. Contiguous memory allocation<br />
+b. Pure segmentation<br />
+c. Pure paging</p>
+<p>a. 可能需要整个程序重定位</p>
+<p>b. 可能需要段重定位</p>
+<p>c. 可以增加分配新页面，而无需重新定位程序的地址空间</p>
+<p>paging物理上是不连续的</p>
+<p>8.13 Compare the memory organization schemes of contiguous memory<br />
+allocation, pure segmentation, and pure paging with respect to the<br />
+following issues:<br />
+a. External fragmentation<br />
+b. Internal fragmentation<br />
+c. Ability to share code across processes</p>
+<p>a. contiguous memory 、pure segmentation有外部碎片的问题，当旧进程结束，新进程加入时，由于进程长度不一，会产生小孔，重复多次会产生大量的小孔，形成外部碎片。而pure paging没有这种情况。</p>
+<p>b. contiguous memory、pure segmentation没有内部碎片的问题，pure paging由于分配的内存可能大于所需内存，会产生内部碎片</p>
+<p>c. contiguous memory不允许共享代码，pure segmentation和pure paging可以有共享代码，只需保证代码是可重入代码，进程中的共享代码逻辑地址相同。</p>
+<p>8.14 On a system with paging, a process cannot access memory that it does<br />
+not own. Why? How could the operating system allow access to other<br />
+memory? Why should it or should it not?</p>
+<p>PTLR和PTBR会限制进程只访问页表中的条目。如果操作系统允许非进程内存条目进入进程页表，它将提供对其他内存的访问。</p>
+<p>8.17 Compare paging with segmentation with respect to how much memory<br />
+the address translation structures require to convert virtual addresses to<br />
+physical addresses.</p>
+<p>分页需要的内存量更多</p>
+<p>分页每页需要一个条目，每个条目存储一个页面映射的物理地址</p>
+<p>分段只需要两个寄存器，一个寄存器管理段基址，一个寄存器管理段长</p>
+<p>8.19 Program binaries in many systems are typically structured as follows.<br />
+Code is stored starting with a small, fixed virtual address, such as 0. The<br />
+code segment is followed by the data segment that is used for storing<br />
+the program variables. When the program starts executing, the stack is<br />
+allocated at the other end of the virtual address space and is allowed<br />
+to grow toward lower virtual addresses. What is the significance of this<br />
+structure for the following schemes?<br />
+a. Contiguous memory allocation<br />
+b. Pure segmentation<br />
+c. Pure paging</p>
+<p>a. b. 可以重定位程序位置来分配新内存，c. 可以新增页</p>
+<p>8.20 Assuming a 1-KB page size, what are the page numbers and offsets for<br />
+the following address references (provided as decimal numbers):<br />
+a. 3085</p>
+<p>p: 3	d: 13</p>
+<p>b. 42095</p>
+<p>p: 41	d: 111</p>
+<p>c. 215201</p>
+<p>p: 210	d: 161</p>
+<p>d. 650000</p>
+<p>p: 634	d: 784</p>
+<p>e. 2000001</p>
+<p>p: 1953	d: 129</p>
+<p>8.22 What is the maximum amount of physical memory?</p>
+<p>取决于系统硬件</p>
+<p>8.23 Consider a logical address space of 256 pages with a 4-KB page size,<br />
+mapped onto a physical memory of 64 frames.<br />
+a. How many bits are required in the logical address?</p>
+<p>20</p>
+<p>b. How many bits are required in the physical address?<br />
+18</p>
+<p>8.24 Consider a computer system with a 32-bit logical address and 4-KB page<br />
+size. The system supports up to 512 MB of physical memory. How many<br />
+entries are there in each of the following?</p>
+<p>2^29 / 2^12 = 2^17</p>
+<p>8.25 Consider a paging system with the page table stored in memory.<br />
+a. If a memory reference takes 50 nanoseconds, how long does a<br />
+paged memory reference take?</p>
+<p>100 ns</p>
+<p>b. If we add TLBs, and 75 percent of all page-table references are found<br />
+in the TLBs, what is the effective memory reference time? (Assume<br />
+that finding a page-table entry in the TLBs takes 2 nanoseconds, if<br />
+the entry is present.)</p>
+<p>EAT = 0.75 * (52) + 0.25 * (102) = 64.5ns</p>
+<p>8.26 Why are segmentation and paging sometimes combined into one<br />
+scheme?</p>
+<p>当页表变得非常大时，分段式分页很有用。可以将未使用的页表的大连续部分折叠为一个页表地址为零的单个段表条目。 通过分页段，我们减少了因外部碎片而造成的内存浪费，并简化了分配。</p>
+<p>8.27 Explain why sharing a reentrant module is easier when segmentation is<br />
+used than when pure paging is used.</p>
+<p>由于分段是基于内存的逻辑划分而不是物理划分，因此任何大小的分段都只能与每个用户的分段表中的一项共享。 使用分页时，页面表中必须为每个共享页面共享一个公共条目。</p>
+<p>8.28 Consider the following segment table:<br />
+<img src="https://i.loli.net/2020/11/15/qOJ7iy2cUBjpkV1.png" alt="image-20201115131458354.png" style="zoom:80%;" /><br />
+What are the physical addresses for the following logical addresses?<br />
+a. 0,430<br />
+b. 1,10<br />
+c. 2,500<br />
+d. 3,400<br />
+e. 4,112</p>
+<p>a. 649</p>
+<p>b. 2310</p>
+<p>c. illegal</p>
+<p>d. 1727</p>
+<p>e. illegal</p>
+<p>8.29 What is the purpose of paging the page tables?</p>
+<p>当页表太大，较难管理时，需要对页表进行分页</p>
+<p>8.31 Compare the segmented paging scheme with the hashed page table<br />
+scheme for handling large address spaces. Under what circumstances is<br />
+one scheme preferable to the other?</p>
+<p>当程序仅占据其大型虚拟地址空间的一小部分时，由于其较小的大小，因此可能首选哈希页表。 但是，哈希页面表的缺点是由于将多个页面映射到同一哈希页面表项中的冲突而引起的问题。 如果许多页面映射到同一个条目，则遍历与该哈希表条目相对应的列表可能会产生大量开销； 这样的开销在分段式分页方案中是最小的，在分页式分页方案中，每个页表项仅维护有关一个页面的信息。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/28/OS/%E7%AC%AC7%E7%AB%A0%20%E6%AD%BB%E9%94%81/" rel="next" title="第7章 死锁">
+                  <i class="fa fa-chevron-left"></i> 第7章 死锁
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/11/22/OS/%E7%AC%AC9%E7%AB%A0%20%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="prev" title="第9章 虚拟内存管理">
+                  第9章 虚拟内存管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-text"> 内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#81-背景"><span class="nav-text"> 8.1 背景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#811-内存保护"><span class="nav-text"> 8.1.1 内存保护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#812-地址绑定"><span class="nav-text"> 8.1.2 地址绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#编译时"><span class="nav-text"> 编译时</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#加载时"><span class="nav-text"> 加载时</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#执行时"><span class="nav-text"> 执行时</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#813-逻辑地址空间与物理地址空间"><span class="nav-text"> 8.1.3 逻辑地址空间与物理地址空间</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#内存管理单元mmu"><span class="nav-text"> 内存管理单元(MMU)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#814-动态加载"><span class="nav-text"> 8.1.4 动态加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#815-动态链接"><span class="nav-text"> 8.1.5 动态链接</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#装入时动态链接load-time-dynamic-linking"><span class="nav-text"> 装入时动态链接(Load-time dynamic linking)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行时动态链接dynamic-linking"><span class="nav-text"> 运行时动态链接(Dynamic Linking)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#82-交换"><span class="nav-text"> 8.2 交换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#83-连续内存分配contiguous-memory-allocation"><span class="nav-text"> 8.3 连续内存分配(Contiguous Memory Allocation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#831-单一连续"><span class="nav-text"> 8.3.1 单一连续</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#832-多分区分配"><span class="nav-text"> 8.3.2 多分区分配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#固定分区"><span class="nav-text"> 固定分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#动态分区"><span class="nav-text"> 动态分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#动态分配问题"><span class="nav-text"> 动态分配问题</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#833-碎片fragmentation"><span class="nav-text"> 8.3.3 碎片(Fragmentation)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#紧缩"><span class="nav-text"> 紧缩</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#84-分段segmentation"><span class="nav-text"> 8.4 分段(Segmentation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#841-分段策略"><span class="nav-text"> 8.4.1 分段策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#842-分段硬件"><span class="nav-text"> 8.4.2 分段硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#段表"><span class="nav-text"> 段表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#基本段表硬件"><span class="nav-text"> 基本段表硬件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#85-分页"><span class="nav-text"> 8.5 分页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#851-分页策略"><span class="nav-text"> 8.5.1 分页策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#页表"><span class="nav-text"> 页表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#页"><span class="nav-text"> 页</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#帧表"><span class="nav-text"> 帧表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#852-硬件支持"><span class="nav-text"> 8.5.2 硬件支持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本页表硬件"><span class="nav-text"> 基本页表硬件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#转换表缓冲区translation-look-aside-buffer-tlb"><span class="nav-text"> 转换表缓冲区(Translation Look-aside Buffer, TLB)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#853-保护"><span class="nav-text"> 8.5.3 保护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#854-共享页"><span class="nav-text"> 8.5.4 共享页</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#86-页表结构"><span class="nav-text"> 8.6 页表结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#861-分层页表"><span class="nav-text"> 8.6.1 分层页表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#862-哈希页表"><span class="nav-text"> 8.6.2 哈希页表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#863-倒置页表inverted-page-tables"><span class="nav-text"> 8.6.3 倒置页表(Inverted Page Tables)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#87-分页与分段的区别"><span class="nav-text"> 8.7 分页与分段的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#动机和目的"><span class="nav-text"> 动机和目的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#大小"><span class="nav-text"> 大小</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#维度"><span class="nav-text"> 维度</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

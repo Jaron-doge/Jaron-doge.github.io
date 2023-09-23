@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第十一章 查询处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十一章 查询处理">
+<meta property="og:url" content="http://yoursite.com/2021/06/17/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter11%20%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第十一章 查询处理">
+<meta property="og:image" content="https://i.loli.net/2021/06/18/4RMXLsxbjO6Tn1g.png">
+<meta property="article:published_time" content="2021-06-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-18T13:27:02.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/18/4RMXLsxbjO6Tn1g.png">
+
+<link rel="canonical" href="http://yoursite.com/2021/06/17/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter11%20%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第十一章 查询处理 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/17/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter11%20%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十一章 查询处理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-17 00:00:00" itemprop="dateCreated datePublished" datetime="2021-06-17T00:00:00+08:00">2021-06-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-18 21:27:02" itemprop="dateModified" datetime="2021-06-18T21:27:02+08:00">2021-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第十一章-查询处理"><a class="markdownIt-Anchor" href="#第十一章-查询处理"></a> 第十一章 查询处理</h2>
+<a id="more"></a>
+<p>本章大部分内容cv自wht同学的笔记</p>
+<h3 id="111-查询处理概述"><a class="markdownIt-Anchor" href="#111-查询处理概述"></a> 11.1 查询处理概述</h3>
+<p><strong>|查询处理|</strong>：包括语法分析、正确性验证、查询优化以及查询执行等活动。</p>
+<p><strong>|查询优化|</strong>：为查询处理选择一个高效的执行策略。通常采取的策略是寻找一种近似最优解。</p>
+<h4 id="查询处理的四个主要阶段"><a class="markdownIt-Anchor" href="#查询处理的四个主要阶段"></a> 查询处理的四个主要阶段</h4>
+<ul>
+<li>分解</li>
+<li>优化</li>
+<li>代码生成</li>
+<li>代码执行</li>
+</ul>
+<img src="https://i.loli.net/2021/06/18/4RMXLsxbjO6Tn1g.png" alt="1.png" style="zoom:67%;" />
+<h3 id="112-查询解析"><a class="markdownIt-Anchor" href="#112-查询解析"></a> 11.2 查询解析</h3>
+<p><strong>step 1 验证语法是否正确，若否，拒绝执行</strong></p>
+<p><strong>step 2 创建查询树：</strong></p>
+<ul>
+<li>为查询中的每一个基础关系创建一个叶子节点</li>
+<li>为每个关系代数运算产生的中间关系创建一个非叶子节点</li>
+<li>最终查询结构作为根节点，连接各个节点</li>
+<li>这样就形成了关系代数查询树 relational algebra tree，语句的运算按照从叶到根的顺序执行</li>
+</ul>
+<p><strong>step 3 规范化</strong> 将表达式里的谓词（SQL中的WHERE子句）转换为以下两种范式之一：</p>
+<ul>
+<li>合取范式 (a ∧ b) ∨ (c ∧ d) ∨ …</li>
+<li>析取范式 (a ∨ b) ∧ (c ∨ d) ∧ …</li>
+</ul>
+<p>**step 4 语义分析：**判断是否有自相矛盾的谓词，简化它们为True或False</p>
+<p>**step 5 化简：**检测冗余条件，去除公共子表达式</p>
+<h3 id="113-查询优化"><a class="markdownIt-Anchor" href="#113-查询优化"></a> 11.3 查询优化</h3>
+<p>查询优化的目标：选择资源占用最少的等价查询形式，资源占用最少可以从<strong>所有运算执行时间的总和</strong>或<strong>查询的响应时间</strong>方面来量化。</p>
+<h3 id="114-关系代数运算的转换规则"><a class="markdownIt-Anchor" href="#114-关系代数运算的转换规则"></a> 11.4 关系代数运算的转换规则</h3>
+<ol>
+<li>串联式规则，合取选择运算转换为单个选择的运算的串联</li>
+<li>交换选择运算的顺序</li>
+<li>投影运算的串联与只执行最后一个投影运算等价</li>
+<li>选择运算和投影运算的交换律（谓词相同的情况下）</li>
+<li>θ连接/笛卡尔积运算的交换律、结合律</li>
+<li>选择运算和θ连接/笛卡尔积运算的分配律</li>
+<li>投影运算和θ连接/笛卡尔积运算的分配律</li>
+<li>交运算和并运算的交换律、结合律</li>
+<li>选择运算和交/并/差运算的分配律</li>
+<li>投影运算和并运算的分配律</li>
+</ol>
+<h3 id="115-启发式heuristic处理策略"><a class="markdownIt-Anchor" href="#115-启发式heuristic处理策略"></a> 11.5 启发式(Heuristic)处理策略</h3>
+<ol>
+<li>尽早执行选择运算和投影运算</li>
+<li>合并笛卡尔积运算和其后的选择运算为连接运算</li>
+<li>利用二元运算的结合律对叶子节点进行重排序，条件越严格的选择运算，越先执行</li>
+<li>如果有公共表达式在计算中多次出现，只执行一次其值的计算</li>
+</ol>
+<h3 id="116-关系代数运算的代价估计"><a class="markdownIt-Anchor" href="#116-关系代数运算的代价估计"></a> 11.6 关系代数运算的代价估计</h3>
+<p>前提：DBMS知道数据库的统计信息，即其中数据的规模<br />
+参数：R-关系，A-属性，I-索引<br />
+数据库的统计信息包含三类：（DBMS应周期性更新这些数据）</p>
+<p><strong>基本关系统计信息</strong></p>
+<ul>
+<li>nTuples® ：关系R的元组数目（R的基数）</li>
+<li>bFactor® ：关系R的块因子blocking factor，即一块可以存储R中元组的个数</li>
+<li>nBlocks®：存储关系R需要的块数，即以上两个参数之商</li>
+</ul>
+<p><strong>关系中的属性的统计信息</strong></p>
+<ul>
+<li>nDistinct(A,R)：属性A在关系R中不同取值的个数</li>
+<li>min(A,R)/max(A,R)：属性A在R中的可能最小值/最大值</li>
+<li>SC(A,R)：属性A在关系R中的选择基数selection cardinality，即满足属性A的某个等值条件的平均元组个数，这需要DBMS根据实际情况估算</li>
+</ul>
+<p><strong>属性上多级索引的统计信息</strong></p>
+<ul>
+<li>nLevels(A,I)：I的索引级数</li>
+<li>nLfBlocks(A,I)：I中叶子的块数</li>
+</ul>
+<p>通过这些数据，以及DBMS在各种关系运算操作中使用的算法，即可估算不同算法的运算代价的相对值</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2021/06/09/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter10%20%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86/" rel="next" title="第十章 事务管理">
+                  <i class="fa fa-chevron-left"></i> 第十章 事务管理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2021/06/18/%E6%95%B0%E6%8D%AE%E5%BA%93/Chapter12%20%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7/" rel="prev" title="第十二章 数据库的安全性">
+                  第十二章 数据库的安全性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第十一章-查询处理"><span class="nav-text"> 第十一章 查询处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#111-查询处理概述"><span class="nav-text"> 11.1 查询处理概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查询处理的四个主要阶段"><span class="nav-text"> 查询处理的四个主要阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#112-查询解析"><span class="nav-text"> 11.2 查询解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#113-查询优化"><span class="nav-text"> 11.3 查询优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#114-关系代数运算的转换规则"><span class="nav-text"> 11.4 关系代数运算的转换规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#115-启发式heuristic处理策略"><span class="nav-text"> 11.5 启发式(Heuristic)处理策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#116-关系代数运算的代价估计"><span class="nav-text"> 11.6 关系代数运算的代价估计</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

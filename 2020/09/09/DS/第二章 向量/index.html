@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="第二章 向量  比较树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二章 向量">
+<meta property="og:url" content="http://yoursite.com/2020/09/09/DS/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%90%91%E9%87%8F/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="第二章 向量  比较树">
+<meta property="article:published_time" content="2020-09-09T00:56:00.000Z">
+<meta property="article:modified_time" content="2020-09-09T00:58:05.000Z">
+<meta property="article:author" content="Jaron">
+<meta property="article:tag" content="排序">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/09/09/DS/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%90%91%E9%87%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第二章 向量 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/09/DS/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E5%90%91%E9%87%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第二章 向量
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-09 08:56:00 / 修改时间：08:58:05" itemprop="dateCreated datePublished" datetime="2020-09-09T08:56:00+08:00">2020-09-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>1.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第二章-向量"><a class="markdownIt-Anchor" href="#第二章-向量"></a> 第二章 向量</h2>
+<h3 id="比较树"><a class="markdownIt-Anchor" href="#比较树"></a> 比较树</h3>
+<a id="more"></a>
+<h4 id="性质"><a class="markdownIt-Anchor" href="#性质"></a> 性质：</h4>
+<ul>
+<li>每一内部节点各对应于一次比对操作</li>
+<li>内部节点的左、右分支，分别对应于在两种比对结果下的执行方向</li>
+<li>叶节点对应于算法某次执行的完整过程及输出</li>
+<li>算法的每一运行过程都对应于从根到某一叶节点的路径</li>
+</ul>
+<p>可以这么描述的算法被称作<strong>基于比较式算法 CBA(comparision-based algorithm)</strong></p>
+<h4 id="最小树高"><a class="markdownIt-Anchor" href="#最小树高"></a> 最小树高</h4>
+<p>​		叶节点到根节点的距离称作叶结点的深度，最大深度为树的高度，最小树高即为最佳CBA算法</p>
+<h4 id="计算"><a class="markdownIt-Anchor" href="#计算"></a> 计算</h4>
+<p>​		二叉树：高度为h，叶节点数目≥2<sup>h</sup>；输出为n，树高大于log<sub>2</sub>N</p>
+<p>​		三叉树：输出为n，树高大于log<sub>3</sub>N</p>
+<h3 id="二路归并算法"><a class="markdownIt-Anchor" href="#二路归并算法"></a> 二路归并算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::merge(T lo, T mi, T hi) &#123;</span><br><span class="line">    T* A = _elem + lo;</span><br><span class="line">    <span class="keyword">int</span> lb = mi - lo;	T* B = <span class="keyword">new</span> T[lb];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; lb; B[i] = A[i++]);</span><br><span class="line">    <span class="keyword">int</span> lc = hi - mi; T* C = _elem + mi;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, k = <span class="number">0</span>;(j &lt; lb) || (k &lt; lc); ) &#123;</span><br><span class="line">        <span class="keyword">if</span>(j&lt;lb) &amp;&amp; (!(k&lt;lc) || (B[j]&lt;=C[k])) A[i++]=B[j++];</span><br><span class="line">    	<span class="keyword">if</span>(k&lt;lc) &amp;&amp; (!(j&lt;lb) || (C[k]&lt; B[j])) A[i++]=C[k++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">delete</span> [] B;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="归并排序算法"><a class="markdownIt-Anchor" href="#归并排序算法"></a> 归并排序算法</h3>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">void</span> Vector&lt;T&gt;::mergeSort(<span class="keyword">int</span> lo, <span class="keyword">int</span> hi) &#123;</span><br><span class="line">    <span class="keyword">if</span>(hi - lo &lt; <span class="number">2</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mi = (lo + hi) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    mergeSort(lo, mi); mergeSort(mi, hi);</span><br><span class="line">    merge(lo, mi, hi);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
+<ol>
+<li>
+<p>稳定算法(stable algorithm)：重复元素之间的相对次序在排序前后保持一致，起泡排序属于稳定算法</p>
+</li>
+<li>
+<p>线性（时间）归约(linear-time reduction)</p>
+<ul>
+<li>问题A的任一输入都可在线性时间内转换为B的输入</li>
+<li>问题B的任一输出都可在线性时间内转换为A的输出</li>
+</ul>
+<p>|B| ≥ |A| = Ω( f(n) )</p>
+<p>例：</p>
+<p>​	问题A：对于任意n个实数，判定其中是否有重复者</p>
+<p>​	问题B：无序向量唯一化</p>
+<p>解：在线性时间内</p>
+<p>​	A输入：n个实数—&gt;B输入：无序向量—&gt;B输出：去重向量—&gt;A输出：规模仍为n</p>
+</li>
+<li>
+<p>马鞍查找</p>
+<p>整数矩阵的任何一行(列)都严格递增，找出并报告所有值为x的元素</p>
+<p>减而治之：</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">saddleback <span class="title">search</span><span class="params">(<span class="keyword">int</span> A[n][n], <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = binSearch(A[<span class="number">0</span>][], x);		<span class="comment">// O(logn)</span></span><br><span class="line">    <span class="keyword">while</span>((i &lt; n) &amp;&amp; (<span class="number">-1</span> &lt; j)) &#123;		<span class="comment">// O(s + r)</span></span><br><span class="line">        <span class="keyword">if</span>(A[i][j] &lt; x) i++;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(x &lt; A[i][j]) j--;</span><br><span class="line">        <span class="keyword">else</span> &#123; report(A[i][j]); i++; j--;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag"># 排序</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/04/C++/Chapter%2016%20%E6%A8%A1%E6%9D%BF%E4%B8%8E%E6%B3%9B%E5%9E%8B%E7%BC%96%E7%A8%8B/" rel="next" title="第十六章 模板与泛型编程">
+                  <i class="fa fa-chevron-left"></i> 第十六章 模板与泛型编程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/09/DS/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%88%97%E8%A1%A8/" rel="prev" title="第三章 列表">
+                  第三章 列表 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章-向量"><span class="nav-text"> 第二章 向量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较树"><span class="nav-text"> 比较树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#性质"><span class="nav-text"> 性质：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小树高"><span class="nav-text"> 最小树高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算"><span class="nav-text"> 计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二路归并算法"><span class="nav-text"> 二路归并算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归并排序算法"><span class="nav-text"> 归并排序算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-text"> 概念</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

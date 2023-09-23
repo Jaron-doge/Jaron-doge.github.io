@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="进程同步  临界区问题  竞争状态(race condition)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第5章 进程同步">
+<meta property="og:url" content="http://yoursite.com/2020/10/17/OS/%E7%AC%AC5%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="进程同步  临界区问题  竞争状态(race condition)">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/5jMQEYrJeCsbAmS.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/Z2K7Qk1eizsB5wG.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/bDAv6X1jiEcrZJ5.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/tGgLweIFjc4hNdP.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/sFUrkxnV82SwEzy.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/w8cKbxayOFGP6v5.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/ruMh6GvxJZ2bsXN.png">
+<meta property="og:image" content="https://i.loli.net/2020/10/23/opk8WXmlThMJdPC.png">
+<meta property="article:published_time" content="2020-10-17T12:30:15.000Z">
+<meta property="article:modified_time" content="2020-10-23T08:32:14.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/23/5jMQEYrJeCsbAmS.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/17/OS/%E7%AC%AC5%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第5章 进程同步 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/17/OS/%E7%AC%AC5%E7%AB%A0%20%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第5章 进程同步
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-17 20:30:15" itemprop="dateCreated datePublished" datetime="2020-10-17T20:30:15+08:00">2020-10-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-23 16:32:14" itemprop="dateModified" datetime="2020-10-23T16:32:14+08:00">2020-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="进程同步"><a class="markdownIt-Anchor" href="#进程同步"></a> 进程同步</h2>
+<h3 id="临界区问题"><a class="markdownIt-Anchor" href="#临界区问题"></a> 临界区问题</h3>
+<h4 id="竞争状态race-condition"><a class="markdownIt-Anchor" href="#竞争状态race-condition"></a> 竞争状态(race condition)</h4>
+<a id="more"></a>
+<p>​	多个进程同时访问和操作相同的数据，执行的结果取决于访问发生的特定顺序。所以确保一次只能处理一个进程。</p>
+<h4 id="临界区条件"><a class="markdownIt-Anchor" href="#临界区条件"></a> 临界区条件</h4>
+<ul>
+<li>互斥</li>
+<li>空闲让进</li>
+<li>有限等待</li>
+</ul>
+<h3 id="互斥访问"><a class="markdownIt-Anchor" href="#互斥访问"></a> 互斥访问</h3>
+<ul>
+<li>
+<p>加锁标志位法</p>
+</li>
+<li>
+<p>强制轮流法</p>
+</li>
+<li>
+<p>标记法</p>
+</li>
+</ul>
+<h4 id="基于繁忙等待的互斥"><a class="markdownIt-Anchor" href="#基于繁忙等待的互斥"></a> 基于繁忙等待的互斥</h4>
+<p>​		当一个进程要进入其关键部分时，首先要检查是否允许其进入。 如果允许，它将直接进入； 如果不允许，它将循环等待直到允许其进入</p>
+<p>​	缺点：</p>
+<ul>
+<li>
+<p>浪费CPU时间</p>
+</li>
+<li>
+<p>可能会导致意外结果（如一个低优先级进程位于临界区中，这时有一个高优先级进展也试图进入临界区）</p>
+</li>
+</ul>
+<h3 id="硬件中断实现的互斥"><a class="markdownIt-Anchor" href="#硬件中断实现的互斥"></a> 硬件中断实现的互斥</h3>
+<p>缺点：</p>
+<ul>
+<li>禁用中断后，无法停止该过程</li>
+<li>可能导致其他进程处于饥饿</li>
+<li>关键部分可能很长，无法确定响应时间</li>
+<li>它适用于单个处理器，在多处理器计算机上不起作用，其他CPU仍可以进入关键区域</li>
+</ul>
+<h3 id="高度抽象方法"><a class="markdownIt-Anchor" href="#高度抽象方法"></a> 高度抽象方法</h3>
+<h4 id="锁"><a class="markdownIt-Anchor" href="#锁"></a> 锁</h4>
+<img src="https://i.loli.net/2020/10/23/5jMQEYrJeCsbAmS.png" alt="image-20201014155240628.png" style="zoom: 67%;" />
+<h4 id="没有busy-waiting的lock"><a class="markdownIt-Anchor" href="#没有busy-waiting的lock"></a> 没有busy waiting的lock</h4>
+<ul>
+<li>增添等待队列</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>适用于单个处理器或共享主内存的多个处理器上的任意数量的进程同步</li>
+<li>简单容易证明</li>
+<li>支持多临界区</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>繁忙的等待消耗处理器时间</li>
+<li>可能导致饥饿</li>
+<li>死锁：低优先级进程占据临界区； 高优先级进程请求访问临界区并等待</li>
+</ul>
+<h3 id="信号量"><a class="markdownIt-Anchor" href="#信号量"></a> 信号量</h3>
+<ul>
+<li>计数信号量、二进制信号量</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/23/Z2K7Qk1eizsB5wG.png" alt="image-20201014171835419.png" /></p>
+<h3 id="经典同步问题"><a class="markdownIt-Anchor" href="#经典同步问题"></a> 经典同步问题</h3>
+<h4 id="生产者-消费者问题"><a class="markdownIt-Anchor" href="#生产者-消费者问题"></a> 生产者-消费者问题</h4>
+<p><img src="https://i.loli.net/2020/10/23/bDAv6X1jiEcrZJ5.png" alt="image-20201014172023506.png" /></p>
+<h4 id="读者-写者问题"><a class="markdownIt-Anchor" href="#读者-写者问题"></a> 读者-写者问题</h4>
+<p><img src="https://i.loli.net/2020/10/23/tGgLweIFjc4hNdP.png" alt="image-20201014172033292.png" /></p>
+<h4 id="哲学家就餐问题"><a class="markdownIt-Anchor" href="#哲学家就餐问题"></a> 哲学家就餐问题</h4>
+<p>奇数先左后右，偶数先右后左<br />
+<img src="https://i.loli.net/2020/10/23/sFUrkxnV82SwEzy.png" alt="image-20201014172137641.png" /></p>
+<h3 id="管程"><a class="markdownIt-Anchor" href="#管程"></a> 管程</h3>
+<p><img src="https://i.loli.net/2020/10/23/w8cKbxayOFGP6v5.png" alt="image-20201014172415297.png" /></p>
+<h4 id="条件变量"><a class="markdownIt-Anchor" href="#条件变量"></a> 条件变量</h4>
+<p>条件变量是管程上的等待机制</p>
+<h4 id="两种条件变量操作"><a class="markdownIt-Anchor" href="#两种条件变量操作"></a> 两种条件变量操作</h4>
+<p>Wait():</p>
+<ul>
+<li>将自己阻塞再等待队列中</li>
+<li>唤醒一个等待线程</li>
+</ul>
+<p>Signal():</p>
+<ul>
+<li>唤醒等待队列中的线程</li>
+<li>如果等待队列为空，则相当于一个空操作</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/23/ruMh6GvxJZ2bsXN.png" alt="image-20201014174245226.png" /></p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>5.3 What is the meaning of the term busy waiting? What other kinds of<br />
+waiting are there in an operating system? Can busy waiting be avoided<br />
+altogether? Explain your answer.</p>
+<p>繁忙等待表示进程在占用CPU的情况下不停地循环来等待执行，进程还可以放弃CPU转入进程等待队列，等待被唤醒。可以避免繁忙等待，可以将其转入进程等待队列等待被唤醒。</p>
+<p>5.5 Show that, if the wait() and signal() semaphore operations are not<br />
+executed atomically, then mutual exclusion may be violated.</p>
+<p>当一个信号量为1时，如果wait()不是原子地执行，成功执行了两次wait()操作，导致信号量总共减少2，就会导致违反互斥。</p>
+<p>5.6 Illustrate how a binary semaphore can be used to implement mutual<br />
+exclusion among n processes.</p>
+<p>在每个进程的entry section调用wait(mutex)，exit section调用signal(mutex)</p>
+<p>5.10 Explain why implementing synchronization primitives by disabling<br />
+interrupts is not appropriate in a single-processor system if the synchronization<br />
+primitives are to be used in user-level programs.</p>
+<p>因为如果当执行一个进程时，有更高优先级的进程也需要执行时，由于同步机制，kernel无法进行调度，更高优先级的进程只能等待。同时，低优先级进程占据临界区， 高优先级进程请求访问临界区并等待会造成死锁发生。当进程离开临界区时会有许多等待进程，这种情况下可能造成饥饿。</p>
+<p>5.11 Explain why interrupts are not appropriate for implementing synchronization<br />
+primitives in multiprocessor systems.</p>
+<p>中断只会阻止其他在中断发生的处理器上的进程执行，因为其他处理器执行的操作不受限，仍可进入该进程的临界区，不能保证互斥访问</p>
+<p>5.12 The Linux kernel has a policy that a process cannot hold a spinlock while<br />
+attempting to acquire a semaphore. Explain why this policy is in place.</p>
+<p>为了防止饥饿和死锁。当低优先级进程拥有自旋锁，而高优先级进程请求访问临界区并等待时，可能会发生死锁。进程拥有自旋锁，一直占用CPU资源，可能导致其他进程得不到资源，造成饥饿。</p>
+<p>5.13 Describe two kernel data structures in which race conditions are possible.<br />
+Be sure to include a description of how a race condition can occur.</p>
+<p>stack和queue，当一个进程对stack执行pop()操作时，另一个进程对stack执行了push()操作，那么此进程pop()出的并不是想要得到的结果。queue类似，当一个进程对queue执行pop()操作，而另一个进程对queue抢先执行了一次pop()，那么此进程pop()出的并不是想要得到的结果。</p>
+<p>5.23 Show how to implement the wait() and signal() semaphore operations<br />
+in multiprocessor environments using the test and set() instruction. The solution should exhibit minimal busy waiting.</p>
+<p>给信号量新增一个计数器和队列，利用等待队列来降低繁忙等待。代码如下：</p>
+<p>typedef struct {</p>
+<p>​	int value;</p>
+<p>​	WaitQueue q;	// 一个等待队列</p>
+<p>} Semaphore;</p>
+<p>int lock = 0;</p>
+<p>wait(Semaphore* S) {</p>
+<p>​	while(test_and_set(&amp;lock)) {</p>
+<p>​		S-&gt;value–;</p>
+<p>​		if(S-&gt;value &lt; 0)</p>
+<p>​			block();</p>
+<p>​	}</p>
+<p>}</p>
+<p>signal(semaphore* S) {</p>
+<p>​	lock = 0;</p>
+<p>​	S-&gt;value++;</p>
+<p>​	if(S-&gt;value &lt;= 0)</p>
+<p>​		wakeup(P);					// 把进程改为就绪状态，插入就绪队列</p>
+<p>}</p>
+<p>5.25 Demonstrate that monitors and semaphores are equivalent insofar<br />
+as they can be used to implement solutions to the same types of<br />
+synchronization problems.</p>
+<p>在使用信号量处理同步问题时，进程在进入临界区前获取系统资源，无资源则挂起进入等待队列。退出临界区后释放资源，如果释放后有可用资源，则唤醒等待队列中的一个进程。这样的管理方式与管程类似，只需将管程的条件变量设为判断是否有可用资源，则会与信号量拥有类似的实现结构和方式，它们在处理同步问题上是等效的。</p>
+<p>5.26 Design an algorithm for a bounded-buffer monitor in which the buffers<br />
+(portions) are embedded within the monitor itself.</p>
+<p>设计一个结构体buffer,里面有数据存储区，读写标识符，计数器以及两个条件变量。</p>
+<p>利用条件变量来实现进程对共享内存的互斥访问，</p>
+<p>伪代码如下：</p>
+<p>struct bound-buffer {</p>
+<p>​	int size = 32;</p>
+<p>​	char buffer[32];</p>
+<p>​	int writepos, readpos;</p>
+<p>​	int cnt;</p>
+<p>​	condition notfull, notempty;</p>
+<p>} buffer;</p>
+<p>int mutex;</p>
+<p>void producer(int data) {</p>
+<p>​	wait(mutex);</p>
+<p>​	if(cnt == size)</p>
+<p>​		cond_wait(notfull);</p>
+<p>​	buffer[writepos] = data;</p>
+<p>​	writepos = (writepos + 1) % size;</p>
+<p>​	cond_signal(notempty);</p>
+<p>​	signal(mutex);</p>
+<p>}</p>
+<p>void comsumer() {</p>
+<p>​	wait(mutex);</p>
+<p>​	if(cnt == 0)</p>
+<p>​		cond_wait(not empty);</p>
+<p>​	int data = buffer[readpos];</p>
+<p>​	readpos = (readpos + 1) % size;</p>
+<p>​	cond_signal(notfull);</p>
+<p>​	signal(mutex);</p>
+<p>}</p>
+<p>5.32 A file is to be shared among different processes, each of which has<br />
+a unique number. The file can be accessed simultaneously by several<br />
+processes, subject to the following constraint: the sum of all unique<br />
+numbers associated with all the processes currently accessing the file<br />
+must be less than n. Write a monitor to coordinate access to the file.</p>
+<p>在管程中设计一个计数器，并设计操作，在进入进程的临界区前，增加检查计数器加当前id是否小于总和n，如果小于n，则将其累加进计数器中，如果大于n，则进行繁忙等待。在退出临界区后中让计数器减去当前id，并唤醒其他进程。</p>
+<p>5.37 Assume that a finite number of resources of a single resource type must be managed. Processes may ask for a number of these resources and will return them once finished. As an example, many commercial software packages provide a given number of licenses, indicating the number of applications that may run concurrently. When the application is started, the license count is decremented. When the application is terminated, the license count is incremented. If all licenses are in use, requests to start the application are denied. Such requests will only be granted when an existing license holder terminates the application and a license is returned. The following program segment is used to manage a finite number of instances of an available resource. The maximum number of resources and the number of available resources are declared as follows:<img src="https://i.loli.net/2020/10/23/opk8WXmlThMJdPC.png" alt="image-20201014144721685.png" /></p>
+<p>The preceding program segment produces a race condition. Do the<br />
+following:<br />
+a. Identify the data involved in the race condition.</p>
+<p>available_resources</p>
+<p>b. Identify the location (or locations) in the code where the race<br />
+condition occurs.</p>
+<p>在语句 available_resources -= count和语句available_resources += count处，假设available_resources初值为1，第一个进程调用decrease_count()，在执行到else时发生中断，此时available_resources为1。第二个进程调用decrease_count()并执行完毕，假设count值为1，available_resources执行完为0。切换上下文回第一个进程继续执行，假设count为1，available_resources会得到负数的结果，也就意味着越界了。</p>
+<p>c. Using a semaphore or mutex lock, fix the race condition. It is<br />
+permissible to modify the decrease count() function so that the<br />
+calling process is blocked until sufficient resources are available.</p>
+<p>利用互斥锁实现，伪代码如下：</p>
+<p>int mutex = 1;</p>
+<p>int decrease_count(int count) {</p>
+<p>​	if(available_resources &lt; count)</p>
+<p>​		return -1;</p>
+<p>​	else {</p>
+<p>​		wait(mutex);</p>
+<p>​		available_resources -= count;</p>
+<p>​		signal(mutex);</p>
+<p>​		return 0;</p>
+<p>​	}</p>
+<p>}</p>
+<p>int increase_count(int count) {</p>
+<p>​	wait(mutex);</p>
+<p>​	available_resources += count;</p>
+<p>​	signal(mutex);</p>
+<p>​	return 0;</p>
+<p>}</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/10/OS/%E7%AC%AC4%E7%AB%A0%20%E7%BA%BF%E7%A8%8B/" rel="next" title="第4章 线程">
+                  <i class="fa fa-chevron-left"></i> 第4章 线程
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/10/21/%E5%BD%A2%E5%BC%8F%E8%AF%AD%E8%A8%80%E4%B8%8E%E8%87%AA%E5%8A%A8%E6%9C%BA/%E7%AC%AC3%E7%AB%A0%20%E6%9C%89%E7%A9%B7%E7%8A%B6%E6%80%81%E8%87%AA%E5%8A%A8%E6%9C%BA/" rel="prev" title="第三章 有穷状态自动机">
+                  第三章 有穷状态自动机 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程同步"><span class="nav-text"> 进程同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#临界区问题"><span class="nav-text"> 临界区问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#竞争状态race-condition"><span class="nav-text"> 竞争状态(race condition)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临界区条件"><span class="nav-text"> 临界区条件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#互斥访问"><span class="nav-text"> 互斥访问</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于繁忙等待的互斥"><span class="nav-text"> 基于繁忙等待的互斥</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件中断实现的互斥"><span class="nav-text"> 硬件中断实现的互斥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高度抽象方法"><span class="nav-text"> 高度抽象方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#锁"><span class="nav-text"> 锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#没有busy-waiting的lock"><span class="nav-text"> 没有busy waiting的lock</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#信号量"><span class="nav-text"> 信号量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#经典同步问题"><span class="nav-text"> 经典同步问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者-消费者问题"><span class="nav-text"> 生产者-消费者问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读者-写者问题"><span class="nav-text"> 读者-写者问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#哲学家就餐问题"><span class="nav-text"> 哲学家就餐问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管程"><span class="nav-text"> 管程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#条件变量"><span class="nav-text"> 条件变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两种条件变量操作"><span class="nav-text"> 两种条件变量操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

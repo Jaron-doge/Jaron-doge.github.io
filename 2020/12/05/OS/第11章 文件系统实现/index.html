@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="文件系统实现  11.1 文件系统结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第11章 文件系统实现">
+<meta property="og:url" content="http://yoursite.com/2020/12/05/OS/%E7%AC%AC11%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="文件系统实现  11.1 文件系统结构">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/rslg7tjBNFiCbvn.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/WEJyu8fqKBCpoUs.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/XMYJHfnkT79yVWp.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/65NILXb2mZTqiQn.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/OsXf9QdTRlW2FiL.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/kcXeFfhSzrGqACi.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/nVJdSH83hRmLxPv.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/4WVjd2Tw8DfJ3iv.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/QpYSZFN6tW9gxHM.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/17/jQMPxa1eGy32KWp.png">
+<meta property="article:published_time" content="2020-12-05T05:30:15.000Z">
+<meta property="article:modified_time" content="2021-06-17T03:24:09.000Z">
+<meta property="article:author" content="Jaron">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/17/rslg7tjBNFiCbvn.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/12/05/OS/%E7%AC%AC11%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>第11章 文件系统实现 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/05/OS/%E7%AC%AC11%E7%AB%A0%20%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jaron">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第11章 文件系统实现
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-12-05 13:30:15" itemprop="dateCreated datePublished" datetime="2020-12-05T13:30:15+08:00">2020-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-17 11:24:09" itemprop="dateModified" datetime="2021-06-17T11:24:09+08:00">2021-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="文件系统实现"><a class="markdownIt-Anchor" href="#文件系统实现"></a> 文件系统实现</h2>
+<h3 id="111-文件系统结构"><a class="markdownIt-Anchor" href="#111-文件系统结构"></a> 11.1 文件系统结构</h3>
+<a id="more"></a>
+<p><strong>分层文件系统</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/rslg7tjBNFiCbvn.png" alt="14.png" /></p>
+<h3 id="112-文件系统实现"><a class="markdownIt-Anchor" href="#112-文件系统实现"></a> 11.2 文件系统实现</h3>
+<h4 id="1121概述"><a class="markdownIt-Anchor" href="#1121概述"></a> 11.2.1概述</h4>
+<h5 id="在磁盘上"><a class="markdownIt-Anchor" href="#在磁盘上"></a> 在磁盘上</h5>
+<ul>
+<li>
+<p><strong>引导控制块(Boot control block)</strong>：包含系统从该卷引导OS所需的信息</p>
+<ul>
+<li>如果为空，则磁盘不包含OS</li>
+</ul>
+</li>
+<li>
+<p><strong>卷控制块</strong>：包含卷（或分区）的详细信息</p>
+</li>
+<li>
+<p><strong>目录结构</strong>用于组织文件</p>
+</li>
+<li>
+<p>每个文件的<strong>FCB</strong>包含该文件的许多详细信息</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/WEJyu8fqKBCpoUs.png" alt="15.png" /></p>
+<h5 id="在内存中"><a class="markdownIt-Anchor" href="#在内存中"></a> 在内存中</h5>
+<p>内存中的信息用于管理文件系统并通过缓存来提高性能，<strong>这些数据在挂载文件系统时被加载，在卸载时被丢弃</strong></p>
+<p><strong>结构类型</strong></p>
+<ul>
+<li>
+<p>每个进程的文件打开表</p>
+</li>
+<li>
+<p>整个系统的文件打开表</p>
+</li>
+<li>
+<p>内存中的挂载表</p>
+</li>
+<li>
+<p>内存中的目录结构的缓存</p>
+</li>
+</ul>
+<p><strong>文件系统实现的操作结构</strong></p>
+<p><img src="https://i.loli.net/2021/06/17/XMYJHfnkT79yVWp.png" alt="16.png" /></p>
+<h4 id="1122-分区与安装"><a class="markdownIt-Anchor" href="#1122-分区与安装"></a> 11.2.2 分区与安装</h4>
+<ul>
+<li>
+<p>引导信息通常是一系列连续的快，可作为映像加载到内存。</p>
+</li>
+<li>
+<p>引导加载程序(boot loader)可以双重引导，允许具有多个FS和OS</p>
+</li>
+<li>
+<p>根分区在启动时安装，其他卷可以在引导时自动安装或手动安装</p>
+</li>
+</ul>
+<h4 id="1123-虚拟文件系统"><a class="markdownIt-Anchor" href="#1123-虚拟文件系统"></a> 11.2.3 虚拟文件系统</h4>
+<ul>
+<li>
+<p>虚拟文件系统（VFS，虚拟文件系统）提供了面向对象的文件系统实现方式</p>
+<p>VFS允许将相同的系统调用接口（API）用于不同类型的文件系统</p>
+</li>
+<li>
+<p>该API是针对VFS接口的，而不是任何特定的文件系统的类型</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/65NILXb2mZTqiQn.png" alt="17.png" /></p>
+<h3 id="113-目录实现"><a class="markdownIt-Anchor" href="#113-目录实现"></a> 11.3 目录实现</h3>
+<h4 id="1131-线性序列"><a class="markdownIt-Anchor" href="#1131-线性序列"></a> 11.3.1 线性序列</h4>
+<ul>
+<li>易于编程</li>
+<li>执行耗时</li>
+</ul>
+<h4 id="1132-哈希表"><a class="markdownIt-Anchor" href="#1132-哈希表"></a> 11.3.2 哈希表</h4>
+<ul>
+<li>减少目录搜索时间</li>
+<li>产生冲突</li>
+</ul>
+<h3 id="114-分配方法"><a class="markdownIt-Anchor" href="#114-分配方法"></a> 11.4 分配方法</h3>
+<h4 id="1141-连续分配"><a class="markdownIt-Anchor" href="#1141-连续分配"></a> 11.4.1 连续分配</h4>
+<ul>
+<li>每个文件的目录条目包括起始块的地址和文件所分配区域的长度</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/OsXf9QdTRlW2FiL.png" alt="18.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>支持随机访问和顺序访问</li>
+<li>磁头移动时间短(寻道时间短)，访问速度快</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>外部碎片</li>
+<li>需要事先知道文件的大小⇒文件可能无法扩展</li>
+</ul>
+<p><strong>解决方案：基于扩展的系统</strong></p>
+<p>当空间不够时添加另一块连续空间(extent)，然后文件块的位置就记录为：地址、块数、下一扩展的首块的指针</p>
+<h4 id="1142-链接linked分配"><a class="markdownIt-Anchor" href="#1142-链接linked分配"></a> 11.4.2 链接(Linked)分配</h4>
+<p>每个文件都是磁盘块上的链表，块可能分散在磁盘的任何位置</p>
+<h5 id="隐式链接"><a class="markdownIt-Anchor" href="#隐式链接"></a> 隐式链接</h5>
+<p>目录包含文件第一块和最后一块的指针</p>
+<p>每块都有下一块的一个指针</p>
+<p><img src="https://i.loli.net/2021/06/17/kcXeFfhSzrGqACi.png" alt="19.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p>简单——只需要起始地址</p>
+</li>
+<li>
+<p>不会浪费空间，没有外部碎片</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>
+<p>不能随机访问</p>
+</li>
+<li>
+<p>指针需要额外空间</p>
+</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<p>将多个块组成<strong>簇(cluster)</strong>，按<strong>簇</strong>分配</p>
+<ul>
+<li>提高磁盘吞吐量（更少的磁头移动）</li>
+<li>但是内部碎片增加：如果一个簇没有完全使用，会浪费更多空间</li>
+</ul>
+<h5 id="显式链接"><a class="markdownIt-Anchor" href="#显式链接"></a> 显式链接</h5>
+<p><strong>文件分配表(File-Allocation Table, FAT)</strong></p>
+<p><strong>通过将磁盘中的寻指针操作，替换成缓存过的FAT放入内存中，提高性能</strong></p>
+<p>每个卷的开始部分的磁盘用于存储<strong>FAT</strong></p>
+<ul>
+<li><strong>FAT</strong>的使用与链表相同，目录条目包含文件首块的块号。通过这个块号索引的表条目包含文件的下一块的块号</li>
+<li>未使用的块用0作为表条目的值来表示</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/nVJdSH83hRmLxPv.png" alt="20.png" /></p>
+<img src="https://i.loli.net/2021/06/17/4WVjd2Tw8DfJ3iv.png" alt="21.png" style="zoom:50%;" />
+<h4 id="1143-索引分配"><a class="markdownIt-Anchor" href="#1143-索引分配"></a> 11.4.3 索引分配</h4>
+<p>将所有指针放在一起——索引块</p>
+<ul>
+<li>每个文件都有自己的索引块</li>
+<li>每个索引块都是一个磁盘块地址的数组</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/17/QpYSZFN6tW9gxHM.png" alt="22.png" /></p>
+<p><strong>优点</strong></p>
+<ul>
+<li>
+<p>随机访问</p>
+</li>
+<li>
+<p>动态访问且无外部碎片</p>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>索引块的额外开销</li>
+<li>文件大小的限制，索引块只能包含有限个数的指针</li>
+</ul>
+<p><strong>解决方案</strong></p>
+<ol>
+<li>
+<p>链接方式</p>
+<p>最后一个地址为null(对于小文件)，或者另一个索引块的指针(对于大文件)</p>
+</li>
+<li>
+<p>多级索引</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2021/06/17/jQMPxa1eGy32KWp.png" alt="23.png" /></p>
+<ol start="3">
+<li>
+<p>组合方式</p>
+<p>将索引块的前几个指针指向<strong>直接块</strong>，接下来的几个指针指向<strong>间接块</strong>（一级、二级、三级逐级递增），这样的方式可以允许小文件直接访问</p>
+</li>
+</ol>
+<h3 id="115-空闲空间管理"><a class="markdownIt-Anchor" href="#115-空闲空间管理"></a> 11.5 空闲空间管理</h3>
+<p>为了跟踪空闲磁盘空间，系统需要维护一个<strong>空闲空间列表(free-space list)</strong></p>
+<h4 id="1151-位向量bit-vector"><a class="markdownIt-Anchor" href="#1151-位向量bit-vector"></a> 11.5.1 位向量(bit vector)</h4>
+<p>空闲空间列表按<strong>位图</strong>或<strong>位向量</strong>来实现，每块用一个位来表示。1表示空闲，0表示已分配</p>
+<p>如2，3，4，5，8, 9, 10, 11是空闲的，则位图为</p>
+<p>0011 1100 1111</p>
+<p><strong>位图长度</strong></p>
+<p>对于n个块，如果基本单位是word，则位图长度=（n + 15）/ 16</p>
+<p><strong>第一个空闲块</strong></p>
+<ol>
+<li>
+<p>找到第一个非0字</p>
+</li>
+<li>
+<p>在第一个非0字中找到第一个1位</p>
+</li>
+<li>
+<p>前K个字为0，第一个1位的偏移为L</p>
+<p>N = K * 16 + L</p>
+</li>
+</ol>
+<p><strong>特性</strong></p>
+<ul>
+<li>
+<p>简单</p>
+</li>
+<li>
+<p>必须保存在磁盘上</p>
+</li>
+<li>
+<p>位图需要额外空间</p>
+<h4 id="1152-链表"><a class="markdownIt-Anchor" href="#1152-链表"></a> 11.5.2 链表</h4>
+</li>
+</ul>
+<p>将所有空闲磁盘块用链表链接起来</p>
+<ul>
+<li>将指向第一空闲块的指针保存在磁盘特殊位置上，并缓存在内存中</li>
+<li>第一块包含下一个空闲磁盘块的指针</li>
+</ul>
+<p><strong>特性</strong></p>
+<ul>
+<li>无法轻易获得连续空间</li>
+<li>不浪费空间</li>
+</ul>
+<h4 id="1153-计数"><a class="markdownIt-Anchor" href="#1153-计数"></a> 11.5.3 计数</h4>
+<p>前提：通常，多个连续块可能需要同时分配获释放</p>
+<ul>
+<li>空闲空间列表的每个条目记录第一块的地址和紧跟第一块的连续空闲块的数量n</li>
+<li>通常情况下比链表短，counter &gt; 1</li>
+</ul>
+<h3 id="116-效率与性能"><a class="markdownIt-Anchor" href="#116-效率与性能"></a> 11.6 效率与性能</h3>
+<h4 id="1161-效率空间"><a class="markdownIt-Anchor" href="#1161-效率空间"></a> 11.6.1 效率（空间）</h4>
+<p>磁盘空间的有效使用在很大程度上取决于磁盘分配和目录算法</p>
+<p><strong>各种方法</strong></p>
+<ul>
+<li>不同的簇大小</li>
+<li>保存在文件目录条目内的数据类型</li>
+<li>用与访问数据的指针大小：大指针允许更大的文件，但需要使用更多磁盘空间</li>
+</ul>
+<h4 id="1162-性能时间"><a class="markdownIt-Anchor" href="#1162-性能时间"></a> 11.6.2 性能（时间）</h4>
+<ul>
+<li>
+<p>磁盘缓存——在磁盘控制器上，一旦进入寻道，就从磁头所处的扇区开始将整个磁道读到磁盘缓存</p>
+</li>
+<li>
+<p>缓冲区缓存(<strong>buffer cache</strong>)——假设其中的块会频繁访问</p>
+</li>
+<li>
+<p>随后释放(<strong>free-behind</strong>)和预先读取(<strong>read-ahead</strong>)——一旦请求下一个页面，就从缓冲区删除一个页面；请求的页面和一些之后的页面可以一起读取并缓存</p>
+</li>
+<li>
+<p>通过将一部分内存专用为虚拟磁盘或RAM磁盘来提高PC性能</p>
+</li>
+</ul>
+<h3 id="117-恢复"><a class="markdownIt-Anchor" href="#117-恢复"></a> 11.7 恢复</h3>
+<h4 id="1171-一致性检查"><a class="markdownIt-Anchor" href="#1171-一致性检查"></a> 11.7.1 一致性检查</h4>
+<p>将目录结构中的数据与磁盘上的数据块进行比较，并尝试解决不一致问题</p>
+<h4 id="1172-备份和恢复"><a class="markdownIt-Anchor" href="#1172-备份和恢复"></a> 11.7.2 备份和恢复</h4>
+<p>备份：将数据从磁盘备份到另一存储设备</p>
+<p>恢复：从备份还原数据来恢复丢失的文件或磁盘</p>
+<h3 id="作业"><a class="markdownIt-Anchor" href="#作业"></a> 作业</h3>
+<p>12.2 What problems could occur if a system allowed a file system to be<br />
+mounted simultaneously at more than one location?</p>
+<p>同一文件会有多个路径，删除一个路径下的文件的同时也会删除其他路径下的该文件。</p>
+<p>12.3 Why must the bit map for file allocation be kept on mass storage, rather than in main memory?</p>
+<p>这样在系统崩溃时，如果位图在主存中则可用空间列表会丢失，在大容量存储中则不会。</p>
+<p>12.4 Consider a system that supports the strategies of contiguous, linked,<br />
+and indexed allocation. What criteria should be used in deciding which<br />
+strategy is best utilized for a particular file?</p>
+<p>如果文件相对较小，则可以用连续的策略；如果文件相对较大，且为顺序访问，则可以用链接的策略；如果文件相对较大，且为随机访问，则可以用索引的策略</p>
+<p>12.5 One problem with contiguous allocation is that the user must preallocate enough space for each file. If the file grows to be larger than the<br />
+space allocated for it, special actions must be taken. One solution to this<br />
+problem is to define a file structure consisting of an initial contiguous<br />
+area (of a specified size). If this area is filled, the operating system<br />
+automatically defines an overflow area that is linked to the initial<br />
+contiguous area. If the overflow area is filled, another overflow area<br />
+is allocated. Compare this implementation of a file with the standard<br />
+contiguous and linked implementations.</p>
+<p>与标准的连续策略来说，这种方法开销更大，因为需要动态分配额外的空间。但与链接策略比较，这种方法开销更小，因为起初就分配好了一些固定的空间。</p>
+<p>12.6 How do caches help improve performance? Why do systems not use<br />
+more or larger caches if they are so useful?</p>
+<p>caches可以让不同速度的设备进行有效率的通信，它将传输速度更慢的设备中的数据缓存在更快的设备中。caches一般较为昂贵，caches的大小增加会增加系统成本。</p>
+<p>12.7 Why is it advantageous to the user for an operating system to dynamically allocate its internal tables? What are the penalties to the operating system for doing so?</p>
+<p>动态分配内部表在系统使用量增长时可以提供更大的灵活性，避免了用户的使用限制。但是这样的设计会使得内核的结构和代码更为复杂，也更容易出错。而且动态分配表比静态表开销更大。</p>
+<p>12.9 Consider a file system that uses a modifed contiguous-allocation<br />
+scheme with support for extents. A file is a collection of extents, with<br />
+each extent corresponding to a contiguous set of blocks. A key issue in<br />
+such systems is the degree of variability in the size of the extents. What<br />
+are the advantages and disadvantages of the following schemes?<br />
+a. All extents are of the same size, and the size is predetermined.<br />
+b. Extents can be of any size and are allocated dynamically.<br />
+c. Extents can be of a few fixed sizes, and these sizes are predetermined.</p>
+<p>a. 分配方案简单，一个位图或者空闲列表就能解决分配的问题，缺点是会有内部碎片和外部碎片。</p>
+<p>b. 优点是没有内部碎片，缺点是分配方案较为复杂，而且可能会有外部碎片生成。</p>
+<p>c. 保证了分配的灵活性和较为简单，与a相比内部碎片较少，与b相比外部碎片较少，缺点是仍有内部和外部碎片。</p>
+<p>12.10 Contrast the performance of the three techniques for allocating disk<br />
+blocks (contiguous, linked, and indexed) for both sequential and<br />
+random file access.</p>
+<p>连续分配：每个文件占用一组磁盘块，同时支持顺序访问和随机访问，访问速度较快。但是它不能处理内部碎片和外部碎片，同时也难以增加大小。</p>
+<p>链接分配：每个文件是一个磁盘块链表，支持顺序访问，但不支持随机访问。这种分配方法没有外部碎片，因为访问要沿指针访问，所以访问速度不如连续分配快。</p>
+<p>索引分配：每个文件有自己的索引块。支持随机访问，不支持顺序访问。这种分配方法没有外部碎片。</p>
+<p>12.11 What are the advantages of the variant of linked allocation that uses a<br />
+FAT to chain together the blocks of a file?</p>
+<p>如果需要访问存储在磁盘中的块的时候。我们可以不用再先访问磁盘块，然后一个一个遍历指针，而是可以通过将FAT放入内存中，通过在FAT中检索找到所需的块，再去磁盘中访问，大大提高了性能。</p>
+<p>12.12 Consider a system where free space is kept in a free-space list.<br />
+a. Suppose that the pointer to the free-space list is lost. Can the<br />
+system reconstruct the free-space list? Explain your answer.</p>
+<p>可以，可以执行垃圾收集来重建空闲列表。</p>
+<p>b. Consider a file system similar to the one used by UNIX with<br />
+indexed allocation. How many disk I/O operations might be<br />
+required to read the contents of a small local file at /a/b/c?<br />
+Assume that none of the disk blocks is currently being cached.</p>
+<p>一共4个I/O操作，读目录a、b、c，读c中的文件</p>
+<p>c. Suggest a scheme to ensure that the pointer is never lost as a result<br />
+of memory failure.</p>
+<p>将空闲空间列表的指针存放在磁盘上</p>
+<p>12.14 Discuss how performance optimizations for file systems might result<br />
+in difficulties in maintaining the consistency of the systems in the event<br />
+of computer crashes.</p>
+<p>可能出现的主要困难是数据和元数据的延迟更新。系统可以推迟更新，让将来更新相同的数据。但是，如果系统没有提交延迟更新请求就崩溃了，那么文件系统的一致性就会被破坏。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/29/OS/%E7%AC%AC10%E7%AB%A0%20%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86/" rel="next" title="第10章 存储管理">
+                  <i class="fa fa-chevron-left"></i> 第10章 存储管理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/12/12/OS/%E7%AC%AC12%E7%AB%A0%20%E5%A4%A7%E5%AE%B9%E9%87%8F%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84/" rel="prev" title="第12章 大容量存储结构">
+                  第12章 大容量存储结构 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统实现"><span class="nav-text"> 文件系统实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#111-文件系统结构"><span class="nav-text"> 11.1 文件系统结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#112-文件系统实现"><span class="nav-text"> 11.2 文件系统实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1121概述"><span class="nav-text"> 11.2.1概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在磁盘上"><span class="nav-text"> 在磁盘上</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在内存中"><span class="nav-text"> 在内存中</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1122-分区与安装"><span class="nav-text"> 11.2.2 分区与安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1123-虚拟文件系统"><span class="nav-text"> 11.2.3 虚拟文件系统</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#113-目录实现"><span class="nav-text"> 11.3 目录实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1131-线性序列"><span class="nav-text"> 11.3.1 线性序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1132-哈希表"><span class="nav-text"> 11.3.2 哈希表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#114-分配方法"><span class="nav-text"> 11.4 分配方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1141-连续分配"><span class="nav-text"> 11.4.1 连续分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1142-链接linked分配"><span class="nav-text"> 11.4.2 链接(Linked)分配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#隐式链接"><span class="nav-text"> 隐式链接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#显式链接"><span class="nav-text"> 显式链接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1143-索引分配"><span class="nav-text"> 11.4.3 索引分配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#115-空闲空间管理"><span class="nav-text"> 11.5 空闲空间管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1151-位向量bit-vector"><span class="nav-text"> 11.5.1 位向量(bit vector)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1152-链表"><span class="nav-text"> 11.5.2 链表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1153-计数"><span class="nav-text"> 11.5.3 计数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#116-效率与性能"><span class="nav-text"> 11.6 效率与性能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1161-效率空间"><span class="nav-text"> 11.6.1 效率（空间）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1162-性能时间"><span class="nav-text"> 11.6.2 性能（时间）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#117-恢复"><span class="nav-text"> 11.7 恢复</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1171-一致性检查"><span class="nav-text"> 11.7.1 一致性检查</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1172-备份和恢复"><span class="nav-text"> 11.7.2 备份和恢复</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-text"> 作业</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jaron"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jaron</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaron</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">337k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
